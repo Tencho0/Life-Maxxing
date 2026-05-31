@@ -15,14 +15,14 @@
 
 ## Phase 0 — Scaffold & tooling
 
-### Slice 0.1 — Flutter project + repo hygiene
-- [ ] `flutter create` the app (org id, Android-first; package name agreed in CLAUDE.md).
-- [ ] Set min SDK / Dart 3 constraint; pin Flutter channel in README.
-- [ ] `.gitignore` (Flutter defaults + `/build`, `.dart_tool`, local props).
-- [ ] Preserve the design bundle under `design/` (the extracted `life-maxxing/` project) — reference only.
-- [ ] `analysis_options.yaml` with `flutter_lints` (or stricter); enable `prefer_const`, etc.
-- [ ] Add all dependencies from technical-spec §10 to `pubspec.yaml` (don't wire yet).
-- **Verify:** `flutter run` shows the default counter app on an Android emulator; `flutter analyze` clean.
+### Slice 0.1 — Flutter project + repo hygiene ✅ (commit b711653)
+- [x] `flutter create` the app (`lifemaxxing`, `com.klevret.lifemaxxing`, `--platforms android`).
+- [x] Dart `^3.11.3`; Flutter 3.41.5 stable pinned in README.
+- [x] `.gitignore` (Flutter defaults) + `.gitattributes` (LF normalize, binary markers).
+- [x] Preserve the design bundle under `design/life-maxxing/` — reference only.
+- [x] `analysis_options.yaml` with `flutter_lints`.
+- [x] Add all dependencies from technical-spec §10 to `pubspec.yaml` (not wired yet).
+- **Verify:** ✅ `flutter analyze` clean. (Boot verified via gallery + widget test rather than the counter app.)
 
 ### Slice 0.2 — CI-lite check script (optional but recommended)
 - [ ] A `make`/script target: `flutter analyze && flutter test && dart run build_runner build`.
@@ -32,25 +32,29 @@
 
 ## Phase 1 — Design system foundation
 
-### Slice 1.1 — Fonts
-- [ ] Add IBM Plex Sans (400/500/600/700) + IBM Plex Mono (400/500/600), Cyrillic+Latin, to `assets/fonts/`.
-- [ ] Declare in `pubspec.yaml`.
-- **Verify:** a throwaway `Text` renders Cyrillic in both families.
+### Slice 1.1 — Fonts ✅ (commit ef8ca91)
+- [x] IBM Plex Sans (400/500/600/700) + IBM Plex Mono (400/500/600), Cyrillic ("complete" cut), in `assets/fonts/`.
+- [x] Declared in `pubspec.yaml` (families `IBM Plex Sans` / `IBM Plex Mono`).
+- **Verify:** ✅ converted WOFF→TTF; verified Cyrillic (А–я) + weight per file; renders in gallery.
 
-### Slice 1.2 — Tokens
-- [ ] `core/theme/tokens.dart` — every color from spec §2.1 (incl. `…Soft` 14% variants), radii, spacing, durations.
-- [ ] `core/theme/mood_color.dart` — OKLCH→sRGB function (or precomputed 10-step ramp) + `moodColor(v)` / `moodLabel(v)`.
-- [ ] Unit test: `moodColor(1)` ≈ red, `moodColor(10)` ≈ green; ramp monotonic in hue.
-- **Verify:** test passes; colors eyeball-match the prototype tokens.
+### Slice 1.2 — Tokens ✅ (commit c44d3cc)
+- [x] `core/theme/tokens.dart` — colors (+ `…Soft` variants), hero gradients, radii, spacing, durations.
+- [x] `core/theme/mood_color.dart` — OKLCH→sRGB `moodColor(v)` / `moodHue(v)` / `moodLabel(v)`.
+- [x] Unit test: red→green, hue monotonic 25°→150°, gamut bounds, Bulgarian labels.
+- **Verify:** ✅ tests pass; ramp shown in gallery.
 
-### Slice 1.3 — Typography + Theme
-- [ ] `core/theme/typography.dart` — named `TextStyle`s (title, greeting, stat-mono, eyebrow, body, pill…).
-- [ ] `core/theme/theme.dart` — dark `ThemeData` wired to tokens + fonts; scaffold/sheet backgrounds.
-- **Verify:** app boots into a themed dark blank `Scaffold`.
+### Slice 1.3 — Typography + Theme ✅ (commit 37935f1)
+- [x] `core/theme/typography.dart` — named Sans/Mono `TextStyle`s.
+- [x] `core/theme/theme.dart` — dark `ThemeData` (tokens + fonts; sheet/selection chrome).
+- **Verify:** ✅ app boots themed (gallery on `AppColors.bg`).
 
-### Slice 1.4 — Icon set
-- [ ] `core/icons/lm_icons.dart` — port the 24×24 stroke icons from `ui.jsx` `Icon` (home, bolt, food, expense, income, heart, pulse, pill, run, steps, camera, bucket, trip, labs, event, chart, export, search, calendar, plus, chevrons, close, check, edit, trash, mood, clock, drop, screen, dumbbell, star, flag, pin, arrowR, filter, dots, sun) as `CustomPainter`s with `size`/`color`/`strokeWidth`.
-- **Verify:** an icon-gallery debug page renders all icons crisply at multiple sizes.
+### Slice 1.4 — Icon set ✅ (commit 7d877c5)
+- [x] `core/icons/lm_icons.dart` — `LmIcon` widget + `CustomPainter` for all 39 icons.
+- [x] Minimal SVG path parser (M/L/H/V/C/S/Q/T/A + relative → `Path`/`arcToPoint`); circle/rect + affine transforms.
+- [x] Unit tests: all icons → finite bounded paths; parser checks.
+- **Verify:** ✅ icon gallery section renders all 39 (gallery, commit 52efb70).
+
+> **Phase 1 complete** — `flutter analyze` clean, full suite green (15 tests). Reviewable via the dev gallery (`flutter run`).
 
 ---
 
