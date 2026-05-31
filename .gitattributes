@@ -1,0 +1,13 @@
+# Normalize line endings: store LF in the repo, check out native on Windows.
+* text=auto
+
+# Binary assets — never apply EOL conversion.
+*.ttf binary
+*.otf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.jar binary
+*.keystore binary
