@@ -4,6 +4,7 @@ import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/database.dart';
+import '../services/attachment_service.dart';
 
 /// The app's single drift database (on-device file). Overridden with an
 /// in-memory database in tests.
@@ -11,4 +12,10 @@ final databaseProvider = Provider<AppDatabase>((ref) {
   final db = AppDatabase(driftDatabase(name: 'lifemaxxing'));
   ref.onDispose(db.close);
   return db;
+});
+
+/// The single write path for photo attachments (image pipeline + cardinality +
+/// delete-cascades-files). Used by every photo-bearing feature slice.
+final attachmentServiceProvider = Provider<AttachmentService>((ref) {
+  return AttachmentService(ref.watch(databaseProvider).attachmentsDao);
 });
