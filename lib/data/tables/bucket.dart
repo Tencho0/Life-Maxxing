@@ -6,7 +6,7 @@ import '../converters.dart';
 class BucketItems extends Table {
   TextColumn get id => text()();
   TextColumn get title => text()();
-  TextColumn get titleLower => text()();
+  TextColumn get titleLower => text().withDefault(const Constant(''))();
   TextColumn get description => text().nullable()();
   TextColumn get descriptionLower => text().nullable()();
   TextColumn get whyWantIt => text().nullable()();

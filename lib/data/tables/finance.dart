@@ -10,7 +10,7 @@ class Expenses extends Table {
   IntColumn get amountCents => integer()();
   TextColumn get category => text().map(expenseCategoryConverter)();
   TextColumn get description => text()();
-  TextColumn get descriptionLower => text()();
+  TextColumn get descriptionLower => text().withDefault(const Constant(''))();
   TextColumn get paymentMethod => text().map(paymentMethodConverter).nullable()();
   TextColumn get note => text().nullable()();
   TextColumn get noteLower => text().nullable()();
@@ -31,7 +31,7 @@ class Income extends Table {
   TextColumn get date => text()();
   IntColumn get amountCents => integer()();
   TextColumn get source => text()();
-  TextColumn get sourceLower => text()();
+  TextColumn get sourceLower => text().withDefault(const Constant(''))();
   TextColumn get category => text().map(incomeCategoryConverter)();
   TextColumn get note => text().nullable()();
   TextColumn get noteLower => text().nullable()();

@@ -6,6 +6,7 @@ import 'package:drift/native.dart';
 
 import '../domain/enums.dart';
 import 'converters.dart';
+import 'daos.dart';
 import 'tables/meals.dart';
 import 'tables/activities.dart';
 import 'tables/finance.dart';
@@ -34,6 +35,22 @@ part 'database.g.dart';
     BucketExperiences,
     Trips,
     Attachments,
+  ],
+  daos: [
+    MealsDao,
+    ActivitiesDao,
+    ExpensesDao,
+    IncomeDao,
+    HealthEventsDao,
+    LabTestsDao,
+    BloodPressureDao,
+    MedicationsDao,
+    DailyLogsDao,
+    StepsDao,
+    BucketItemsDao,
+    BucketExperiencesDao,
+    TripsDao,
+    AttachmentsDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {

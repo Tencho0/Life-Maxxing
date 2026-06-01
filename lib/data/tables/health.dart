@@ -13,7 +13,7 @@ class HealthEvents extends Table {
   TextColumn get reason => text().nullable()();
   TextColumn get reasonLower => text().nullable()();
   TextColumn get whatWasDone => text()();
-  TextColumn get whatWasDoneLower => text()();
+  TextColumn get whatWasDoneLower => text().withDefault(const Constant(''))();
   IntColumn get priceCents => integer().nullable()();
   TextColumn get nextRecommendedDate => text().nullable()(); // yyyy-MM-dd
   TextColumn get note => text().nullable()();
@@ -31,9 +31,9 @@ class LabTests extends Table {
   TextColumn get id => text()();
   TextColumn get date => text()();
   TextColumn get lab => text()();
-  TextColumn get labLower => text()();
+  TextColumn get labLower => text().withDefault(const Constant(''))();
   TextColumn get reason => text()();
-  TextColumn get reasonLower => text()();
+  TextColumn get reasonLower => text().withDefault(const Constant(''))();
   TextColumn get resultsText => text().nullable()();
   TextColumn get resultsTextLower => text().nullable()();
   TextColumn get note => text().nullable()();
@@ -78,7 +78,7 @@ class MedicationLogs extends Table {
   TextColumn get date => text()();
   TextColumn get time => text()(); // HH:mm (required)
   TextColumn get name => text()();
-  TextColumn get nameLower => text()();
+  TextColumn get nameLower => text().withDefault(const Constant(''))();
   TextColumn get type => text().map(medTypeConverter)();
   TextColumn get dose => text().nullable()();
   TextColumn get status => text().map(medStatusConverter)();

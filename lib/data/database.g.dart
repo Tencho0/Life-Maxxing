@@ -53,7 +53,8 @@ class $MealsTable extends Meals with TableInfo<$MealsTable, Meal> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
   );
   @override
   late final GeneratedColumnWithTypeConverter<MealType, String> type =
@@ -219,8 +220,6 @@ class $MealsTable extends Meals with TableInfo<$MealsTable, Meal> {
         _nameLowerMeta,
         nameLower.isAcceptableOrUnknown(data['name_lower']!, _nameLowerMeta),
       );
-    } else if (isInserting) {
-      context.missing(_nameLowerMeta);
     }
     if (data.containsKey('quantity')) {
       context.handle(
@@ -663,7 +662,7 @@ class MealsCompanion extends UpdateCompanion<Meal> {
     required String date,
     this.time = const Value.absent(),
     required String name,
-    required String nameLower,
+    this.nameLower = const Value.absent(),
     required MealType type,
     this.quantity = const Value.absent(),
     this.calories = const Value.absent(),
@@ -678,7 +677,6 @@ class MealsCompanion extends UpdateCompanion<Meal> {
   }) : id = Value(id),
        date = Value(date),
        name = Value(name),
-       nameLower = Value(nameLower),
        type = Value(type),
        createdAt = Value(createdAt),
        updatedAt = Value(updatedAt);
@@ -1766,7 +1764,8 @@ class $ExpensesTable extends Expenses with TableInfo<$ExpensesTable, Expense> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
   );
   @override
   late final GeneratedColumnWithTypeConverter<PaymentMethod?, String>
@@ -1895,8 +1894,6 @@ class $ExpensesTable extends Expenses with TableInfo<$ExpensesTable, Expense> {
           _descriptionLowerMeta,
         ),
       );
-    } else if (isInserting) {
-      context.missing(_descriptionLowerMeta);
     }
     if (data.containsKey('note')) {
       context.handle(
@@ -2264,7 +2261,7 @@ class ExpensesCompanion extends UpdateCompanion<Expense> {
     required int amountCents,
     required ExpenseCategory category,
     required String description,
-    required String descriptionLower,
+    this.descriptionLower = const Value.absent(),
     this.paymentMethod = const Value.absent(),
     this.note = const Value.absent(),
     this.noteLower = const Value.absent(),
@@ -2276,7 +2273,6 @@ class ExpensesCompanion extends UpdateCompanion<Expense> {
        amountCents = Value(amountCents),
        category = Value(category),
        description = Value(description),
-       descriptionLower = Value(descriptionLower),
        createdAt = Value(createdAt),
        updatedAt = Value(updatedAt);
   static Insertable<Expense> custom({
@@ -2465,7 +2461,8 @@ class $IncomeTable extends Income with TableInfo<$IncomeTable, IncomeEntry> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
   );
   @override
   late final GeneratedColumnWithTypeConverter<IncomeCategory, String> category =
@@ -2583,8 +2580,6 @@ class $IncomeTable extends Income with TableInfo<$IncomeTable, IncomeEntry> {
           _sourceLowerMeta,
         ),
       );
-    } else if (isInserting) {
-      context.missing(_sourceLowerMeta);
     }
     if (data.containsKey('note')) {
       context.handle(
@@ -2894,7 +2889,7 @@ class IncomeCompanion extends UpdateCompanion<IncomeEntry> {
     required String date,
     required int amountCents,
     required String source,
-    required String sourceLower,
+    this.sourceLower = const Value.absent(),
     required IncomeCategory category,
     this.note = const Value.absent(),
     this.noteLower = const Value.absent(),
@@ -2905,7 +2900,6 @@ class IncomeCompanion extends UpdateCompanion<IncomeEntry> {
        date = Value(date),
        amountCents = Value(amountCents),
        source = Value(source),
-       sourceLower = Value(sourceLower),
        category = Value(category),
        createdAt = Value(createdAt),
        updatedAt = Value(updatedAt);
@@ -3127,7 +3121,8 @@ class $HealthEventsTable extends HealthEvents
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
   );
   static const VerificationMeta _priceCentsMeta = const VerificationMeta(
     'priceCents',
@@ -3286,8 +3281,6 @@ class $HealthEventsTable extends HealthEvents
           _whatWasDoneLowerMeta,
         ),
       );
-    } else if (isInserting) {
-      context.missing(_whatWasDoneLowerMeta);
     }
     if (data.containsKey('price_cents')) {
       context.handle(
@@ -3773,7 +3766,7 @@ class HealthEventsCompanion extends UpdateCompanion<HealthEvent> {
     this.reason = const Value.absent(),
     this.reasonLower = const Value.absent(),
     required String whatWasDone,
-    required String whatWasDoneLower,
+    this.whatWasDoneLower = const Value.absent(),
     this.priceCents = const Value.absent(),
     this.nextRecommendedDate = const Value.absent(),
     this.note = const Value.absent(),
@@ -3785,7 +3778,6 @@ class HealthEventsCompanion extends UpdateCompanion<HealthEvent> {
        date = Value(date),
        type = Value(type),
        whatWasDone = Value(whatWasDone),
-       whatWasDoneLower = Value(whatWasDoneLower),
        createdAt = Value(createdAt),
        updatedAt = Value(updatedAt);
   static Insertable<HealthEvent> custom({
@@ -3998,7 +3990,8 @@ class $LabTestsTable extends LabTests with TableInfo<$LabTestsTable, LabTest> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
   );
   static const VerificationMeta _reasonMeta = const VerificationMeta('reason');
   @override
@@ -4018,7 +4011,8 @@ class $LabTestsTable extends LabTests with TableInfo<$LabTestsTable, LabTest> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
   );
   static const VerificationMeta _resultsTextMeta = const VerificationMeta(
     'resultsText',
@@ -4137,8 +4131,6 @@ class $LabTestsTable extends LabTests with TableInfo<$LabTestsTable, LabTest> {
         _labLowerMeta,
         labLower.isAcceptableOrUnknown(data['lab_lower']!, _labLowerMeta),
       );
-    } else if (isInserting) {
-      context.missing(_labLowerMeta);
     }
     if (data.containsKey('reason')) {
       context.handle(
@@ -4156,8 +4148,6 @@ class $LabTestsTable extends LabTests with TableInfo<$LabTestsTable, LabTest> {
           _reasonLowerMeta,
         ),
       );
-    } else if (isInserting) {
-      context.missing(_reasonLowerMeta);
     }
     if (data.containsKey('results_text')) {
       context.handle(
@@ -4523,9 +4513,9 @@ class LabTestsCompanion extends UpdateCompanion<LabTest> {
     required String id,
     required String date,
     required String lab,
-    required String labLower,
+    this.labLower = const Value.absent(),
     required String reason,
-    required String reasonLower,
+    this.reasonLower = const Value.absent(),
     this.resultsText = const Value.absent(),
     this.resultsTextLower = const Value.absent(),
     this.note = const Value.absent(),
@@ -4536,9 +4526,7 @@ class LabTestsCompanion extends UpdateCompanion<LabTest> {
   }) : id = Value(id),
        date = Value(date),
        lab = Value(lab),
-       labLower = Value(labLower),
        reason = Value(reason),
-       reasonLower = Value(reasonLower),
        createdAt = Value(createdAt),
        updatedAt = Value(updatedAt);
   static Insertable<LabTest> custom({
@@ -5323,7 +5311,8 @@ class $MedicationLogsTable extends MedicationLogs
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
   );
   @override
   late final GeneratedColumnWithTypeConverter<MedType, String> type =
@@ -5477,8 +5466,6 @@ class $MedicationLogsTable extends MedicationLogs
         _nameLowerMeta,
         nameLower.isAcceptableOrUnknown(data['name_lower']!, _nameLowerMeta),
       );
-    } else if (isInserting) {
-      context.missing(_nameLowerMeta);
     }
     if (data.containsKey('dose')) {
       context.handle(
@@ -5895,7 +5882,7 @@ class MedicationLogsCompanion extends UpdateCompanion<MedicationLog> {
     required String date,
     required String time,
     required String name,
-    required String nameLower,
+    this.nameLower = const Value.absent(),
     required MedType type,
     this.dose = const Value.absent(),
     required MedStatus status,
@@ -5910,7 +5897,6 @@ class MedicationLogsCompanion extends UpdateCompanion<MedicationLog> {
        date = Value(date),
        time = Value(time),
        name = Value(name),
-       nameLower = Value(nameLower),
        type = Value(type),
        status = Value(status),
        createdAt = Value(createdAt),
@@ -7389,7 +7375,8 @@ class $BucketItemsTable extends BucketItems
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
   );
   static const VerificationMeta _descriptionMeta = const VerificationMeta(
     'description',
@@ -7519,8 +7506,6 @@ class $BucketItemsTable extends BucketItems
         _titleLowerMeta,
         titleLower.isAcceptableOrUnknown(data['title_lower']!, _titleLowerMeta),
       );
-    } else if (isInserting) {
-      context.missing(_titleLowerMeta);
     }
     if (data.containsKey('description')) {
       context.handle(
@@ -7893,7 +7878,7 @@ class BucketItemsCompanion extends UpdateCompanion<BucketItem> {
   BucketItemsCompanion.insert({
     required String id,
     required String title,
-    required String titleLower,
+    this.titleLower = const Value.absent(),
     this.description = const Value.absent(),
     this.descriptionLower = const Value.absent(),
     this.whyWantIt = const Value.absent(),
@@ -7905,7 +7890,6 @@ class BucketItemsCompanion extends UpdateCompanion<BucketItem> {
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        title = Value(title),
-       titleLower = Value(titleLower),
        priority = Value(priority),
        status = Value(status),
        createdAt = Value(createdAt),
@@ -8661,7 +8645,8 @@ class $TripsTable extends Trips with TableInfo<$TripsTable, Trip> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
   );
   static const VerificationMeta _destinationMeta = const VerificationMeta(
     'destination',
@@ -8683,7 +8668,8 @@ class $TripsTable extends Trips with TableInfo<$TripsTable, Trip> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
   );
   static const VerificationMeta _fromDateMeta = const VerificationMeta(
     'fromDate',
@@ -8860,8 +8846,6 @@ class $TripsTable extends Trips with TableInfo<$TripsTable, Trip> {
         _titleLowerMeta,
         titleLower.isAcceptableOrUnknown(data['title_lower']!, _titleLowerMeta),
       );
-    } else if (isInserting) {
-      context.missing(_titleLowerMeta);
     }
     if (data.containsKey('destination')) {
       context.handle(
@@ -8882,8 +8866,6 @@ class $TripsTable extends Trips with TableInfo<$TripsTable, Trip> {
           _destinationLowerMeta,
         ),
       );
-    } else if (isInserting) {
-      context.missing(_destinationLowerMeta);
     }
     if (data.containsKey('from_date')) {
       context.handle(
@@ -9392,9 +9374,9 @@ class TripsCompanion extends UpdateCompanion<Trip> {
   TripsCompanion.insert({
     required String id,
     required String title,
-    required String titleLower,
+    this.titleLower = const Value.absent(),
     required String destination,
-    required String destinationLower,
+    this.destinationLower = const Value.absent(),
     required String fromDate,
     required String toDate,
     required int overall,
@@ -9410,9 +9392,7 @@ class TripsCompanion extends UpdateCompanion<Trip> {
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        title = Value(title),
-       titleLower = Value(titleLower),
        destination = Value(destination),
-       destinationLower = Value(destinationLower),
        fromDate = Value(fromDate),
        toDate = Value(toDate),
        overall = Value(overall),
@@ -10370,6 +10350,32 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     'idx_attachments_entity',
     'CREATE INDEX idx_attachments_entity ON attachments (entity_type, entity_id)',
   );
+  late final MealsDao mealsDao = MealsDao(this as AppDatabase);
+  late final ActivitiesDao activitiesDao = ActivitiesDao(this as AppDatabase);
+  late final ExpensesDao expensesDao = ExpensesDao(this as AppDatabase);
+  late final IncomeDao incomeDao = IncomeDao(this as AppDatabase);
+  late final HealthEventsDao healthEventsDao = HealthEventsDao(
+    this as AppDatabase,
+  );
+  late final LabTestsDao labTestsDao = LabTestsDao(this as AppDatabase);
+  late final BloodPressureDao bloodPressureDao = BloodPressureDao(
+    this as AppDatabase,
+  );
+  late final MedicationsDao medicationsDao = MedicationsDao(
+    this as AppDatabase,
+  );
+  late final DailyLogsDao dailyLogsDao = DailyLogsDao(this as AppDatabase);
+  late final StepsDao stepsDao = StepsDao(this as AppDatabase);
+  late final BucketItemsDao bucketItemsDao = BucketItemsDao(
+    this as AppDatabase,
+  );
+  late final BucketExperiencesDao bucketExperiencesDao = BucketExperiencesDao(
+    this as AppDatabase,
+  );
+  late final TripsDao tripsDao = TripsDao(this as AppDatabase);
+  late final AttachmentsDao attachmentsDao = AttachmentsDao(
+    this as AppDatabase,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -10412,7 +10418,7 @@ typedef $$MealsTableCreateCompanionBuilder =
       required String date,
       Value<String?> time,
       required String name,
-      required String nameLower,
+      Value<String> nameLower,
       required MealType type,
       Value<String?> quantity,
       Value<int?> calories,
@@ -10738,7 +10744,7 @@ class $$MealsTableTableManager
                 required String date,
                 Value<String?> time = const Value.absent(),
                 required String name,
-                required String nameLower,
+                Value<String> nameLower = const Value.absent(),
                 required MealType type,
                 Value<String?> quantity = const Value.absent(),
                 Value<int?> calories = const Value.absent(),
@@ -11186,7 +11192,7 @@ typedef $$ExpensesTableCreateCompanionBuilder =
       required int amountCents,
       required ExpenseCategory category,
       required String description,
-      required String descriptionLower,
+      Value<String> descriptionLower,
       Value<PaymentMethod?> paymentMethod,
       Value<String?> note,
       Value<String?> noteLower,
@@ -11472,7 +11478,7 @@ class $$ExpensesTableTableManager
                 required int amountCents,
                 required ExpenseCategory category,
                 required String description,
-                required String descriptionLower,
+                Value<String> descriptionLower = const Value.absent(),
                 Value<PaymentMethod?> paymentMethod = const Value.absent(),
                 Value<String?> note = const Value.absent(),
                 Value<String?> noteLower = const Value.absent(),
@@ -11522,7 +11528,7 @@ typedef $$IncomeTableCreateCompanionBuilder =
       required String date,
       required int amountCents,
       required String source,
-      required String sourceLower,
+      Value<String> sourceLower,
       required IncomeCategory category,
       Value<String?> note,
       Value<String?> noteLower,
@@ -11771,7 +11777,7 @@ class $$IncomeTableTableManager
                 required String date,
                 required int amountCents,
                 required String source,
-                required String sourceLower,
+                Value<String> sourceLower = const Value.absent(),
                 required IncomeCategory category,
                 Value<String?> note = const Value.absent(),
                 Value<String?> noteLower = const Value.absent(),
@@ -11824,7 +11830,7 @@ typedef $$HealthEventsTableCreateCompanionBuilder =
       Value<String?> reason,
       Value<String?> reasonLower,
       required String whatWasDone,
-      required String whatWasDoneLower,
+      Value<String> whatWasDoneLower,
       Value<int?> priceCents,
       Value<String?> nextRecommendedDate,
       Value<String?> note,
@@ -12184,7 +12190,7 @@ class $$HealthEventsTableTableManager
                 Value<String?> reason = const Value.absent(),
                 Value<String?> reasonLower = const Value.absent(),
                 required String whatWasDone,
-                required String whatWasDoneLower,
+                Value<String> whatWasDoneLower = const Value.absent(),
                 Value<int?> priceCents = const Value.absent(),
                 Value<String?> nextRecommendedDate = const Value.absent(),
                 Value<String?> note = const Value.absent(),
@@ -12241,9 +12247,9 @@ typedef $$LabTestsTableCreateCompanionBuilder =
       required String id,
       required String date,
       required String lab,
-      required String labLower,
+      Value<String> labLower,
       required String reason,
-      required String reasonLower,
+      Value<String> reasonLower,
       Value<String?> resultsText,
       Value<String?> resultsTextLower,
       Value<String?> note,
@@ -12522,9 +12528,9 @@ class $$LabTestsTableTableManager
                 required String id,
                 required String date,
                 required String lab,
-                required String labLower,
+                Value<String> labLower = const Value.absent(),
                 required String reason,
-                required String reasonLower,
+                Value<String> reasonLower = const Value.absent(),
                 Value<String?> resultsText = const Value.absent(),
                 Value<String?> resultsTextLower = const Value.absent(),
                 Value<String?> note = const Value.absent(),
@@ -12883,7 +12889,7 @@ typedef $$MedicationLogsTableCreateCompanionBuilder =
       required String date,
       required String time,
       required String name,
-      required String nameLower,
+      Value<String> nameLower,
       required MedType type,
       Value<String?> dose,
       required MedStatus status,
@@ -13201,7 +13207,7 @@ class $$MedicationLogsTableTableManager
                 required String date,
                 required String time,
                 required String name,
-                required String nameLower,
+                Value<String> nameLower = const Value.absent(),
                 required MedType type,
                 Value<String?> dose = const Value.absent(),
                 required MedStatus status,
@@ -13865,7 +13871,7 @@ typedef $$BucketItemsTableCreateCompanionBuilder =
     BucketItemsCompanion Function({
       required String id,
       required String title,
-      required String titleLower,
+      Value<String> titleLower,
       Value<String?> description,
       Value<String?> descriptionLower,
       Value<String?> whyWantIt,
@@ -14213,7 +14219,7 @@ class $$BucketItemsTableTableManager
               ({
                 required String id,
                 required String title,
-                required String titleLower,
+                Value<String> titleLower = const Value.absent(),
                 Value<String?> description = const Value.absent(),
                 Value<String?> descriptionLower = const Value.absent(),
                 Value<String?> whyWantIt = const Value.absent(),
@@ -14723,9 +14729,9 @@ typedef $$TripsTableCreateCompanionBuilder =
     TripsCompanion Function({
       required String id,
       required String title,
-      required String titleLower,
+      Value<String> titleLower,
       required String destination,
-      required String destinationLower,
+      Value<String> destinationLower,
       required String fromDate,
       required String toDate,
       required int overall,
@@ -15092,9 +15098,9 @@ class $$TripsTableTableManager
               ({
                 required String id,
                 required String title,
-                required String titleLower,
+                Value<String> titleLower = const Value.absent(),
                 required String destination,
-                required String destinationLower,
+                Value<String> destinationLower = const Value.absent(),
                 required String fromDate,
                 required String toDate,
                 required int overall,

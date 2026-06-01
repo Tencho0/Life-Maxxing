@@ -13,7 +13,6 @@ void main() {
         BucketItemsCompanion.insert(
           id: id,
           title: 'Желание',
-          titleLower: 'желание',
           priority: BucketPriority.high,
           status: BucketStatus.idea,
           createdAt: now,
@@ -40,7 +39,7 @@ void main() {
 
   test('DateTime columns round-trip (stored as ISO text)', () async {
     await db.into(db.meals).insert(MealsCompanion.insert(
-          id: 'm1', date: '2026-06-01', name: 'Каша', nameLower: 'каша',
+          id: 'm1', date: '2026-06-01', name: 'Каша',
           type: MealType.breakfast, createdAt: now, updatedAt: now,
         ));
     final row = await db.managers.meals.getSingle();
@@ -75,7 +74,7 @@ void main() {
         db.into(db.expenses).insert(ExpensesCompanion.insert(
               id: 'e1', date: '2026-06-01', amountCents: 0,
               category: ExpenseCategory.food,
-              description: 'X', descriptionLower: 'x',
+              description: 'X',
               createdAt: now, updatedAt: now,
             )),
         throwsA(isA<Exception>()),
@@ -85,8 +84,7 @@ void main() {
     test('trip end date cannot precede start date', () async {
       await expectLater(
         db.into(db.trips).insert(TripsCompanion.insert(
-              id: 't1', title: 'Рим', titleLower: 'рим',
-              destination: 'Рим', destinationLower: 'рим',
+              id: 't1', title: 'Рим', destination: 'Рим',
               fromDate: '2026-06-10', toDate: '2026-06-05', overall: 9,
               createdAt: now, updatedAt: now,
             )),

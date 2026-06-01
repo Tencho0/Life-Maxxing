@@ -8,7 +8,7 @@ class Meals extends Table {
   TextColumn get date => text()(); // yyyy-MM-dd
   TextColumn get time => text().nullable()(); // HH:mm
   TextColumn get name => text()();
-  TextColumn get nameLower => text()();
+  TextColumn get nameLower => text().withDefault(const Constant(''))();
   TextColumn get type => text().map(mealTypeConverter)();
   TextColumn get quantity => text().nullable()();
   IntColumn get calories => integer().nullable()();

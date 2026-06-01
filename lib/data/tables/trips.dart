@@ -5,9 +5,9 @@ import 'package:drift/drift.dart';
 class Trips extends Table {
   TextColumn get id => text()();
   TextColumn get title => text()();
-  TextColumn get titleLower => text()();
+  TextColumn get titleLower => text().withDefault(const Constant(''))();
   TextColumn get destination => text()();
-  TextColumn get destinationLower => text()();
+  TextColumn get destinationLower => text().withDefault(const Constant(''))();
   TextColumn get fromDate => text()(); // yyyy-MM-dd
   TextColumn get toDate => text()(); // yyyy-MM-dd
   IntColumn get overall => integer()(); // 1..10
