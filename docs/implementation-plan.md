@@ -182,12 +182,13 @@
 - [x] Tests (6): daily totals ignore NULLs; summary reflects range; required name; save (calories+macros+`*Lower`); search by name/note; screen renders from seed.
 - **Verify:** ✅ analyze clean; full suite green (103). Photo pipeline (pick→compress→thumb→display) is device-verified (AttachmentService faked in unit tests, §7.2).
 
-### Slice 7.4 — Activities
-- [ ] Providers: activities by date/period + activity summary (counts by group, total time, most-frequent, avg duration).
-- [ ] Activities screen: counts cards, category `SegRing`, list with intensity/mood.
-- [ ] Activity sheet (type*, name?, start/end/duration, intensity, quality/mood, note, 0–1 photo) CRUD; validation (duration>0 if present).
-- [ ] Tests: group derivation counts; filter by type; optional-name accepted.
-- **Verify:** log activities of different types; grouping + charts correct.
+### Slice 7.4 — Activities ✅ (commit d933f9f)
+- [x] Providers: activities by period + summary (counts by group, total time, most-frequent, avg duration); client-side type filter (list narrows, summary stays full-range).
+- [x] Activities screen: counts card, activity-group `SegRing` + legend, type-filter chips, list with intensity + mood, period chips.
+- [x] Activity sheet (type*, name?, start/end/duration, intensity, quality + mood Scale10s, note, 0–1 photo) CRUD; validation (duration>0 if present).
+- [x] Tests (5): group derivation counts + most-frequent; filter by type; optional-name accepted; duration>0 rejected; screen renders from seed.
+- [x] Extracted shared `SinglePhotoField` (`presentation/common/photo_field.dart`); Food refactored to reuse it.
+- **Verify:** ✅ analyze clean; full suite green (108). Photo pipeline device-verified (§7.2).
 
 ### Slice 7.5 — Steps
 - [ ] Steps screen: today `Ring`, stats (avg/max/total/days), steps-by-day chart, recent days list with provenance.
