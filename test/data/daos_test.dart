@@ -34,12 +34,12 @@ void main() {
     });
 
     test('required + nullable text across several tables', () async {
-      await db.expensesDao.save(ExpensesCompanion.insert(
+      await db.financeDao.saveExpense(ExpensesCompanion.insert(
         id: 'e1', date: '2026-06-01', amountCents: 1200,
         category: ExpenseCategory.food, description: 'Обяд НАВЪН',
         note: const Value('С Колеги'), createdAt: now, updatedAt: now,
       ));
-      final e = await db.expensesDao.getById('e1');
+      final e = await db.financeDao.getExpense('e1');
       expect(e!.descriptionLower, 'обяд навън');
       expect(e.noteLower, 'с колеги');
 
@@ -53,12 +53,12 @@ void main() {
       expect(t.destinationLower, 'рим, италия');
       expect(t.commentLower, 'страхотно!');
 
-      await db.healthEventsDao.save(HealthEventsCompanion.insert(
+      await db.healthDao.saveEvent(HealthEventsCompanion.insert(
         id: 'h1', date: '2026-06-01', type: HealthEventType.dentist,
         whatWasDone: 'ПОЧИСТВАНЕ', clinic: const Value('Д-р Иванова'),
         createdAt: now, updatedAt: now,
       ));
-      final h = await db.healthEventsDao.getById('h1');
+      final h = await db.healthDao.getEvent('h1');
       expect(h!.whatWasDoneLower, 'почистване');
       expect(h.clinicLower, 'д-р иванова');
       expect(h.reasonLower, isNull); // absent stays null

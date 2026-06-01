@@ -27,83 +27,47 @@ class ActivitiesDaoManager {
       $$ActivitiesTableTableManager(_db.attachedDatabase, _db.activities);
 }
 
-mixin _$ExpensesDaoMixin on DatabaseAccessor<AppDatabase> {
+mixin _$FinanceDaoMixin on DatabaseAccessor<AppDatabase> {
   $ExpensesTable get expenses => attachedDatabase.expenses;
-  ExpensesDaoManager get managers => ExpensesDaoManager(this);
+  $IncomeTable get income => attachedDatabase.income;
+  FinanceDaoManager get managers => FinanceDaoManager(this);
 }
 
-class ExpensesDaoManager {
-  final _$ExpensesDaoMixin _db;
-  ExpensesDaoManager(this._db);
+class FinanceDaoManager {
+  final _$FinanceDaoMixin _db;
+  FinanceDaoManager(this._db);
   $$ExpensesTableTableManager get expenses =>
       $$ExpensesTableTableManager(_db.attachedDatabase, _db.expenses);
-}
-
-mixin _$IncomeDaoMixin on DatabaseAccessor<AppDatabase> {
-  $IncomeTable get income => attachedDatabase.income;
-  IncomeDaoManager get managers => IncomeDaoManager(this);
-}
-
-class IncomeDaoManager {
-  final _$IncomeDaoMixin _db;
-  IncomeDaoManager(this._db);
   $$IncomeTableTableManager get income =>
       $$IncomeTableTableManager(_db.attachedDatabase, _db.income);
 }
 
-mixin _$HealthEventsDaoMixin on DatabaseAccessor<AppDatabase> {
-  $HealthEventsTable get healthEvents => attachedDatabase.healthEvents;
-  HealthEventsDaoManager get managers => HealthEventsDaoManager(this);
-}
-
-class HealthEventsDaoManager {
-  final _$HealthEventsDaoMixin _db;
-  HealthEventsDaoManager(this._db);
-  $$HealthEventsTableTableManager get healthEvents =>
-      $$HealthEventsTableTableManager(_db.attachedDatabase, _db.healthEvents);
-}
-
-mixin _$LabTestsDaoMixin on DatabaseAccessor<AppDatabase> {
-  $LabTestsTable get labTests => attachedDatabase.labTests;
-  LabTestsDaoManager get managers => LabTestsDaoManager(this);
-}
-
-class LabTestsDaoManager {
-  final _$LabTestsDaoMixin _db;
-  LabTestsDaoManager(this._db);
-  $$LabTestsTableTableManager get labTests =>
-      $$LabTestsTableTableManager(_db.attachedDatabase, _db.labTests);
-}
-
-mixin _$BloodPressureDaoMixin on DatabaseAccessor<AppDatabase> {
+mixin _$HealthDaoMixin on DatabaseAccessor<AppDatabase> {
   $BloodPressureLogsTable get bloodPressureLogs =>
       attachedDatabase.bloodPressureLogs;
-  BloodPressureDaoManager get managers => BloodPressureDaoManager(this);
+  $MedicationLogsTable get medicationLogs => attachedDatabase.medicationLogs;
+  $HealthEventsTable get healthEvents => attachedDatabase.healthEvents;
+  $LabTestsTable get labTests => attachedDatabase.labTests;
+  HealthDaoManager get managers => HealthDaoManager(this);
 }
 
-class BloodPressureDaoManager {
-  final _$BloodPressureDaoMixin _db;
-  BloodPressureDaoManager(this._db);
+class HealthDaoManager {
+  final _$HealthDaoMixin _db;
+  HealthDaoManager(this._db);
   $$BloodPressureLogsTableTableManager get bloodPressureLogs =>
       $$BloodPressureLogsTableTableManager(
         _db.attachedDatabase,
         _db.bloodPressureLogs,
       );
-}
-
-mixin _$MedicationsDaoMixin on DatabaseAccessor<AppDatabase> {
-  $MedicationLogsTable get medicationLogs => attachedDatabase.medicationLogs;
-  MedicationsDaoManager get managers => MedicationsDaoManager(this);
-}
-
-class MedicationsDaoManager {
-  final _$MedicationsDaoMixin _db;
-  MedicationsDaoManager(this._db);
   $$MedicationLogsTableTableManager get medicationLogs =>
       $$MedicationLogsTableTableManager(
         _db.attachedDatabase,
         _db.medicationLogs,
       );
+  $$HealthEventsTableTableManager get healthEvents =>
+      $$HealthEventsTableTableManager(_db.attachedDatabase, _db.healthEvents);
+  $$LabTestsTableTableManager get labTests =>
+      $$LabTestsTableTableManager(_db.attachedDatabase, _db.labTests);
 }
 
 mixin _$DailyLogsDaoMixin on DatabaseAccessor<AppDatabase> {
@@ -130,28 +94,16 @@ class StepsDaoManager {
       $$StepsTableTableManager(_db.attachedDatabase, _db.steps);
 }
 
-mixin _$BucketItemsDaoMixin on DatabaseAccessor<AppDatabase> {
-  $BucketItemsTable get bucketItems => attachedDatabase.bucketItems;
-  BucketItemsDaoManager get managers => BucketItemsDaoManager(this);
-}
-
-class BucketItemsDaoManager {
-  final _$BucketItemsDaoMixin _db;
-  BucketItemsDaoManager(this._db);
-  $$BucketItemsTableTableManager get bucketItems =>
-      $$BucketItemsTableTableManager(_db.attachedDatabase, _db.bucketItems);
-}
-
-mixin _$BucketExperiencesDaoMixin on DatabaseAccessor<AppDatabase> {
+mixin _$BucketDaoMixin on DatabaseAccessor<AppDatabase> {
   $BucketItemsTable get bucketItems => attachedDatabase.bucketItems;
   $BucketExperiencesTable get bucketExperiences =>
       attachedDatabase.bucketExperiences;
-  BucketExperiencesDaoManager get managers => BucketExperiencesDaoManager(this);
+  BucketDaoManager get managers => BucketDaoManager(this);
 }
 
-class BucketExperiencesDaoManager {
-  final _$BucketExperiencesDaoMixin _db;
-  BucketExperiencesDaoManager(this._db);
+class BucketDaoManager {
+  final _$BucketDaoMixin _db;
+  BucketDaoManager(this._db);
   $$BucketItemsTableTableManager get bucketItems =>
       $$BucketItemsTableTableManager(_db.attachedDatabase, _db.bucketItems);
   $$BucketExperiencesTableTableManager get bucketExperiences =>
@@ -183,4 +135,60 @@ class AttachmentsDaoManager {
   AttachmentsDaoManager(this._db);
   $$AttachmentsTableTableManager get attachments =>
       $$AttachmentsTableTableManager(_db.attachedDatabase, _db.attachments);
+}
+
+mixin _$SearchDaoMixin on DatabaseAccessor<AppDatabase> {
+  $MealsTable get meals => attachedDatabase.meals;
+  $ActivitiesTable get activities => attachedDatabase.activities;
+  $ExpensesTable get expenses => attachedDatabase.expenses;
+  $IncomeTable get income => attachedDatabase.income;
+  $HealthEventsTable get healthEvents => attachedDatabase.healthEvents;
+  $LabTestsTable get labTests => attachedDatabase.labTests;
+  $BloodPressureLogsTable get bloodPressureLogs =>
+      attachedDatabase.bloodPressureLogs;
+  $MedicationLogsTable get medicationLogs => attachedDatabase.medicationLogs;
+  $DailyLogsTable get dailyLogs => attachedDatabase.dailyLogs;
+  $BucketItemsTable get bucketItems => attachedDatabase.bucketItems;
+  $BucketExperiencesTable get bucketExperiences =>
+      attachedDatabase.bucketExperiences;
+  $TripsTable get trips => attachedDatabase.trips;
+  SearchDaoManager get managers => SearchDaoManager(this);
+}
+
+class SearchDaoManager {
+  final _$SearchDaoMixin _db;
+  SearchDaoManager(this._db);
+  $$MealsTableTableManager get meals =>
+      $$MealsTableTableManager(_db.attachedDatabase, _db.meals);
+  $$ActivitiesTableTableManager get activities =>
+      $$ActivitiesTableTableManager(_db.attachedDatabase, _db.activities);
+  $$ExpensesTableTableManager get expenses =>
+      $$ExpensesTableTableManager(_db.attachedDatabase, _db.expenses);
+  $$IncomeTableTableManager get income =>
+      $$IncomeTableTableManager(_db.attachedDatabase, _db.income);
+  $$HealthEventsTableTableManager get healthEvents =>
+      $$HealthEventsTableTableManager(_db.attachedDatabase, _db.healthEvents);
+  $$LabTestsTableTableManager get labTests =>
+      $$LabTestsTableTableManager(_db.attachedDatabase, _db.labTests);
+  $$BloodPressureLogsTableTableManager get bloodPressureLogs =>
+      $$BloodPressureLogsTableTableManager(
+        _db.attachedDatabase,
+        _db.bloodPressureLogs,
+      );
+  $$MedicationLogsTableTableManager get medicationLogs =>
+      $$MedicationLogsTableTableManager(
+        _db.attachedDatabase,
+        _db.medicationLogs,
+      );
+  $$DailyLogsTableTableManager get dailyLogs =>
+      $$DailyLogsTableTableManager(_db.attachedDatabase, _db.dailyLogs);
+  $$BucketItemsTableTableManager get bucketItems =>
+      $$BucketItemsTableTableManager(_db.attachedDatabase, _db.bucketItems);
+  $$BucketExperiencesTableTableManager get bucketExperiences =>
+      $$BucketExperiencesTableTableManager(
+        _db.attachedDatabase,
+        _db.bucketExperiences,
+      );
+  $$TripsTableTableManager get trips =>
+      $$TripsTableTableManager(_db.attachedDatabase, _db.trips);
 }

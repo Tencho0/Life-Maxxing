@@ -39,18 +39,14 @@ part 'database.g.dart';
   daos: [
     MealsDao,
     ActivitiesDao,
-    ExpensesDao,
-    IncomeDao,
-    HealthEventsDao,
-    LabTestsDao,
-    BloodPressureDao,
-    MedicationsDao,
+    FinanceDao,
+    HealthDao,
     DailyLogsDao,
     StepsDao,
-    BucketItemsDao,
-    BucketExperiencesDao,
+    BucketDao,
     TripsDao,
     AttachmentsDao,
+    SearchDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {

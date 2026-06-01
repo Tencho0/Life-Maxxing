@@ -10352,30 +10352,16 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final MealsDao mealsDao = MealsDao(this as AppDatabase);
   late final ActivitiesDao activitiesDao = ActivitiesDao(this as AppDatabase);
-  late final ExpensesDao expensesDao = ExpensesDao(this as AppDatabase);
-  late final IncomeDao incomeDao = IncomeDao(this as AppDatabase);
-  late final HealthEventsDao healthEventsDao = HealthEventsDao(
-    this as AppDatabase,
-  );
-  late final LabTestsDao labTestsDao = LabTestsDao(this as AppDatabase);
-  late final BloodPressureDao bloodPressureDao = BloodPressureDao(
-    this as AppDatabase,
-  );
-  late final MedicationsDao medicationsDao = MedicationsDao(
-    this as AppDatabase,
-  );
+  late final FinanceDao financeDao = FinanceDao(this as AppDatabase);
+  late final HealthDao healthDao = HealthDao(this as AppDatabase);
   late final DailyLogsDao dailyLogsDao = DailyLogsDao(this as AppDatabase);
   late final StepsDao stepsDao = StepsDao(this as AppDatabase);
-  late final BucketItemsDao bucketItemsDao = BucketItemsDao(
-    this as AppDatabase,
-  );
-  late final BucketExperiencesDao bucketExperiencesDao = BucketExperiencesDao(
-    this as AppDatabase,
-  );
+  late final BucketDao bucketDao = BucketDao(this as AppDatabase);
   late final TripsDao tripsDao = TripsDao(this as AppDatabase);
   late final AttachmentsDao attachmentsDao = AttachmentsDao(
     this as AppDatabase,
   );
+  late final SearchDao searchDao = SearchDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
