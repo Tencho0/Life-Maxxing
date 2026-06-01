@@ -159,13 +159,14 @@
 
 > Each feature slice delivers a **runnable vertical**: DAO wiring → Riverpod providers → screen (with `PeriodChips`, key numbers, charts, record list) → create/edit sheet (validation per §8) → delete → search/filter hooks → tests. Photo-bearing features also wire `AttachmentService`.
 
-### Slice 7.1 — Finance (canonical first vertical; no attachments)
-- [ ] Providers for expenses/income lists + finance summary (balance, totals, top category, counts, avg/day) by period.
-- [ ] Finance screen: balance hero, income-vs-expense chart, category `SegRing`, records tabs (Разходи/Приходи), `FinRadial` `+`.
-- [ ] Expense sheet (amount cents, currency-free EUR, category chips, description, payment method, note) + Income sheet (amount, source, category, note); create+edit; validation.
-- [ ] Delete with confirm.
-- [ ] Tests: summary math (balance, top category), validation (amount>0, required fields), filter by category.
-- **Verify:** add/edit/delete an expense and income; numbers + charts update live for each period.
+### Slice 7.1 — Finance (canonical first vertical; no attachments) ✅ (commit ae5944c)
+- [x] Reactive providers: period → range → live expense/income streams → computed `FinanceSummary`.
+- [x] Finance screen: balance hero, income-vs-expense chart (`IncomeExpenseBars`, deferred from Phase 2), category `SegRing` + legend, records tabs, `+` chooser, period chips (incl. custom date-range picker), back.
+- [x] Expense + Income forms (create/edit/delete, validation amount>0 + required) via `FinanceDao`; `/finance` route + quick-log FAB wired.
+- [x] Tests: provider pipeline (range filter + summary), form validation + save (cents + `*Lower`), screen render from seeded data.
+- [x] **Test-determinism harness** (reusable): configurable `lmToastDuration`/`lmChartAnimationDuration`; `test/support/test_env.dart` (`useDeterministicTestEnv`, `settleData`); drift-stream widget-test pattern; CLAUDE.md §6 conventions.
+- **Verify:** ✅ analyze clean; full suite green (89). Add/edit/delete updates numbers + charts live.
+- *Deferred:* the design's radial FAB (`FinRadial`) is a simple expense/income chooser sheet for V1.
 
 ### Slice 7.2 — AttachmentService (+ image pipeline)
 - [ ] `AttachmentService`: pick (image_picker) → compress ≤1600px/Q80 → ~320px thumb → write full+thumb under `attachments/<folder>/` → insert row (paths, size, dims, sortOrder, role).
