@@ -205,12 +205,13 @@
 - **Verify:** ✅ analyze clean; full suite green (121). Event/lab photo IO device-verified (§7.2).
 - *Deviations:* numeric BP inputs (steppers impractical for 3-digit values); med status uses Прието/Пропуснато labels (not Да/Не).
 
-### Slice 7.7 — Daily Quick Log
-- [ ] Provider: log by date; create-or-open existing (uniqueness).
-- [ ] Daily screen: mood hero (`Ring`), photo, yes/no grid, screen-time/steps (steps read-only/"заключено" if present), notes, mood-30-day bars.
-- [ ] Daily sheet (mood*, proud*, uncomfortable*+conditional, workout*, alcohol*+conditional, screen time, steps via `StepsService`, note, 0–1 photo). Opening for an existing date edits it.
-- [ ] Tests: second-add-for-date opens existing (no dup); conditional fields; steps create-if-absent + lock; daily summary (§17.6).
-- **Verify:** fill today's log incl. photo + steps; re-open edits same row; steps appear locked and in Steps module.
+### Slice 7.7 — Daily Quick Log ✅ (commit ef4274d)
+- [x] Providers: log + steps + photo by viewed date (reactive); create-or-open existing (caller passes existing → reuses id, no dup). `DailyLogsDao.watchInRange` added.
+- [x] Daily screen: mood hero (`Ring` + mood color/label), photo, yes/no grid (+ conditional notes), screen-time/locked steps, notes, 30-day mood trend; empty state.
+- [x] Daily sheet (mood*, proud*, uncomfortable*+conditional, workout*, alcohol*+conditional, screen time, steps via `StepsService` create-if-absent/locked, note, 0–1 photo). Opening for an existing date edits it.
+- [x] Tests (5): open-existing edits same row (no dup); conditional field on Да; steps create-if-absent + lock; trailing-30-day summary; screen renders from seed.
+- **Verify:** ✅ analyze clean; full suite green (126). Photo IO + quick-log resolve device-verified.
+- *Note:* screen-time entered as minutes (numeric) rather than the prototype's "Hh Mm" string. ?date= deep-link deferred (screen defaults to today; wired in Memories 7.12).
 
 ### Slice 7.8 — Bucket List (+ detail + experience)
 - [ ] Providers: items (filter by status/priority) + bucket stats; item detail; experience.
