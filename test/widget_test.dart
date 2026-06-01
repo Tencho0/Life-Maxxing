@@ -1,26 +1,48 @@
-// Smoke test: the app boots into the design-system gallery (Phase 1).
-// Replaced with router/screen tests as features land.
+// App-shell smoke test: tabs switch, the FAB opens the quick-log chooser, and
+// module navigation pushes a screen with a working back button.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lifemaxxing/main.dart';
+import 'package:lifemaxxing/app/app.dart';
 import 'package:lifemaxxing/core/icons/lm_icons.dart';
 
 void main() {
-  testWidgets('app boots and renders the gallery (Cyrillic + icons)',
-      (tester) async {
-    // Tall surface so the lazy ListView builds all sections (incl. icons).
-    tester.view.physicalSize = const Size(1000, 3200);
-    tester.view.devicePixelRatio = 1.0;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
-
+  testWidgets('shell: tabs, FAB sheet, push + back', (tester) async {
     await tester.pumpWidget(const LifeMaxxingApp());
     await tester.pumpAndSettle();
 
-    // Cyrillic title renders (fonts wired).
-    expect(find.text('LifeMaxxing · дизайн система'), findsOneWidget);
-    // Icon set renders.
-    expect(find.byType(LmIcon), findsWidgets);
+    // Home tab + persistent bottom nav.
+    expect(find.text('Начало — предстои (Phase 7)'), findsOneWidget);
+    expect(find.text('Графики'), findsWidgets);
+    expect(find.text('Още'), findsWidgets);
+
+    // Switch to the Графики tab.
+    await tester.tap(find.text('Графики'));
+    await tester.pumpAndSettle();
+    expect(find.text('Графики — предстои (Phase 7)'), findsOneWidget);
+
+    // FAB opens the quick-log chooser.
+    await tester.tap(
+      find.byWidgetPredicate((w) => w is LmIcon && w.icon == LmIcons.plus),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Бързо логване'), findsOneWidget);
+    expect(find.text('Храна'), findsOneWidget); // a quick action
+    await tester.tapAt(const Offset(10, 10)); // dismiss via scrim
+    await tester.pumpAndSettle();
+
+    // More → push a module → back returns to More.
+    await tester.tap(find.text('Още'));
+    await tester.pumpAndSettle();
+    expect(find.text('Всички модули'), findsOneWidget);
+
+    await tester.tap(find.text('Финанси'));
+    await tester.pumpAndSettle();
+    expect(find.text('Финанси — предстои (Phase 7)'), findsOneWidget);
+
+    await tester.tap(
+      find.byWidgetPredicate((w) => w is LmIcon && w.icon == LmIcons.chevL),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Всички модули'), findsOneWidget);
   });
 }
