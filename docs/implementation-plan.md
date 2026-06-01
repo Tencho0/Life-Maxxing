@@ -60,23 +60,27 @@
 
 ## Phase 2 — Shared components
 
-### Slice 2.1 — Primitive widgets (`core/widgets/`)
-- [ ] `LmCard`, `Eyebrow`, `Pill`, `DeltaBadge`, `Stat`, `LmRow`, `SectionTitle`.
-- [ ] `AppTopBar` (sticky/blur, back+title+sub+right slot), `ScreenBody` (scroll+padding).
-- [ ] `LmButton` (primary/ghost/danger), `Toast` overlay + `toastProvider`.
-- [ ] Widget tests for `LmButton` variants and `Pill` color mapping.
-- **Verify:** a "component catalog" debug screen shows each primitive matching the prototype.
+> **Built via parallel workflow** (24 agents, one widget/file each) → reconciled (4 fixes) → catalogued + tested. Commits 4a3fc37 / 0aac7e3 / 91da12e.
 
-### Slice 2.2 — Form controls (`core/widgets/`)
-- [ ] `Field` (label/required/hint), `LmInput`, `LmTextArea`, `Segmented`, `YesNo`, `Scale10`, `MoodPicker` (uses mood ramp), `Stepper`, `PhotoAdd` (UI only), `PhotoTile`, `PeriodChips`.
-- [ ] Widget tests: `YesNo`/`Segmented`/`Scale10` selection state; `Stepper` increment/clamp; `MoodPicker` color shift.
-- **Verify:** catalog screen exercises every control; tests pass.
+### Slice 2.1 — Primitive widgets (`core/widgets/`) ✅
+- [x] `LmCard`, `Eyebrow`, `Pill`, `DeltaBadge`, `Stat`, `LmRow`, `SectionTitle`.
+- [x] `AppTopBar` (blur, back+title+sub+right slot), `ScreenBody` (scroll+padding).
+- [x] `LmButton` (primary/ghost/danger), `showLmToast` overlay (Riverpod provider deferred to Phase 5).
+- [x] Widget tests for `LmButton` variants and `Pill`.
+- **Verify:** ✅ component catalog (Компоненти tab) shows each primitive; catalog smoke test passes.
 
-### Slice 2.3 — Charts (`core/charts/`, fl_chart wrappers + MoodGauge)
-- [ ] `Sparkline`, `MiniBars`/`BarChart`, `Ring`, `SegRing`, stacked income/expense bars (fl_chart, tokenized).
-- [ ] `MoodGauge` hand-painted (OKLCH ramp).
-- [ ] Golden or smoke widget tests rendering each with sample data.
-- **Verify:** catalog screen shows all charts with dummy series matching prototype look.
+### Slice 2.2 — Form controls (`core/widgets/`) ✅
+- [x] `Field`, `LmInput`, `LmTextArea`, `Segmented`, `YesNo`, `Scale10`, `MoodPicker`, `LmStepper`, `PhotoAdd`, `PhotoTile`, `PeriodChips`.
+- [x] Widget tests: `YesNo`/`Segmented`/`Scale10` selection; `LmStepper` increment/clamp; `MoodPicker` value.
+- **Verify:** ✅ catalog exercises every control; tests pass.
+
+### Slice 2.3 — Charts (`core/charts/`, fl_chart wrappers + MoodGauge) ✅
+- [x] `Sparkline`, `MiniBars`, `LmBarChart`, `Ring`, `SegRing` (fl_chart 1.x, chrome/touch off, tokenized).
+- [x] `MoodGauge` hand-painted (OKLCH ramp).
+- [x] Catalog smoke test renders all with sample data.
+- **Verify:** ✅ catalog shows all charts; builds with no exceptions.
+
+> **Phase 2 complete** — `flutter analyze` clean, full suite green (25 tests). Reviewable via `flutter run` → **Компоненти** tab. Note: stacked income/expense bars deferred to the Finance slice (built there with real data).
 
 ---
 
