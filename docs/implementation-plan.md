@@ -99,12 +99,12 @@
 - [x] Tests (in-memory sqlite): FK enforce + cascade, CHECK rejects (sys≤dia, amount 0, trip order, mood 11), `UNIQUE(date)` rejects dup daily/steps, DateTime round-trips as text.
 - **Verify:** ✅ analyze clean, 11 db tests pass (42 total).
 
-### Slice 3.3 — DAOs: CRUD + `*Lower` companion mapping
-- [ ] One DAO per module + `AttachmentDao`.
-- [ ] Each DAO has the **single companion-mapping helper** that sets `*Lower` columns on insert/update (spec §3.1).
-- [ ] CRUD + `watch…` streams for lists/by-date.
-- [ ] Tests: insert/update sets every `*Lower`; CRUD round-trips; streams emit on change.
-- **Verify:** tests pass with in-memory DB.
+### Slice 3.3 — DAOs: CRUD + `*Lower` companion mapping ✅ (commit 7154322)
+- [x] 14 DAOs in `data/daos.dart`, registered on `AppDatabase`.
+- [x] Each DAO's `save()` runs `_withLower` — the single writer of the `*Lower` columns (Dart `toLowerCase`); non-null shadow columns got `withDefault('')` so callers never set them.
+- [x] `getById`/`getByDate` + `watchByDate`/`watchAll` streams; `AttachmentsDao.forEntity` by enum.
+- [x] Tests: lower mapping (Cyrillic upper→lower), CRUD round-trip, stream emits on insert.
+- **Verify:** ✅ analyze clean, 6 DAO tests pass (48 total).
 
 ### Slice 3.4 — DAOs: search, filter, aggregates
 - [ ] Per-module list queries with filter params (date/period, category, type, status, priority, feeling, worthIt, rating, wouldRepeat — spec §24.3).
