@@ -86,11 +86,11 @@
 
 ## Phase 3 — Data layer
 
-### Slice 3.1 — Enums + converters
-- [ ] `domain/enums.dart` — every enum from spec §3.2 with storage codes + Bulgarian labels + `ActivityGroup` derivation.
-- [ ] `data/converters.dart` — enum⇄text `TypeConverter`s.
-- [ ] Unit tests: round-trip every enum code; unknown code handling.
-- **Verify:** tests pass.
+### Slice 3.1 — Enums + converters ✅ (commit 23778cf)
+- [x] `domain/enums.dart` — 17 enums w/ codes + Bulgarian labels (`Coded`/`parseCode`); `ActivityType.group`; `AttachmentEntity.folder`; `Period.chipLabel`.
+- [x] `data/converters.dart` — generic `CodedConverter` + a const instance per stored enum.
+- [x] Unit tests: round-trip every code; unknown→null/fallback; group derivation; spec income categories.
+- **Verify:** ✅ analyze clean, 6 tests pass.
 
 ### Slice 3.2 — Tables + database
 - [ ] `data/tables/*.dart` — all 15 tables per spec §3.3 (TEXT dates, `amountCents`/`priceCents`, `*Lower` shadow columns, BP `systolic>diastolic` check, `daily_logs`/`steps` `UNIQUE(date)`, trips `toDate>=fromDate` check, attachments + index, `bucket_experiences` FK `ON DELETE CASCADE`).
