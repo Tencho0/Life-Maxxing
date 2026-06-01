@@ -35,9 +35,10 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Всички модули'), findsOneWidget);
 
-    await tester.tap(find.text('Финанси'));
+    // Use a still-placeholder module (Финанси is now a real, DB-backed screen).
+    await tester.tap(find.text('Здраве'));
     await tester.pumpAndSettle();
-    expect(find.text('Финанси — предстои (Phase 7)'), findsOneWidget);
+    expect(find.text('Здраве — предстои (Phase 7)'), findsOneWidget);
 
     await tester.tap(
       find.byWidgetPredicate((w) => w is LmIcon && w.icon == LmIcons.chevL),

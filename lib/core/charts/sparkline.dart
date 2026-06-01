@@ -4,6 +4,7 @@
 // fill from color@~0.28 alpha to transparent. No axes, grid, border, or touch.
 
 import 'package:fl_chart/fl_chart.dart';
+import 'chart_anim.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lifemaxxing/core/theme/tokens.dart';
 
@@ -81,6 +82,7 @@ class Sparkline extends StatelessWidget {
             ),
           ],
         ),
+        duration: lmChartAnimationDuration,
       ),
     );
   }

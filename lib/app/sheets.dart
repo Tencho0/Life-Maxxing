@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../core/theme/tokens.dart';
 import '../core/theme/typography.dart';
 import '../core/icons/lm_icons.dart';
+import '../presentation/finance/finance_forms.dart';
 
 /// One quick-log action (spec §5.2). The first four are the mandatory ones.
 class QuickAction {
@@ -57,8 +58,17 @@ void openQuickSheet(BuildContext context) {
   );
 }
 
-/// Opens the create form for a given entity [type] (placeholder bodies in 5.1).
+/// Opens the create form for a given entity [type]. Real forms are wired as
+/// their feature slices land; the rest stay placeholders.
 void openFormSheet(BuildContext context, String type) {
+  switch (type) {
+    case 'expense':
+      showExpenseSheet(context);
+      return;
+    case 'income':
+      showIncomeSheet(context);
+      return;
+  }
   const titles = {
     'food': 'Ново хранене',
     'expense': 'Нов разход',

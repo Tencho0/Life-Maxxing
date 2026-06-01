@@ -5,6 +5,7 @@
 // fl_chart's own `BarChart`.
 
 import 'package:fl_chart/fl_chart.dart';
+import 'chart_anim.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lifemaxxing/core/theme/tokens.dart';
 import 'package:lifemaxxing/core/theme/typography.dart';
@@ -88,6 +89,7 @@ class LmBarChart extends StatelessWidget {
               ),
           ],
         ),
+        duration: lmChartAnimationDuration,
       ),
     );
   }

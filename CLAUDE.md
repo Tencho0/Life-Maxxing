@@ -70,6 +70,13 @@ Conventions:
 - **Update the plan** (`docs/implementation-plan.md`) as part of finishing a slice.
 - Don't introduce new dependencies or change a locked decision (§4) without raising it first.
 
+### Test conventions
+
+- **Run tests single-threaded — never two `flutter test` runs at once.** `flutter test` builds native code assets (`sqlite3.dll`); overlapping runs race and crash with `PathExistsException`, leaving a locked `flutter_tester` process holding the dll. Run one at a time (background a single run and wait on it). If a run is interrupted: kill stray `dart`/`flutter_tester` processes, then delete `build/native_assets`, before retrying.
+- **Deterministic env:** widget tests call `useDeterministicTestEnv()` (`test/support/test_env.dart`) in `setUp`. It zeroes the toast auto-dismiss timer (`lmToastDuration`) and fl_chart animation duration (`lmChartAnimationDuration`) so `pumpAndSettle` terminates and a save that fires a toast leaves no pending `Timer` at teardown.
+- **Async-data screens:** use `await settleData(tester)` (real-async flush via `runAsync`, then `pumpAndSettle`) — a bare `pumpAndSettle` never settles against a loading spinner, and awaiting a provider `.future` inside `testWidgets` hangs (FakeAsync won't advance the drift stream's timers). This is the standard for every feature screen.
+- Forms taller than the default 600px test surface: set `tester.view.physicalSize` tall so off-screen buttons are tappable. Remember `Eyebrow`/`SectionTitle` render their text **uppercased** — assert the uppercased string.
+
 ## 7. Common commands
 
 ```bash

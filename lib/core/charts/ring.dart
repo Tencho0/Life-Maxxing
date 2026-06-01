@@ -5,6 +5,7 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'chart_anim.dart';
 
 import 'package:lifemaxxing/core/theme/tokens.dart';
 
@@ -67,6 +68,7 @@ class Ring extends StatelessWidget {
                 ),
               ],
             ),
+            duration: lmChartAnimationDuration,
           ),
           ?center,
         ],

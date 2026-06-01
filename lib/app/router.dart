@@ -14,6 +14,7 @@ import '../core/widgets/lm_bottom_nav.dart';
 import '../core/widgets/lm_row.dart';
 import '../core/widgets/screen_body.dart';
 import '../dev/dev_home.dart';
+import '../presentation/finance/finance_screen.dart';
 import 'sheets.dart';
 
 final appRouter = GoRouter(
@@ -29,9 +30,10 @@ final appRouter = GoRouter(
         GoRoute(
             path: '/memories', builder: (c, s) => const _Placeholder('Спомени')),
         GoRoute(path: '/more', builder: (c, s) => const _MoreScreen()),
-        // Module / detail routes (pushed → show back).
+        // Module / detail routes (pushed → show back). Real screens land here
+        // as their feature slices complete; the rest stay placeholders.
         for (final m in _modules)
-          GoRoute(path: m.$1, builder: (c, s) => _Placeholder(m.$2, back: true)),
+          GoRoute(path: m.$1, builder: (c, s) => _moduleScreen(m)),
         GoRoute(
             path: '/bucket/:id',
             builder: (c, s) => _Placeholder('Желание', back: true)),
@@ -44,6 +46,12 @@ final appRouter = GoRouter(
     GoRoute(path: '/dev', builder: (c, s) => const DevHome()),
   ],
 );
+
+/// Real screen for a module route, or a placeholder until its slice lands.
+Widget _moduleScreen((String, String) m) => switch (m.$1) {
+      '/finance' => const FinanceScreen(),
+      _ => _Placeholder(m.$2, back: true),
+    };
 
 // (route, title) for the pushed module screens.
 const _modules = <(String, String)>[

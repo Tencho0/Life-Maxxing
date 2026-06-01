@@ -14,8 +14,10 @@ import 'package:lifemaxxing/core/theme/typography.dart';
 OverlayEntry? _entry;
 Timer? _dismissTimer;
 
-/// How long the toast stays fully visible before fading out.
-const Duration _visibleDuration = Duration(milliseconds: 2200);
+/// How long the toast stays fully visible before fading out. Mutable so the
+/// test environment can set it to [Duration.zero] (no lingering auto-dismiss
+/// timer at teardown) — see test/support/test_env.dart.
+Duration lmToastDuration = const Duration(milliseconds: 2200);
 
 /// Shows a transient confirmation toast with [message] over the nearest
 /// [Overlay], cancelling any toast already on screen.
@@ -39,7 +41,7 @@ void showLmToast(BuildContext context, String message) {
   _entry = entry;
   overlay.insert(entry);
 
-  _dismissTimer = Timer(_visibleDuration, () {
+  _dismissTimer = Timer(lmToastDuration, () {
     _dismissTimer = null;
     if (_entry == entry) {
       _entry = null;
