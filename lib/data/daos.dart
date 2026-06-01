@@ -224,6 +224,11 @@ class HealthDao extends DatabaseAccessor<AppDatabase> with _$HealthDaoMixin {
             ..where((t) => t.date.equals(date))
             ..orderBy([(t) => _asc(t.time)]))
           .watch();
+  Stream<List<MedicationLog>> watchMedsInRange(String from, String to) =>
+      (select(medicationLogs)
+            ..where((t) => t.date.isBetweenValues(from, to))
+            ..orderBy([(t) => _desc(t.date), (t) => _asc(t.time)]))
+          .watch();
   Stream<List<HealthEvent>> watchEvents({HealthEventType? type}) {
     final q = select(healthEvents)..orderBy([(t) => _desc(t.date)]);
     if (type != null) q.where((t) => t.type.equalsValue(type));

@@ -67,6 +67,74 @@ class SinglePhotoField extends StatelessWidget {
   }
 }
 
+/// A multi-photo (0–many) attachment field: a wrap of thumbnails (each with a
+/// remove badge) followed by an "add more" dashed tile.
+class MultiPhotoField extends StatelessWidget {
+  const MultiPhotoField({
+    super.key,
+    required this.photos,
+    required this.svc,
+    required this.onAdd,
+    required this.onRemove,
+    this.addLabel = 'Добави снимки',
+  });
+
+  final List<Attachment> photos;
+  final AttachmentService svc;
+  final VoidCallback onAdd;
+  final void Function(Attachment) onRemove;
+  final String addLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    if (photos.isEmpty) return PhotoAdd(label: addLabel, multi: true, onTap: onAdd);
+    return Wrap(
+      spacing: 10,
+      runSpacing: 10,
+      children: [
+        for (final a in photos)
+          Stack(
+            children: [
+              AttachmentThumb(svc: svc, attachment: a, size: 84),
+              Positioned(
+                top: 4,
+                right: 4,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => onRemove(a),
+                  child: Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.6),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child:
+                        const LmIcon(LmIcons.close, size: 14, color: AppColors.text),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onAdd,
+          child: Container(
+            width: 84,
+            height: 84,
+            decoration: BoxDecoration(
+              color: const Color(0x05FFFFFF),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.borderHi),
+            ),
+            child: const LmIcon(LmIcons.plus, size: 22, color: AppColors.textFaint),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 /// A rounded attachment thumbnail; tapping opens the full image in a viewer.
 class AttachmentThumb extends StatelessWidget {
   const AttachmentThumb({

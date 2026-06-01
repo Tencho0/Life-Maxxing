@@ -17,6 +17,7 @@ import '../dev/dev_home.dart';
 import '../presentation/activities/activity_screen.dart';
 import '../presentation/finance/finance_screen.dart';
 import '../presentation/food/food_screen.dart';
+import '../presentation/health/health_screen.dart';
 import '../presentation/steps/steps_screen.dart';
 import 'sheets.dart';
 
@@ -56,6 +57,7 @@ Widget _moduleScreen((String, String) m) => switch (m.$1) {
       '/food' => const FoodScreen(),
       '/activities' => const ActivityScreen(),
       '/steps' => const StepsScreen(),
+      '/health' => const HealthScreen(),
       _ => _Placeholder(m.$2, back: true),
     };
 
