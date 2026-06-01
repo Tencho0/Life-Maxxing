@@ -190,11 +190,11 @@
 - [x] Extracted shared `SinglePhotoField` (`presentation/common/photo_field.dart`); Food refactored to reuse it.
 - **Verify:** ✅ analyze clean; full suite green (108). Photo pipeline device-verified (§7.2).
 
-### Slice 7.5 — Steps
-- [ ] Steps screen: today `Ring`, stats (avg/max/total/days), steps-by-day chart, recent days list with provenance.
-- [ ] Steps sheet (date, count*, note) CRUD via `StepsService`.
-- [ ] Tests: one-per-date; edit only here; provenance label.
-- **Verify:** add/edit steps; chart + stats update; provenance shows correctly.
+### Slice 7.5 — Steps ✅ (commit e00fcb3)
+- [x] Steps screen: today `Ring` (toward a 10k reference goal), stats (total/avg/max/days), steps-by-day chart, recent days list with provenance, period chips.
+- [x] Steps sheet (date, count*, note) create/edit/delete via `StepsService` (edit-in-place per date, source preserved).
+- [x] Tests (6): one-value-per-date + steps-module edit preserves daily provenance (edit-only-here); provenance labels; count required; saves (source=stepsModule); summary over range; screen renders from seed.
+- **Verify:** ✅ analyze clean; full suite green (114).
 
 ### Slice 7.6 — Health (tabbed: Кръвно / Добавки / Събития / Изследвания)
 - [ ] Providers: BP logs + meds + events + labs; health summary (last BP/pulse, averages, counts, last dental/lab).
