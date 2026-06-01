@@ -197,6 +197,13 @@ class AttachmentService {
     }
   }
 
+  /// Resolve a stored relative (posix) path to an absolute, native-separator
+  /// path under the app documents dir — for displaying an attachment's image.
+  Future<String> absolutePath(String relativePath) async {
+    final base = await _docsDir();
+    return p.join(base.path, p.joinAll(p.posix.split(relativePath)));
+  }
+
   // ── Internals ──────────────────────────────────────────────────────
 
   /// Single-cardinality (entity, role) pairs: replacing deletes the old file.

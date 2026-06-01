@@ -15,6 +15,7 @@ import '../core/widgets/lm_row.dart';
 import '../core/widgets/screen_body.dart';
 import '../dev/dev_home.dart';
 import '../presentation/finance/finance_screen.dart';
+import '../presentation/food/food_screen.dart';
 import 'sheets.dart';
 
 final appRouter = GoRouter(
@@ -50,6 +51,7 @@ final appRouter = GoRouter(
 /// Real screen for a module route, or a placeholder until its slice lands.
 Widget _moduleScreen((String, String) m) => switch (m.$1) {
       '/finance' => const FinanceScreen(),
+      '/food' => const FoodScreen(),
       _ => _Placeholder(m.$2, back: true),
     };
 
