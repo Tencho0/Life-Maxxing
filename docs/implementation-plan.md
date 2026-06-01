@@ -148,9 +148,10 @@
 
 ## Phase 6 — Dev seed (review aid)
 
-### Slice 6.1 — Seed helper (debug-only)
-- [ ] `dev/seed.dart` — inserts realistic Bulgarian sample data across all tables (mirrors the prototype's `data.jsx`), invoked from a debug menu action; **not** shipped in release.
-- **Verify:** running seed populates the DB; subsequent feature screens can be reviewed populated.
+### Slice 6.1 — Seed helper (debug-only) ✅ (commit 60fb1db)
+- [x] `dev/seed.dart` — `seedDatabase` (~30 days across all modules, respects one-per-day + CHECK constraints) + `clearAll`, anchored to `today`. `dev/seed_panel.dart` is the DevHome "Данни" tab (load/clear).
+- [x] Tests: every module populated, idempotent (clear-then-seed → 30 not 60), search + finance summary over seeded data, `clearAll` empties.
+- **Verify:** ✅ analyze clean, 85 tests. Feature screens can now be reviewed populated. **Phase 6 complete.**
 
 ---
 
