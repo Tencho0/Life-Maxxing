@@ -92,12 +92,12 @@
 - [x] Unit tests: round-trip every code; unknown→null/fallback; group derivation; spec income categories.
 - **Verify:** ✅ analyze clean, 6 tests pass.
 
-### Slice 3.2 — Tables + database
-- [ ] `data/tables/*.dart` — all 15 tables per spec §3.3 (TEXT dates, `amountCents`/`priceCents`, `*Lower` shadow columns, BP `systolic>diastolic` check, `daily_logs`/`steps` `UNIQUE(date)`, trips `toDate>=fromDate` check, attachments + index, `bucket_experiences` FK `ON DELETE CASCADE`).
-- [ ] `data/database.dart` — `@DriftDatabase`, `schemaVersion=1`, `MigrationStrategy`, `beforeOpen` → `PRAGMA foreign_keys = ON`.
-- [ ] `dart run build_runner build` generates cleanly.
-- [ ] Test: open in-memory DB; FK enforcement on; CHECK constraints reject bad rows (sys≤dia, trip date order); `UNIQUE(date)` rejects 2nd daily/steps row.
-- **Verify:** generated code compiles; constraint tests pass.
+### Slice 3.2 — Tables + database ✅ (commit c1180c4)
+- [x] `data/tables/*.dart` — all 14 table classes (15 tables; Expenses+Income share finance.dart): TEXT dates, `amountCents`/`priceCents`, `*Lower` columns, BP `systolic>diastolic` + positive checks, `daily_logs`/`steps` `UNIQUE(date)`, trip `toDate>=fromDate` check, mood/feeling 1–10 checks, attachments + index, `bucket_experiences` FK `ON DELETE CASCADE`.
+- [x] `data/database.dart` — `@DriftDatabase` v1, `MigrationStrategy`, `beforeOpen` → `PRAGMA foreign_keys = ON`. `build.yaml`: DateTime stored as ISO-8601 text.
+- [x] `build_runner` generates cleanly (`database.g.dart`).
+- [x] Tests (in-memory sqlite): FK enforce + cascade, CHECK rejects (sys≤dia, amount 0, trip order, mood 11), `UNIQUE(date)` rejects dup daily/steps, DateTime round-trips as text.
+- **Verify:** ✅ analyze clean, 11 db tests pass (42 total).
 
 ### Slice 3.3 — DAOs: CRUD + `*Lower` companion mapping
 - [ ] One DAO per module + `AttachmentDao`.
