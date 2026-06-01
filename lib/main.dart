@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'core/theme/theme.dart';
-import 'dev/gallery.dart';
+import 'dev/dev_home.dart';
 
 void main() => runApp(const LifeMaxxingApp());
 
@@ -14,9 +14,9 @@ class LifeMaxxingApp extends StatelessWidget {
       title: 'LifeMaxxing',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.dark,
-      // TEMP (Phase 1): design-system gallery. Replaced by the router shell
-      // in Phase 5 (see docs/implementation-plan.md).
-      home: const Gallery(),
+      // TEMP (Phase 1–2): design-system gallery + component catalog. Replaced
+      // by the router shell in Phase 5 (see docs/implementation-plan.md).
+      home: const DevHome(),
     );
   }
 }
