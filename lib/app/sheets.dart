@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../core/theme/tokens.dart';
 import '../core/theme/typography.dart';
 import '../core/icons/lm_icons.dart';
+import '../presentation/activities/activity_forms.dart';
 import '../presentation/finance/finance_forms.dart';
 import '../presentation/food/food_forms.dart';
 
@@ -65,6 +66,9 @@ void openFormSheet(BuildContext context, String type) {
   switch (type) {
     case 'food':
       showFoodSheet(context);
+      return;
+    case 'activity':
+      showActivitySheet(context);
       return;
     case 'expense':
       showExpenseSheet(context);

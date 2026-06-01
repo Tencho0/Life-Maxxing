@@ -1,8 +1,8 @@
-// Meal create+edit form (bottom sheet). Writes through MealsDao; a single
-// optional photo (role=photo) is added/removed via AttachmentService. The meal
-// id is stable for the form's lifetime so a photo can be attached before the
-// row is saved; if a NEW meal is abandoned without saving, its orphan photo is
-// cleaned up on dispose (spec §6, technical-spec §5.1).
+// Activity create+edit form (bottom sheet). Writes through ActivitiesDao; a
+// single optional photo (role=photo) is added/removed via AttachmentService
+// with the same stable-id + abandon-cleanup pattern as the Food form. Required:
+// date + type only; name and the rest are optional (spec §7.2/§7.4). Duration,
+// when present, must be > 0.
 
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
@@ -17,12 +17,13 @@ import '../../core/theme/typography.dart';
 import '../../core/widgets/field.dart';
 import '../../core/widgets/lm_button.dart';
 import '../../core/widgets/lm_toast.dart';
+import '../../core/widgets/scale10.dart';
 import '../../core/widgets/segmented.dart';
 import '../../data/database.dart';
 import '../../domain/enums.dart';
 import '../../services/attachment_service.dart';
 import '../common/photo_field.dart';
-import 'food_providers.dart';
+import 'activity_providers.dart';
 
 String _ymd(DateTime d) =>
     '${d.year.toString().padLeft(4, '0')}-'
@@ -31,44 +32,34 @@ String _ymd(DateTime d) =>
 
 DateTime _parseYmd(String s) => DateTime.parse(s);
 
-int? _parseInt(String t) {
-  final s = t.trim();
-  return s.isEmpty ? null : int.tryParse(s);
-}
-
-double? _parseDouble(String t) {
-  final s = t.trim().replaceAll(',', '.');
-  return s.isEmpty ? null : double.tryParse(s);
-}
-
-void showFoodSheet(BuildContext context, {Meal? existing}) {
+void showActivitySheet(BuildContext context, {Activity? existing}) {
   showLmSheet(
     context,
-    title: existing == null ? 'Ново хранене' : 'Редакция на хранене',
-    subtitle: 'дата и име са задължителни',
-    child: _FoodForm(existing: existing),
+    title: existing == null ? 'Нова активност' : 'Редакция на активност',
+    subtitle: 'дата и тип са задължителни',
+    child: _ActivityForm(existing: existing),
   );
 }
 
-class _FoodForm extends ConsumerStatefulWidget {
-  const _FoodForm({this.existing});
-  final Meal? existing;
+class _ActivityForm extends ConsumerStatefulWidget {
+  const _ActivityForm({this.existing});
+  final Activity? existing;
   @override
-  ConsumerState<_FoodForm> createState() => _FoodFormState();
+  ConsumerState<_ActivityForm> createState() => _ActivityFormState();
 }
 
-class _FoodFormState extends ConsumerState<_FoodForm> {
+class _ActivityFormState extends ConsumerState<_ActivityForm> {
   late final TextEditingController _name;
-  late final TextEditingController _time;
-  late final TextEditingController _cals;
-  late final TextEditingController _protein;
-  late final TextEditingController _carbs;
-  late final TextEditingController _fat;
-  late final TextEditingController _quantity;
+  late final TextEditingController _start;
+  late final TextEditingController _end;
+  late final TextEditingController _duration;
   late final TextEditingController _note;
-  late MealType _type;
+  late ActivityType _type;
+  Intensity? _intensity;
+  int? _quality;
+  int? _moodAfter;
   late DateTime _date;
-  late final String _mealId;
+  late final String _id;
   late final AttachmentService _svc;
   List<Attachment> _photos = const [];
   bool _committed = false;
@@ -79,23 +70,22 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
     super.initState();
     final e = widget.existing;
     _name = TextEditingController(text: e?.name ?? '');
-    _time = TextEditingController(text: e?.time ?? '');
-    _cals = TextEditingController(text: e?.calories?.toString() ?? '');
-    _protein = TextEditingController(text: e?.protein?.toString() ?? '');
-    _carbs = TextEditingController(text: e?.carbs?.toString() ?? '');
-    _fat = TextEditingController(text: e?.fat?.toString() ?? '');
-    _quantity = TextEditingController(text: e?.quantity ?? '');
+    _start = TextEditingController(text: e?.startTime ?? '');
+    _end = TextEditingController(text: e?.endTime ?? '');
+    _duration = TextEditingController(text: e?.durationMin?.toString() ?? '');
     _note = TextEditingController(text: e?.note ?? '');
-    _type = e?.type ?? MealType.lunch;
+    _type = e?.type ?? ActivityType.gym;
+    _intensity = e?.intensity;
+    _quality = e?.quality;
+    _moodAfter = e?.moodAfter;
     _date = e != null ? _parseYmd(e.date) : DateTime.now();
-    _mealId = e?.id ?? const Uuid().v4();
+    _id = e?.id ?? const Uuid().v4();
     _svc = ref.read(attachmentServiceProvider);
     if (e != null) _loadPhotos();
   }
 
   @override
   void dispose() {
-    // Abandoned new meal with an attached photo → remove the orphan files/rows.
     if (!_committed && widget.existing == null && _photos.isNotEmpty) {
       final svc = _svc;
       final orphans = List<Attachment>.of(_photos);
@@ -108,12 +98,9 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
       });
     }
     _name.dispose();
-    _time.dispose();
-    _cals.dispose();
-    _protein.dispose();
-    _carbs.dispose();
-    _fat.dispose();
-    _quantity.dispose();
+    _start.dispose();
+    _end.dispose();
+    _duration.dispose();
     _note.dispose();
     super.dispose();
   }
@@ -122,14 +109,14 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
     final ps = await ref
         .read(databaseProvider)
         .attachmentsDao
-        .forEntity(AttachmentEntity.meal, _mealId);
+        .forEntity(AttachmentEntity.activity, _id);
     if (mounted) setState(() => _photos = ps);
   }
 
   Future<void> _addPhoto() async {
     final a = await _svc.pickAndAdd(
-      entity: AttachmentEntity.meal,
-      entityId: _mealId,
+      entity: AttachmentEntity.activity,
+      entityId: _id,
       role: AttachmentRole.photo,
     );
     if (a != null) await _loadPhotos();
@@ -141,25 +128,31 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
   }
 
   Future<void> _save() async {
-    if (_name.text.trim().isEmpty) {
-      setState(() => _error = 'Името е задължително');
-      return;
+    final durText = _duration.text.trim();
+    int? dur;
+    if (durText.isNotEmpty) {
+      dur = int.tryParse(durText);
+      if (dur == null || dur <= 0) {
+        setState(() => _error = 'Времетраенето трябва да е > 0');
+        return;
+      }
     }
-    final dao = ref.read(mealsDaoProvider);
+    final dao = ref.read(activitiesDaoProvider);
     final nowUtc = DateTime.now().toUtc();
-    await dao.save(MealsCompanion(
-      id: Value(_mealId),
+    String? t(TextEditingController c) =>
+        c.text.trim().isEmpty ? null : c.text.trim();
+    await dao.save(ActivitiesCompanion(
+      id: Value(_id),
       date: Value(_ymd(_date)),
-      time: Value(_time.text.trim().isEmpty ? null : _time.text.trim()),
-      name: Value(_name.text.trim()),
       type: Value(_type),
-      quantity:
-          Value(_quantity.text.trim().isEmpty ? null : _quantity.text.trim()),
-      calories: Value(_parseInt(_cals.text)),
-      protein: Value(_parseDouble(_protein.text)),
-      carbs: Value(_parseDouble(_carbs.text)),
-      fat: Value(_parseDouble(_fat.text)),
-      note: Value(_note.text.trim().isEmpty ? null : _note.text.trim()),
+      name: Value(t(_name)),
+      startTime: Value(t(_start)),
+      endTime: Value(t(_end)),
+      durationMin: Value(dur),
+      intensity: Value(_intensity),
+      quality: Value(_quality),
+      moodAfter: Value(_moodAfter),
+      note: Value(t(_note)),
       createdAt: Value(widget.existing?.createdAt ?? nowUtc),
       updatedAt: Value(nowUtc),
     ));
@@ -171,8 +164,8 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
   }
 
   Future<void> _delete() async {
-    await _svc.deleteAllForEntity(AttachmentEntity.meal, _mealId);
-    await ref.read(mealsDaoProvider).deleteById(_mealId);
+    await _svc.deleteAllForEntity(AttachmentEntity.activity, _id);
+    await ref.read(activitiesDaoProvider).deleteById(_id);
     _committed = true;
     if (mounted) {
       Navigator.pop(context);
@@ -186,89 +179,79 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Field(
-          label: 'Тип хранене',
+          label: 'Тип активност',
           required: true,
           child: Segmented(
-            options: MealType.values.map((t) => t.label).toList(),
+            options: ActivityType.values.map((t) => t.label).toList(),
             value: _type.label,
-            onChanged: (l) => setState(
-                () => _type = MealType.values.firstWhere((t) => t.label == l)),
+            onChanged: (l) => setState(() =>
+                _type = ActivityType.values.firstWhere((t) => t.label == l)),
           ),
         ),
         Field(
           label: 'Име / описание',
-          required: true,
-          child: LmInput(controller: _name, hintText: 'напр. Пилешко с ориз'),
+          child: LmInput(controller: _name, hintText: 'напр. Гръб и бицепс'),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Field(
-                label: 'Час',
-                child: LmInput(controller: _time, hintText: '13:25'),
+                label: 'Начало',
+                child: LmInput(controller: _start, hintText: '18:30'),
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: Field(
-                label: 'Калории',
-                hint: 'kcal',
+                label: 'Край',
+                child: LmInput(controller: _end, hintText: '19:35'),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Field(
+                label: 'Мин.',
                 child: LmInput(
-                  controller: _cals,
-                  hintText: '680',
+                  controller: _duration,
+                  hintText: '65',
                   keyboardType: TextInputType.number,
                 ),
               ),
             ),
           ],
         ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Field(
-                label: 'Протеин',
-                child: LmInput(
-                  controller: _protein,
-                  hintText: 'г',
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Field(
-                label: 'Въглехид.',
-                child: LmInput(
-                  controller: _carbs,
-                  hintText: 'г',
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Field(
-                label: 'Мазнини',
-                child: LmInput(
-                  controller: _fat,
-                  hintText: 'г',
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-              ),
-            ),
-          ],
+        Field(
+          label: 'Интензивност',
+          child: Segmented(
+            columns: 3,
+            options: Intensity.values.map((i) => i.label).toList(),
+            value: _intensity?.label ?? '',
+            onChanged: (l) => setState(() =>
+                _intensity = Intensity.values.firstWhere((i) => i.label == l)),
+          ),
         ),
         Field(
-          label: 'Количество',
-          child: LmInput(controller: _quantity, hintText: 'напр. 1 купа'),
+          label: 'Продуктивност / качество',
+          child: Scale10(
+            value: _quality,
+            color: AppColors.accent,
+            onChanged: (v) => setState(() => _quality = v),
+          ),
         ),
-        _DateField(date: _date, onPick: (d) => setState(() => _date = d)),
+        Field(
+          label: 'Настроение след',
+          child: Scale10(
+            value: _moodAfter,
+            color: AppColors.green,
+            onChanged: (v) => setState(() => _moodAfter = v),
+          ),
+        ),
         Field(
           label: 'Бележка',
           child: LmTextArea(controller: _note, hintText: 'незадължително'),
         ),
+        _DateField(date: _date, onPick: (d) => setState(() => _date = d)),
         Field(
           label: 'Снимка',
           child: SinglePhotoField(
@@ -294,7 +277,6 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
   }
 }
 
-// ── Shared sub-widgets ──────────────────────────────────────────────
 class _DateField extends StatelessWidget {
   const _DateField({required this.date, required this.onPick});
   final DateTime date;
