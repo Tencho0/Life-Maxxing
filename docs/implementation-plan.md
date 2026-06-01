@@ -196,13 +196,14 @@
 - [x] Tests (6): one-value-per-date + steps-module edit preserves daily provenance (edit-only-here); provenance labels; count required; saves (source=stepsModule); summary over range; screen renders from seed.
 - **Verify:** ✅ analyze clean; full suite green (114).
 
-### Slice 7.6 — Health (tabbed: Кръвно / Добавки / Събития / Изследвания)
-- [ ] Providers: BP logs + meds + events + labs; health summary (last BP/pulse, averages, counts, last dental/lab).
-- [ ] Health screen: vitals cards, BP-over-time chart, tabbed history; per-tab `+`.
-- [ ] BP sheet (date/time/sys/dia/pulse* + note; live sys>dia validation), Med sheet (name/type/time/dose/status; Да=Прието), Health-event sheet (type/subtype/clinic/reason/whatWasDone*/price/next date/note + photos), Lab sheet (date/lab*/reason*/resultsText/photos). CRUD each.
-- [ ] Wire event/lab photos (0–many) via `AttachmentService`.
-- [ ] Tests: BP constraint; multiple BP per day; dental subtype only for dentist; summary averages; "next dental" surfacing.
-- **Verify:** add BP twice in one day; add a lab with 2 photos; charts/averages update.
+### Slice 7.6 — Health (tabbed: Кръвно / Добавки / Събития / Изследвания) ✅ (commit 5306392)
+- [x] Providers: BP + meds (range) + events + labs (all) streams → combined health summary (last BP/pulse, averages, counts, last dental/lab); `HealthDao.watchMedsInRange` added.
+- [x] Health screen: vitals card (last/avg BP + pulse, next-dental surfacing), BP-over-time sparklines (sys + dia), 4-tab history, per-tab `+`.
+- [x] BP sheet (numeric sys/dia/pulse, live sys>dia validation), Med sheet (name/type/time/dose/status), Health-event sheet (type/dentist-only subtype/clinic/reason/whatWasDone*/price/next date/note + 0–many photos), Lab sheet (lab*/reason*/results/0–many photos). CRUD each.
+- [x] Event/lab photos (0–many) via `AttachmentService` (`MultiPhotoField` + `PhotoFormMixin` abandon-cleanup).
+- [x] Tests (7): BP rejects sys≤dia then saves; multiple BP per day; dental subtype only for dentist; summary last-BP + averages; nextDentalDate surfacing; lab requires lab+reason; screen renders from seed.
+- **Verify:** ✅ analyze clean; full suite green (121). Event/lab photo IO device-verified (§7.2).
+- *Deviations:* numeric BP inputs (steppers impractical for 3-digit values); med status uses Прието/Пропуснато labels (not Да/Не).
 
 ### Slice 7.7 — Daily Quick Log
 - [ ] Provider: log by date; create-or-open existing (uniqueness).
