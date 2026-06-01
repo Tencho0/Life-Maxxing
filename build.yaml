@@ -1,0 +1,8 @@
+# drift codegen options. Store DateTime columns (createdAt/updatedAt) as
+# ISO-8601 TEXT to match docs/technical-spec.md §3.1.
+targets:
+  $default:
+    builders:
+      drift_dev:
+        options:
+          store_date_time_values_as_text: true
