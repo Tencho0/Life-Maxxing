@@ -106,12 +106,13 @@
 - [x] Tests: lower mapping (Cyrillic upper→lower), CRUD round-trip, stream emits on insert.
 - **Verify:** ✅ analyze clean, 6 DAO tests pass (48 total).
 
-### Slice 3.4 — DAOs: search, filter, aggregates
-- [ ] Per-module list queries with filter params (date/period, category, type, status, priority, feeling, worthIt, rating, wouldRepeat — spec §24.3).
-- [ ] Cyrillic-safe search queries against `*Lower` columns (Dart-lowercased query).
-- [ ] Aggregate queries: per-module period summaries, daily summary (§27), monthly summary (§28), finance/health/bucket/trip stats.
-- [ ] Tests: search matches Cyrillic case-insensitively; filters; aggregate math (sums ignore NULLs per §6.6); daily/monthly summaries.
-- **Verify:** tests pass.
+### Slice 3.4 — DAOs: search, filter, aggregates ✅ (commit 85814fd)
+- [x] Range/filter queries on all module DAOs; consolidated `FinanceDao`/`HealthDao`/`BucketDao` for cross-table reads.
+- [x] `SearchDao` — Cyrillic-safe global search (`LIKE` over `*Lower`, Dart-lowercased query) → `SearchHit`s across 11 modules.
+- [x] Per-module aggregate `summary()` methods → typed DTOs. **DTOs (`domain/summaries.dart`) defined here** (pulled forward from 4.1); pure null-safe compute in `data/summaries.dart` (EUR cents).
+- [x] Tests: finance/food/activity/steps/health/daily/bucket/trip math (NULL-ignoring, averages, top-category, last-by-time), Cyrillic search across modules, category/status/repeat filters.
+- **Verify:** ✅ analyze clean, 15 new tests (63 total).
+- **Deferred:** cross-module daily-date composite (§27) and monthly composite (§28) are thin compositions of these summaries — built in the Daily/Stats feature slices. Trip stats currently span all trips (period filtering added when the Trips screen needs it).
 
 ### Slice 3.5 — Steps↔Daily shared-metric service
 - [ ] `StepsService` with `upsertFromDaily(date,count)` (create only if absent) and `editFromStepsModule(...)`; read-by-date.
@@ -122,9 +123,10 @@
 
 ## Phase 4 — Domain logic
 
-### Slice 4.1 — Period + summary DTOs
-- [ ] `domain/period.dart` — `Period` enum + `resolveRange(period, {custom})` → `(fromYmd, toYmd)` strings (today/7/30/this-month/prev-month/custom), using local date, zero-padded.
-- [ ] `domain/summaries.dart` — typed DTOs (FinanceSummary, HealthSummary, FoodSummary, ActivitySummary, StepsSummary, DailySummary, BucketSummary, TripSummary, MonthlySummary).
+### Slice 4.1 — Period range resolution
+- [x] `Period` enum (+ chip labels) — done in Slice 3.1 (`domain/enums.dart`).
+- [x] Summary DTOs (`domain/summaries.dart`) — done in Slice 3.4.
+- [ ] `domain/period.dart` — `resolveRange(period, {customFrom, customTo})` → `(fromYmd, toYmd)` strings (today/7/30/this-month/prev-month/custom), local date, zero-padded. Takes a "today" anchor for testability.
 - [ ] Tests: range resolution incl. month boundaries and prev-month; custom range.
 - **Verify:** tests pass.
 
