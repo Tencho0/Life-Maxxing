@@ -17,6 +17,7 @@ import '../dev/dev_home.dart';
 import '../presentation/activities/activity_screen.dart';
 import '../presentation/finance/finance_screen.dart';
 import '../presentation/food/food_screen.dart';
+import '../presentation/steps/steps_screen.dart';
 import 'sheets.dart';
 
 final appRouter = GoRouter(
@@ -54,6 +55,7 @@ Widget _moduleScreen((String, String) m) => switch (m.$1) {
       '/finance' => const FinanceScreen(),
       '/food' => const FoodScreen(),
       '/activities' => const ActivityScreen(),
+      '/steps' => const StepsScreen(),
       _ => _Placeholder(m.$2, back: true),
     };
 

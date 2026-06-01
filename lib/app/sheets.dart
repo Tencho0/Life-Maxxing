@@ -11,6 +11,7 @@ import '../core/icons/lm_icons.dart';
 import '../presentation/activities/activity_forms.dart';
 import '../presentation/finance/finance_forms.dart';
 import '../presentation/food/food_forms.dart';
+import '../presentation/steps/steps_forms.dart';
 
 /// One quick-log action (spec §5.2). The first four are the mandatory ones.
 class QuickAction {
@@ -69,6 +70,9 @@ void openFormSheet(BuildContext context, String type) {
       return;
     case 'activity':
       showActivitySheet(context);
+      return;
+    case 'steps':
+      showStepsSheet(context);
       return;
     case 'expense':
       showExpenseSheet(context);
