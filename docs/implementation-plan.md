@@ -128,9 +128,9 @@
 ### Slice 4.1 — Period range resolution
 - [x] `Period` enum (+ chip labels) — done in Slice 3.1 (`domain/enums.dart`).
 - [x] Summary DTOs (`domain/summaries.dart`) — done in Slice 3.4.
-- [ ] `domain/period.dart` — `resolveRange(period, {customFrom, customTo})` → `(fromYmd, toYmd)` strings (today/7/30/this-month/prev-month/custom), local date, zero-padded. Takes a "today" anchor for testability.
-- [ ] Tests: range resolution incl. month boundaries and prev-month; custom range.
-- **Verify:** tests pass.
+- [x] `domain/period.dart` — `resolveRange(period, {today, customFrom, customTo})` → `DateRange` (yyyy-MM-dd); DST-safe constructor math; `today` anchor. (commit 5794e21)
+- [x] Tests (12): inclusivity, month/year boundaries, leap Feb, zero-padding, custom + throws.
+- **Verify:** ✅ analyze clean, 82 tests total. **Phase 4 complete.**
 
 ---
 
