@@ -175,12 +175,12 @@
 - [x] Tests (8): write+metadata; pipeline params (1600/Q80 + 320/Q70) + thumb smaller; cardinality (replace deletes old file); many append/sortOrder; trip cover+gallery coexist; delete removes files; bucket cascade leaves no orphans.
 - **Verify:** ✅ analyze clean; full suite green (97). VM tests exercise real file IO (temp dir) with a faked image step; real `flutter_image_compress` codec is device-only (isolated in `FlutterImageProcessor`).
 
-### Slice 7.3 — Food
-- [ ] Providers: meals by date/period + food summary (cals/macros/day, by type) + daily totals (§6.6).
-- [ ] Food screen: calories `Ring` + macro bars, calories-by-day chart, meals list.
-- [ ] Food sheet (type, name*, time, cals/macros, note, 0–1 photo) create+edit+delete; photo add/remove via `AttachmentService`.
-- [ ] Tests: daily totals ignore NULLs; required date+name; search by name/note.
-- **Verify:** log a meal with a photo; daily totals + charts update; photo shows as thumb then full.
+### Slice 7.3 — Food ✅ (commit 13836ce)
+- [x] Providers: meals by date/period (`foodMealsProvider`) + food summary (cals/macros/day, by type) + reactive daily totals (`foodDailyTotalsProvider`, §6.6).
+- [x] Food screen: calories `Ring` (avg/day, scaled to the period's peak day) + macro bars, calories-by-day chart, meals list (tap to edit), period chips.
+- [x] Food sheet (type, name*, time, quantity, cals/macros, note, 0–1 photo) create+edit+delete; photo add/remove via `AttachmentService` (stable id; abandoned-new-meal photo cleaned on dispose); thumb→full viewer.
+- [x] Tests (6): daily totals ignore NULLs; summary reflects range; required name; save (calories+macros+`*Lower`); search by name/note; screen renders from seed.
+- **Verify:** ✅ analyze clean; full suite green (103). Photo pipeline (pick→compress→thumb→display) is device-verified (AttachmentService faked in unit tests, §7.2).
 
 ### Slice 7.4 — Activities
 - [ ] Providers: activities by date/period + activity summary (counts by group, total time, most-frequent, avg duration).
