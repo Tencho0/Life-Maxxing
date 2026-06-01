@@ -15,6 +15,7 @@ import '../core/widgets/lm_row.dart';
 import '../core/widgets/screen_body.dart';
 import '../dev/dev_home.dart';
 import '../presentation/activities/activity_screen.dart';
+import '../presentation/daily/daily_screen.dart';
 import '../presentation/finance/finance_screen.dart';
 import '../presentation/food/food_screen.dart';
 import '../presentation/health/health_screen.dart';
@@ -58,6 +59,7 @@ Widget _moduleScreen((String, String) m) => switch (m.$1) {
       '/activities' => const ActivityScreen(),
       '/steps' => const StepsScreen(),
       '/health' => const HealthScreen(),
+      '/daily' => const DailyScreen(),
       _ => _Placeholder(m.$2, back: true),
     };
 

@@ -4,15 +4,19 @@
 // real create/edit forms.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/theme/tokens.dart';
 import '../core/theme/typography.dart';
 import '../core/icons/lm_icons.dart';
 import '../presentation/activities/activity_forms.dart';
+import '../presentation/daily/daily_forms.dart';
+import '../presentation/daily/daily_providers.dart';
 import '../presentation/finance/finance_forms.dart';
 import '../presentation/food/food_forms.dart';
 import '../presentation/health/health_forms.dart';
 import '../presentation/steps/steps_forms.dart';
+import '../presentation/steps/steps_providers.dart' show stepsDaoProvider;
 
 /// One quick-log action (spec §5.2). The first four are the mandatory ones.
 class QuickAction {
@@ -204,9 +208,23 @@ class _SheetShell extends StatelessWidget {
   }
 }
 
-class _QuickGrid extends StatelessWidget {
+/// Opens today's daily log, resolving the existing log + steps first so the
+/// form reuses the right id (no duplicate) and shows steps locked when present.
+Future<void> openDailyToday(BuildContext context, WidgetRef ref) async {
+  final now = DateTime.now();
+  final today = '${now.year.toString().padLeft(4, '0')}-'
+      '${now.month.toString().padLeft(2, '0')}-'
+      '${now.day.toString().padLeft(2, '0')}';
+  final log = await ref.read(dailyLogsDaoProvider).getByDate(today);
+  final steps = await ref.read(stepsDaoProvider).getByDate(today);
+  if (context.mounted) {
+    showDailySheet(context, date: today, existing: log, existingSteps: steps);
+  }
+}
+
+class _QuickGrid extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GridView.count(
       crossAxisCount: 2,
       shrinkWrap: true,
@@ -220,7 +238,11 @@ class _QuickGrid extends StatelessWidget {
             behavior: HitTestBehavior.opaque,
             onTap: () {
               Navigator.of(context).pop();
-              openFormSheet(context, q.id);
+              if (q.id == 'daily') {
+                openDailyToday(context, ref);
+              } else {
+                openFormSheet(context, q.id);
+              }
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),

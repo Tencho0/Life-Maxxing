@@ -276,6 +276,11 @@ class DailyLogsDao extends DatabaseAccessor<AppDatabase>
 
   Future<List<DailyLog>> inRange(String from, String to) =>
       (select(dailyLogs)..where((t) => t.date.isBetweenValues(from, to))).get();
+  Stream<List<DailyLog>> watchInRange(String from, String to) =>
+      (select(dailyLogs)
+            ..where((t) => t.date.isBetweenValues(from, to))
+            ..orderBy([(t) => _asc(t.date)]))
+          .watch();
   Future<DailyLogSummary> summary(String from, String to) async =>
       computeDailyLogs(await inRange(from, to));
 }
