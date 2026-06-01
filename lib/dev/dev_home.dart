@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../core/theme/tokens.dart';
 import 'gallery.dart';
 import 'catalog.dart';
+import 'seed_panel.dart';
 
 class DevHome extends StatelessWidget {
   const DevHome({super.key});
@@ -13,7 +14,7 @@ class DevHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         backgroundColor: AppColors.bg,
         body: SafeArea(
@@ -23,11 +24,15 @@ class DevHome extends StatelessWidget {
                 labelColor: AppColors.accent,
                 unselectedLabelColor: AppColors.textDim,
                 indicatorColor: AppColors.accent,
-                tabs: [Tab(text: 'Основи'), Tab(text: 'Компоненти')],
+                tabs: [
+                  Tab(text: 'Основи'),
+                  Tab(text: 'Компоненти'),
+                  Tab(text: 'Данни'),
+                ],
               ),
               const Expanded(
                 child: TabBarView(
-                  children: [Gallery(), ComponentCatalog()],
+                  children: [Gallery(), ComponentCatalog(), SeedPanel()],
                 ),
               ),
             ],
