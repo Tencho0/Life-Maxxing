@@ -114,10 +114,12 @@
 - **Verify:** ✅ analyze clean, 15 new tests (63 total).
 - **Deferred:** cross-module daily-date composite (§27) and monthly composite (§28) are thin compositions of these summaries — built in the Daily/Stats feature slices. Trip stats currently span all trips (period filtering added when the Trips screen needs it).
 
-### Slice 3.5 — Steps↔Daily shared-metric service
-- [ ] `StepsService` with `upsertFromDaily(date,count)` (create only if absent) and `editFromStepsModule(...)`; read-by-date.
-- [ ] Tests: daily can create when absent; daily cannot edit existing; steps module can edit; `source` recorded correctly; one row per date.
-- **Verify:** tests pass.
+### Slice 3.5 — Steps↔Daily shared-metric service ✅ (commit 0c6ffc9)
+- [x] `services/steps_service.dart`: `setFromDaily` (create-only/locked), `setFromStepsModule` (create or edit-in-place, preserves source+createdAt), `isLockedForDaily`, `forDate`, `deleteForDate`. Injectable id/clock.
+- [x] Tests: daily creates when absent + is locked otherwise; steps module edits in place; `source` provenance preserved on edit; one row per date; updatedAt bumped / createdAt preserved.
+- **Verify:** ✅ analyze clean, 7 tests pass (70 total).
+
+> **Phase 3 (data layer) complete** — enums/converters, 15-table schema with all constraints, DAOs with central `*Lower` mapping, search/filter/aggregates, and the steps shared-metric service. `flutter analyze` clean, 70 tests green, all on in-memory sqlite.
 
 ---
 
