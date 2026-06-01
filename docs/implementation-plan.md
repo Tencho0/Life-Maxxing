@@ -136,12 +136,13 @@
 
 ## Phase 5 — App shell & navigation
 
-### Slice 5.1 — Router + nav shell + sheet infra
-- [ ] `app/app.dart` (`ProviderScope` + `MaterialApp.router`), `app/router.dart` (`StatefulShellRoute.indexedStack` tabs + pushed routes from spec §4.2).
-- [ ] `LmBottomNav` (5 slots + center FAB) wired to shell branches; FAB opens quick sheet.
-- [ ] `app/sheets.dart` — `showLmSheet` wrapper + sheet registry keys (spec §4.3); placeholder sheet bodies for now.
-- [ ] Placeholder screens for every route (title only) so navigation is exercisable.
-- **Verify:** all tabs switch; every pushed route reachable; FAB opens the quick chooser; back works; toast displays.
+### Slice 5.1 — Router + nav shell + sheet infra ✅ (commit cd39313)
+- [x] `app/app.dart` (`ProviderScope` + `MaterialApp.router`), `app/router.dart` (**`ShellRoute`** with persistent bottom nav — single-stack, matches the prototype; `/dev` outside the shell). `app/providers.dart`: `databaseProvider`.
+- [x] `core/widgets/lm_bottom_nav.dart` — 5 slots + raised center FAB; tab taps `go`, modules `push`.
+- [x] `app/sheets.dart` — `showLmSheet` + quick-log chooser (7 actions) + `openFormSheet` registry (placeholder bodies until Phase 7).
+- [x] Placeholder screens for every route; More lists all module links + Dev.
+- **Verify:** ✅ widget test — tab switch, FAB chooser, module push + back. analyze clean, 82 tests. **Phase 5 complete.**
+- *Note:* used `ShellRoute` (single persistent navigator) rather than `StatefulShellRoute` to match the prototype's reset-on-tab, persistent-bottom-nav model.
 
 ---
 
