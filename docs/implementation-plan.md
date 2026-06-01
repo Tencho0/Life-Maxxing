@@ -168,12 +168,12 @@
 - **Verify:** ✅ analyze clean; full suite green (89). Add/edit/delete updates numbers + charts live.
 - *Deferred:* the design's radial FAB (`FinRadial`) is a simple expense/income chooser sheet for V1.
 
-### Slice 7.2 — AttachmentService (+ image pipeline)
-- [ ] `AttachmentService`: pick (image_picker) → compress ≤1600px/Q80 → ~320px thumb → write full+thumb under `attachments/<folder>/` → insert row (paths, size, dims, sortOrder, role).
-- [ ] Cardinality rules (meal/activity/daily=single, trip cover=single+gallery=many, events/labs/bucket=many).
-- [ ] Delete routes files+rows; bucket-item delete also removes its experience's files (spec §5.1).
-- [ ] Tests: compression bounds; thumb generated; cardinality (replace deletes old file); delete removes files; bucket cascade file cleanup leaves no orphans.
-- **Verify:** tests pass on device/emulator (real file IO).
+### Slice 7.2 — AttachmentService (+ image pipeline) ✅ (commit 8f9fbbe)
+- [x] `AttachmentService`: pick (image_picker) → compress ≤1600px/Q80 → ~320px thumb → write full+thumb under `attachments/<folder>/` → insert row (paths, size, dims, sortOrder, role). Image step behind an `ImageProcessor` interface (`FlutterImageProcessor` real / fake in tests).
+- [x] Cardinality rules (meal/activity/daily=single, trip cover=single+gallery=many, events/labs/bucket=many); single roles replace + delete old files.
+- [x] Delete routes files+rows (`removeAttachment`/`deleteAllForEntity`); `deleteForBucketItem` also removes its experience's files (spec §5.1).
+- [x] Tests (8): write+metadata; pipeline params (1600/Q80 + 320/Q70) + thumb smaller; cardinality (replace deletes old file); many append/sortOrder; trip cover+gallery coexist; delete removes files; bucket cascade leaves no orphans.
+- **Verify:** ✅ analyze clean; full suite green (97). VM tests exercise real file IO (temp dir) with a faked image step; real `flutter_image_compress` codec is device-only (isolated in `FlutterImageProcessor`).
 
 ### Slice 7.3 — Food
 - [ ] Providers: meals by date/period + food summary (cals/macros/day, by type) + daily totals (§6.6).
