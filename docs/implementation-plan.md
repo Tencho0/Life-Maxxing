@@ -213,14 +213,15 @@
 - **Verify:** ✅ analyze clean; full suite green (126). Photo IO + quick-log resolve device-verified.
 - *Note:* screen-time entered as minutes (numeric) rather than the prototype's "Hh Mm" string. ?date= deep-link deferred (screen defaults to today; wired in Memories 7.12).
 
-### Slice 7.8 — Bucket List (+ detail + experience)
-- [ ] Providers: items (filter by status/priority) + bucket stats; item detail; experience.
-- [ ] Bucket screen: stat cards, status filter chips, cards list.
-- [ ] Detail screen: status/priority pills, why, complete button (if not completed) → experience sheet; completed shows logged experience + photos; experience editable.
-- [ ] Item sheet (title*/why/priority*/status*) CRUD; Experience sheet (feeling*/date*/worthIt*/photos/reflection) → sets status Completed.
-- [ ] Wire item + experience photos (0–many); delete item cleans both (spec §5.1).
-- [ ] Tests: complete flow sets status+creates experience; completed hides complete button; edit experience; delete cascades rows+files; bucket stats.
-- **Verify:** create → complete (with photos + reflection) → detail shows experience → edit → delete leaves no orphan files.
+### Slice 7.8 — Bucket List (+ detail + experience) ✅ (commit 0980f60)
+- [x] Providers: filtered list (status) + reactive stats (all items + experiences); item detail/experience/photos streams. `BucketDao` watch methods added.
+- [x] Bucket screen: stat cards, status filter, items list → push `/bucket/:id`.
+- [x] Detail screen: status/priority pills, why, item photos, complete button (if not completed) → experience sheet; completed shows logged experience + photos; editable; delete.
+- [x] Item sheet (title*/why/priority*/status* + 0–many photos) CRUD; Experience sheet (feeling*/date*/worthIt*/reflection/photos) → sets status Completed.
+- [x] Item + experience photos (0–many); `deleteBucketItem` cleans both rows + files via `AttachmentService.deleteForBucketItem` (first use, spec §5.1).
+- [x] Tests (6): complete-flow sets status+creates experience; edit keeps one row; detail shows complete button only when not completed; delete cascades rows+files (no orphans); bucket stats; screen renders.
+- [x] Extracted shared `PhotoFormMixin` (`common/photo_form_mixin.dart`); Health refactored onto it. `LmButton` long labels ellipsize.
+- **Verify:** ✅ analyze clean; full suite green (132). Photo IO device-verified (§7.2).
 
 ### Slice 7.9 — Trips (+ detail)
 - [ ] Providers: trips (filter by period/rating/repeat) + trip stats; trip detail.
