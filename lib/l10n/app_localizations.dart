@@ -2809,6 +2809,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong while loading'**
   String get commonLoadError;
+
+  /// No description provided for @homeGreetMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get homeGreetMorning;
+
+  /// No description provided for @homeGreetDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get homeGreetDay;
+
+  /// No description provided for @homeGreetEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get homeGreetEvening;
+
+  /// No description provided for @homeQuickEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in 2 taps'**
+  String get homeQuickEyebrow;
+
+  /// No description provided for @homeAddPlus.
+  ///
+  /// In en, this message translates to:
+  /// **'add +'**
+  String get homeAddPlus;
+
+  /// No description provided for @homeThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get homeThisWeek;
+
+  /// No description provided for @homeRailMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood'**
+  String get homeRailMood;
+
+  /// No description provided for @homeRailSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get homeRailSteps;
+
+  /// No description provided for @homeRailExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get homeRailExpense;
+
+  /// No description provided for @homeRailPulse.
+  ///
+  /// In en, this message translates to:
+  /// **'Pulse'**
+  String get homeRailPulse;
+
+  /// No description provided for @homeAvgUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'avg.'**
+  String get homeAvgUnit;
+
+  /// No description provided for @homeTimelineSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily flow · today'**
+  String get homeTimelineSection;
+
+  /// No description provided for @homeTimelineEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries yet today'**
+  String get homeTimelineEmpty;
+
+  /// No description provided for @homeFinishTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish the daily report'**
+  String get homeFinishTitle;
+
+  /// No description provided for @homeFinishSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood, workout, screen time…'**
+  String get homeFinishSub;
+
+  /// No description provided for @homeBpFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood pressure'**
+  String get homeBpFallback;
+
+  /// No description provided for @homePulse.
+  ///
+  /// In en, this message translates to:
+  /// **'pulse {n}'**
+  String homePulse(int n);
+
+  /// No description provided for @homeMedsTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplements · {count} taken'**
+  String homeMedsTaken(int count);
 }
 
 class _AppLocalizationsDelegate

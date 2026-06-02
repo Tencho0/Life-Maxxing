@@ -570,5 +570,26 @@
   "navQuickLog": "Quick log",
   "commonAddPhoto": "Add photo",
   "commonPhotoMultiHint": "you can add several",
-  "commonLoadError": "Something went wrong while loading"
+  "commonLoadError": "Something went wrong while loading",
+
+  "homeGreetMorning": "Good morning",
+  "homeGreetDay": "Good afternoon",
+  "homeGreetEvening": "Good evening",
+  "homeQuickEyebrow": "Log in 2 taps",
+  "homeAddPlus": "add +",
+  "homeThisWeek": "This week",
+  "homeRailMood": "Mood",
+  "homeRailSteps": "Steps",
+  "homeRailExpense": "Expense",
+  "homeRailPulse": "Pulse",
+  "homeAvgUnit": "avg.",
+  "homeTimelineSection": "Daily flow · today",
+  "homeTimelineEmpty": "No entries yet today",
+  "homeFinishTitle": "Finish the daily report",
+  "homeFinishSub": "Mood, workout, screen time…",
+  "homeBpFallback": "Blood pressure",
+  "homePulse": "pulse {n}",
+  "@homePulse": { "placeholders": { "n": { "type": "int" } } },
+  "homeMedsTaken": "Supplements · {count} taken",
+  "@homeMedsTaken": { "placeholders": { "count": { "type": "int" } } }
 }

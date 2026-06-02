@@ -1581,4 +1581,62 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get commonLoadError => 'Нещо се обърка при зареждането';
+
+  @override
+  String get homeGreetMorning => 'Добро утро';
+
+  @override
+  String get homeGreetDay => 'Добър ден';
+
+  @override
+  String get homeGreetEvening => 'Добър вечер';
+
+  @override
+  String get homeQuickEyebrow => 'Логни за 2 докосвания';
+
+  @override
+  String get homeAddPlus => 'добави +';
+
+  @override
+  String get homeThisWeek => 'Тази седмица';
+
+  @override
+  String get homeRailMood => 'Настроение';
+
+  @override
+  String get homeRailSteps => 'Крачки';
+
+  @override
+  String get homeRailExpense => 'Разход';
+
+  @override
+  String get homeRailPulse => 'Пулс';
+
+  @override
+  String get homeAvgUnit => 'ср.';
+
+  @override
+  String get homeTimelineSection => 'Дневен поток · днес';
+
+  @override
+  String get homeTimelineEmpty => 'Все още няма записи днес';
+
+  @override
+  String get homeFinishTitle => 'Завърши дневния отчет';
+
+  @override
+  String get homeFinishSub => 'Настроение, тренировка, screen time…';
+
+  @override
+  String get homeBpFallback => 'Кръвно';
+
+  @override
+  String homePulse(int n) {
+    return 'пулс $n';
+  }
+
+  @override
+  String homeMedsTaken(int count) {
+    return 'Добавки · $count приети';
+  }
 }

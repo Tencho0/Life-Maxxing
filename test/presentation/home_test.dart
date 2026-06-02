@@ -7,6 +7,7 @@ import 'package:lifemaxxing/app/providers.dart';
 import 'package:lifemaxxing/data/database.dart';
 import 'package:lifemaxxing/dev/seed.dart';
 import 'package:lifemaxxing/domain/enums.dart';
+import 'package:lifemaxxing/l10n/app_localizations.dart';
 import 'package:lifemaxxing/presentation/home/home_data.dart';
 import 'package:lifemaxxing/presentation/home/home_screen.dart';
 import '../support/test_env.dart';
@@ -105,6 +106,7 @@ void main() {
     ));
 
     final items = buildTodayTimeline(
+      l10n: lookupAppLocalizations(const Locale('bg')),
       meals: await db.mealsDao.watchByDate(today).first,
       activities: await db.activitiesDao.watchByDate(today).first,
       expenses: await db.financeDao.expensesInRange(today, today),

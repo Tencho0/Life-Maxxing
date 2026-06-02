@@ -470,5 +470,24 @@
   "navQuickLog": "Бързо логване",
   "commonAddPhoto": "Добави снимка",
   "commonPhotoMultiHint": "може няколко",
-  "commonLoadError": "Нещо се обърка при зареждането"
+  "commonLoadError": "Нещо се обърка при зареждането",
+
+  "homeGreetMorning": "Добро утро",
+  "homeGreetDay": "Добър ден",
+  "homeGreetEvening": "Добър вечер",
+  "homeQuickEyebrow": "Логни за 2 докосвания",
+  "homeAddPlus": "добави +",
+  "homeThisWeek": "Тази седмица",
+  "homeRailMood": "Настроение",
+  "homeRailSteps": "Крачки",
+  "homeRailExpense": "Разход",
+  "homeRailPulse": "Пулс",
+  "homeAvgUnit": "ср.",
+  "homeTimelineSection": "Дневен поток · днес",
+  "homeTimelineEmpty": "Все още няма записи днес",
+  "homeFinishTitle": "Завърши дневния отчет",
+  "homeFinishSub": "Настроение, тренировка, screen time…",
+  "homeBpFallback": "Кръвно",
+  "homePulse": "пулс {n}",
+  "homeMedsTaken": "Добавки · {count} приети"
 }

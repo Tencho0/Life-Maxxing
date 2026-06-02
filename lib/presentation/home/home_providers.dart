@@ -84,8 +84,10 @@ final _todayBpProvider = StreamProvider.autoDispose<List<BloodPressureLog>>((ref
 final _todayMedsProvider = StreamProvider.autoDispose<List<MedicationLog>>((ref) =>
     ref.watch(databaseProvider).healthDao.watchMedsByDate(ref.watch(homeTodayProvider)));
 
+/// The raw today-rows; the timeline strings are built (localized) in the widget
+/// layer where a BuildContext is available — see [HomeScreen].
 final homeTimelineProvider =
-    Provider.autoDispose<AsyncValue<List<TimelineItem>>>((ref) {
+    Provider.autoDispose<AsyncValue<TimelineData>>((ref) {
   final meals = ref.watch(_todayMealsProvider);
   final acts = ref.watch(_todayActivitiesProvider);
   final exp = ref.watch(_todayExpensesProvider);
@@ -104,7 +106,7 @@ final homeTimelineProvider =
       bp.asError ??
       meds.asError;
   if (err != null) return AsyncValue.error(err.error, err.stackTrace);
-  return AsyncValue.data(buildTodayTimeline(
+  return AsyncValue.data(TimelineData(
     meals: meals.requireValue,
     activities: acts.requireValue,
     expenses: exp.requireValue,

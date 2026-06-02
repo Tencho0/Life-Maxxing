@@ -8,6 +8,7 @@ import '../../core/icons/lm_icons.dart';
 import '../../core/theme/tokens.dart';
 import '../../data/database.dart';
 import '../../domain/enums.dart';
+import '../../l10n/app_localizations.dart';
 
 double _mean(Iterable<num> xs) {
   final list = xs.toList();
@@ -89,7 +90,26 @@ class TimelineItem {
   final String sortKey; // HH:mm for chronological sort ('' → end)
 }
 
+/// The raw today-rows used to build the timeline. Localization happens in the
+/// widget layer (where a [BuildContext]/[AppLocalizations] is available), so
+/// the provider stays context-free.
+class TimelineData {
+  TimelineData({
+    required this.meals,
+    required this.activities,
+    required this.expenses,
+    required this.bp,
+    required this.meds,
+  });
+  final List<Meal> meals;
+  final List<Activity> activities;
+  final List<Expense> expenses;
+  final List<BloodPressureLog> bp;
+  final List<MedicationLog> meds;
+}
+
 List<TimelineItem> buildTodayTimeline({
+  required AppLocalizations l10n,
   required List<Meal> meals,
   required List<Activity> activities,
   required List<Expense> expenses,
@@ -103,7 +123,7 @@ List<TimelineItem> buildTodayTimeline({
       icon: LmIcons.pulse,
       color: AppColors.pink,
       title: '${b.systolic}/${b.diastolic}',
-      subtitle: '${b.note ?? 'Кръвно'} · пулс ${b.pulse}',
+      subtitle: '${b.note ?? l10n.homeBpFallback} · ${l10n.homePulse(b.pulse)}',
       meta: b.time,
       route: '/health',
       sortKey: b.time,
@@ -113,7 +133,7 @@ List<TimelineItem> buildTodayTimeline({
     items.add(TimelineItem(
       icon: LmIcons.food,
       color: AppColors.amber,
-      title: m.type.label,
+      title: l10n.mealTypeLabel(m.type.code),
       subtitle: m.calories != null ? '${m.name} · ${m.calories} kcal' : m.name,
       meta: m.time ?? '',
       route: '/food',
@@ -125,7 +145,7 @@ List<TimelineItem> buildTodayTimeline({
     items.add(TimelineItem(
       icon: LmIcons.pill,
       color: AppColors.accent,
-      title: 'Добавки · ${taken.length} приети',
+      title: l10n.homeMedsTaken(taken.length),
       subtitle: taken.map((m) => m.name).join(', '),
       meta: taken.first.time,
       route: '/health',
@@ -136,11 +156,11 @@ List<TimelineItem> buildTodayTimeline({
     items.add(TimelineItem(
       icon: LmIcons.dumbbell,
       color: AppColors.green,
-      title: a.name ?? a.type.label,
+      title: a.name ?? l10n.activityTypeLabel(a.type.code),
       subtitle: [
-        a.type.label,
-        if (a.durationMin != null) '${a.durationMin} мин',
-        if (a.intensity != null) a.intensity!.label,
+        l10n.activityTypeLabel(a.type.code),
+        if (a.durationMin != null) l10n.dailyMinutes(a.durationMin!),
+        if (a.intensity != null) l10n.intensityLabel(a.intensity!.code),
       ].join(' · '),
       meta: a.startTime ?? '',
       route: '/activities',
@@ -152,7 +172,7 @@ List<TimelineItem> buildTodayTimeline({
       icon: LmIcons.expense,
       color: AppColors.red,
       title: e.description,
-      subtitle: e.category.label,
+      subtitle: l10n.expenseCategoryLabel(e.category.code),
       meta: '−${e.amountCents ~/ 100} €',
       route: '/finance',
       sortKey: e.time ?? '',

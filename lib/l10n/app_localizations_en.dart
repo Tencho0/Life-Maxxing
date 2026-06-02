@@ -1580,4 +1580,62 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get commonLoadError => 'Something went wrong while loading';
+
+  @override
+  String get homeGreetMorning => 'Good morning';
+
+  @override
+  String get homeGreetDay => 'Good afternoon';
+
+  @override
+  String get homeGreetEvening => 'Good evening';
+
+  @override
+  String get homeQuickEyebrow => 'Log in 2 taps';
+
+  @override
+  String get homeAddPlus => 'add +';
+
+  @override
+  String get homeThisWeek => 'This week';
+
+  @override
+  String get homeRailMood => 'Mood';
+
+  @override
+  String get homeRailSteps => 'Steps';
+
+  @override
+  String get homeRailExpense => 'Expense';
+
+  @override
+  String get homeRailPulse => 'Pulse';
+
+  @override
+  String get homeAvgUnit => 'avg.';
+
+  @override
+  String get homeTimelineSection => 'Daily flow · today';
+
+  @override
+  String get homeTimelineEmpty => 'No entries yet today';
+
+  @override
+  String get homeFinishTitle => 'Finish the daily report';
+
+  @override
+  String get homeFinishSub => 'Mood, workout, screen time…';
+
+  @override
+  String get homeBpFallback => 'Blood pressure';
+
+  @override
+  String homePulse(int n) {
+    return 'pulse $n';
+  }
+
+  @override
+  String homeMedsTaken(int count) {
+    return 'Supplements · $count taken';
+  }
 }

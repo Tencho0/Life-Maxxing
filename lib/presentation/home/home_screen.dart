@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import '../../app/sheets.dart';
 import '../../core/charts/sparkline.dart';
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/card.dart';
@@ -27,8 +28,9 @@ const _weekdays = [
   '', 'понеделник', 'вторник', 'сряда', 'четвъртък', 'петък', 'събота', 'неделя'
 ];
 
-String _greeting(int hour) =>
-    hour < 12 ? 'Добро утро' : (hour < 18 ? 'Добър ден' : 'Добър вечер');
+String _greeting(BuildContext c, int hour) => hour < 12
+    ? c.l10n.homeGreetMorning
+    : (hour < 18 ? c.l10n.homeGreetDay : c.l10n.homeGreetEvening);
 String _bgDate(DateTime d) =>
     '${_weekdays[d.weekday]} · ${d.day} ${_months[d.month]} ${d.year}';
 
@@ -39,7 +41,17 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final now = DateTime.now();
     final week = ref.watch(homeWeekProvider).asData?.value;
-    final timeline = ref.watch(homeTimelineProvider).asData?.value ?? const [];
+    final data = ref.watch(homeTimelineProvider).asData?.value;
+    final timeline = data == null
+        ? const <TimelineItem>[]
+        : buildTodayTimeline(
+            l10n: context.l10n,
+            meals: data.meals,
+            activities: data.activities,
+            expenses: data.expenses,
+            bp: data.bp,
+            meds: data.meds,
+          );
 
     return Column(
       children: [
@@ -47,14 +59,14 @@ class HomeScreen extends ConsumerWidget {
         Expanded(
           child: ScreenBody(
             children: [
-              const Eyebrow('Логни за 2 докосвания'),
+              Eyebrow(context.l10n.homeQuickEyebrow),
               const SizedBox(height: 10),
               _QuickTiles(),
               const SizedBox(height: 20),
-              const Eyebrow('Тази седмица'),
+              Eyebrow(context.l10n.homeThisWeek),
               const SizedBox(height: 10),
               if (week != null) _Rails(week: week),
-              const SectionTitle('Дневен поток · днес'),
+              SectionTitle(context.l10n.homeTimelineSection),
               _TimelineCard(items: timeline),
               const SizedBox(height: 14),
               _FinishCta(onTap: () => openDailyToday(context, ref)),
@@ -85,7 +97,7 @@ class _HomeHead extends StatelessWidget {
                 Text(_bgDate(now),
                     style: AppText.monoFaint.copyWith(fontSize: 12.5)),
                 const SizedBox(height: 3),
-                Text('${_greeting(now.hour)}, $_name',
+                Text('${_greeting(context, now.hour)}, $_name',
                     style: AppText.statLg.copyWith(fontSize: 23)),
               ],
             ),
@@ -149,7 +161,8 @@ class _QuickTiles extends ConsumerWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(q.label(context), style: AppText.bodyStrong),
-                  Text('добави +', style: AppText.monoFaint.copyWith(fontSize: 11)),
+                  Text(context.l10n.homeAddPlus,
+                      style: AppText.monoFaint.copyWith(fontSize: 11)),
                 ],
               ),
             ),
@@ -176,30 +189,30 @@ class _Rails extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: [
           _RailCard(
-              label: 'Настроение',
+              label: context.l10n.homeRailMood,
               value: week.avgMood.toStringAsFixed(1),
-              unit: 'ср.',
+              unit: context.l10n.homeAvgUnit,
               data: week.mood,
               color: AppColors.accent,
               route: '/daily'),
           _RailCard(
-              label: 'Крачки',
+              label: context.l10n.homeRailSteps,
               value: '${(week.avgSteps / 1000).toStringAsFixed(1)}к',
-              unit: 'ср.',
+              unit: context.l10n.homeAvgUnit,
               data: week.steps,
               color: AppColors.purple,
               route: '/steps'),
           _RailCard(
-              label: 'Разход',
+              label: context.l10n.homeRailExpense,
               value: '${week.totalExpenseCents ~/ 100}',
               unit: '€',
               data: week.expense,
               color: AppColors.red,
               route: '/finance'),
           _RailCard(
-              label: 'Пулс',
+              label: context.l10n.homeRailPulse,
               value: week.avgPulse > 0 ? '${week.avgPulse.round()}' : '—',
-              unit: 'ср.',
+              unit: context.l10n.homeAvgUnit,
               data: week.pulse,
               color: AppColors.pink,
               route: '/health'),
@@ -277,7 +290,8 @@ class _TimelineCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: Center(
-              child: Text('Все още няма записи днес', style: AppText.bodyDim)),
+              child: Text(context.l10n.homeTimelineEmpty,
+                  style: AppText.bodyDim)),
         ),
       );
     }
@@ -372,8 +386,8 @@ class _FinishCta extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Завърши дневния отчет', style: AppText.bodyStrong),
-                  Text('Настроение, тренировка, screen time…',
+                  Text(context.l10n.homeFinishTitle, style: AppText.bodyStrong),
+                  Text(context.l10n.homeFinishSub,
                       style: AppText.bodyDim.copyWith(fontSize: 12)),
                 ],
               ),
