@@ -21,6 +21,7 @@ import '../presentation/daily/daily_screen.dart';
 import '../presentation/finance/finance_screen.dart';
 import '../presentation/food/food_screen.dart';
 import '../presentation/health/health_screen.dart';
+import '../presentation/home/home_screen.dart';
 import '../presentation/steps/steps_screen.dart';
 import '../presentation/trips/trip_detail_screen.dart';
 import '../presentation/trips/trip_screen.dart';
@@ -34,7 +35,7 @@ final appRouter = GoRouter(
           _AppShell(location: state.uri.path, child: child),
       routes: [
         // Tab roots (no back button).
-        GoRoute(path: '/', builder: (c, s) => const _Placeholder('Начало')),
+        GoRoute(path: '/', builder: (c, s) => const HomeScreen()),
         GoRoute(path: '/stats', builder: (c, s) => const _Placeholder('Графики')),
         GoRoute(
             path: '/memories', builder: (c, s) => const _Placeholder('Спомени')),

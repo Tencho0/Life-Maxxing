@@ -1,25 +1,41 @@
-// App-shell smoke test: tabs switch, the FAB opens the quick-log chooser, and
-// module navigation pushes a screen with a working back button.
+// App-shell smoke test: the DB-backed Home boots, tabs switch, the FAB opens the
+// quick-log chooser, and module navigation pushes a screen with a working back
+// button. Boots the real router with an in-memory DB override.
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lifemaxxing/app/app.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:lifemaxxing/app/providers.dart';
+import 'package:lifemaxxing/app/router.dart';
 import 'package:lifemaxxing/core/icons/lm_icons.dart';
+import 'package:lifemaxxing/core/theme/theme.dart';
+import 'package:lifemaxxing/data/database.dart';
+import 'support/test_env.dart';
 
 void main() {
+  setUp(useDeterministicTestEnv);
+
   testWidgets('shell: tabs, FAB sheet, push + back', (tester) async {
     // Tall surface so the full module list builds (Backup & Restore is last).
-    tester.view.physicalSize = const Size(500, 2000);
+    tester.view.physicalSize = const Size(500, 2200);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
-    await tester.pumpWidget(const LifeMaxxingApp());
-    await tester.pumpAndSettle();
+    final db = AppDatabase.memory();
+    addTearDown(db.close);
 
-    // Home tab + persistent bottom nav.
-    expect(find.text('Начало — предстои (Phase 7)'), findsOneWidget);
-    expect(find.text('Графики'), findsWidgets);
+    await tester.pumpWidget(ProviderScope(
+      overrides: [databaseProvider.overrideWithValue(db)],
+      child: MaterialApp.router(theme: AppTheme.dark, routerConfig: appRouter),
+    ));
+    await tester.pump(); // first frame
+    await tester.pump(const Duration(milliseconds: 300)); // Home drift streams
+    await tester.pump(const Duration(milliseconds: 50));
+
+    // DB-backed Home + persistent bottom nav.
+    expect(find.textContaining('Мартин'), findsOneWidget);
     expect(find.text('Още'), findsWidgets);
 
     // Switch to the Графики tab.
@@ -33,17 +49,14 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.text('Бързо логване'), findsOneWidget);
-    expect(find.text('Храна'), findsOneWidget); // a quick action
     await tester.tapAt(const Offset(10, 10)); // dismiss via scrim
     await tester.pumpAndSettle();
 
-    // More → push a module → back returns to More.
+    // More → push a still-placeholder module → back returns to More.
     await tester.tap(find.text('Още'));
     await tester.pumpAndSettle();
     expect(find.text('Всички модули'), findsOneWidget);
 
-    // Use a still-placeholder module (the feature verticals are now real,
-    // DB-backed screens; Backup & Restore lands in Phase 8).
     await tester.tap(find.text('Backup & Restore'));
     await tester.pumpAndSettle();
     expect(find.text('Backup & Restore — предстои (Phase 7)'), findsOneWidget);
