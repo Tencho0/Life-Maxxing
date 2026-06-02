@@ -10,6 +10,7 @@ import '../../core/charts/lm_bar_chart.dart';
 import '../../core/charts/ring.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/l10n/enum_labels.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -62,7 +63,7 @@ class FoodScreen extends ConsumerWidget {
     return Column(
       children: [
         AppTopBar(
-          title: 'Храна',
+          title: context.l10n.foodTitle,
           subtitle: localizedLabel(context, period),
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
@@ -89,7 +90,7 @@ class FoodScreen extends ConsumerWidget {
                     _CaloriesCard(summary: s, meals: meals, range: range),
                     const SizedBox(height: 12),
                     _CaloriesByDayCard(meals: meals, range: range),
-                    const SectionTitle('Записи'),
+                    SectionTitle(context.l10n.foodEntries),
                     ..._mealRows(context, meals),
                     const SizedBox(height: 8),
                   ],
@@ -128,8 +129,8 @@ class FoodScreen extends ConsumerWidget {
       return [
         LmEmpty(
           icon: LmIcons.food,
-          message: 'Няма хранения за периода',
-          actionLabel: 'Добави хранене',
+          message: context.l10n.foodEmpty,
+          actionLabel: context.l10n.foodAddMeal,
           onAction: () => showFoodSheet(context),
         ),
       ];
@@ -161,7 +162,7 @@ class _AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Semantics(
         button: true,
-        label: 'Добави',
+        label: context.l10n.actionAdd,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: onTap,
@@ -197,7 +198,7 @@ class _CaloriesCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Калории', color: AppColors.amber),
+          Eyebrow(context.l10n.foodCalories, color: AppColors.amber),
           const SizedBox(height: 14),
           Row(
             children: [
@@ -212,7 +213,7 @@ class _CaloriesCard extends StatelessWidget {
                   children: [
                     Text(summary.avgCaloriesPerDay.round().toString(),
                         style: AppText.stat.copyWith(fontSize: 19)),
-                    Text('kcal/ден',
+                    Text(context.l10n.foodKcalPerDay,
                         style: AppText.monoFaint.copyWith(fontSize: 9.5)),
                   ],
                 ),
@@ -221,11 +222,12 @@ class _CaloriesCard extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    _MacroBar('Протеин', summary.totalProtein, proteinColor,
+                    _MacroBar(context.l10n.foodProtein, summary.totalProtein,
+                        proteinColor, maxMacro),
+                    _MacroBar(context.l10n.foodCarbs, summary.totalCarbs,
+                        carbsColor, maxMacro),
+                    _MacroBar(context.l10n.foodFat, summary.totalFat, fatColor,
                         maxMacro),
-                    _MacroBar('Въглехидрати', summary.totalCarbs, carbsColor,
-                        maxMacro),
-                    _MacroBar('Мазнини', summary.totalFat, fatColor, maxMacro),
                   ],
                 ),
               ),
@@ -234,11 +236,15 @@ class _CaloriesCard extends StatelessWidget {
           const SizedBox(height: 14),
           Row(
             children: [
-              Expanded(child: _heroStat('${summary.totalCalories}', 'общо kcal')),
-              Expanded(child: _heroStat('${summary.mealCount}', 'хранения')),
               Expanded(
                   child: _heroStat(
-                      grams(summary.avgProteinPerDay), 'ср. протеин')),
+                      '${summary.totalCalories}', context.l10n.foodTotalKcal)),
+              Expanded(
+                  child: _heroStat(
+                      '${summary.mealCount}', context.l10n.foodMealCount)),
+              Expanded(
+                  child: _heroStat(grams(summary.avgProteinPerDay),
+                      context.l10n.foodAvgProtein)),
             ],
           ),
         ],
@@ -318,7 +324,7 @@ class _CaloriesByDayCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Калории по дни'),
+          Eyebrow(context.l10n.foodCaloriesByDay),
           const SizedBox(height: 14),
           LmBarChart(
               data: _caloriesByDay(meals, range), color: AppColors.amber),

@@ -12,6 +12,7 @@ import 'package:uuid/uuid.dart';
 import '../../app/providers.dart';
 import '../../app/sheets.dart';
 import '../../core/l10n/enum_labels.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
@@ -33,8 +34,10 @@ DateTime _parseYmd(String s) => DateTime.parse(s);
 void showActivitySheet(BuildContext context, {Activity? existing}) {
   showLmSheet(
     context,
-    title: existing == null ? 'Нова активност' : 'Редакция на активност',
-    subtitle: 'дата и тип са задължителни',
+    title: existing == null
+        ? context.l10n.activityNewTitle
+        : context.l10n.activityEditTitle,
+    subtitle: context.l10n.activitySheetSubtitle,
     child: _ActivityForm(existing: existing),
   );
 }
@@ -131,7 +134,7 @@ class _ActivityFormState extends ConsumerState<_ActivityForm> {
     if (durText.isNotEmpty) {
       dur = int.tryParse(durText);
       if (dur == null || dur <= 0) {
-        setState(() => _error = 'Времетраенето трябва да е > 0');
+        setState(() => _error = context.l10n.activityDurationPositive);
         return;
       }
     }
@@ -157,7 +160,7 @@ class _ActivityFormState extends ConsumerState<_ActivityForm> {
     _committed = true;
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Записано успешно');
+      showLmToast(context, context.l10n.activitySaved);
     }
   }
 
@@ -167,7 +170,7 @@ class _ActivityFormState extends ConsumerState<_ActivityForm> {
     _committed = true;
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Изтрито');
+      showLmToast(context, context.l10n.activityDeleted);
     }
   }
 
@@ -177,7 +180,7 @@ class _ActivityFormState extends ConsumerState<_ActivityForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Field(
-          label: 'Тип активност',
+          label: context.l10n.activityFieldType,
           required: true,
           child: Segmented(
             options:
@@ -188,29 +191,29 @@ class _ActivityFormState extends ConsumerState<_ActivityForm> {
           ),
         ),
         Field(
-          label: 'Име / описание',
-          child: LmInput(controller: _name, hintText: 'напр. Гръб и бицепс'),
+          label: context.l10n.activityFieldName,
+          child: LmInput(controller: _name, hintText: context.l10n.activityNameHint),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Field(
-                label: 'Начало',
+                label: context.l10n.activityFieldStart,
                 child: LmInput(controller: _start, hintText: '18:30'),
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: Field(
-                label: 'Край',
+                label: context.l10n.activityFieldEnd,
                 child: LmInput(controller: _end, hintText: '19:35'),
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: Field(
-                label: 'Мин.',
+                label: context.l10n.activityFieldMinutes,
                 child: LmInput(
                   controller: _duration,
                   hintText: '65',
@@ -221,7 +224,7 @@ class _ActivityFormState extends ConsumerState<_ActivityForm> {
           ],
         ),
         Field(
-          label: 'Интензивност',
+          label: context.l10n.activityFieldIntensity,
           child: Segmented(
             columns: 3,
             options:
@@ -232,7 +235,7 @@ class _ActivityFormState extends ConsumerState<_ActivityForm> {
           ),
         ),
         Field(
-          label: 'Продуктивност / качество',
+          label: context.l10n.activityFieldQuality,
           child: Scale10(
             value: _quality,
             color: AppColors.accent,
@@ -240,7 +243,7 @@ class _ActivityFormState extends ConsumerState<_ActivityForm> {
           ),
         ),
         Field(
-          label: 'Настроение след',
+          label: context.l10n.activityFieldMoodAfter,
           child: Scale10(
             value: _moodAfter,
             color: AppColors.green,
@@ -248,12 +251,12 @@ class _ActivityFormState extends ConsumerState<_ActivityForm> {
           ),
         ),
         Field(
-          label: 'Бележка',
-          child: LmTextArea(controller: _note, hintText: 'незадължително'),
+          label: context.l10n.activityFieldNote,
+          child: LmTextArea(controller: _note, hintText: context.l10n.activityNoteHint),
         ),
         _DateField(date: _date, onPick: (d) => setState(() => _date = d)),
         Field(
-          label: 'Снимка',
+          label: context.l10n.activityFieldPhoto,
           child: SinglePhotoField(
             photos: _photos,
             svc: _svc,
@@ -263,10 +266,10 @@ class _ActivityFormState extends ConsumerState<_ActivityForm> {
         ),
         if (_error != null) _ErrorText(_error!),
         const SizedBox(height: 4),
-        LmButton('Запази', full: true, icon: LmIcons.check, onTap: _save),
+        LmButton(context.l10n.actionSave, full: true, icon: LmIcons.check, onTap: _save),
         if (widget.existing != null) ...[
           const SizedBox(height: 10),
-          LmButton('Изтрий',
+          LmButton(context.l10n.actionDelete,
               full: true,
               variant: LmButtonVariant.danger,
               icon: LmIcons.trash,
@@ -284,7 +287,7 @@ class _DateField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Field(
-      label: 'Дата',
+      label: context.l10n.activityFieldDate,
       required: true,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,

@@ -8,6 +8,7 @@ import '../../core/charts/income_expense_bars.dart';
 import '../../core/charts/seg_ring.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/l10n/enum_labels.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -48,7 +49,7 @@ class _FinanceScreenState extends ConsumerState<FinanceScreen> {
     return Column(
       children: [
         AppTopBar(
-          title: 'Финанси',
+          title: context.l10n.financeTitle,
           subtitle: localizedLabel(context, period),
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
@@ -76,7 +77,7 @@ class _FinanceScreenState extends ConsumerState<FinanceScreen> {
                     _IncomeExpenseCard(range: range, expenses: expenses, income: income),
                     const SizedBox(height: 12),
                     _CategoryCard(s),
-                    const SectionTitle('Записи'),
+                    SectionTitle(context.l10n.financeRecords),
                     _Tabs(value: _tab, onChanged: (i) => setState(() => _tab = i)),
                     const SizedBox(height: 12),
                     if (_tab == 0)
@@ -119,8 +120,8 @@ class _FinanceScreenState extends ConsumerState<FinanceScreen> {
       return [
         LmEmpty(
           icon: LmIcons.expense,
-          message: 'Няма разходи за периода',
-          actionLabel: 'Добави разход',
+          message: context.l10n.financeNoExpenses,
+          actionLabel: context.l10n.financeAddExpense,
           onAction: () => showExpenseSheet(context),
         ),
       ];
@@ -147,8 +148,8 @@ class _FinanceScreenState extends ConsumerState<FinanceScreen> {
       return [
         LmEmpty(
           icon: LmIcons.income,
-          message: 'Няма приходи за периода',
-          actionLabel: 'Добави приход',
+          message: context.l10n.financeNoIncome,
+          actionLabel: context.l10n.financeAddIncome,
           onAction: () => showIncomeSheet(context),
         ),
       ];
@@ -178,7 +179,7 @@ class _AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Semantics(
         button: true,
-        label: 'Добави',
+        label: context.l10n.actionAdd,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: onTap,
@@ -215,7 +216,7 @@ class _BalanceHero extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Баланс за периода', color: AppColors.green),
+          Eyebrow(context.l10n.financeBalance, color: AppColors.green),
           const SizedBox(height: 6),
           Text(
             '${positive ? '+' : '−'}${euroWhole(s.balanceCents)}',
@@ -225,11 +226,11 @@ class _BalanceHero extends StatelessWidget {
           const SizedBox(height: 14),
           Row(
             children: [
-              _heroStat(euroWhole(s.totalIncomeCents), 'приходи'),
+              _heroStat(euroWhole(s.totalIncomeCents), context.l10n.financeIncomeStat),
               const SizedBox(width: 20),
-              _heroStat(euroWhole(s.totalExpensesCents), 'разходи'),
+              _heroStat(euroWhole(s.totalExpensesCents), context.l10n.financeExpenseStat),
               const SizedBox(width: 20),
-              _heroStat(euroWhole(s.avgDailyExpenseCents), 'ср. на ден'),
+              _heroStat(euroWhole(s.avgDailyExpenseCents), context.l10n.financeAvgPerDay),
             ],
           ),
         ],
@@ -280,15 +281,15 @@ class _IncomeExpenseCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Приходи срещу разходи'),
+          Eyebrow(context.l10n.financeIncomeVsExpense),
           const SizedBox(height: 14),
           IncomeExpenseBars(income: incSeries, expense: exSeries),
           const SizedBox(height: 10),
           Row(
-            children: const [
-              _Legend(color: AppColors.green, label: 'Приход'),
-              SizedBox(width: 16),
-              _Legend(color: AppColors.red, label: 'Разход'),
+            children: [
+              _Legend(color: AppColors.green, label: context.l10n.financeIncomeLegend),
+              const SizedBox(width: 16),
+              _Legend(color: AppColors.red, label: context.l10n.financeExpenseLegend),
             ],
           ),
         ],
@@ -309,7 +310,7 @@ class _CategoryCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Разходи по категории'),
+          Eyebrow(context.l10n.financeExpensesByCategory),
           const SizedBox(height: 12),
           Row(
             children: [
@@ -424,7 +425,10 @@ class _Tabs extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadii.input),
         border: Border.all(color: AppColors.border),
       ),
-      child: Row(children: [tab(0, 'Разходи'), tab(1, 'Приходи')]),
+      child: Row(children: [
+        tab(0, context.l10n.financeTabExpenses),
+        tab(1, context.l10n.financeTabIncome),
+      ]),
     );
   }
 }

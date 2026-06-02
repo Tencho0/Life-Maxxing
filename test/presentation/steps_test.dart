@@ -63,10 +63,19 @@ void main() {
     expect(rows.single.source, StepsSource.dailyQuickLog); // provenance kept
   });
 
-  test('provenance label distinguishes the two sources', () {
-    expect(stepsProvenance(StepsSource.dailyQuickLog),
+  testWidgets('provenance label distinguishes the two sources',
+      (tester) async {
+    late BuildContext context;
+    await tester.pumpWidget(localizedApp(
+      home: Builder(builder: (c) {
+        context = c;
+        return const SizedBox.shrink();
+      }),
+    ));
+    expect(stepsProvenance(context, StepsSource.dailyQuickLog),
         'въведено от Дневен отчет');
-    expect(stepsProvenance(StepsSource.stepsModule), 'въведено от Крачки');
+    expect(
+        stepsProvenance(context, StepsSource.stepsModule), 'въведено от Крачки');
   });
 
   group('steps form', () {

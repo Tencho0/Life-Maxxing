@@ -1,6 +1,9 @@
 // Steps formatting — space-grouped counts and the provenance label that tells
 // the user where a day's value was entered (spec §18).
 
+import 'package:flutter/widgets.dart';
+
+import '../../core/l10n/l10n_ext.dart';
 import '../../domain/enums.dart';
 
 /// Thousands-grouped integer, e.g. 9420 → "9 420".
@@ -15,7 +18,8 @@ String groupedInt(int n) {
 }
 
 /// Where a day's step value was entered (spec §18).
-String stepsProvenance(StepsSource source) => switch (source) {
-      StepsSource.dailyQuickLog => 'въведено от Дневен отчет',
-      StepsSource.stepsModule => 'въведено от Крачки',
+String stepsProvenance(BuildContext context, StepsSource source) =>
+    switch (source) {
+      StepsSource.dailyQuickLog => context.l10n.stepsProvFromDaily,
+      StepsSource.stepsModule => context.l10n.stepsProvFromSteps,
     };

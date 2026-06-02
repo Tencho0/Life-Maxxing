@@ -9,6 +9,7 @@ import 'package:uuid/uuid.dart';
 import '../../app/sheets.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/l10n/enum_labels.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/field.dart';
@@ -33,8 +34,10 @@ DateTime _parseYmd(String s) => DateTime.parse(s);
 void showExpenseSheet(BuildContext context, {Expense? existing}) {
   showLmSheet(
     context,
-    title: existing == null ? 'Нов разход' : 'Редакция на разход',
-    subtitle: 'сума, категория, описание',
+    title: existing == null
+        ? context.l10n.financeNewExpense
+        : context.l10n.financeEditExpense,
+    subtitle: context.l10n.financeExpenseSubtitle,
     child: _ExpenseForm(existing: existing),
   );
 }
@@ -42,8 +45,10 @@ void showExpenseSheet(BuildContext context, {Expense? existing}) {
 void showIncomeSheet(BuildContext context, {IncomeEntry? existing}) {
   showLmSheet(
     context,
-    title: existing == null ? 'Нов приход' : 'Редакция на приход',
-    subtitle: 'сума и източник са задължителни',
+    title: existing == null
+        ? context.l10n.financeNewIncome
+        : context.l10n.financeEditIncome,
+    subtitle: context.l10n.financeIncomeSubtitle,
     child: _IncomeForm(existing: existing),
   );
 }
@@ -52,13 +57,15 @@ void showIncomeSheet(BuildContext context, {IncomeEntry? existing}) {
 void showFinanceChooser(BuildContext context) {
   showLmSheet(
     context,
-    title: 'Нов запис',
-    subtitle: 'разход или приход?',
+    title: context.l10n.financeNewRecord,
+    subtitle: context.l10n.financeChooserSubtitle,
     child: Row(
       children: [
         Expanded(
           child: _ChooserCard(
-            label: 'Разход', sub: 'пари навън', icon: LmIcons.expense,
+            label: context.l10n.financeExpense,
+            sub: context.l10n.financeChooserExpenseSub,
+            icon: LmIcons.expense,
             color: AppColors.red,
             onTap: () {
               Navigator.pop(context);
@@ -69,7 +76,9 @@ void showFinanceChooser(BuildContext context) {
         const SizedBox(width: 10),
         Expanded(
           child: _ChooserCard(
-            label: 'Приход', sub: 'пари навътре', icon: LmIcons.income,
+            label: context.l10n.financeIncome,
+            sub: context.l10n.financeChooserIncomeSub,
+            icon: LmIcons.income,
             color: AppColors.green,
             onTap: () {
               Navigator.pop(context);
@@ -169,11 +178,11 @@ class _ExpenseFormState extends ConsumerState<_ExpenseForm> {
   Future<void> _save() async {
     final cents = _parseCents(_amount.text);
     if (cents == null || cents <= 0) {
-      setState(() => _error = 'Въведи валидна сума (> 0)');
+      setState(() => _error = context.l10n.financeInvalidAmount);
       return;
     }
     if (_desc.text.trim().isEmpty) {
-      setState(() => _error = 'Описанието е задължително');
+      setState(() => _error = context.l10n.financeDescriptionRequired);
       return;
     }
     final dao = ref.read(financeDaoProvider);
@@ -191,7 +200,7 @@ class _ExpenseFormState extends ConsumerState<_ExpenseForm> {
     ));
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Записано успешно');
+      showLmToast(context, context.l10n.financeSaved);
     }
   }
 
@@ -199,7 +208,7 @@ class _ExpenseFormState extends ConsumerState<_ExpenseForm> {
     await ref.read(financeDaoProvider).deleteExpense(widget.existing!.id);
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Изтрито');
+      showLmToast(context, context.l10n.financeDeleted);
     }
   }
 
@@ -209,7 +218,7 @@ class _ExpenseFormState extends ConsumerState<_ExpenseForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Field(
-          label: 'Сума',
+          label: context.l10n.financeAmount,
           required: true,
           hint: '€',
           child: LmInput(
@@ -220,7 +229,7 @@ class _ExpenseFormState extends ConsumerState<_ExpenseForm> {
           ),
         ),
         Field(
-          label: 'Категория',
+          label: context.l10n.financeCategory,
           required: true,
           child: Segmented(
             options: ExpenseCategory.values.map((c) => localizedLabel(context, c)).toList(),
@@ -230,12 +239,12 @@ class _ExpenseFormState extends ConsumerState<_ExpenseForm> {
           ),
         ),
         Field(
-          label: 'Описание',
+          label: context.l10n.financeDescription,
           required: true,
-          child: LmInput(controller: _desc, hintText: 'напр. Зареждане OMV'),
+          child: LmInput(controller: _desc, hintText: context.l10n.financeDescriptionHint),
         ),
         Field(
-          label: 'Начин на плащане',
+          label: context.l10n.financePaymentMethod,
           child: Segmented(
             options: const ['Карта', 'В брой', 'Друго'],
             value: localizedLabel(context, _payment),
@@ -245,15 +254,15 @@ class _ExpenseFormState extends ConsumerState<_ExpenseForm> {
         ),
         _DateField(date: _date, onPick: (d) => setState(() => _date = d)),
         Field(
-          label: 'Бележка',
-          child: LmTextArea(controller: _note, hintText: 'незадължително'),
+          label: context.l10n.financeNote,
+          child: LmTextArea(controller: _note, hintText: context.l10n.financeOptional),
         ),
         if (_error != null) _ErrorText(_error!),
         const SizedBox(height: 4),
-        LmButton('Запази', full: true, icon: LmIcons.check, onTap: _save),
+        LmButton(context.l10n.actionSave, full: true, icon: LmIcons.check, onTap: _save),
         if (widget.existing != null) ...[
           const SizedBox(height: 10),
-          LmButton('Изтрий', full: true, variant: LmButtonVariant.danger,
+          LmButton(context.l10n.actionDelete, full: true, variant: LmButtonVariant.danger,
               icon: LmIcons.trash, onTap: _delete),
         ],
       ],
@@ -300,11 +309,11 @@ class _IncomeFormState extends ConsumerState<_IncomeForm> {
   Future<void> _save() async {
     final cents = _parseCents(_amount.text);
     if (cents == null || cents <= 0) {
-      setState(() => _error = 'Въведи валидна сума (> 0)');
+      setState(() => _error = context.l10n.financeInvalidAmount);
       return;
     }
     if (_source.text.trim().isEmpty) {
-      setState(() => _error = 'Източникът е задължителен');
+      setState(() => _error = context.l10n.financeSourceRequired);
       return;
     }
     final dao = ref.read(financeDaoProvider);
@@ -321,7 +330,7 @@ class _IncomeFormState extends ConsumerState<_IncomeForm> {
     ));
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Записано успешно');
+      showLmToast(context, context.l10n.financeSaved);
     }
   }
 
@@ -329,7 +338,7 @@ class _IncomeFormState extends ConsumerState<_IncomeForm> {
     await ref.read(financeDaoProvider).deleteIncome(widget.existing!.id);
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Изтрито');
+      showLmToast(context, context.l10n.financeDeleted);
     }
   }
 
@@ -339,7 +348,7 @@ class _IncomeFormState extends ConsumerState<_IncomeForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Field(
-          label: 'Сума',
+          label: context.l10n.financeAmount,
           required: true,
           hint: '€',
           child: LmInput(
@@ -350,12 +359,12 @@ class _IncomeFormState extends ConsumerState<_IncomeForm> {
           ),
         ),
         Field(
-          label: 'Източник',
+          label: context.l10n.financeSource,
           required: true,
-          child: LmInput(controller: _source, hintText: 'напр. Заплата — Klevret'),
+          child: LmInput(controller: _source, hintText: context.l10n.financeSourceHint),
         ),
         Field(
-          label: 'Категория',
+          label: context.l10n.financeCategory,
           required: true,
           child: Segmented(
             options: IncomeCategory.values.map((c) => localizedLabel(context, c)).toList(),
@@ -366,15 +375,15 @@ class _IncomeFormState extends ConsumerState<_IncomeForm> {
         ),
         _DateField(date: _date, onPick: (d) => setState(() => _date = d)),
         Field(
-          label: 'Бележка',
-          child: LmTextArea(controller: _note, hintText: 'незадължително'),
+          label: context.l10n.financeNote,
+          child: LmTextArea(controller: _note, hintText: context.l10n.financeOptional),
         ),
         if (_error != null) _ErrorText(_error!),
         const SizedBox(height: 4),
-        LmButton('Запази', full: true, icon: LmIcons.check, onTap: _save),
+        LmButton(context.l10n.actionSave, full: true, icon: LmIcons.check, onTap: _save),
         if (widget.existing != null) ...[
           const SizedBox(height: 10),
-          LmButton('Изтрий', full: true, variant: LmButtonVariant.danger,
+          LmButton(context.l10n.actionDelete, full: true, variant: LmButtonVariant.danger,
               icon: LmIcons.trash, onTap: _delete),
         ],
       ],
@@ -390,7 +399,7 @@ class _DateField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Field(
-      label: 'Дата',
+      label: context.l10n.financeDate,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () async {

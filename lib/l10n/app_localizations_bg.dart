@@ -244,4 +244,389 @@ class AppLocalizationsBg extends AppLocalizations {
     });
     return '$_temp0';
   }
+
+  @override
+  String get financeTitle => 'Финанси';
+
+  @override
+  String get financeRecords => 'Записи';
+
+  @override
+  String get financeBalance => 'Баланс за периода';
+
+  @override
+  String get financeIncomeStat => 'приходи';
+
+  @override
+  String get financeExpenseStat => 'разходи';
+
+  @override
+  String get financeAvgPerDay => 'ср. на ден';
+
+  @override
+  String get financeIncomeVsExpense => 'Приходи срещу разходи';
+
+  @override
+  String get financeIncomeLegend => 'Приход';
+
+  @override
+  String get financeExpenseLegend => 'Разход';
+
+  @override
+  String get financeExpensesByCategory => 'Разходи по категории';
+
+  @override
+  String get financeTabExpenses => 'Разходи';
+
+  @override
+  String get financeTabIncome => 'Приходи';
+
+  @override
+  String get financeNoExpenses => 'Няма разходи за периода';
+
+  @override
+  String get financeAddExpense => 'Добави разход';
+
+  @override
+  String get financeNoIncome => 'Няма приходи за периода';
+
+  @override
+  String get financeAddIncome => 'Добави приход';
+
+  @override
+  String get financeNewExpense => 'Нов разход';
+
+  @override
+  String get financeEditExpense => 'Редакция на разход';
+
+  @override
+  String get financeExpenseSubtitle => 'сума, категория, описание';
+
+  @override
+  String get financeNewIncome => 'Нов приход';
+
+  @override
+  String get financeEditIncome => 'Редакция на приход';
+
+  @override
+  String get financeIncomeSubtitle => 'сума и източник са задължителни';
+
+  @override
+  String get financeNewRecord => 'Нов запис';
+
+  @override
+  String get financeChooserSubtitle => 'разход или приход?';
+
+  @override
+  String get financeExpense => 'Разход';
+
+  @override
+  String get financeChooserExpenseSub => 'пари навън';
+
+  @override
+  String get financeIncome => 'Приход';
+
+  @override
+  String get financeChooserIncomeSub => 'пари навътре';
+
+  @override
+  String get financeInvalidAmount => 'Въведи валидна сума (> 0)';
+
+  @override
+  String get financeDescriptionRequired => 'Описанието е задължително';
+
+  @override
+  String get financeSourceRequired => 'Източникът е задължителен';
+
+  @override
+  String get financeSaved => 'Записано успешно';
+
+  @override
+  String get financeDeleted => 'Изтрито';
+
+  @override
+  String get financeAmount => 'Сума';
+
+  @override
+  String get financeCategory => 'Категория';
+
+  @override
+  String get financeDescription => 'Описание';
+
+  @override
+  String get financeDescriptionHint => 'напр. Зареждане OMV';
+
+  @override
+  String get financePaymentMethod => 'Начин на плащане';
+
+  @override
+  String get financeNote => 'Бележка';
+
+  @override
+  String get financeOptional => 'незадължително';
+
+  @override
+  String get financeSource => 'Източник';
+
+  @override
+  String get financeSourceHint => 'напр. Заплата — Klevret';
+
+  @override
+  String get financeDate => 'Дата';
+
+  @override
+  String get foodTitle => 'Храна';
+
+  @override
+  String get foodEntries => 'Записи';
+
+  @override
+  String get foodEmpty => 'Няма хранения за периода';
+
+  @override
+  String get foodAddMeal => 'Добави хранене';
+
+  @override
+  String get foodCalories => 'Калории';
+
+  @override
+  String get foodProtein => 'Протеин';
+
+  @override
+  String get foodCarbs => 'Въглехидрати';
+
+  @override
+  String get foodFat => 'Мазнини';
+
+  @override
+  String get foodKcalPerDay => 'kcal/ден';
+
+  @override
+  String get foodTotalKcal => 'общо kcal';
+
+  @override
+  String get foodMealCount => 'хранения';
+
+  @override
+  String get foodAvgProtein => 'ср. протеин';
+
+  @override
+  String get foodCaloriesByDay => 'Калории по дни';
+
+  @override
+  String get foodNewMeal => 'Ново хранене';
+
+  @override
+  String get foodEditMeal => 'Редакция на хранене';
+
+  @override
+  String get foodSheetSubtitle => 'дата и име са задължителни';
+
+  @override
+  String get foodNameRequired => 'Името е задължително';
+
+  @override
+  String get foodSavedToast => 'Записано успешно';
+
+  @override
+  String get foodDeletedToast => 'Изтрито';
+
+  @override
+  String get foodMealType => 'Тип хранене';
+
+  @override
+  String get foodNameLabel => 'Име / описание';
+
+  @override
+  String get foodNameHint => 'напр. Пилешко с ориз';
+
+  @override
+  String get foodTime => 'Час';
+
+  @override
+  String get foodCarbsShort => 'Въглехид.';
+
+  @override
+  String get foodGramsHint => 'г';
+
+  @override
+  String get foodQuantity => 'Количество';
+
+  @override
+  String get foodQuantityHint => 'напр. 1 купа';
+
+  @override
+  String get foodNote => 'Бележка';
+
+  @override
+  String get foodNoteHint => 'незадължително';
+
+  @override
+  String get foodPhoto => 'Снимка';
+
+  @override
+  String get foodDate => 'Дата';
+
+  @override
+  String get activityTitle => 'Активности';
+
+  @override
+  String get activityRecords => 'Записи';
+
+  @override
+  String get activityEmpty => 'Няма активности за периода';
+
+  @override
+  String get activityAddAction => 'Добави активност';
+
+  @override
+  String get activityAll => 'Всички';
+
+  @override
+  String get activitySummary => 'Обобщение';
+
+  @override
+  String get activityWorkouts => 'тренировки';
+
+  @override
+  String get activityTotal => 'общо';
+
+  @override
+  String get activityAvgTime => 'ср. време';
+
+  @override
+  String get activityMostFrequent => 'Най-често:';
+
+  @override
+  String get activityByGroup => 'По групи';
+
+  @override
+  String get activityNewTitle => 'Нова активност';
+
+  @override
+  String get activityEditTitle => 'Редакция на активност';
+
+  @override
+  String get activitySheetSubtitle => 'дата и тип са задължителни';
+
+  @override
+  String get activityDurationPositive => 'Времетраенето трябва да е > 0';
+
+  @override
+  String get activitySaved => 'Записано успешно';
+
+  @override
+  String get activityDeleted => 'Изтрито';
+
+  @override
+  String get activityFieldType => 'Тип активност';
+
+  @override
+  String get activityFieldName => 'Име / описание';
+
+  @override
+  String get activityNameHint => 'напр. Гръб и бицепс';
+
+  @override
+  String get activityFieldStart => 'Начало';
+
+  @override
+  String get activityFieldEnd => 'Край';
+
+  @override
+  String get activityFieldMinutes => 'Мин.';
+
+  @override
+  String get activityFieldIntensity => 'Интензивност';
+
+  @override
+  String get activityFieldQuality => 'Продуктивност / качество';
+
+  @override
+  String get activityFieldMoodAfter => 'Настроение след';
+
+  @override
+  String get activityFieldNote => 'Бележка';
+
+  @override
+  String get activityNoteHint => 'незадължително';
+
+  @override
+  String get activityFieldPhoto => 'Снимка';
+
+  @override
+  String get activityFieldDate => 'Дата';
+
+  @override
+  String get stepsTitle => 'Крачки';
+
+  @override
+  String get stepsToday => 'Днес';
+
+  @override
+  String stepsOfGoal(String goal) {
+    return 'от $goal';
+  }
+
+  @override
+  String get stepsStats => 'Статистика';
+
+  @override
+  String get stepsStatTotal => 'общо';
+
+  @override
+  String get stepsStatAvg => 'средно';
+
+  @override
+  String get stepsStatMax => 'макс.';
+
+  @override
+  String get stepsStatDays => 'дни';
+
+  @override
+  String get stepsByDay => 'Крачки по дни';
+
+  @override
+  String get stepsDaysSection => 'Дни';
+
+  @override
+  String stepsCountLabel(String count) {
+    return '$count крачки';
+  }
+
+  @override
+  String get stepsEmpty => 'Няма крачки за периода';
+
+  @override
+  String get stepsAddAction => 'Добави крачки';
+
+  @override
+  String get stepsSheetSubtitle => 'една стойност на ден';
+
+  @override
+  String get stepsDateField => 'Дата';
+
+  @override
+  String get stepsCountField => 'Брой крачки';
+
+  @override
+  String get stepsNoteField => 'Бележка';
+
+  @override
+  String get stepsNoteHint => 'незадължително';
+
+  @override
+  String get stepsCountRequired => 'Въведи валиден брой крачки';
+
+  @override
+  String get stepsSavedToast => 'Записано успешно';
+
+  @override
+  String get stepsDeletedToast => 'Изтрито';
+
+  @override
+  String get stepsProvFromDaily => 'въведено от Дневен отчет';
+
+  @override
+  String get stepsProvFromSteps => 'въведено от Крачки';
 }

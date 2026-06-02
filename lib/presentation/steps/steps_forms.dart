@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/sheets.dart';
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/field.dart';
@@ -22,8 +23,8 @@ DateTime _parseYmd(String s) => DateTime.parse(s);
 void showStepsSheet(BuildContext context, {StepEntry? existing}) {
   showLmSheet(
     context,
-    title: 'Крачки',
-    subtitle: 'една стойност на ден',
+    title: context.l10n.stepsTitle,
+    subtitle: context.l10n.stepsSheetSubtitle,
     child: _StepsForm(existing: existing),
   );
 }
@@ -60,7 +61,7 @@ class _StepsFormState extends ConsumerState<_StepsForm> {
   Future<void> _save() async {
     final count = int.tryParse(_count.text.trim());
     if (count == null || count < 0) {
-      setState(() => _error = 'Въведи валиден брой крачки');
+      setState(() => _error = context.l10n.stepsCountRequired);
       return;
     }
     final note = _note.text.trim().isEmpty ? null : _note.text.trim();
@@ -69,7 +70,7 @@ class _StepsFormState extends ConsumerState<_StepsForm> {
         .setFromStepsModule(ymd(_date), count, note: note);
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Записано успешно');
+      showLmToast(context, context.l10n.stepsSavedToast);
     }
   }
 
@@ -77,7 +78,7 @@ class _StepsFormState extends ConsumerState<_StepsForm> {
     await ref.read(stepsServiceProvider).deleteForDate(widget.existing!.date);
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Изтрито');
+      showLmToast(context, context.l10n.stepsDeletedToast);
     }
   }
 
@@ -88,7 +89,7 @@ class _StepsFormState extends ConsumerState<_StepsForm> {
       children: [
         _DateField(date: _date, onPick: (d) => setState(() => _date = d)),
         Field(
-          label: 'Брой крачки',
+          label: context.l10n.stepsCountField,
           required: true,
           child: LmInput(
             controller: _count,
@@ -98,8 +99,9 @@ class _StepsFormState extends ConsumerState<_StepsForm> {
           ),
         ),
         Field(
-          label: 'Бележка',
-          child: LmTextArea(controller: _note, hintText: 'незадължително'),
+          label: context.l10n.stepsNoteField,
+          child: LmTextArea(
+              controller: _note, hintText: context.l10n.stepsNoteHint),
         ),
         if (_error != null)
           Padding(
@@ -109,10 +111,11 @@ class _StepsFormState extends ConsumerState<_StepsForm> {
                     .copyWith(color: AppColors.red, fontSize: 12)),
           ),
         const SizedBox(height: 4),
-        LmButton('Запази', full: true, icon: LmIcons.check, onTap: _save),
+        LmButton(context.l10n.actionSave,
+            full: true, icon: LmIcons.check, onTap: _save),
         if (widget.existing != null) ...[
           const SizedBox(height: 10),
-          LmButton('Изтрий',
+          LmButton(context.l10n.actionDelete,
               full: true,
               variant: LmButtonVariant.danger,
               icon: LmIcons.trash,
@@ -130,7 +133,7 @@ class _DateField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Field(
-      label: 'Дата',
+      label: context.l10n.stepsDateField,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () async {

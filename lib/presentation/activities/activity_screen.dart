@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/charts/seg_ring.dart';
 import '../../core/l10n/enum_labels.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
@@ -30,8 +31,6 @@ import 'activity_format.dart';
 import 'activity_forms.dart';
 import 'activity_providers.dart';
 
-const _allLabel = 'Всички';
-
 class ActivityScreen extends ConsumerWidget {
   const ActivityScreen({super.key});
 
@@ -45,7 +44,7 @@ class ActivityScreen extends ConsumerWidget {
     return Column(
       children: [
         AppTopBar(
-          title: 'Активности',
+          title: context.l10n.activityTitle,
           subtitle: localizedLabel(context, period),
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
@@ -82,7 +81,7 @@ class ActivityScreen extends ConsumerWidget {
                                 t,
                       ),
                     ],
-                    const SectionTitle('Записи'),
+                    SectionTitle(context.l10n.activityRecords),
                     ..._activityRows(context, activities),
                     const SizedBox(height: 8),
                   ],
@@ -121,8 +120,8 @@ class ActivityScreen extends ConsumerWidget {
       return [
         LmEmpty(
           icon: LmIcons.run,
-          message: 'Няма активности за периода',
-          actionLabel: 'Добави активност',
+          message: context.l10n.activityEmpty,
+          actionLabel: context.l10n.activityAddAction,
           onAction: () => showActivitySheet(context),
         ),
       ];
@@ -157,7 +156,7 @@ class _AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Semantics(
         button: true,
-        label: 'Добави',
+        label: context.l10n.actionAdd,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: onTap,
@@ -182,20 +181,20 @@ class _CountsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Обобщение'),
+          Eyebrow(context.l10n.activitySummary),
           const SizedBox(height: 14),
           Row(
             children: [
-              Expanded(child: _stat('${s.count}', 'тренировки')),
-              Expanded(child: _stat(formatDuration(s.totalMinutes), 'общо')),
+              Expanded(child: _stat('${s.count}', context.l10n.activityWorkouts)),
+              Expanded(child: _stat(formatDuration(s.totalMinutes), context.l10n.activityTotal)),
               Expanded(
                   child:
-                      _stat(formatDuration(s.avgDurationMin.round()), 'ср. време')),
+                      _stat(formatDuration(s.avgDurationMin.round()), context.l10n.activityAvgTime)),
             ],
           ),
           if (s.mostFrequent != null) ...[
             const SizedBox(height: 12),
-            Text('Най-често: ${localizedLabel(context, s.mostFrequent!)}',
+            Text('${context.l10n.activityMostFrequent} ${localizedLabel(context, s.mostFrequent!)}',
                 style: AppText.bodyDim.copyWith(fontSize: 12.5)),
           ],
         ],
@@ -229,7 +228,7 @@ class _GroupsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('По групи'),
+          Eyebrow(context.l10n.activityByGroup),
           const SizedBox(height: 12),
           Row(
             children: [
@@ -245,7 +244,7 @@ class _GroupsCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text('${s.count}', style: AppText.stat.copyWith(fontSize: 18)),
-                    Text('общо', style: AppText.monoFaint.copyWith(fontSize: 10)),
+                    Text(context.l10n.activityTotal, style: AppText.monoFaint.copyWith(fontSize: 10)),
                   ],
                 ),
               ),
@@ -295,16 +294,17 @@ class _TypeFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final allLabel = context.l10n.activityAll;
     final present = byType.keys.toList()
       ..sort((a, b) => byType[b]!.compareTo(byType[a]!));
     final options = [
-      _allLabel,
+      allLabel,
       for (final t in present) localizedLabel(context, t)
     ];
     return Segmented(
       options: options,
-      value: selected == null ? _allLabel : localizedLabel(context, selected!),
-      onChanged: (label) => onChanged(label == _allLabel
+      value: selected == null ? allLabel : localizedLabel(context, selected!),
+      onChanged: (label) => onChanged(label == allLabel
           ? null
           : ActivityType.values
               .firstWhere((t) => localizedLabel(context, t) == label)),

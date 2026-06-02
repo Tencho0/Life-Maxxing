@@ -9,6 +9,7 @@ import '../../core/charts/lm_bar_chart.dart';
 import '../../core/charts/ring.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/l10n/enum_labels.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -60,7 +61,7 @@ class StepsScreen extends ConsumerWidget {
     return Column(
       children: [
         AppTopBar(
-          title: 'Крачки',
+          title: context.l10n.stepsTitle,
           subtitle: localizedLabel(context, period),
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
@@ -89,7 +90,7 @@ class StepsScreen extends ConsumerWidget {
                     _StatsCard(s),
                     const SizedBox(height: 12),
                     _ByDayCard(entries: entries, range: range),
-                    const SectionTitle('Дни'),
+                    SectionTitle(context.l10n.stepsDaysSection),
                     ..._dayRows(context, entries),
                     const SizedBox(height: 8),
                   ],
@@ -129,8 +130,8 @@ class StepsScreen extends ConsumerWidget {
       return [
         LmEmpty(
           icon: LmIcons.steps,
-          message: 'Няма крачки за периода',
-          actionLabel: 'Добави крачки',
+          message: context.l10n.stepsEmpty,
+          actionLabel: context.l10n.stepsAddAction,
           onAction: () => showStepsSheet(context),
         ),
       ];
@@ -144,8 +145,8 @@ class StepsScreen extends ConsumerWidget {
           child: LmRow(
             icon: LmIcons.steps,
             iconColor: AppColors.purple,
-            title: '${groupedInt(e.count)} крачки',
-            subtitle: '${dmy(e.date)} · ${stepsProvenance(e.source)}',
+            title: context.l10n.stepsCountLabel(groupedInt(e.count)),
+            subtitle: '${dmy(e.date)} · ${stepsProvenance(context, e.source)}',
             onTap: () => showStepsSheet(context, existing: e),
           ),
         ),
@@ -159,7 +160,7 @@ class _AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Semantics(
         button: true,
-        label: 'Добави',
+        label: context.l10n.actionAdd,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: onTap,
@@ -184,7 +185,7 @@ class _TodayCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Днес', color: AppColors.purple),
+          Eyebrow(context.l10n.stepsToday, color: AppColors.purple),
           const SizedBox(height: 14),
           Center(
             child: Ring(
@@ -198,7 +199,7 @@ class _TodayCard extends StatelessWidget {
                 children: [
                   Text(groupedInt(count),
                       style: AppText.statXl.copyWith(fontSize: 26)),
-                  Text('от ${groupedInt(_goal)}',
+                  Text(context.l10n.stepsOfGoal(groupedInt(_goal)),
                       style: AppText.monoFaint.copyWith(fontSize: 11)),
                 ],
               ),
@@ -219,14 +220,15 @@ class _StatsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Статистика'),
+          Eyebrow(context.l10n.stepsStats),
           const SizedBox(height: 14),
           Row(
             children: [
-              Expanded(child: _stat(groupedInt(s.total), 'общо')),
-              Expanded(child: _stat(groupedInt(s.avg.round()), 'средно')),
-              Expanded(child: _stat(groupedInt(s.best), 'макс.')),
-              Expanded(child: _stat('${s.daysLogged}', 'дни')),
+              Expanded(child: _stat(groupedInt(s.total), context.l10n.stepsStatTotal)),
+              Expanded(
+                  child: _stat(groupedInt(s.avg.round()), context.l10n.stepsStatAvg)),
+              Expanded(child: _stat(groupedInt(s.best), context.l10n.stepsStatMax)),
+              Expanded(child: _stat('${s.daysLogged}', context.l10n.stepsStatDays)),
             ],
           ),
         ],
@@ -259,7 +261,7 @@ class _ByDayCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Крачки по дни'),
+          Eyebrow(context.l10n.stepsByDay),
           const SizedBox(height: 14),
           LmBarChart(
             data: _stepsByDay(entries, range),

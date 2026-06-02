@@ -13,6 +13,7 @@ import '../../app/providers.dart';
 import '../../app/sheets.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/l10n/enum_labels.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/field.dart';
@@ -42,8 +43,10 @@ double? _parseDouble(String t) {
 void showFoodSheet(BuildContext context, {Meal? existing}) {
   showLmSheet(
     context,
-    title: existing == null ? 'Ново хранене' : 'Редакция на хранене',
-    subtitle: 'дата и име са задължителни',
+    title: existing == null
+        ? context.l10n.foodNewMeal
+        : context.l10n.foodEditMeal,
+    subtitle: context.l10n.foodSheetSubtitle,
     child: _FoodForm(existing: existing),
   );
 }
@@ -140,7 +143,7 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
 
   Future<void> _save() async {
     if (_name.text.trim().isEmpty) {
-      setState(() => _error = 'Името е задължително');
+      setState(() => _error = context.l10n.foodNameRequired);
       return;
     }
     final dao = ref.read(mealsDaoProvider);
@@ -164,7 +167,7 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
     _committed = true;
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Записано успешно');
+      showLmToast(context, context.l10n.foodSavedToast);
     }
   }
 
@@ -174,7 +177,7 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
     _committed = true;
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Изтрито');
+      showLmToast(context, context.l10n.foodDeletedToast);
     }
   }
 
@@ -184,7 +187,7 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Field(
-          label: 'Тип хранене',
+          label: context.l10n.foodMealType,
           required: true,
           child: Segmented(
             options:
@@ -195,23 +198,24 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
           ),
         ),
         Field(
-          label: 'Име / описание',
+          label: context.l10n.foodNameLabel,
           required: true,
-          child: LmInput(controller: _name, hintText: 'напр. Пилешко с ориз'),
+          child: LmInput(
+              controller: _name, hintText: context.l10n.foodNameHint),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Field(
-                label: 'Час',
+                label: context.l10n.foodTime,
                 child: LmInput(controller: _time, hintText: '13:25'),
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: Field(
-                label: 'Калории',
+                label: context.l10n.foodCalories,
                 hint: 'kcal',
                 child: LmInput(
                   controller: _cals,
@@ -227,10 +231,10 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
           children: [
             Expanded(
               child: Field(
-                label: 'Протеин',
+                label: context.l10n.foodProtein,
                 child: LmInput(
                   controller: _protein,
-                  hintText: 'г',
+                  hintText: context.l10n.foodGramsHint,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
               ),
@@ -238,10 +242,10 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
             const SizedBox(width: 10),
             Expanded(
               child: Field(
-                label: 'Въглехид.',
+                label: context.l10n.foodCarbsShort,
                 child: LmInput(
                   controller: _carbs,
-                  hintText: 'г',
+                  hintText: context.l10n.foodGramsHint,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
               ),
@@ -249,10 +253,10 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
             const SizedBox(width: 10),
             Expanded(
               child: Field(
-                label: 'Мазнини',
+                label: context.l10n.foodFat,
                 child: LmInput(
                   controller: _fat,
-                  hintText: 'г',
+                  hintText: context.l10n.foodGramsHint,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
               ),
@@ -260,16 +264,18 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
           ],
         ),
         Field(
-          label: 'Количество',
-          child: LmInput(controller: _quantity, hintText: 'напр. 1 купа'),
+          label: context.l10n.foodQuantity,
+          child: LmInput(
+              controller: _quantity, hintText: context.l10n.foodQuantityHint),
         ),
         _DateField(date: _date, onPick: (d) => setState(() => _date = d)),
         Field(
-          label: 'Бележка',
-          child: LmTextArea(controller: _note, hintText: 'незадължително'),
+          label: context.l10n.foodNote,
+          child: LmTextArea(
+              controller: _note, hintText: context.l10n.foodNoteHint),
         ),
         Field(
-          label: 'Снимка',
+          label: context.l10n.foodPhoto,
           child: SinglePhotoField(
             photos: _photos,
             svc: _svc,
@@ -279,10 +285,11 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
         ),
         if (_error != null) _ErrorText(_error!),
         const SizedBox(height: 4),
-        LmButton('Запази', full: true, icon: LmIcons.check, onTap: _save),
+        LmButton(context.l10n.actionSave,
+            full: true, icon: LmIcons.check, onTap: _save),
         if (widget.existing != null) ...[
           const SizedBox(height: 10),
-          LmButton('Изтрий',
+          LmButton(context.l10n.actionDelete,
               full: true,
               variant: LmButtonVariant.danger,
               icon: LmIcons.trash,
@@ -301,7 +308,7 @@ class _DateField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Field(
-      label: 'Дата',
+      label: context.l10n.foodDate,
       required: true,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,

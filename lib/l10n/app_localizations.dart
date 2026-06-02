@@ -259,6 +259,768 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{code, select, today{Today} last7{7 days} last30{30 days} this_month{Month} prev_month{Previous} custom{Custom} other{{code}}}'**
   String periodChipLabel(String code);
+
+  /// No description provided for @financeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance'**
+  String get financeTitle;
+
+  /// No description provided for @financeRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Records'**
+  String get financeRecords;
+
+  /// No description provided for @financeBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance for the period'**
+  String get financeBalance;
+
+  /// No description provided for @financeIncomeStat.
+  ///
+  /// In en, this message translates to:
+  /// **'income'**
+  String get financeIncomeStat;
+
+  /// No description provided for @financeExpenseStat.
+  ///
+  /// In en, this message translates to:
+  /// **'expenses'**
+  String get financeExpenseStat;
+
+  /// No description provided for @financeAvgPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'avg. per day'**
+  String get financeAvgPerDay;
+
+  /// No description provided for @financeIncomeVsExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Income vs expenses'**
+  String get financeIncomeVsExpense;
+
+  /// No description provided for @financeIncomeLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get financeIncomeLegend;
+
+  /// No description provided for @financeExpenseLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get financeExpenseLegend;
+
+  /// No description provided for @financeExpensesByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses by category'**
+  String get financeExpensesByCategory;
+
+  /// No description provided for @financeTabExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get financeTabExpenses;
+
+  /// No description provided for @financeTabIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get financeTabIncome;
+
+  /// No description provided for @financeNoExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'No expenses for the period'**
+  String get financeNoExpenses;
+
+  /// No description provided for @financeAddExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Add expense'**
+  String get financeAddExpense;
+
+  /// No description provided for @financeNoIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'No income for the period'**
+  String get financeNoIncome;
+
+  /// No description provided for @financeAddIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Add income'**
+  String get financeAddIncome;
+
+  /// No description provided for @financeNewExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'New expense'**
+  String get financeNewExpense;
+
+  /// No description provided for @financeEditExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit expense'**
+  String get financeEditExpense;
+
+  /// No description provided for @financeExpenseSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'amount, category, description'**
+  String get financeExpenseSubtitle;
+
+  /// No description provided for @financeNewIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'New income'**
+  String get financeNewIncome;
+
+  /// No description provided for @financeEditIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit income'**
+  String get financeEditIncome;
+
+  /// No description provided for @financeIncomeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'amount and source are required'**
+  String get financeIncomeSubtitle;
+
+  /// No description provided for @financeNewRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'New record'**
+  String get financeNewRecord;
+
+  /// No description provided for @financeChooserSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'expense or income?'**
+  String get financeChooserSubtitle;
+
+  /// No description provided for @financeExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get financeExpense;
+
+  /// No description provided for @financeChooserExpenseSub.
+  ///
+  /// In en, this message translates to:
+  /// **'money out'**
+  String get financeChooserExpenseSub;
+
+  /// No description provided for @financeIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get financeIncome;
+
+  /// No description provided for @financeChooserIncomeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'money in'**
+  String get financeChooserIncomeSub;
+
+  /// No description provided for @financeInvalidAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid amount (> 0)'**
+  String get financeInvalidAmount;
+
+  /// No description provided for @financeDescriptionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Description is required'**
+  String get financeDescriptionRequired;
+
+  /// No description provided for @financeSourceRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Source is required'**
+  String get financeSourceRequired;
+
+  /// No description provided for @financeSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully'**
+  String get financeSaved;
+
+  /// No description provided for @financeDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get financeDeleted;
+
+  /// No description provided for @financeAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get financeAmount;
+
+  /// No description provided for @financeCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get financeCategory;
+
+  /// No description provided for @financeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get financeDescription;
+
+  /// No description provided for @financeDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. OMV refuel'**
+  String get financeDescriptionHint;
+
+  /// No description provided for @financePaymentMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment method'**
+  String get financePaymentMethod;
+
+  /// No description provided for @financeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get financeNote;
+
+  /// No description provided for @financeOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'optional'**
+  String get financeOptional;
+
+  /// No description provided for @financeSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get financeSource;
+
+  /// No description provided for @financeSourceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Salary — Klevret'**
+  String get financeSourceHint;
+
+  /// No description provided for @financeDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get financeDate;
+
+  /// No description provided for @foodTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get foodTitle;
+
+  /// No description provided for @foodEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Entries'**
+  String get foodEntries;
+
+  /// No description provided for @foodEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No meals for this period'**
+  String get foodEmpty;
+
+  /// No description provided for @foodAddMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Add meal'**
+  String get foodAddMeal;
+
+  /// No description provided for @foodCalories.
+  ///
+  /// In en, this message translates to:
+  /// **'Calories'**
+  String get foodCalories;
+
+  /// No description provided for @foodProtein.
+  ///
+  /// In en, this message translates to:
+  /// **'Protein'**
+  String get foodProtein;
+
+  /// No description provided for @foodCarbs.
+  ///
+  /// In en, this message translates to:
+  /// **'Carbs'**
+  String get foodCarbs;
+
+  /// No description provided for @foodFat.
+  ///
+  /// In en, this message translates to:
+  /// **'Fat'**
+  String get foodFat;
+
+  /// No description provided for @foodKcalPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'kcal/day'**
+  String get foodKcalPerDay;
+
+  /// No description provided for @foodTotalKcal.
+  ///
+  /// In en, this message translates to:
+  /// **'total kcal'**
+  String get foodTotalKcal;
+
+  /// No description provided for @foodMealCount.
+  ///
+  /// In en, this message translates to:
+  /// **'meals'**
+  String get foodMealCount;
+
+  /// No description provided for @foodAvgProtein.
+  ///
+  /// In en, this message translates to:
+  /// **'avg. protein'**
+  String get foodAvgProtein;
+
+  /// No description provided for @foodCaloriesByDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Calories by day'**
+  String get foodCaloriesByDay;
+
+  /// No description provided for @foodNewMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'New meal'**
+  String get foodNewMeal;
+
+  /// No description provided for @foodEditMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit meal'**
+  String get foodEditMeal;
+
+  /// No description provided for @foodSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'date and name are required'**
+  String get foodSheetSubtitle;
+
+  /// No description provided for @foodNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Name is required'**
+  String get foodNameRequired;
+
+  /// No description provided for @foodSavedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully'**
+  String get foodSavedToast;
+
+  /// No description provided for @foodDeletedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get foodDeletedToast;
+
+  /// No description provided for @foodMealType.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal type'**
+  String get foodMealType;
+
+  /// No description provided for @foodNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name / description'**
+  String get foodNameLabel;
+
+  /// No description provided for @foodNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Chicken with rice'**
+  String get foodNameHint;
+
+  /// No description provided for @foodTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get foodTime;
+
+  /// No description provided for @foodCarbsShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Carbs'**
+  String get foodCarbsShort;
+
+  /// No description provided for @foodGramsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'g'**
+  String get foodGramsHint;
+
+  /// No description provided for @foodQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get foodQuantity;
+
+  /// No description provided for @foodQuantityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 1 bowl'**
+  String get foodQuantityHint;
+
+  /// No description provided for @foodNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get foodNote;
+
+  /// No description provided for @foodNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'optional'**
+  String get foodNoteHint;
+
+  /// No description provided for @foodPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get foodPhoto;
+
+  /// No description provided for @foodDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get foodDate;
+
+  /// No description provided for @activityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Activities'**
+  String get activityTitle;
+
+  /// No description provided for @activityRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Records'**
+  String get activityRecords;
+
+  /// No description provided for @activityEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No activities for the period'**
+  String get activityEmpty;
+
+  /// No description provided for @activityAddAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add activity'**
+  String get activityAddAction;
+
+  /// No description provided for @activityAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get activityAll;
+
+  /// No description provided for @activitySummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get activitySummary;
+
+  /// No description provided for @activityWorkouts.
+  ///
+  /// In en, this message translates to:
+  /// **'workouts'**
+  String get activityWorkouts;
+
+  /// No description provided for @activityTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'total'**
+  String get activityTotal;
+
+  /// No description provided for @activityAvgTime.
+  ///
+  /// In en, this message translates to:
+  /// **'avg. time'**
+  String get activityAvgTime;
+
+  /// No description provided for @activityMostFrequent.
+  ///
+  /// In en, this message translates to:
+  /// **'Most frequent:'**
+  String get activityMostFrequent;
+
+  /// No description provided for @activityByGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'By group'**
+  String get activityByGroup;
+
+  /// No description provided for @activityNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New activity'**
+  String get activityNewTitle;
+
+  /// No description provided for @activityEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit activity'**
+  String get activityEditTitle;
+
+  /// No description provided for @activitySheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'date and type are required'**
+  String get activitySheetSubtitle;
+
+  /// No description provided for @activityDurationPositive.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration must be > 0'**
+  String get activityDurationPositive;
+
+  /// No description provided for @activitySaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully'**
+  String get activitySaved;
+
+  /// No description provided for @activityDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get activityDeleted;
+
+  /// No description provided for @activityFieldType.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity type'**
+  String get activityFieldType;
+
+  /// No description provided for @activityFieldName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name / description'**
+  String get activityFieldName;
+
+  /// No description provided for @activityNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Back and biceps'**
+  String get activityNameHint;
+
+  /// No description provided for @activityFieldStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get activityFieldStart;
+
+  /// No description provided for @activityFieldEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get activityFieldEnd;
+
+  /// No description provided for @activityFieldMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Min.'**
+  String get activityFieldMinutes;
+
+  /// No description provided for @activityFieldIntensity.
+  ///
+  /// In en, this message translates to:
+  /// **'Intensity'**
+  String get activityFieldIntensity;
+
+  /// No description provided for @activityFieldQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Productivity / quality'**
+  String get activityFieldQuality;
+
+  /// No description provided for @activityFieldMoodAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood after'**
+  String get activityFieldMoodAfter;
+
+  /// No description provided for @activityFieldNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get activityFieldNote;
+
+  /// No description provided for @activityNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'optional'**
+  String get activityNoteHint;
+
+  /// No description provided for @activityFieldPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get activityFieldPhoto;
+
+  /// No description provided for @activityFieldDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get activityFieldDate;
+
+  /// No description provided for @stepsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get stepsTitle;
+
+  /// No description provided for @stepsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get stepsToday;
+
+  /// No description provided for @stepsOfGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'of {goal}'**
+  String stepsOfGoal(String goal);
+
+  /// No description provided for @stepsStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get stepsStats;
+
+  /// No description provided for @stepsStatTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'total'**
+  String get stepsStatTotal;
+
+  /// No description provided for @stepsStatAvg.
+  ///
+  /// In en, this message translates to:
+  /// **'average'**
+  String get stepsStatAvg;
+
+  /// No description provided for @stepsStatMax.
+  ///
+  /// In en, this message translates to:
+  /// **'max.'**
+  String get stepsStatMax;
+
+  /// No description provided for @stepsStatDays.
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get stepsStatDays;
+
+  /// No description provided for @stepsByDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps by day'**
+  String get stepsByDay;
+
+  /// No description provided for @stepsDaysSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Days'**
+  String get stepsDaysSection;
+
+  /// No description provided for @stepsCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} steps'**
+  String stepsCountLabel(String count);
+
+  /// No description provided for @stepsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No steps for the period'**
+  String get stepsEmpty;
+
+  /// No description provided for @stepsAddAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add steps'**
+  String get stepsAddAction;
+
+  /// No description provided for @stepsSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'one value per day'**
+  String get stepsSheetSubtitle;
+
+  /// No description provided for @stepsDateField.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get stepsDateField;
+
+  /// No description provided for @stepsCountField.
+  ///
+  /// In en, this message translates to:
+  /// **'Step count'**
+  String get stepsCountField;
+
+  /// No description provided for @stepsNoteField.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get stepsNoteField;
+
+  /// No description provided for @stepsNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'optional'**
+  String get stepsNoteHint;
+
+  /// No description provided for @stepsCountRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid step count'**
+  String get stepsCountRequired;
+
+  /// No description provided for @stepsSavedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully'**
+  String get stepsSavedToast;
+
+  /// No description provided for @stepsDeletedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get stepsDeletedToast;
+
+  /// No description provided for @stepsProvFromDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'entered from Daily log'**
+  String get stepsProvFromDaily;
+
+  /// No description provided for @stepsProvFromSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'entered from Steps'**
+  String get stepsProvFromSteps;
 }
 
 class _AppLocalizationsDelegate
