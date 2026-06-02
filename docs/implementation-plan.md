@@ -244,10 +244,11 @@
 - [x] Tests (2): period drives range + series stream in-range; screen renders chart cards from seed.
 - **Verify:** ✅ analyze clean; full suite green (145). Period switch recomputes all cards; cards push to their modules.
 
-### Slice 7.12 — Memories / visual diary
-- [ ] Providers: dates-with-daily-photo + trips rail.
-- [ ] Memories screen: trips rail + photo grid (only days with a photo, spec §19.4); tapping a day opens that daily log.
-- **Verify:** only photo-days appear; tap opens correct daily log; trips rail navigates.
+### Slice 7.12 — Memories / visual diary ✅ (commit 0fe336c)
+- [x] Providers: `memoryDaysProvider` (daily logs that have a photo, newest first) + trips rail. `AttachmentsDao.watchByType` + `DailyLogsDao.watchAll` added.
+- [x] Memories screen: trips rail (→/trips/:id) + photo grid (only photo-days); tapping a day sets the daily date and opens /daily (wires the ?date flow deferred from 7.7).
+- [x] Tests (2): only photo-days appear (correct date/logId, sorted); screen renders trips rail from seed.
+- **Verify:** ✅ analyze clean; full suite green (147). Photo thumbs device-verified.
 
 ### Slice 7.13 — More menu + Search
 - [ ] More screen: grouped module list (Логване/Пари/Здраве/Живот/Данни) → routes.
