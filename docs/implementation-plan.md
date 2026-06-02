@@ -290,11 +290,12 @@
 - [x] Tests (9): every list module renders its empty copy on a fresh (unseeded) DB.
 - **Verify:** ✅ analyze clean; full suite green (188). Fresh install shows graceful empties everywhere; no raw spinners remain.
 
-### Slice 9.2 — Motion, formatting, polish
-- [ ] Sheet slide-up + fade transitions; ring/chart easing.
-- [ ] `intl` bg_BG dates (dd.MM.yyyy), EUR `€` formatting, thousands separators throughout.
-- [ ] SafeArea/keyboard insets on sheets; tap targets; basic semantics labels.
-- **Verify:** visual pass against prototype screenshots; no overflow/clipping on a 412-wide device.
+### Slice 9.2 — Motion, formatting, polish ✅ (commit 3d4f707)
+- [x] Charts ease via `lmChartAnimationDuration` (150ms, already wired); sheets slide up (modal) — confirmed in place.
+- [x] `core/format/dates.dart` (`dmy`/`dm`/`dmyDate` via `intl`) renders stored `yyyy-MM-dd` as `dd.MM.yyyy` (`dd.MM` in the memories grid) across all display sites + form date-pickers; storage stays `yyyy-MM-dd`. EUR `€` + space-grouped thousands already via `finance_format` throughout.
+- [x] SafeArea/keyboard insets already handled in `showLmSheet` (viewInsets + bottom padding); added button semantics + labels to bottom-nav tabs, the quick-log FAB, and the sheet close.
+- [x] Tests (5): dates formatter; bottom-nav button semantics.
+- **Verify:** ✅ analyze clean; full suite green (193). Dates display `dd.MM.yyyy`; same string length as before → no new overflow. Prototype visual pass + 412-wide overflow check are device-verified (parallel session).
 
 ### Slice 9.3 — Final QA pass
 - [ ] Walk every spec §30 acceptance criterion; tick each.
