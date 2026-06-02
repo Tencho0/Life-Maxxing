@@ -1,0 +1,17 @@
+{
+  "@@locale": "bg",
+
+  "appTitle": "LifeMaxxing",
+  "actionSave": "Запази",
+  "actionCancel": "Отказ",
+  "actionDelete": "Изтрий",
+  "actionAdd": "Добави",
+  "actionBack": "Назад",
+  "actionClose": "Затвори",
+
+  "settingsTitle": "Настройки",
+  "settingsLanguage": "Език",
+  "languageSystem": "Системен",
+  "languageBulgarian": "Български",
+  "languageEnglish": "English"
+}

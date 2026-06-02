@@ -1,0 +1,54 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "LifeMaxxing",
+  "@appTitle": {
+    "description": "Application name shown in the OS task switcher."
+  },
+
+  "actionSave": "Save",
+  "@actionSave": {
+    "description": "Generic save button label."
+  },
+  "actionCancel": "Cancel",
+  "@actionCancel": {
+    "description": "Generic cancel button label."
+  },
+  "actionDelete": "Delete",
+  "@actionDelete": {
+    "description": "Generic delete button label."
+  },
+  "actionAdd": "Add",
+  "@actionAdd": {
+    "description": "Generic add button / semantics label."
+  },
+  "actionBack": "Back",
+  "@actionBack": {
+    "description": "Back navigation semantics label."
+  },
+  "actionClose": "Close",
+  "@actionClose": {
+    "description": "Close (e.g. sheet) semantics label."
+  },
+
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Settings section title."
+  },
+  "settingsLanguage": "Language",
+  "@settingsLanguage": {
+    "description": "Label for the language picker row."
+  },
+  "languageSystem": "System",
+  "@languageSystem": {
+    "description": "Language option: follow the system locale."
+  },
+  "languageBulgarian": "Български",
+  "@languageBulgarian": {
+    "description": "Language option: Bulgarian (shown in its own name)."
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "Language option: English (shown in its own name)."
+  }
+}

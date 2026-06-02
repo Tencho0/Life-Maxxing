@@ -330,3 +330,46 @@
 - [x] §30.12 Trips (CRUD, cover+gallery, ratings, repeat, comment, search, summaries, exports)
 - [x] §30.13 AI export (Full/Period/Module, JSON+Markdown, raw+summary, ChatGPT-ready MD)
 - [x] §30.14 Backup & Restore (ZIP w/ manifest+data+attachments, restore links, invalid rejected, non-empty warning, all-or-nothing)
+
+---
+
+## Phase 10 — Localization (i18n) + language switcher (bg / en)
+
+> Make every user-facing string localizable and add a runtime System / Български / English switcher that persists across launches. **Storage stays language-independent** — enum `code`s, `yyyy-MM-dd` dates, EUR cents, `*Lower` search columns, and AI-export JSON keys/codes never change. Localization is **display-only**. Mechanism: Flutter's official `gen-l10n` (ARB → generated `AppLocalizations`). Persistence: a drift-backed key-value `settings` table (no new dependency). One slice per commit, in order; pause for review at boundaries.
+
+### Slice 10.1 — i18n infrastructure (pipeline proof)
+- [ ] Add `flutter_localizations` (SDK) to `pubspec.yaml`; set `flutter: generate: true`. `intl ^0.20.2` already present.
+- [ ] `l10n.yaml` (arb-dir `lib/l10n`, template `app_en.arb`, output `AppLocalizations`, non-nullable getter); seed `lib/l10n/app_en.arb` + `app_bg.arb` with ~10 strings (app title, common actions, language-switcher labels) to prove the pipeline.
+- [ ] `lib/core/l10n/l10n_ext.dart` — `context.l10n` extension. Generated `app_localizations*.dart` committed (like drift `*.g.dart`).
+- [ ] Wire `MaterialApp.router` in `app/app.dart`: `localizationsDelegates: AppLocalizations.localizationsDelegates`, `supportedLocales: AppLocalizations.supportedLocales` (`[bg, en]`), `locale:` hook (provider lands in 10.2). `initializeDateFormatting` for both locales at startup.
+- [ ] Test: pump a widget under each locale with the delegates installed; assert seeded strings resolve per-locale; assert `supportedLocales == [bg, en]`.
+- **Verify:** `flutter analyze` clean; `flutter gen-l10n` reports no missing translations; test green.
+
+### Slice 10.2 — Settings store + locale provider + switcher UI
+- [ ] Drift `settings` KV table (`key` PK, `value` TEXT) + `SettingsDao`; `SettingsService` (get/set locale code). build_runner regen.
+- [ ] `localeProvider` (`StateProvider<Locale?>`, null = follow system), loaded from settings before first frame; `MaterialApp.locale` reads it. Default resolution: system → bg/en, fallback **bg**.
+- [ ] Language row/section reachable from **More** (System / Български / English); selecting updates provider + persists + rebuilds live.
+- [ ] Tests: choosing a language updates + persists; reload restores it; default resolution (system bg/en → fallback bg).
+- **Verify:** analyze clean; tests green; switch round-trips across a simulated restart.
+
+### Slice 10.3 — Enum display labels → ARB + resolver
+- [ ] ARB entries keyed by enum code; presentation-layer resolver (e.g. `localizedLabel(context, codedEnum)`). `domain/enums.dart` keeps `code` (storage/search/export/backup) — UI stops using `enum.label`.
+- [ ] Migrate every UI use of `enum.label`.
+- [ ] Tests: resolver returns per-locale labels; codes unchanged in storage/search/backup/export.
+- **Verify:** analyze clean; tests green; grep finds no `.label` in `lib/presentation/**`.
+
+### Slice 10.4 — Per-feature string migration (one sub-slice per area, in order)
+- [ ] finance · food · activities · steps · health · daily · bucket · trips · home · stats · memories · search · more · export · backup, plus `app/sheets.dart` (titles/subtitles/quick-log labels/validation/toasts) and shared widgets (`empty_state.dart`, `lm_bottom_nav.dart` tab + semantics labels, `AppTopBar` titles, `LmInlineError`, Phase-9 semantics labels).
+- [ ] Move every literal into ARB; migrate each area's tests to look up expected text via `AppLocalizations` (don't hardcode Cyrillic).
+- [ ] AI-export **Markdown** headings follow the locale; **JSON keys, enum codes, and "Questions for AI" block stay English/stable**. Backup `data.json` unchanged.
+- **Verify (per sub-slice):** analyze clean; that area's tests green in both locales.
+
+### Slice 10.5 — Locale-aware formatting
+- [ ] `core/format/dates.dart` + `finance/finance_format.dart` use the active locale (`DateFormat`/`NumberFormat`); confirm native `showDatePicker`/`showDateRangePicker` localize via delegates. Keep EUR `€`.
+- [ ] Tests: formatters render per-locale; storage values unchanged.
+- **Verify:** analyze clean; tests green; pickers render in the selected language (device).
+
+### Slice 10.6 — i18n QA pass
+- [ ] `pumpWithLocale(tester, locale)` shared test helper; render key screens in bg + en; verify no missing keys (`flutter gen-l10n`), no overflow at en lengths (check 412-wide), switcher round-trips.
+- [ ] Extend the §30-style checklist with i18n acceptance criteria.
+- **Verify:** analyze clean; full suite green in both locales; `flutter gen-l10n` no missing translations.
