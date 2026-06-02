@@ -195,7 +195,7 @@ class _Rails extends StatelessWidget {
               route: '/daily'),
           _RailCard(
               label: context.l10n.homeRailSteps,
-              value: '${(week.avgSteps / 1000).toStringAsFixed(1)}к',
+              value: '${(week.avgSteps / 1000).toStringAsFixed(1)}${context.l10n.unitThousands}',
               unit: context.l10n.homeAvgUnit,
               data: week.steps,
               color: AppColors.purple,

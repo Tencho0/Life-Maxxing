@@ -136,7 +136,7 @@ class ActivityScreen extends ConsumerWidget {
             title: a.name ?? localizedLabel(context, a.type),
             subtitle: [
               localizedLabel(context, a.type),
-              if (a.durationMin != null) formatDuration(a.durationMin!),
+              if (a.durationMin != null) formatDuration(context, a.durationMin!),
               if (a.intensity != null) localizedLabel(context, a.intensity!),
               dmy(a.date),
             ].join(' · '),
@@ -186,10 +186,10 @@ class _CountsCard extends StatelessWidget {
           Row(
             children: [
               Expanded(child: _stat('${s.count}', context.l10n.activityWorkouts)),
-              Expanded(child: _stat(formatDuration(s.totalMinutes), context.l10n.activityTotal)),
+              Expanded(child: _stat(formatDuration(context, s.totalMinutes), context.l10n.activityTotal)),
               Expanded(
                   child:
-                      _stat(formatDuration(s.avgDurationMin.round()), context.l10n.activityAvgTime)),
+                      _stat(formatDuration(context, s.avgDurationMin.round()), context.l10n.activityAvgTime)),
             ],
           ),
           if (s.mostFrequent != null) ...[

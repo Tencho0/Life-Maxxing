@@ -127,7 +127,7 @@ class _ComponentCatalogState extends State<ComponentCatalog> {
         LmStepper(value: _steps, step: 100, min: 0, suffix: 'крачки', onChanged: (v) => setState(() => _steps = v)),
 
         const _H('PeriodChips'),
-        PeriodChips(value: _period, onChanged: (v) => setState(() => _period = v)),
+        PeriodChips(value: _period, onChanged: (v) => setState(() => _period = v), options: const ['Днес', '7 дни', '30 дни', 'Месец', 'Custom']),
 
         const _H('Снимки'),
         const PhotoAdd(multi: true),

@@ -1822,4 +1822,55 @@ class AppLocalizationsBg extends AppLocalizations {
   String exportMdBucketLine(String title, String status, String priority) {
     return '$title ($status, приоритет $priority)';
   }
+
+  @override
+  String get commonYes => 'Да';
+
+  @override
+  String get commonNo => 'Не';
+
+  @override
+  String get commonRemove => 'Премахни';
+
+  @override
+  String get commonAddPhotos => 'Добави снимки';
+
+  @override
+  String get moodPickerPrompt => 'как се чувстваш днес?';
+
+  @override
+  String get moodPickerLow => '1 · много лошо';
+
+  @override
+  String get moodPickerHigh => '10 · страхотно';
+
+  @override
+  String get moodVeryBad => 'много лошо';
+
+  @override
+  String get moodBad => 'лошо';
+
+  @override
+  String get moodMid => 'средно';
+
+  @override
+  String get moodGood => 'добре';
+
+  @override
+  String get moodVeryGood => 'много добре';
+
+  @override
+  String get moodGreat => 'страхотно';
+
+  @override
+  String get unitGrams => 'г';
+
+  @override
+  String get unitMin => 'м';
+
+  @override
+  String get unitHour => 'ч';
+
+  @override
+  String get unitThousands => 'к';
 }

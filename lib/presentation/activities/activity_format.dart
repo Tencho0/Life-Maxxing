@@ -2,17 +2,18 @@
 // palette used by the Activities screen.
 
 import 'package:flutter/widgets.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../domain/enums.dart';
 
 /// Minutes → "1ч 5м" / "45м" / "2ч".
-String formatDuration(int min) {
-  if (min <= 0) return '0м';
+String formatDuration(BuildContext context, int min) {
+  if (min <= 0) return '0${context.l10n.unitMin}';
   final h = min ~/ 60;
   final m = min % 60;
-  if (h == 0) return '$mм';
-  if (m == 0) return '$hч';
-  return '$hч $mм';
+  if (h == 0) return '$m${context.l10n.unitMin}';
+  if (m == 0) return '$h${context.l10n.unitHour}';
+  return '$h${context.l10n.unitHour} $m${context.l10n.unitMin}';
 }
 
 const _groupPalette = {

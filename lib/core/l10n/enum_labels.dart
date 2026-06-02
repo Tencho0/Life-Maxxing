@@ -34,3 +34,16 @@ String localizedLabel(BuildContext context, Coded value) {
 /// [localizedLabel] of a [Period]).
 String periodChipLabel(BuildContext context, Period value) =>
     context.l10n.periodChipLabel(value.code);
+
+/// Localized 1–10 mood descriptor (mirrors the ranges of `moodLabel`, which
+/// returns the stable storage-independent bands — here resolved per locale).
+String localizedMoodLabel(BuildContext context, int value) {
+  final l = context.l10n;
+  final v = value.clamp(1, 10);
+  if (v <= 2) return l.moodVeryBad;
+  if (v <= 4) return l.moodBad;
+  if (v <= 6) return l.moodMid;
+  if (v <= 8) return l.moodGood;
+  if (v <= 9) return l.moodVeryGood;
+  return l.moodGreat;
+}

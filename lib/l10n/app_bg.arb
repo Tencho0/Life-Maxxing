@@ -527,5 +527,23 @@
   "exportMdMealCalories": " — {calories} kcal",
   "exportMdActivityDuration": " — {minutes} мин",
   "exportMdEventNext": " (следващ: {date})",
-  "exportMdBucketLine": "{title} ({status}, приоритет {priority})"
+  "exportMdBucketLine": "{title} ({status}, приоритет {priority})",
+
+  "commonYes": "Да",
+  "commonNo": "Не",
+  "commonRemove": "Премахни",
+  "commonAddPhotos": "Добави снимки",
+  "moodPickerPrompt": "как се чувстваш днес?",
+  "moodPickerLow": "1 · много лошо",
+  "moodPickerHigh": "10 · страхотно",
+  "moodVeryBad": "много лошо",
+  "moodBad": "лошо",
+  "moodMid": "средно",
+  "moodGood": "добре",
+  "moodVeryGood": "много добре",
+  "moodGreat": "страхотно",
+  "unitGrams": "г",
+  "unitMin": "м",
+  "unitHour": "ч",
+  "unitThousands": "к"
 }

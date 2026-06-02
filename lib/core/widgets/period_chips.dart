@@ -7,9 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:lifemaxxing/core/theme/tokens.dart';
 import 'package:lifemaxxing/core/theme/typography.dart';
 
-/// Default period labels, matching the prototype's `PERIODS`.
-const List<String> kPeriods = ['Днес', '7 дни', '30 дни', 'Месец', 'Custom'];
-
 /// A horizontally scrollable row of period-selection chips.
 ///
 /// The chip matching [value] is highlighted (1px accent border, accent-soft
@@ -20,7 +17,7 @@ class PeriodChips extends StatelessWidget {
     super.key,
     required this.value,
     required this.onChanged,
-    this.options = kPeriods,
+    required this.options,
   });
 
   /// Currently-selected period label.

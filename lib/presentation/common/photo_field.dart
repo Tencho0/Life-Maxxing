@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/photo.dart';
@@ -21,18 +22,20 @@ class SinglePhotoField extends StatelessWidget {
     required this.svc,
     required this.onAdd,
     required this.onRemove,
-    this.addLabel = 'Добави снимка',
+    this.addLabel,
   });
 
   final List<Attachment> photos;
   final AttachmentService svc;
   final VoidCallback onAdd;
   final void Function(Attachment) onRemove;
-  final String addLabel;
+  final String? addLabel;
 
   @override
   Widget build(BuildContext context) {
-    if (photos.isEmpty) return PhotoAdd(label: addLabel, onTap: onAdd);
+    if (photos.isEmpty) {
+      return PhotoAdd(label: addLabel ?? context.l10n.commonAddPhoto, onTap: onAdd);
+    }
     final a = photos.first;
     return Row(
       children: [
@@ -48,13 +51,13 @@ class SinglePhotoField extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppRadii.input),
               border: Border.all(color: AppColors.border),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                LmIcon(LmIcons.trash, size: 16, color: AppColors.red),
-                SizedBox(width: 8),
-                Text('Премахни',
-                    style: TextStyle(
+                const LmIcon(LmIcons.trash, size: 16, color: AppColors.red),
+                const SizedBox(width: 8),
+                Text(context.l10n.commonRemove,
+                    style: const TextStyle(
                         fontFamily: AppText.sans,
                         fontSize: 13,
                         color: AppColors.red)),
@@ -76,18 +79,21 @@ class MultiPhotoField extends StatelessWidget {
     required this.svc,
     required this.onAdd,
     required this.onRemove,
-    this.addLabel = 'Добави снимки',
+    this.addLabel,
   });
 
   final List<Attachment> photos;
   final AttachmentService svc;
   final VoidCallback onAdd;
   final void Function(Attachment) onRemove;
-  final String addLabel;
+  final String? addLabel;
 
   @override
   Widget build(BuildContext context) {
-    if (photos.isEmpty) return PhotoAdd(label: addLabel, multi: true, onTap: onAdd);
+    if (photos.isEmpty) {
+      return PhotoAdd(
+          label: addLabel ?? context.l10n.commonAddPhotos, multi: true, onTap: onAdd);
+    }
     return Wrap(
       spacing: 10,
       runSpacing: 10,

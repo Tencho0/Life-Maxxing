@@ -3172,6 +3172,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{title} ({status}, priority {priority})'**
   String exportMdBucketLine(String title, String status, String priority);
+
+  /// No description provided for @commonYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get commonYes;
+
+  /// No description provided for @commonNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get commonNo;
+
+  /// No description provided for @commonRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get commonRemove;
+
+  /// No description provided for @commonAddPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Add photos'**
+  String get commonAddPhotos;
+
+  /// No description provided for @moodPickerPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'how do you feel today?'**
+  String get moodPickerPrompt;
+
+  /// No description provided for @moodPickerLow.
+  ///
+  /// In en, this message translates to:
+  /// **'1 · very bad'**
+  String get moodPickerLow;
+
+  /// No description provided for @moodPickerHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'10 · great'**
+  String get moodPickerHigh;
+
+  /// No description provided for @moodVeryBad.
+  ///
+  /// In en, this message translates to:
+  /// **'very bad'**
+  String get moodVeryBad;
+
+  /// No description provided for @moodBad.
+  ///
+  /// In en, this message translates to:
+  /// **'bad'**
+  String get moodBad;
+
+  /// No description provided for @moodMid.
+  ///
+  /// In en, this message translates to:
+  /// **'average'**
+  String get moodMid;
+
+  /// No description provided for @moodGood.
+  ///
+  /// In en, this message translates to:
+  /// **'good'**
+  String get moodGood;
+
+  /// No description provided for @moodVeryGood.
+  ///
+  /// In en, this message translates to:
+  /// **'very good'**
+  String get moodVeryGood;
+
+  /// No description provided for @moodGreat.
+  ///
+  /// In en, this message translates to:
+  /// **'great'**
+  String get moodGreat;
+
+  /// No description provided for @unitGrams.
+  ///
+  /// In en, this message translates to:
+  /// **'g'**
+  String get unitGrams;
+
+  /// No description provided for @unitMin.
+  ///
+  /// In en, this message translates to:
+  /// **'m'**
+  String get unitMin;
+
+  /// No description provided for @unitHour.
+  ///
+  /// In en, this message translates to:
+  /// **'h'**
+  String get unitHour;
+
+  /// No description provided for @unitThousands.
+  ///
+  /// In en, this message translates to:
+  /// **'k'**
+  String get unitThousands;
 }
 
 class _AppLocalizationsDelegate

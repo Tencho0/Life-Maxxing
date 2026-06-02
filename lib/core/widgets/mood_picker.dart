@@ -8,6 +8,9 @@ import 'package:lifemaxxing/core/theme/mood_color.dart';
 import 'package:lifemaxxing/core/theme/tokens.dart';
 import 'package:lifemaxxing/core/theme/typography.dart';
 
+import '../l10n/enum_labels.dart';
+import '../l10n/l10n_ext.dart';
+
 /// A mood gauge: a big colored number + label over a row of ten segment
 /// buttons (1..10). The card border and number tint follow [moodColor] of the
 /// current [value]. Tapping a segment reports its number through [onChanged].
@@ -67,7 +70,7 @@ class MoodPicker extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        moodLabel(value),
+                        localizedMoodLabel(context, value),
                         style: TextStyle(
                           fontFamily: AppText.sans,
                           fontSize: 14,
@@ -76,9 +79,9 @@ class MoodPicker extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 1),
-                      const Text(
-                        'как се чувстваш днес?',
-                        style: TextStyle(
+                      Text(
+                        context.l10n.moodPickerPrompt,
+                        style: const TextStyle(
                           fontFamily: AppText.mono,
                           fontSize: 10.5,
                           fontWeight: FontWeight.w400,
@@ -113,14 +116,14 @@ class MoodPicker extends StatelessWidget {
             ],
           ),
           // Min/max captions.
-          const Padding(
-            padding: EdgeInsets.only(top: 7),
+          Padding(
+            padding: const EdgeInsets.only(top: 7),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '1 · много лошо',
-                  style: TextStyle(
+                  context.l10n.moodPickerLow,
+                  style: const TextStyle(
                     fontFamily: AppText.mono,
                     fontSize: 10,
                     fontWeight: FontWeight.w400,
@@ -128,8 +131,8 @@ class MoodPicker extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '10 · страхотно',
-                  style: TextStyle(
+                  context.l10n.moodPickerHigh,
+                  style: const TextStyle(
                     fontFamily: AppText.mono,
                     fontSize: 10,
                     fontWeight: FontWeight.w400,

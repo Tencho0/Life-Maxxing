@@ -2,6 +2,7 @@
 // macro color palette used by the Food screen.
 
 import 'package:flutter/widgets.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../domain/enums.dart';
 
@@ -9,7 +10,7 @@ import '../../domain/enums.dart';
 String kcal(int calories) => '$calories kcal';
 
 /// Macro grams, rounded to whole grams, e.g. 14.0 → "14 г".
-String grams(double g) => '${g.round()} г';
+String grams(BuildContext context, double g) => '${g.round()} ${context.l10n.unitGrams}';
 
 // Macro colors (protein / carbs / fat).
 const Color proteinColor = AppColors.accent;

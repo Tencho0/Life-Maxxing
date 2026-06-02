@@ -243,7 +243,7 @@ class _CaloriesCard extends StatelessWidget {
                   child: _heroStat(
                       '${summary.mealCount}', context.l10n.foodMealCount)),
               Expanded(
-                  child: _heroStat(grams(summary.avgProteinPerDay),
+                  child: _heroStat(grams(context, summary.avgProteinPerDay),
                       context.l10n.foodAvgProtein)),
             ],
           ),
@@ -304,7 +304,7 @@ class _MacroBar extends StatelessWidget {
           const SizedBox(width: 8),
           SizedBox(
             width: 42,
-            child: Text(grams(value),
+            child: Text(grams(context, value),
                 textAlign: TextAlign.right, style: AppText.mono12),
           ),
         ],

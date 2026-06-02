@@ -246,7 +246,7 @@ class _ExpenseFormState extends ConsumerState<_ExpenseForm> {
         Field(
           label: context.l10n.financePaymentMethod,
           child: Segmented(
-            options: const ['Карта', 'В брой', 'Друго'],
+            options: PaymentMethod.values.map((p) => localizedLabel(context, p)).toList(),
             value: localizedLabel(context, _payment),
             onChanged: (l) => setState(() => _payment =
                 PaymentMethod.values.firstWhere((p) => localizedLabel(context, p) == l)),

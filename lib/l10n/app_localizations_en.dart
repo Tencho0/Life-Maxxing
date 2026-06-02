@@ -1821,4 +1821,55 @@ class AppLocalizationsEn extends AppLocalizations {
   String exportMdBucketLine(String title, String status, String priority) {
     return '$title ($status, priority $priority)';
   }
+
+  @override
+  String get commonYes => 'Yes';
+
+  @override
+  String get commonNo => 'No';
+
+  @override
+  String get commonRemove => 'Remove';
+
+  @override
+  String get commonAddPhotos => 'Add photos';
+
+  @override
+  String get moodPickerPrompt => 'how do you feel today?';
+
+  @override
+  String get moodPickerLow => '1 · very bad';
+
+  @override
+  String get moodPickerHigh => '10 · great';
+
+  @override
+  String get moodVeryBad => 'very bad';
+
+  @override
+  String get moodBad => 'bad';
+
+  @override
+  String get moodMid => 'average';
+
+  @override
+  String get moodGood => 'good';
+
+  @override
+  String get moodVeryGood => 'very good';
+
+  @override
+  String get moodGreat => 'great';
+
+  @override
+  String get unitGrams => 'g';
+
+  @override
+  String get unitMin => 'm';
+
+  @override
+  String get unitHour => 'h';
+
+  @override
+  String get unitThousands => 'k';
 }

@@ -646,5 +646,23 @@
   "exportMdEventNext": " (next: {date})",
   "@exportMdEventNext": { "placeholders": { "date": { "type": "String" } } },
   "exportMdBucketLine": "{title} ({status}, priority {priority})",
-  "@exportMdBucketLine": { "placeholders": { "title": { "type": "String" }, "status": { "type": "String" }, "priority": { "type": "String" } } }
+  "@exportMdBucketLine": { "placeholders": { "title": { "type": "String" }, "status": { "type": "String" }, "priority": { "type": "String" } } },
+
+  "commonYes": "Yes",
+  "commonNo": "No",
+  "commonRemove": "Remove",
+  "commonAddPhotos": "Add photos",
+  "moodPickerPrompt": "how do you feel today?",
+  "moodPickerLow": "1 · very bad",
+  "moodPickerHigh": "10 · great",
+  "moodVeryBad": "very bad",
+  "moodBad": "bad",
+  "moodMid": "average",
+  "moodGood": "good",
+  "moodVeryGood": "very good",
+  "moodGreat": "great",
+  "unitGrams": "g",
+  "unitMin": "m",
+  "unitHour": "h",
+  "unitThousands": "k"
 }

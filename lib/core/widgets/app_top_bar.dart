@@ -8,6 +8,8 @@ import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/widgets.dart';
 import 'package:lifemaxxing/core/icons/lm_icons.dart';
+
+import '../l10n/l10n_ext.dart';
 import 'package:lifemaxxing/core/theme/tokens.dart';
 import 'package:lifemaxxing/core/theme/typography.dart';
 
@@ -58,7 +60,7 @@ class AppTopBar extends StatelessWidget {
                 if (showBack) ...[
                   Semantics(
                     button: true,
-                    label: 'Назад',
+                    label: context.l10n.actionBack,
                     child: GestureDetector(
                       onTap: onBack,
                       behavior: HitTestBehavior.opaque,

@@ -9,9 +9,13 @@ import 'package:lifemaxxing/core/widgets/scale10.dart';
 import 'package:lifemaxxing/core/widgets/lm_stepper.dart';
 import 'package:lifemaxxing/core/widgets/mood_picker.dart';
 
+import '../../support/test_env.dart';
+
 Future<void> _pump(WidgetTester tester, Widget child) async {
+  // Pinned to bg + l10n delegates: some controls (YesNo, MoodPicker) read
+  // context.l10n; bg keeps the existing Bulgarian assertions valid.
   await tester.pumpWidget(
-    MaterialApp(home: Scaffold(body: Center(child: child))),
+    localizedApp(home: Scaffold(body: Center(child: child))),
   );
 }
 

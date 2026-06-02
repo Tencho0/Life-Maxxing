@@ -4,6 +4,8 @@
 import 'package:flutter/widgets.dart';
 
 import 'package:lifemaxxing/core/theme/tokens.dart';
+
+import '../l10n/l10n_ext.dart';
 import 'package:lifemaxxing/core/theme/typography.dart';
 
 /// A pair of equal-width buttons — 'Да' (true) and 'Не' (false).
@@ -28,7 +30,7 @@ class YesNo extends StatelessWidget {
     return Row(
       children: [
         _Button(
-          label: 'Да',
+          label: context.l10n.commonYes,
           selected: value == true,
           color: AppColors.green,
           selectedBg: AppColors.greenSoft,
@@ -36,7 +38,7 @@ class YesNo extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         _Button(
-          label: 'Не',
+          label: context.l10n.commonNo,
           selected: value == false,
           color: AppColors.red,
           selectedBg: AppColors.redSoft,
