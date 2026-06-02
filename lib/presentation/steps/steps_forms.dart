@@ -13,13 +13,9 @@ import '../../core/widgets/field.dart';
 import '../../core/widgets/lm_button.dart';
 import '../../core/widgets/lm_toast.dart';
 import '../../core/format/dates.dart';
+import '../../domain/period.dart' show ymd;
 import '../../data/database.dart';
 import 'steps_providers.dart';
-
-String _ymd(DateTime d) =>
-    '${d.year.toString().padLeft(4, '0')}-'
-    '${d.month.toString().padLeft(2, '0')}-'
-    '${d.day.toString().padLeft(2, '0')}';
 
 DateTime _parseYmd(String s) => DateTime.parse(s);
 
@@ -70,7 +66,7 @@ class _StepsFormState extends ConsumerState<_StepsForm> {
     final note = _note.text.trim().isEmpty ? null : _note.text.trim();
     await ref
         .read(stepsServiceProvider)
-        .setFromStepsModule(_ymd(_date), count, note: note);
+        .setFromStepsModule(ymd(_date), count, note: note);
     if (mounted) {
       Navigator.pop(context);
       showLmToast(context, 'Записано успешно');

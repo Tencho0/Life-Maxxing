@@ -85,22 +85,22 @@ class _Slot extends StatelessWidget {
       label: item.label,
       excludeSemantics: true,
       child: GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => onTab(item.route),
-      child: SizedBox(
-        width: 60,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            LmIcon(item.icon, size: 22, color: color),
-            const SizedBox(height: 3),
-            Text(item.label,
-                style: TextStyle(
-                    fontFamily: AppText.sans, fontSize: 10, color: color)),
-          ],
+        behavior: HitTestBehavior.opaque,
+        onTap: () => onTab(item.route),
+        child: SizedBox(
+          width: 60,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              LmIcon(item.icon, size: 22, color: color),
+              const SizedBox(height: 3),
+              Text(item.label,
+                  style: TextStyle(
+                      fontFamily: AppText.sans, fontSize: 10, color: color)),
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }
@@ -114,26 +114,27 @@ class _Fab extends StatelessWidget {
       button: true,
       label: 'Бързо логване',
       child: GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: Container(
-        width: 52,
-        height: 52,
-        margin: const EdgeInsets.only(bottom: 6),
-        decoration: BoxDecoration(
-          color: AppColors.accent,
-          borderRadius: BorderRadius.circular(AppRadii.fab),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.accent.withValues(alpha: 0.45),
-              blurRadius: 22,
-              offset: const Offset(0, 8),
-            ),
-          ],
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Container(
+          width: 52,
+          height: 52,
+          margin: const EdgeInsets.only(bottom: 6),
+          decoration: BoxDecoration(
+            color: AppColors.accent,
+            borderRadius: BorderRadius.circular(AppRadii.fab),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.accent.withValues(alpha: 0.45),
+                blurRadius: 22,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: const LmIcon(LmIcons.plus,
+              size: 26, color: AppColors.bg, strokeWidth: 2.4),
         ),
-        child: const LmIcon(LmIcons.plus, size: 26, color: AppColors.bg, strokeWidth: 2.4),
       ),
-    ),
     );
   }
 }

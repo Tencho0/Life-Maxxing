@@ -19,17 +19,13 @@ import '../../core/widgets/lm_toast.dart';
 import '../../core/widgets/scale10.dart';
 import '../../core/widgets/yes_no.dart';
 import '../../core/format/dates.dart';
+import '../../domain/period.dart' show ymd;
 import '../../data/database.dart';
 import '../../data/daos.dart';
 import '../../domain/enums.dart';
 import '../../services/attachment_service.dart';
 import '../common/photo_field.dart';
 import 'trip_providers.dart';
-
-String _ymd(DateTime d) =>
-    '${d.year.toString().padLeft(4, '0')}-'
-    '${d.month.toString().padLeft(2, '0')}-'
-    '${d.day.toString().padLeft(2, '0')}';
 
 DateTime _parseYmd(String s) => DateTime.parse(s);
 
@@ -152,7 +148,7 @@ class _TripFormState extends ConsumerState<_TripForm> {
       setState(() => _error = 'Заглавие и дестинация са задължителни');
       return;
     }
-    if (_ymd(_to).compareTo(_ymd(_from)) < 0) {
+    if (ymd(_to).compareTo(ymd(_from)) < 0) {
       setState(() => _error = 'Крайната дата трябва да е след началната');
       return;
     }
@@ -161,8 +157,8 @@ class _TripFormState extends ConsumerState<_TripForm> {
           id: Value(_tripId),
           title: Value(_title.text.trim()),
           destination: Value(_destination.text.trim()),
-          fromDate: Value(_ymd(_from)),
-          toDate: Value(_ymd(_to)),
+          fromDate: Value(ymd(_from)),
+          toDate: Value(ymd(_to)),
           overall: Value(_overall),
           fun: Value(_fun),
           food: Value(_food),

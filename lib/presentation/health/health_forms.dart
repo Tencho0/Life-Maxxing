@@ -18,16 +18,12 @@ import '../../core/widgets/lm_button.dart';
 import '../../core/widgets/lm_toast.dart';
 import '../../core/widgets/segmented.dart';
 import '../../core/format/dates.dart';
+import '../../domain/period.dart' show ymd;
 import '../../data/database.dart';
 import '../../domain/enums.dart';
 import '../common/photo_field.dart';
 import '../common/photo_form_mixin.dart';
 import 'health_providers.dart';
-
-String _ymd(DateTime d) =>
-    '${d.year.toString().padLeft(4, '0')}-'
-    '${d.month.toString().padLeft(2, '0')}-'
-    '${d.day.toString().padLeft(2, '0')}';
 
 DateTime _parseYmd(String s) => DateTime.parse(s);
 
@@ -133,7 +129,7 @@ class _BpFormState extends ConsumerState<_BpForm> {
     final nowUtc = DateTime.now().toUtc();
     await ref.read(healthDaoProvider).saveBp(BloodPressureLogsCompanion(
           id: Value(widget.existing?.id ?? const Uuid().v4()),
-          date: Value(_ymd(_date)),
+          date: Value(ymd(_date)),
           time: Value(_time.text.trim()),
           systolic: Value(s),
           diastolic: Value(d),
@@ -287,7 +283,7 @@ class _MedFormState extends ConsumerState<_MedForm> {
     final nowUtc = DateTime.now().toUtc();
     await ref.read(healthDaoProvider).saveMed(MedicationLogsCompanion(
           id: Value(widget.existing?.id ?? const Uuid().v4()),
-          date: Value(_ymd(_date)),
+          date: Value(ymd(_date)),
           time: Value(_time.text.trim().isEmpty ? '—' : _time.text.trim()),
           name: Value(_name.text.trim()),
           type: Value(_type),
@@ -446,7 +442,7 @@ class _EventFormState extends ConsumerState<_EventForm>
         c.text.trim().isEmpty ? null : c.text.trim();
     await ref.read(healthDaoProvider).saveEvent(HealthEventsCompanion(
           id: Value(entityId),
-          date: Value(_ymd(_date)),
+          date: Value(ymd(_date)),
           type: Value(_type),
           subtype: Value(_type == HealthEventType.dentist ? _subtype : null),
           clinic: Value(t(_clinic)),
@@ -454,7 +450,7 @@ class _EventFormState extends ConsumerState<_EventForm>
           whatWasDone: Value(_whatWasDone.text.trim()),
           priceCents: Value(_parseCents(_price.text)),
           nextRecommendedDate:
-              Value(_nextDate != null ? _ymd(_nextDate!) : null),
+              Value(_nextDate != null ? ymd(_nextDate!) : null),
           note: Value(t(_note)),
           createdAt: Value(widget.existing?.createdAt ?? nowUtc),
           updatedAt: Value(nowUtc),
@@ -612,7 +608,7 @@ class _LabFormState extends ConsumerState<_LabForm>
     final nowUtc = DateTime.now().toUtc();
     await ref.read(healthDaoProvider).saveLab(LabTestsCompanion(
           id: Value(entityId),
-          date: Value(_ymd(_date)),
+          date: Value(ymd(_date)),
           lab: Value(_lab.text.trim()),
           reason: Value(_reason.text.trim()),
           resultsText:

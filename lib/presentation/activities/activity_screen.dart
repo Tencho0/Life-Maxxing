@@ -20,6 +20,7 @@ import '../../core/widgets/pill.dart';
 import '../../core/widgets/screen_body.dart';
 import '../../core/widgets/section_title.dart';
 import '../../core/widgets/segmented.dart';
+import '../../core/format/dates.dart';
 import '../../data/database.dart';
 import '../../domain/enums.dart';
 import '../../domain/period.dart';
@@ -136,7 +137,7 @@ class ActivityScreen extends ConsumerWidget {
               a.type.label,
               if (a.durationMin != null) formatDuration(a.durationMin!),
               if (a.intensity != null) a.intensity!.label,
-              a.date,
+              dmy(a.date),
             ].join(' · '),
             onTap: () => showActivitySheet(context, existing: a),
             trailing: (a.moodAfter ?? a.quality) != null
@@ -152,16 +153,20 @@ class _AddButton extends StatelessWidget {
   const _AddButton({required this.onTap});
   final VoidCallback onTap;
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: Container(
-          width: 38,
-          height: 38,
-          decoration: BoxDecoration(
-              color: AppColors.accent, borderRadius: BorderRadius.circular(12)),
-          child: const LmIcon(LmIcons.plus,
-              size: 20, color: AppColors.bg, strokeWidth: 2.3),
+  Widget build(BuildContext context) => Semantics(
+        button: true,
+        label: 'Добави',
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onTap,
+          child: Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(
+                color: AppColors.accent, borderRadius: BorderRadius.circular(12)),
+            child: const LmIcon(LmIcons.plus,
+                size: 20, color: AppColors.bg, strokeWidth: 2.3),
+          ),
         ),
       );
 }

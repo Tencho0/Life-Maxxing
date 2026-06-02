@@ -19,6 +19,7 @@ import '../../core/widgets/mood_picker.dart';
 import '../../core/widgets/segmented.dart';
 import '../../core/widgets/yes_no.dart';
 import '../../core/format/dates.dart';
+import '../../domain/period.dart' show ymd;
 import '../../data/daos.dart';
 import '../../data/database.dart';
 import '../../domain/enums.dart';
@@ -26,11 +27,6 @@ import '../../services/attachment_service.dart';
 import '../common/photo_field.dart';
 import '../common/photo_form_mixin.dart';
 import 'bucket_providers.dart';
-
-String _ymd(DateTime d) =>
-    '${d.year.toString().padLeft(4, '0')}-'
-    '${d.month.toString().padLeft(2, '0')}-'
-    '${d.day.toString().padLeft(2, '0')}';
 
 DateTime _parseYmd(String s) => DateTime.parse(s);
 
@@ -227,7 +223,7 @@ class _BucketExperienceFormState extends ConsumerState<_BucketExperienceForm>
     await dao.saveExperience(BucketExperiencesCompanion(
       id: Value(entityId),
       bucketItemId: Value(widget.item.id),
-      completedDate: Value(_ymd(_date)),
+      completedDate: Value(ymd(_date)),
       feelingRating: Value(_feeling),
       worthIt: Value(_worthIt),
       reflection:

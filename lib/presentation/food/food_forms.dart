@@ -19,16 +19,12 @@ import '../../core/widgets/lm_button.dart';
 import '../../core/widgets/lm_toast.dart';
 import '../../core/widgets/segmented.dart';
 import '../../core/format/dates.dart';
+import '../../domain/period.dart' show ymd;
 import '../../data/database.dart';
 import '../../domain/enums.dart';
 import '../../services/attachment_service.dart';
 import '../common/photo_field.dart';
 import 'food_providers.dart';
-
-String _ymd(DateTime d) =>
-    '${d.year.toString().padLeft(4, '0')}-'
-    '${d.month.toString().padLeft(2, '0')}-'
-    '${d.day.toString().padLeft(2, '0')}';
 
 DateTime _parseYmd(String s) => DateTime.parse(s);
 
@@ -150,7 +146,7 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
     final nowUtc = DateTime.now().toUtc();
     await dao.save(MealsCompanion(
       id: Value(_mealId),
-      date: Value(_ymd(_date)),
+      date: Value(ymd(_date)),
       time: Value(_time.text.trim().isEmpty ? null : _time.text.trim()),
       name: Value(_name.text.trim()),
       type: Value(_type),

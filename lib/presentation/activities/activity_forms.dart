@@ -20,16 +20,12 @@ import '../../core/widgets/lm_toast.dart';
 import '../../core/widgets/scale10.dart';
 import '../../core/widgets/segmented.dart';
 import '../../core/format/dates.dart';
+import '../../domain/period.dart' show ymd;
 import '../../data/database.dart';
 import '../../domain/enums.dart';
 import '../../services/attachment_service.dart';
 import '../common/photo_field.dart';
 import 'activity_providers.dart';
-
-String _ymd(DateTime d) =>
-    '${d.year.toString().padLeft(4, '0')}-'
-    '${d.month.toString().padLeft(2, '0')}-'
-    '${d.day.toString().padLeft(2, '0')}';
 
 DateTime _parseYmd(String s) => DateTime.parse(s);
 
@@ -144,7 +140,7 @@ class _ActivityFormState extends ConsumerState<_ActivityForm> {
         c.text.trim().isEmpty ? null : c.text.trim();
     await dao.save(ActivitiesCompanion(
       id: Value(_id),
-      date: Value(_ymd(_date)),
+      date: Value(ymd(_date)),
       type: Value(_type),
       name: Value(t(_name)),
       startTime: Value(t(_start)),

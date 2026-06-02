@@ -15,14 +15,10 @@ import '../../core/widgets/lm_button.dart';
 import '../../core/widgets/lm_toast.dart';
 import '../../core/widgets/segmented.dart';
 import '../../core/format/dates.dart';
+import '../../domain/period.dart' show ymd;
 import '../../data/database.dart';
 import '../../domain/enums.dart';
 import 'finance_providers.dart';
-
-String _ymd(DateTime d) =>
-    '${d.year.toString().padLeft(4, '0')}-'
-    '${d.month.toString().padLeft(2, '0')}-'
-    '${d.day.toString().padLeft(2, '0')}';
 
 int? _parseCents(String text) {
   final cleaned = text.trim().replaceAll(' ', '').replaceAll(',', '.');
@@ -183,7 +179,7 @@ class _ExpenseFormState extends ConsumerState<_ExpenseForm> {
     final nowUtc = DateTime.now().toUtc();
     await dao.saveExpense(ExpensesCompanion(
       id: Value(widget.existing?.id ?? const Uuid().v4()),
-      date: Value(_ymd(_date)),
+      date: Value(ymd(_date)),
       amountCents: Value(cents),
       category: Value(_category),
       description: Value(_desc.text.trim()),
@@ -314,7 +310,7 @@ class _IncomeFormState extends ConsumerState<_IncomeForm> {
     final nowUtc = DateTime.now().toUtc();
     await dao.saveIncome(IncomeCompanion(
       id: Value(widget.existing?.id ?? const Uuid().v4()),
-      date: Value(_ymd(_date)),
+      date: Value(ymd(_date)),
       amountCents: Value(cents),
       source: Value(_source.text.trim()),
       category: Value(_category),

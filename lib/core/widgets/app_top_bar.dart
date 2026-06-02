@@ -56,22 +56,26 @@ class AppTopBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 if (showBack) ...[
-                  GestureDetector(
-                    onTap: onBack,
-                    behavior: HitTestBehavior.opaque,
-                    child: Container(
-                      width: 38,
-                      height: 38,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: AppColors.card,
-                        borderRadius: BorderRadius.circular(AppRadii.tile),
-                        border: Border.all(color: AppColors.border),
-                      ),
-                      child: const LmIcon(
-                        LmIcons.chevL,
-                        size: 20,
-                        color: AppColors.text,
+                  Semantics(
+                    button: true,
+                    label: 'Назад',
+                    child: GestureDetector(
+                      onTap: onBack,
+                      behavior: HitTestBehavior.opaque,
+                      child: Container(
+                        width: 38,
+                        height: 38,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: AppColors.card,
+                          borderRadius: BorderRadius.circular(AppRadii.tile),
+                          border: Border.all(color: AppColors.border),
+                        ),
+                        child: const LmIcon(
+                          LmIcons.chevL,
+                          size: 20,
+                          color: AppColors.text,
+                        ),
                       ),
                     ),
                   ),

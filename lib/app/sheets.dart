@@ -170,20 +170,20 @@ class _SheetShell extends StatelessWidget {
                     button: true,
                     label: 'Затвори',
                     child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Container(
-                      width: 34,
-                      height: 34,
-                      decoration: BoxDecoration(
-                        color: AppColors.card,
-                        borderRadius: BorderRadius.circular(11),
-                        border: Border.all(color: AppColors.border),
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Container(
+                        width: 34,
+                        height: 34,
+                        decoration: BoxDecoration(
+                          color: AppColors.card,
+                          borderRadius: BorderRadius.circular(11),
+                          border: Border.all(color: AppColors.border),
+                        ),
+                        child: const LmIcon(LmIcons.close,
+                            size: 18, color: AppColors.textDim),
                       ),
-                      child: const LmIcon(LmIcons.close,
-                          size: 18, color: AppColors.textDim),
                     ),
-                  ),
                   ),
                 ],
               ),
