@@ -371,6 +371,8 @@ class TripsDao extends DatabaseAccessor<AppDatabase> with _$TripsDaoMixin {
       (delete(trips)..where((t) => t.id.equals(id))).go();
   Future<Trip?> getById(String id) =>
       (select(trips)..where((t) => t.id.equals(id))).getSingleOrNull();
+  Stream<Trip?> watchById(String id) =>
+      (select(trips)..where((t) => t.id.equals(id))).watchSingleOrNull();
 
   Stream<List<Trip>> watchAll({int? minOverall, bool? wouldRepeat}) {
     final q = select(trips)..orderBy([(t) => _desc(t.fromDate)]);

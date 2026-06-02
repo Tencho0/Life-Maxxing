@@ -22,6 +22,8 @@ import '../presentation/finance/finance_screen.dart';
 import '../presentation/food/food_screen.dart';
 import '../presentation/health/health_screen.dart';
 import '../presentation/steps/steps_screen.dart';
+import '../presentation/trips/trip_detail_screen.dart';
+import '../presentation/trips/trip_screen.dart';
 import 'sheets.dart';
 
 final appRouter = GoRouter(
@@ -47,7 +49,7 @@ final appRouter = GoRouter(
                 BucketDetailScreen(id: s.pathParameters['id']!)),
         GoRoute(
             path: '/trips/:id',
-            builder: (c, s) => _Placeholder('Пътуване', back: true)),
+            builder: (c, s) => TripDetailScreen(id: s.pathParameters['id']!)),
       ],
     ),
     // Dev tools (full screen, outside the shell).
@@ -64,6 +66,7 @@ Widget _moduleScreen((String, String) m) => switch (m.$1) {
       '/health' => const HealthScreen(),
       '/daily' => const DailyScreen(),
       '/bucket' => const BucketScreen(),
+      '/trips' => const TripScreen(),
       _ => _Placeholder(m.$2, back: true),
     };
 
