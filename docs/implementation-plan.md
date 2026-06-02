@@ -269,12 +269,14 @@
 - **Verify:** ✅ analyze clean; full suite green (162). JSON parses with all §25.8 keys; Markdown ends with the Questions block. Share-sheet step is device-only (verified separately).
 - *Decision:* money exported in EUR (cents/100), matching the §25.8 example values; enums serialize as stable lowercase codes; `*Lower` shadow columns excluded; attachments are metadata only.
 
-### Slice 8.2 — BackupService + Backup/Restore screen
-- [ ] `BackupService.createZip()` — `manifest.json` + `data.json` (incl. attachments metadata) + all attachment files (full+thumb) → ZIP → `share_plus`.
-- [ ] `BackupService.restore()` — pick → stage to temp → **validate fully** → write to new dir → **swap files first, then commit DB** (rollback swap on commit failure) → cleanup; replace-all confirm when non-empty; all-or-nothing.
-- [ ] Backup screen: includes list, last-backup line, create button + result tree/manifest, restore dropzone + validation checklist + replace warning.
-- [ ] Tests: round-trip (create→wipe→restore equals original, incl. files); validation failures (corrupt zip / missing manifest / bad schema / missing attachment) leave data intact; mid-commit failure reverts swap.
-- **Verify:** create a backup, wipe app data, restore from ZIP → all records + photos + links return; invalid ZIP is rejected without touching data.
+### Slice 8.2 — BackupService + Backup/Restore screen ✅ (commit f2cf038)
+- [x] `BackupService.buildZipBytes()` — `manifest.json` + `data.json` (exact snapshot incl. attachments metadata; money in cents, enums as codes, ISO timestamps, `*Lower` omitted) + all attachment files (full+thumb) → ZIP. `writeBackupFile()` for `share_plus`.
+- [x] `BackupService.restore()` — validate fully → stage to new dir → **swap files first, then commit DB** in one transaction (rollback swap on commit failure; DB auto-rolls-back) → cleanup; inserts route through DAOs so `*Lower` is rebuilt; all-or-nothing. `isEmpty()` for the replace-all warning.
+- [x] Backup screen: includes list, session last-backup line, create button (share), restore via `file_picker` (zip, `withData`) + validation checklist + replace-all confirm dialog.
+- [x] Tests (10): zip contents; round-trip create→wipe→restore equals original incl. files + recomputed `*Lower` + exact timestamps; validation failures (corrupt zip / missing manifest / bad schema / missing attachment) leave data intact; mid-commit CHECK violation reverts file swap AND DB; `isEmpty`; screen render.
+- **Verify:** ✅ analyze clean; full suite green (172). Round-trip restores all records + photos + links; invalid ZIP rejected without touching data; mid-commit failure reverts both swap and DB. APK build (file_picker 11 + share_plus 12) device-verified separately (flutter test skips the Android build).
+
+> **Phase 8 complete** — AI export (JSON/Markdown, Full/Period/Module) and full ZIP backup & all-or-nothing restore. `file_picker` 11 + `share_plus` 12 now in use (device-verified). `flutter analyze` clean; full suite green (172).
 
 ---
 
