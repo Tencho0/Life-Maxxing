@@ -1,5 +1,10 @@
-// EUR formatting (cents → €, space-grouped, Bulgarian comma decimals) and the
+// EUR formatting (cents → €, space-grouped, comma decimals) and the
 // expense-category color palette used by the finance breakdown.
+//
+// The format is deliberately locale-INDEPENDENT: a single currency (EUR) with
+// the finalized design's space-grouped thousands + comma decimals, identical in
+// every UI language (CLAUDE §2 design-locked, §4 EUR). Only natural-language
+// text is localized (Slice 10.5); record dates likewise stay numeric dd.MM.yyyy.
 
 import 'package:flutter/widgets.dart';
 import '../../core/theme/tokens.dart';

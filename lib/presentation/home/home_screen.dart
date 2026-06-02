@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../app/sheets.dart';
 import '../../core/charts/sparkline.dart';
@@ -20,19 +21,16 @@ import 'home_data.dart';
 import 'home_providers.dart';
 
 const _name = 'Мартин';
-const _months = [
-  '', 'януари', 'февруари', 'март', 'април', 'май', 'юни', 'юли', 'август',
-  'септември', 'октомври', 'ноември', 'декември'
-];
-const _weekdays = [
-  '', 'понеделник', 'вторник', 'сряда', 'четвъртък', 'петък', 'събота', 'неделя'
-];
 
 String _greeting(BuildContext c, int hour) => hour < 12
     ? c.l10n.homeGreetMorning
     : (hour < 18 ? c.l10n.homeGreetDay : c.l10n.homeGreetEvening);
-String _bgDate(DateTime d) =>
-    '${_weekdays[d.weekday]} · ${d.day} ${_months[d.month]} ${d.year}';
+
+/// Locale-aware long date (weekday + month names follow the UI language).
+/// Record dates elsewhere stay numeric `dd.MM.yyyy` (locked design, §4).
+String _longDate(BuildContext c, DateTime d) =>
+    DateFormat('EEEE · d MMMM y', Localizations.localeOf(c).languageCode)
+        .format(d);
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -94,7 +92,7 @@ class _HomeHead extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(_bgDate(now),
+                Text(_longDate(context, now),
                     style: AppText.monoFaint.copyWith(fontSize: 12.5)),
                 const SizedBox(height: 3),
                 Text('${_greeting(context, now.hour)}, $_name',

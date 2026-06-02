@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:lifemaxxing/app/providers.dart';
 import 'package:lifemaxxing/data/database.dart';
@@ -14,6 +15,11 @@ import '../support/test_env.dart';
 
 void main() {
   setUp(useDeterministicTestEnv);
+  // The home header formats a locale-aware long date (weekday + month names).
+  setUp(() async {
+    await initializeDateFormatting('bg');
+    await initializeDateFormatting('en');
+  });
 
   test('computeHomeWeek builds aligned 7-day series + averages', () async {
     final db = AppDatabase.memory();
@@ -143,6 +149,32 @@ void main() {
 
     expect(find.textContaining('Мартин'), findsOneWidget); // greeting
     expect(find.text('ТАЗИ СЕДМИЦА'), findsOneWidget); // eyebrow
+
+    await tester.pumpWidget(const SizedBox());
+    await tester.pump(const Duration(seconds: 1));
+  });
+
+  testWidgets('home screen renders in English under the en locale',
+      (tester) async {
+    tester.view.physicalSize = const Size(420, 2600);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    final db = AppDatabase.memory();
+    addTearDown(db.close);
+    await seedDatabase(db);
+
+    await tester.pumpWidget(ProviderScope(
+      overrides: [databaseProvider.overrideWithValue(db)],
+      child: localizedApp(
+          home: Scaffold(body: HomeScreen()), locale: const Locale('en')),
+    ));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.pump(const Duration(milliseconds: 50));
+
+    expect(find.text('THIS WEEK'), findsOneWidget); // localized eyebrow (en)
 
     await tester.pumpWidget(const SizedBox());
     await tester.pump(const Duration(seconds: 1));
