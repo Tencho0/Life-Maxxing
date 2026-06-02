@@ -262,11 +262,12 @@
 
 ## Phase 8 — Data portability
 
-### Slice 8.1 — ExportService + Export screen
-- [ ] `ExportService`: JSON (spec §25.8 keys + summary) and Markdown (§25.9 sections + "Questions for AI"); scopes Full/Period/Module; period inclusion rules (records by date; bucket if created-or-completed; trip if from-or-to in range).
-- [ ] Export screen: scope/format/period/module selectors, live preview, record/photo/size counts, export via `share_plus`/clipboard.
-- [ ] Tests: JSON shape + keys; period inclusion edge cases; markdown ends with questions block.
-- **Verify:** export Full JSON and a Period Markdown; output opens in share sheet and is valid.
+### Slice 8.1 — ExportService + Export screen ✅ (commit 1332d11)
+- [x] `ExportService`: JSON (spec §25.8 keys + summary) and Markdown (§25.9 sections + "Questions for AI"); scopes Full/Period/Module; period inclusion rules (records by date; bucket if created-or-completed; trip if from-or-to in range). Read-only DB consumer (injectable clock) → unit-testable on in-memory drift.
+- [x] Export screen: scope/format/period/module selectors, live preview, record/photo/size counts, export via `share_plus`/clipboard.
+- [x] Tests (12): JSON shape + keys; euro conversion; period inclusion edge cases (bucket created/completed, trip from/to boundary); module isolation; markdown ends with questions block; record/photo counts; screen render + format toggle.
+- **Verify:** ✅ analyze clean; full suite green (162). JSON parses with all §25.8 keys; Markdown ends with the Questions block. Share-sheet step is device-only (verified separately).
+- *Decision:* money exported in EUR (cents/100), matching the §25.8 example values; enums serialize as stable lowercase codes; `*Lower` shadow columns excluded; attachments are metadata only.
 
 ### Slice 8.2 — BackupService + Backup/Restore screen
 - [ ] `BackupService.createZip()` — `manifest.json` + `data.json` (incl. attachments metadata) + all attachment files (full+thumb) → ZIP → `share_plus`.
