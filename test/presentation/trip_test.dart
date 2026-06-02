@@ -193,7 +193,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
 
     expect(find.text('Пътувания'), findsOneWidget);
-    expect(find.text('Уикенд в Рим'), findsWidgets);
+    expect(find.text('Weekend in Rome'), findsWidgets);
 
     await tester.pumpWidget(const SizedBox());
     await tester.pump(const Duration(seconds: 1));
@@ -216,7 +216,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
 
-    expect(find.text('Уикенд в Рим'), findsWidgets); // title
+    expect(find.text('Weekend in Rome'), findsWidgets); // title
     expect(find.text('ОЦЕНКИ'), findsOneWidget); // ratings eyebrow
 
     await tester.pumpWidget(const SizedBox());

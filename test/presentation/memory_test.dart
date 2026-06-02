@@ -71,7 +71,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
 
     expect(find.text('Спомени'), findsOneWidget); // top bar title
-    expect(find.text('Уикенд в Рим'), findsWidgets); // a trip in the rail
+    expect(find.text('Weekend in Rome'), findsWidgets); // a trip in the rail
 
     await tester.pumpWidget(const SizedBox());
     await tester.pump(const Duration(seconds: 1));
