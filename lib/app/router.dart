@@ -15,6 +15,7 @@ import '../presentation/activities/activity_screen.dart';
 import '../presentation/bucket/bucket_detail_screen.dart';
 import '../presentation/bucket/bucket_screen.dart';
 import '../presentation/daily/daily_screen.dart';
+import '../presentation/export/export_screen.dart';
 import '../presentation/finance/finance_screen.dart';
 import '../presentation/food/food_screen.dart';
 import '../presentation/health/health_screen.dart';
@@ -69,6 +70,7 @@ Widget _moduleScreen((String, String) m) => switch (m.$1) {
       '/bucket' => const BucketScreen(),
       '/trips' => const TripScreen(),
       '/search' => const SearchScreen(),
+      '/export' => const ExportScreen(),
       _ => _Placeholder(m.$2, back: true),
     };
 
