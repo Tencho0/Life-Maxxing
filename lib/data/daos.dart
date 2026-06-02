@@ -19,6 +19,7 @@ import 'tables/steps.dart';
 import 'tables/bucket.dart';
 import 'tables/trips.dart';
 import 'tables/attachments.dart';
+import 'tables/settings.dart';
 
 part 'daos.g.dart';
 
@@ -556,4 +557,22 @@ class SearchDao extends DatabaseAccessor<AppDatabase> with _$SearchDaoMixin {
     hits.sort((a, b) => b.date.compareTo(a.date));
     return hits;
   }
+}
+
+// ── Settings (key/value preferences) ────────────────────────────────
+@DriftAccessor(tables: [Settings])
+class SettingsDao extends DatabaseAccessor<AppDatabase> with _$SettingsDaoMixin {
+  SettingsDao(super.db);
+
+  Future<String?> getValue(String key) async {
+    final row =
+        await (select(settings)..where((t) => t.key.equals(key))).getSingleOrNull();
+    return row?.value;
+  }
+
+  Future<void> setValue(String key, String value) => into(settings)
+      .insertOnConflictUpdate(SettingsCompanion.insert(key: key, value: value));
+
+  Future<void> deleteKey(String key) =>
+      (delete(settings)..where((t) => t.key.equals(key))).go();
 }

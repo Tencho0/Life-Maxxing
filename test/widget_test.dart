@@ -11,6 +11,7 @@ import 'package:lifemaxxing/app/router.dart';
 import 'package:lifemaxxing/core/icons/lm_icons.dart';
 import 'package:lifemaxxing/core/theme/theme.dart';
 import 'package:lifemaxxing/data/database.dart';
+import 'package:lifemaxxing/l10n/app_localizations.dart';
 import 'support/test_env.dart';
 
 void main() {
@@ -28,7 +29,12 @@ void main() {
 
     await tester.pumpWidget(ProviderScope(
       overrides: [databaseProvider.overrideWithValue(db)],
-      child: MaterialApp.router(theme: AppTheme.dark, routerConfig: appRouter),
+      child: MaterialApp.router(
+        theme: AppTheme.dark,
+        routerConfig: appRouter,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+      ),
     ));
     await tester.pump(); // first frame
     await tester.pump(const Duration(milliseconds: 300)); // Home drift streams

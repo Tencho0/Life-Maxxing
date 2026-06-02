@@ -16,6 +16,7 @@ import 'tables/steps.dart';
 import 'tables/bucket.dart';
 import 'tables/trips.dart';
 import 'tables/attachments.dart';
+import 'tables/settings.dart';
 
 part 'database.g.dart';
 
@@ -35,6 +36,7 @@ part 'database.g.dart';
     BucketExperiences,
     Trips,
     Attachments,
+    Settings,
   ],
   daos: [
     MealsDao,
@@ -47,6 +49,7 @@ part 'database.g.dart';
     TripsDao,
     AttachmentsDao,
     SearchDao,
+    SettingsDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -56,11 +59,15 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.memory() : super(NativeDatabase.memory());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) => m.createAll(),
+        onUpgrade: (m, from, to) async {
+          // v2 (Slice 10.2): add the key/value `settings` preferences table.
+          if (from < 2) await m.createTable(settings);
+        },
         beforeOpen: (details) async {
           // Required for ON DELETE CASCADE (bucket_experiences) and any FK
           // enforcement — SQLite has foreign keys off by default.

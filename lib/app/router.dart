@@ -24,6 +24,7 @@ import '../presentation/home/home_screen.dart';
 import '../presentation/memories/memory_screen.dart';
 import '../presentation/more/more_screen.dart';
 import '../presentation/search/search_screen.dart';
+import '../presentation/settings/settings_screen.dart';
 import '../presentation/stats/stats_screen.dart';
 import '../presentation/steps/steps_screen.dart';
 import '../presentation/trips/trip_detail_screen.dart';
@@ -42,6 +43,7 @@ final appRouter = GoRouter(
         GoRoute(path: '/stats', builder: (c, s) => const StatsScreen()),
         GoRoute(path: '/memories', builder: (c, s) => const MemoriesScreen()),
         GoRoute(path: '/more', builder: (c, s) => const MoreScreen()),
+        GoRoute(path: '/settings', builder: (c, s) => const SettingsScreen()),
         // Module / detail routes (pushed → show back). Real screens land here
         // as their feature slices complete; the rest stay placeholders.
         for (final m in _modules)

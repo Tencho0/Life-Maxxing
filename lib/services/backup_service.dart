@@ -299,8 +299,12 @@ class BackupService {
   }
 
   /// True when every table is empty (drives the replace-all warning, §26.9).
+  /// The `settings` table holds device preferences (not user data, never in a
+  /// backup), so it's excluded — a saved locale must not suppress the warning.
   Future<bool> isEmpty() async {
+    final settingsTable = _db.settings.actualTableName;
     for (final t in _db.allTables) {
+      if (t.actualTableName == settingsTable) continue;
       final rows = await _db
           .customSelect('SELECT 1 FROM ${t.actualTableName} LIMIT 1')
           .get();

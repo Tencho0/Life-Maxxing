@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/widgets/app_top_bar.dart';
 import '../../core/widgets/eyebrow.dart';
@@ -71,6 +72,21 @@ class MoreScreen extends StatelessWidget {
                     ),
                   ),
               ],
+              Padding(
+                padding: const EdgeInsets.only(top: 6, bottom: 8),
+                child: Eyebrow(context.l10n.settingsTitle),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: LmRow(
+                  icon: LmIcons.dots,
+                  iconColor: AppColors.accent,
+                  title: context.l10n.settingsLanguage,
+                  onTap: () => context.push('/settings'),
+                  trailing: const LmIcon(LmIcons.chevR,
+                      size: 17, color: AppColors.textFaint),
+                ),
+              ),
               const Padding(
                 padding: EdgeInsets.only(top: 6, bottom: 8),
                 child: Eyebrow('Dev'),
