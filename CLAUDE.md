@@ -42,6 +42,7 @@ App id: `com.klevret.lifemaxxing`. Platforms: **Android only** for now (add iOS 
 - **Restore is all-or-nothing & filesystem-safe:** stage → validate fully → write attachments to a new dir → **swap files first, then commit the DB** (roll the swap back on commit failure). Never delete live data before the replacement is in place. No merge.
 - **Export scope:** JSON + Markdown, image attachments only. CSV export and PDF attachments are deferred.
 - **No app lock** in V1 (device lock only). **No iOS** build config yet.
+- **Dependency pins `file_picker: ^11.0.0` + `share_plus: ^12.0.2` are deliberate — do NOT revert to `file_picker ^3.0.4` / `share_plus ^13.1.0`.** `file_picker` 3.x fails the Android build (`assembleDebug`) under AGP 8 with "Namespace not specified"; only namespace-compliant releases build. `share_plus` is held at 12.x because 13.x needs `win32 ^6`, which conflicts with `file_picker`'s `win32 ^5`. `flutter test` passes either way (tests skip the Gradle/Android build), so this only surfaces when building a real APK — green tests do **not** prove the app builds for a device.
 
 ## 5. Code layout & conventions
 

@@ -43,8 +43,16 @@ dependencies:
   flutter_image_compress: ^2.4.0
   fl_chart: ^1.2.0
   archive: ^4.0.9
-  share_plus: ^13.1.0
-  file_picker: ^3.0.4
+  # NOTE: file_picker must stay >= 11 and share_plus pinned to 12.x — this is a
+  # required Android-build fix, NOT IDE/auto-upgrade churn. Do not revert.
+  #   • file_picker 3.x fails `assembleDebug` under AGP 8 with "Namespace not
+  #     specified" — only namespace-compliant releases (>= ~6, we use 11) build.
+  #   • share_plus 13 needs win32 ^6, which conflicts with file_picker's win32 ^5,
+  #     so share_plus is held at 12.x to let dependency resolution succeed.
+  # `flutter test` passes with either set (tests skip the Gradle/Android build),
+  # so the breakage only shows when building an actual APK. See CLAUDE.md §4.
+  share_plus: ^12.0.2
+  file_picker: ^11.0.0
   intl: ^0.20.2
   uuid: ^4.5.3
   path: ^1.9.1
