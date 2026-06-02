@@ -509,7 +509,7 @@ abstract class AppLocalizations {
   /// No description provided for @financeSourceHint.
   ///
   /// In en, this message translates to:
-  /// **'e.g. Salary — Klevret'**
+  /// **'e.g. Salary'**
   String get financeSourceHint;
 
   /// No description provided for @financeDate.

@@ -29,7 +29,7 @@ When the design and the functional spec disagree on **data/behavior**, the spec 
 | Files/backup | path_provider · archive (ZIP) · share_plus · file_picker |
 | Misc | intl (bg_BG) · uuid · path |
 
-App id: `com.klevret.lifemaxxing`. Platforms: **Android only** for now (add iOS later with `flutter create --platforms ios .`). No networking/analytics/auth packages — out of scope.
+App id: `com.lifemaxxing.app`. Platforms: **Android only** for now (add iOS later with `flutter create --platforms ios .`). No networking/analytics/auth packages — out of scope.
 
 ## 4. Locked decisions (do not silently change)
 

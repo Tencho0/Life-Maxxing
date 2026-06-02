@@ -155,7 +155,7 @@
   "financeNote": "Note",
   "financeOptional": "optional",
   "financeSource": "Source",
-  "financeSourceHint": "e.g. Salary — Klevret",
+  "financeSourceHint": "e.g. Salary",
   "financeDate": "Date",
 
   "foodTitle": "Food",

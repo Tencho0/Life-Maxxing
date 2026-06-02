@@ -106,7 +106,7 @@ const EXPENSE_CATS = [
 ];
 
 const INCOME = [
-  { id:'i1', source:'Заплата — Klevret', cat:'Заплата', amount:2500, date:'1 май' },
+  { id:'i1', source:'Заплата', cat:'Заплата', amount:2500, date:'1 май' },
   { id:'i2', source:'Overtime — нощни смени', cat:'Overtime', amount:600, date:'14 май' },
   { id:'i3', source:'Лихва по депозит', cat:'Лихви', amount:180, date:'22 май' },
 ];

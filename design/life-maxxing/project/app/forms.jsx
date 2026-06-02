@@ -114,7 +114,7 @@ function IncomeSheet() {
         <div style={{ flex:2 }}><Field label="Сума" required><Input type="number" placeholder="0.00" style={{ fontFamily:FM, fontSize:22, fontWeight:600 }}/></Field></div>
         <div style={{ flex:1 }}><Field label="Валута" required><Segmented options={['лв.','€','$']} value="лв." onChange={()=>{}}/></Field></div>
       </div>
-      <Field label="Източник" required><Input placeholder="напр. Заплата — Klevret"/></Field>
+      <Field label="Източник" required><Input placeholder="напр. Заплата"/></Field>
       <Field label="Категория" required>
         <div style={{ display:'flex', gap:7, flexWrap:'wrap' }}>
           {INC_CATS.map(c=>(

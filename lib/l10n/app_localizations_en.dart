@@ -369,7 +369,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get financeSource => 'Source';
 
   @override
-  String get financeSourceHint => 'e.g. Salary — Klevret';
+  String get financeSourceHint => 'e.g. Salary';
 
   @override
   String get financeDate => 'Date';

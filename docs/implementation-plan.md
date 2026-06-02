@@ -16,7 +16,7 @@
 ## Phase 0 — Scaffold & tooling
 
 ### Slice 0.1 — Flutter project + repo hygiene ✅ (commit b711653)
-- [x] `flutter create` the app (`lifemaxxing`, `com.klevret.lifemaxxing`, `--platforms android`).
+- [x] `flutter create` the app (`lifemaxxing`, `com.lifemaxxing.app`, `--platforms android`).
 - [x] Dart `^3.11.3`; Flutter 3.41.5 stable pinned in README.
 - [x] `.gitignore` (Flutter defaults) + `.gitattributes` (LF normalize, binary markers).
 - [x] Preserve the design bundle under `design/life-maxxing/` — reference only.
