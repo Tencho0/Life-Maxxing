@@ -173,9 +173,12 @@ class ExportService {
     final fExperiences =
         experiences.where((e) => itemIds.contains(e.bucketItemId)).toList();
 
-    // Trips: fromDate OR toDate in range.
-    final fTrips =
-        trips.where((t) => inR(t.fromDate) || inR(t.toDate)).toList();
+    // Trips: included if the trip overlaps the range at all (§25.5 says
+    // "fromDate OR toDate in range"; we use the strict superset — interval
+    // overlap — so a trip that fully spans the period isn't dropped).
+    final fTrips = trips
+        .where((t) => t.fromDate.compareTo(r.to) <= 0 && t.toDate.compareTo(r.from) >= 0)
+        .toList();
 
     final fMeals = meals.where((m) => inR(m.date)).toList();
     final fActivities = activities.where((a) => inR(a.date)).toList();

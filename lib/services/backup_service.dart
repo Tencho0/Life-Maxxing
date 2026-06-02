@@ -29,6 +29,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../data/database.dart';
 import '../domain/enums.dart';
+import '../domain/period.dart' show ymd;
 
 class BackupException implements Exception {
   BackupException(this.message, [this.errors = const []]);
@@ -85,7 +86,25 @@ class BackupService {
   // ── Create ───────────────────────────────────────────────────────────
 
   Future<Uint8List> buildZipBytes() async {
-    final data = await _serializeAll();
+    final base = await _docsDir();
+
+    // Read the attachments table ONCE. Only include rows whose full + thumb
+    // files both exist on disk, so the backup stays self-consistent: a dangling
+    // row (file deleted out from under us) would otherwise be written to
+    // data.json without a file, making the backup fail its own validation.
+    final fileEntries = <ArchiveFile>[];
+    final includedAttachments = <Attachment>[];
+    for (final a in await _db.select(_db.attachments).get()) {
+      final full = File(p.join(base.path, p.joinAll(p.posix.split(a.filePath))));
+      final thumb = File(p.join(base.path, p.joinAll(p.posix.split(a.thumbPath))));
+      if (await full.exists() && await thumb.exists()) {
+        includedAttachments.add(a);
+        fileEntries.add(ArchiveFile.bytes(a.filePath, await full.readAsBytes()));
+        fileEntries.add(ArchiveFile.bytes(a.thumbPath, await thumb.readAsBytes()));
+      }
+    }
+
+    final data = await _serializeAll(attachments: includedAttachments);
     final manifest = {
       'appName': 'LifeMaxxing',
       'backupType': 'full',
@@ -99,15 +118,8 @@ class BackupService {
     final archive = Archive()
       ..addFile(ArchiveFile.string('manifest.json', _json(manifest)))
       ..addFile(ArchiveFile.string('data.json', _json(data)));
-
-    final base = await _docsDir();
-    for (final a in await _db.select(_db.attachments).get()) {
-      for (final rel in [a.filePath, a.thumbPath]) {
-        final f = File(p.join(base.path, p.joinAll(p.posix.split(rel))));
-        if (await f.exists()) {
-          archive.addFile(ArchiveFile.bytes(rel, await f.readAsBytes()));
-        }
-      }
+    for (final f in fileEntries) {
+      archive.addFile(f);
     }
     return ZipEncoder().encodeBytes(archive);
   }
@@ -116,7 +128,7 @@ class BackupService {
   /// share_plus). Returns the written file.
   Future<File> writeBackupFile(Directory outDir) async {
     final bytes = await buildZipBytes();
-    final name = 'lifemaxxing-backup-${_ymd(_clock())}.zip';
+    final name = 'lifemaxxing-backup-${ymd(_clock())}.zip';
     final file = File(p.join(outDir.path, name));
     await file.parent.create(recursive: true);
     await file.writeAsBytes(bytes, flush: true);
@@ -132,7 +144,11 @@ class BackupService {
     } catch (_) {
       return BackupValidation(ok: false, errors: const ['Невалиден ZIP файл']);
     }
+    return _validateArchive(archive);
+  }
 
+  /// Validates an already-decoded [archive] (so restore decodes the zip once).
+  BackupValidation _validateArchive(Archive archive) {
     final manifestBytes = _fileBytes(archive, 'manifest.json');
     final dataBytes = _fileBytes(archive, 'data.json');
     final errors = <String>[];
@@ -153,8 +169,15 @@ class BackupService {
     }
     if (errors.isNotEmpty) return BackupValidation(ok: false, errors: errors);
 
-    final sv = manifest!['schemaVersion'];
-    if (sv != schemaVersion) {
+    // schemaVersion: accept int or numeric string; distinguish missing/garbage
+    // from unsupported.
+    final svRaw = manifest!['schemaVersion'];
+    final sv = svRaw is int ? svRaw : int.tryParse('$svRaw');
+    if (svRaw == null) {
+      errors.add('Липсва schemaVersion в manifest.json');
+    } else if (sv == null) {
+      errors.add('Невалидна schemaVersion: $svRaw');
+    } else if (sv != schemaVersion) {
       errors.add('Неподдържана schemaVersion: $sv (очаквана $schemaVersion)');
     }
 
@@ -163,12 +186,8 @@ class BackupService {
     }
     if (errors.isNotEmpty) return BackupValidation(ok: false, errors: errors);
 
+    // Referenced attachment files present in the zip.
     final names = {for (final f in archive.files) f.name};
-    var recordCount = 0;
-    for (final key in dataKeys) {
-      if (key == 'attachments') continue;
-      recordCount += (data![key] as List).length;
-    }
     final atts = (data!['attachments'] as List).cast<Map<String, dynamic>>();
     for (final a in atts) {
       for (final rel in [a['filePath'], a['thumbPath']]) {
@@ -178,6 +197,20 @@ class BackupService {
       }
     }
 
+    // Row-level structural validity (§26.10) — build every companion (without
+    // inserting). This catches missing required fields, unparseable timestamps,
+    // and unknown enum codes UP FRONT, before any irreversible swap.
+    try {
+      _buildAllCompanions(data);
+    } catch (e) {
+      errors.add('Невалидна структура на данните: $e');
+    }
+
+    var recordCount = 0;
+    for (final key in dataKeys) {
+      if (key == 'attachments') continue;
+      recordCount += (data[key] as List).length;
+    }
     return BackupValidation(
       ok: errors.isEmpty,
       errors: errors,
@@ -191,10 +224,16 @@ class BackupService {
   // ── Restore (all-or-nothing, swap files first then commit DB) ─────────
 
   Future<void> restore(List<int> zipBytes) async {
-    final v = await validate(zipBytes);
+    // (1) Decode once; validate fully. Abort here leaves everything untouched.
+    Archive archive;
+    try {
+      archive = ZipDecoder().decodeBytes(zipBytes);
+    } catch (_) {
+      throw BackupException('Невалиден backup файл', const ['Невалиден ZIP файл']);
+    }
+    final v = _validateArchive(archive);
     if (!v.ok) throw BackupException('Невалиден backup файл', v.errors);
 
-    final archive = ZipDecoder().decodeBytes(zipBytes);
     final data = jsonDecode(utf8.decode(_fileBytes(archive, 'data.json')!))
         as Map<String, dynamic>;
 
@@ -207,39 +246,56 @@ class BackupService {
     if (await old.exists()) await old.delete(recursive: true);
     if (await staged.exists()) await staged.delete(recursive: true);
 
-    // (2) Stage restored attachment files into a NEW dir.
-    await staged.create(recursive: true);
-    for (final f in archive.files) {
-      if (!f.isFile) continue;
-      const prefix = '$_attachmentsDir/';
-      if (!f.name.startsWith(prefix)) continue;
-      final rel = f.name.substring(prefix.length);
-      final dest = File(p.join(staged.path, p.joinAll(p.posix.split(rel))));
-      await dest.parent.create(recursive: true);
-      await dest.writeAsBytes(f.content, flush: true);
-    }
-
-    // (3) Swap files FIRST.
+    // Everything that could fail destructively runs inside the try so the
+    // catch can return the filesystem to its pre-restore state regardless of
+    // how far we got (stage → swap step 1 → swap step 2 → DB commit).
     final hadLive = await live.exists();
-    if (hadLive) await live.rename(old.path);
-    await staged.rename(live.path);
-
-    // (4) THEN commit the DB in a single transaction.
+    var movedLiveToOld = false; // live → attachments_old done
+    var stagedToLive = false; // attachments_restore → live done
     try {
+      // (2) Stage restored attachment files into a NEW dir.
+      await staged.create(recursive: true);
+      for (final f in archive.files) {
+        if (!f.isFile) continue;
+        const prefix = '$_attachmentsDir/';
+        if (!f.name.startsWith(prefix)) continue;
+        final rel = f.name.substring(prefix.length);
+        final dest = File(p.join(staged.path, p.joinAll(p.posix.split(rel))));
+        await dest.parent.create(recursive: true);
+        await dest.writeAsBytes(f.content, flush: true);
+      }
+
+      // (3) Swap files FIRST.
+      if (hadLive) {
+        await live.rename(old.path);
+        movedLiveToOld = true;
+      }
+      await staged.rename(live.path);
+      stagedToLive = true;
+
+      // (4) THEN commit the DB in a single transaction.
       await _db.transaction(() async {
         await _deleteAll();
         await _insertAll(data);
       });
     } catch (e) {
-      // (5) Roll the swap back; the DB transaction has already rolled back.
-      if (await live.exists()) await live.delete(recursive: true);
-      if (hadLive) await old.rename(live.path);
-      throw BackupException('Възстановяването пропадна — данните са непокътнати',
-          [e.toString()]);
+      // (5) Roll back to the exact pre-restore state (DB auto-rolled-back).
+      if (stagedToLive) {
+        // `live` now holds the staged content — remove it.
+        if (await live.exists()) await live.delete(recursive: true);
+      } else if (await staged.exists()) {
+        await staged.delete(recursive: true);
+      }
+      if (movedLiveToOld && await old.exists()) await old.rename(live.path);
+      throw BackupException(
+          'Възстановяването пропадна — данните са непокътнати', [e.toString()]);
     }
 
-    // Success — drop the set-aside old dir.
-    if (await old.exists()) await old.delete(recursive: true);
+    // Success — drop the set-aside old dir. Best-effort: a cleanup failure must
+    // NOT report the (already-committed) restore as failed.
+    try {
+      if (await old.exists()) await old.delete(recursive: true);
+    } catch (_) {}
   }
 
   /// True when every table is empty (drives the replace-all warning, §26.9).
@@ -321,9 +377,31 @@ class BackupService {
     }
   }
 
+  /// Builds every companion from [data] WITHOUT inserting, purely to surface
+  /// structural problems (missing required fields, unparseable timestamps,
+  /// unknown enum codes) during validation — before any irreversible swap.
+  void _buildAllCompanions(Map<String, dynamic> data) {
+    List<Map<String, dynamic>> rows(String key) =>
+        (data[key] as List).cast<Map<String, dynamic>>();
+    rows('meals').forEach(_mealCompanion);
+    rows('activities').forEach(_activityCompanion);
+    rows('expenses').forEach(_expenseCompanion);
+    rows('income').forEach(_incomeCompanion);
+    rows('healthEvents').forEach(_eventCompanion);
+    rows('labTests').forEach(_labCompanion);
+    rows('bloodPressureLogs').forEach(_bpCompanion);
+    rows('medicationLogs').forEach(_medCompanion);
+    rows('dailyLogs').forEach(_dailyCompanion);
+    rows('steps').forEach(_stepCompanion);
+    rows('bucketItems').forEach(_bucketItemCompanion);
+    rows('bucketExperiences').forEach(_bucketExperienceCompanion);
+    rows('trips').forEach(_tripCompanion);
+    rows('attachments').forEach(_attachmentCompanion);
+  }
+
   // ── Serialize (exact snapshot; no *Lower; enums → code; cents) ─────────
 
-  Future<Map<String, dynamic>> _serializeAll() async => {
+  Future<Map<String, dynamic>> _serializeAll({List<Attachment>? attachments}) async => {
         'meals': [for (final m in await _db.select(_db.meals).get()) _meal(m)],
         'activities': [
           for (final a in await _db.select(_db.activities).get()) _activity(a)
@@ -359,7 +437,8 @@ class BackupService {
         ],
         'trips': [for (final t in await _db.select(_db.trips).get()) _trip(t)],
         'attachments': [
-          for (final a in await _db.select(_db.attachments).get()) _attachment(a)
+          for (final a in attachments ?? await _db.select(_db.attachments).get())
+            _attachment(a)
         ],
       };
 
@@ -455,7 +534,7 @@ class BackupService {
 
   MealsCompanion _mealCompanion(Map<String, dynamic> m) => MealsCompanion.insert(
         id: m['id'], date: m['date'], name: m['name'],
-        type: _enum(MealType.values, m['type'], MealType.other),
+        type: _reqEnum(MealType.values, m['type']),
         time: Value(m['time']), quantity: Value(m['quantity']),
         calories: Value(m['calories']), protein: Value(_d(m['protein'])),
         carbs: Value(_d(m['carbs'])), fat: Value(_d(m['fat'])),
@@ -465,12 +544,12 @@ class BackupService {
   ActivitiesCompanion _activityCompanion(Map<String, dynamic> a) =>
       ActivitiesCompanion.insert(
         id: a['id'], date: a['date'],
-        type: _enum(ActivityType.values, a['type'], ActivityType.other),
+        type: _reqEnum(ActivityType.values, a['type']),
         startTime: Value(a['startTime']), endTime: Value(a['endTime']),
         durationMin: Value(a['durationMin']), name: Value(a['name']),
         intensity: Value(a['intensity'] == null
             ? null
-            : _enum(Intensity.values, a['intensity'], Intensity.medium)),
+            : _reqEnum(Intensity.values, a['intensity'])),
         quality: Value(a['quality']), moodAfter: Value(a['moodAfter']),
         note: Value(a['note']),
         createdAt: _pdt(a['createdAt']), updatedAt: _pdt(a['updatedAt']),
@@ -478,11 +557,11 @@ class BackupService {
   ExpensesCompanion _expenseCompanion(Map<String, dynamic> e) =>
       ExpensesCompanion.insert(
         id: e['id'], date: e['date'], amountCents: e['amountCents'],
-        category: _enum(ExpenseCategory.values, e['category'], ExpenseCategory.other),
+        category: _reqEnum(ExpenseCategory.values, e['category']),
         description: e['description'], time: Value(e['time']),
         paymentMethod: Value(e['paymentMethod'] == null
             ? null
-            : _enum(PaymentMethod.values, e['paymentMethod'], PaymentMethod.other)),
+            : _reqEnum(PaymentMethod.values, e['paymentMethod'])),
         note: Value(e['note']),
         createdAt: _pdt(e['createdAt']), updatedAt: _pdt(e['updatedAt']),
       );
@@ -490,18 +569,18 @@ class BackupService {
       IncomeCompanion.insert(
         id: i['id'], date: i['date'], amountCents: i['amountCents'],
         source: i['source'],
-        category: _enum(IncomeCategory.values, i['category'], IncomeCategory.other),
+        category: _reqEnum(IncomeCategory.values, i['category']),
         note: Value(i['note']),
         createdAt: _pdt(i['createdAt']), updatedAt: _pdt(i['updatedAt']),
       );
   HealthEventsCompanion _eventCompanion(Map<String, dynamic> e) =>
       HealthEventsCompanion.insert(
         id: e['id'], date: e['date'],
-        type: _enum(HealthEventType.values, e['type'], HealthEventType.other),
+        type: _reqEnum(HealthEventType.values, e['type']),
         whatWasDone: e['whatWasDone'],
         subtype: Value(e['subtype'] == null
             ? null
-            : _enum(DentalSubtype.values, e['subtype'], DentalSubtype.other)),
+            : _reqEnum(DentalSubtype.values, e['subtype'])),
         clinic: Value(e['clinic']), reason: Value(e['reason']),
         priceCents: Value(e['priceCents']),
         nextRecommendedDate: Value(e['nextRecommendedDate']),
@@ -523,8 +602,8 @@ class BackupService {
   MedicationLogsCompanion _medCompanion(Map<String, dynamic> m) =>
       MedicationLogsCompanion.insert(
         id: m['id'], date: m['date'], time: m['time'], name: m['name'],
-        type: _enum(MedType.values, m['type'], MedType.other),
-        status: _enum(MedStatus.values, m['status'], MedStatus.taken),
+        type: _reqEnum(MedType.values, m['type']),
+        status: _reqEnum(MedStatus.values, m['status']),
         dose: Value(m['dose']), reason: Value(m['reason']), note: Value(m['note']),
         createdAt: _pdt(m['createdAt']), updatedAt: _pdt(m['updatedAt']),
       );
@@ -540,15 +619,15 @@ class BackupService {
       );
   StepsCompanion _stepCompanion(Map<String, dynamic> s) => StepsCompanion.insert(
         id: s['id'], date: s['date'], count: s['count'],
-        source: _enum(StepsSource.values, s['source'], StepsSource.stepsModule),
+        source: _reqEnum(StepsSource.values, s['source']),
         note: Value(s['note']),
         createdAt: _pdt(s['createdAt']), updatedAt: _pdt(s['updatedAt']),
       );
   BucketItemsCompanion _bucketItemCompanion(Map<String, dynamic> b) =>
       BucketItemsCompanion.insert(
         id: b['id'], title: b['title'],
-        priority: _enum(BucketPriority.values, b['priority'], BucketPriority.medium),
-        status: _enum(BucketStatus.values, b['status'], BucketStatus.idea),
+        priority: _reqEnum(BucketPriority.values, b['priority']),
+        status: _reqEnum(BucketStatus.values, b['status']),
         description: Value(b['description']), whyWantIt: Value(b['whyWantIt']),
         createdAt: _pdt(b['createdAt']), updatedAt: _pdt(b['updatedAt']),
       );
@@ -571,10 +650,9 @@ class BackupService {
   AttachmentsCompanion _attachmentCompanion(Map<String, dynamic> a) =>
       AttachmentsCompanion.insert(
         id: a['id'],
-        entityType:
-            _enum(AttachmentEntity.values, a['entityType'], AttachmentEntity.meal),
+        entityType: _reqEnum(AttachmentEntity.values, a['entityType']),
         entityId: a['entityId'],
-        role: _enum(AttachmentRole.values, a['role'], AttachmentRole.photo),
+        role: _reqEnum(AttachmentRole.values, a['role']),
         filePath: a['filePath'], thumbPath: a['thumbPath'],
         fileType: a['fileType'], originalFileName: Value(a['originalFileName']),
         fileSize: a['fileSize'], width: Value(a['width']),
@@ -591,15 +669,17 @@ class BackupService {
     return null;
   }
 
-  T _enum<T extends Coded>(List<T> values, Object? code, T fallback) =>
-      parseCode(values, '$code') ?? fallback;
+  /// Strict enum parse for restore: throws on an unknown code so a corrupt or
+  /// forward-schema backup is rejected during validation rather than silently
+  /// rewriting the value to a default.
+  T _reqEnum<T extends Coded>(List<T> values, Object? code) {
+    final v = parseCode(values, '$code');
+    if (v == null) throw FormatException('Неизвестен код "$code"');
+    return v;
+  }
 
   double? _d(Object? n) => (n as num?)?.toDouble();
   String _json(Object o) => const JsonEncoder.withIndent('  ').convert(o);
   String _iso(DateTime d) => d.toIso8601String();
   DateTime _pdt(Object? s) => DateTime.parse(s as String);
-  String _ymd(DateTime d) =>
-      '${d.year.toString().padLeft(4, '0')}-'
-      '${d.month.toString().padLeft(2, '0')}-'
-      '${d.day.toString().padLeft(2, '0')}';
 }

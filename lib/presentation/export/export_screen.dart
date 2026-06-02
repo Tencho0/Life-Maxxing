@@ -93,7 +93,9 @@ class ExportScreen extends ConsumerWidget {
                     child: LmButton(
                       'Сподели',
                       icon: LmIcons.export,
-                      onTap: text == null ? null : () => _share(context, text),
+                      onTap: text == null
+                          ? null
+                          : () => _share(context, text, format),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -115,8 +117,8 @@ class ExportScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _share(BuildContext context, String text) async {
-    final fmt = text.trimLeft().startsWith('{') ? 'json' : 'md';
+  Future<void> _share(BuildContext context, String text, ExportFormat format) async {
+    final fmt = format == ExportFormat.json ? 'json' : 'md';
     try {
       await SharePlus.instance.share(
           ShareParams(text: text, subject: 'lifemaxxing-export.$fmt'));

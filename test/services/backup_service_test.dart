@@ -56,12 +56,17 @@ void main() {
     ));
   }
 
-  // A small but representative dataset with one photo-bearing record.
+  // A small but representative dataset with one photo-bearing record. The meal
+  // and trip populate EVERY nullable column so the round-trip test fails loudly
+  // if any column is dropped from the backup (de)serializers.
   Future<void> seedSmall() async {
     await db.mealsDao.save(MealsCompanion.insert(
         id: 'meal1', date: '2026-05-15', name: 'Салата с риба',
-        type: MealType.lunch, calories: const Value(420),
-        note: const Value('Вкусно'), createdAt: ts, updatedAt: ts));
+        type: MealType.lunch, time: const Value('13:30'),
+        quantity: const Value('1 порция'), calories: const Value(420),
+        protein: const Value(32.5), carbs: const Value(40.0),
+        fat: const Value(18.0), note: const Value('Вкусно'),
+        createdAt: ts, updatedAt: ts));
     await db.financeDao.saveExpense(ExpensesCompanion.insert(
         id: 'exp1', date: '2026-05-10', amountCents: 3250,
         category: ExpenseCategory.food, description: 'Обяд навън',
@@ -72,6 +77,12 @@ void main() {
     await db.bucketDao.saveExperience(BucketExperiencesCompanion.insert(
         id: 'be1', bucketItemId: 'bi1', completedDate: '2026-05-20',
         feelingRating: 9, worthIt: true, createdAt: ts, updatedAt: ts));
+    await db.tripsDao.save(TripsCompanion.insert(
+        id: 'trip1', title: 'Рим', destination: 'Италия',
+        fromDate: '2026-05-01', toDate: '2026-05-05', overall: 9,
+        fun: const Value(8), food: const Value(10), sights: const Value(9),
+        value: const Value(7), wouldRepeat: const Value(true),
+        comment: const Value('Страхотно'), createdAt: ts, updatedAt: ts));
     await addAttachmentWithFiles(
         id: 'att1', entity: AttachmentEntity.meal, entityId: 'meal1');
   }
@@ -104,6 +115,7 @@ void main() {
       await seedSmall();
       final bytes = await svc.buildZipBytes();
       final origMeal = await db.mealsDao.getById('meal1');
+      final origTrip = await db.tripsDao.getById('trip1');
 
       // Wipe DB + attachments.
       await clearAll(db);
@@ -114,10 +126,11 @@ void main() {
 
       final meal = await db.mealsDao.getById('meal1');
       expect(meal, isNotNull);
-      expect(meal!.name, 'Салата с риба');
-      expect(meal.calories, 420);
-      expect(meal.nameLower, 'салата с риба'); // shadow column recomputed
-      expect(meal.createdAt, origMeal!.createdAt); // exact timestamp round-trip
+      expect(meal!.nameLower, 'салата с риба'); // shadow column recomputed
+      // Full data-class equality → fails loudly if ANY column is dropped from
+      // the backup (de)serializers (guards against silent data loss, finding #8).
+      expect(meal, origMeal);
+      expect(await db.tripsDao.getById('trip1'), origTrip);
       expect((await db.financeDao.getExpense('exp1'))!.amountCents, 3250);
       expect((await db.bucketDao.experienceForItem('bi1'))!.feelingRating, 9);
 
@@ -170,6 +183,102 @@ void main() {
       // Existing meal still present.
       await Future<void>.delayed(Duration.zero);
       expect(await db.mealsDao.getById('meal1'), isNotNull);
+    });
+
+    test('a structurally invalid row (missing required field) is rejected',
+        () async {
+      await seedSmall();
+      final bytes = await svc.buildZipBytes();
+      final bad = _patchData(bytes, (data) {
+        (data['meals'] as List).add({'id': 'broken', 'name': 'no date'});
+      });
+      final v = await svc.validate(bad);
+      expect(v.ok, isFalse);
+      expect(v.errors.join().toLowerCase(), contains('структ'));
+    });
+
+    test('an unknown enum code is rejected up front (not silently defaulted)',
+        () async {
+      await seedSmall();
+      final bytes = await svc.buildZipBytes();
+      final bad = _patchData(bytes, (data) {
+        (data['meals'] as List).first['type'] = 'no_such_type';
+      });
+      final v = await svc.validate(bad);
+      expect(v.ok, isFalse);
+    });
+
+    test('schemaVersion encoded as a string is still accepted', () async {
+      await seedSmall();
+      final bytes = await svc.buildZipBytes();
+      final patched = _patchManifest(bytes, (m) => m['schemaVersion'] = '1');
+      final v = await svc.validate(patched);
+      expect(v.ok, isTrue, reason: v.errors.join());
+    });
+
+    test('a manifest missing schemaVersion is reported distinctly', () async {
+      await seedSmall();
+      final bytes = await svc.buildZipBytes();
+      final patched = _patchManifest(bytes, (m) => m.remove('schemaVersion'));
+      final v = await svc.validate(patched);
+      expect(v.ok, isFalse);
+      expect(v.errors.join().toLowerCase(), contains('schemaversion'));
+    });
+  });
+
+  group('robustness', () {
+    test('backup omits attachment rows whose files are missing on disk', () async {
+      await seedSmall();
+      // A dangling attachment row: metadata in DB, but no files on disk.
+      await db.attachmentsDao.save(AttachmentsCompanion.insert(
+        id: 'ghost', entityType: AttachmentEntity.meal, entityId: 'meal1',
+        role: AttachmentRole.photo,
+        filePath: 'attachments/meals/ghost.jpg',
+        thumbPath: 'attachments/meals/ghost_thumb.jpg',
+        fileType: 'image/jpeg', fileSize: 10, createdAt: ts,
+      ));
+
+      final bytes = await svc.buildZipBytes();
+      // The backup is self-consistent: validate passes (no missing-file error).
+      expect((await svc.validate(bytes)).ok, isTrue);
+      // The ghost row is not in data.json.
+      final archive = ZipDecoder().decodeBytes(bytes);
+      final data = jsonDecode(utf8.decode(
+              archive.files.firstWhere((f) => f.name == 'data.json').content))
+          as Map<String, dynamic>;
+      final attIds =
+          (data['attachments'] as List).map((a) => a['id']).toSet();
+      expect(attIds, contains('att1'));
+      expect(attIds, isNot(contains('ghost')));
+    });
+
+    test('a pre-swap failure leaves live data and attachments untouched',
+        () async {
+      await seedSmall();
+      final good = await svc.buildZipBytes();
+
+      // Live state: one meal + a marker attachment file.
+      await clearAll(db);
+      await Directory(p.join(docs.path, 'attachments')).delete(recursive: true);
+      await db.mealsDao.save(MealsCompanion.insert(
+          id: 'orig', date: '2026-01-01', name: 'Оригинал',
+          type: MealType.dinner, createdAt: ts, updatedAt: ts));
+      final marker = File(p.join(docs.path, 'attachments', 'marker.txt'));
+      await marker.parent.create(recursive: true);
+      await marker.writeAsBytes([1, 1, 1], flush: true);
+
+      // Force staging to fail: a FILE occupies the attachments_restore path, so
+      // `staged.create()` throws BEFORE any swap happens.
+      final blocker = File(p.join(docs.path, 'attachments_restore'));
+      await blocker.writeAsBytes([0], flush: true);
+
+      await expectLater(svc.restore(good), throwsA(isA<BackupException>()));
+
+      // Nothing swapped: original DB + attachments fully intact.
+      expect(await db.mealsDao.getById('orig'), isNotNull);
+      expect(await db.mealsDao.getById('meal1'), isNull);
+      expect(await marker.exists(), isTrue);
+      expect(await marker.readAsBytes(), [1, 1, 1]);
     });
   });
 

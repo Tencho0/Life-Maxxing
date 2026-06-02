@@ -22,10 +22,14 @@ class DateRange {
   String toString() => 'DateRange($from..$to)';
 }
 
-String _ymd(DateTime d) =>
+/// Formats a [DateTime] as a zero-padded `yyyy-MM-dd` date string — the single
+/// canonical encoding for the app's date-only TEXT fields (locked decision §4).
+String ymd(DateTime d) =>
     '${d.year.toString().padLeft(4, '0')}-'
     '${d.month.toString().padLeft(2, '0')}-'
     '${d.day.toString().padLeft(2, '0')}';
+
+String _ymd(DateTime d) => ymd(d);
 
 /// Resolves [period] to a date range. For [Period.custom], [customFrom] and
 /// [customTo] (yyyy-MM-dd) are required. [today] defaults to the current date.

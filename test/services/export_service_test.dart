@@ -155,6 +155,20 @@ void main() {
       expect(ids, isNot(contains('t_out')));
     });
 
+    test('trip spanning the whole period is included (overlap, not just endpoints)',
+        () async {
+      await seedMixed();
+      // Starts before May, ends after May — neither endpoint is in range, but it
+      // fully contains the period, so it must be included.
+      await db.tripsDao.save(TripsCompanion.insert(
+          id: 't_span', title: 'Обиколка', destination: 'Европа',
+          fromDate: '2026-04-01', toDate: '2026-07-15', overall: 8,
+          createdAt: now, updatedAt: now));
+      final data = await svc.gather(
+          const ExportRequest(scope: ExportScopeType.period, range: mayRange));
+      expect(data.trips.map((t) => t.id), contains('t_span'));
+    });
+
     test('JSON period reflects the selected range', () async {
       await seedMixed();
       final data = await svc.gather(
