@@ -387,3 +387,9 @@
 - [x] **`flutter analyze` clean; full suite green (208) in both locales; `flutter gen-l10n` no missing translations.**
 
 > **Phase 10 (localization) complete** — bg/en runtime switcher with persistence; every user-facing string, enum label, export-Markdown heading, and the home long-date localized; storage/search/export-keys/backup remain language-independent. Record dates (`dd.MM.yyyy`) + EUR formatting stay locale-independent by design (CLAUDE §2/§4). `flutter analyze` clean; full suite green (208). Device pass (APK build, picker language, on-device v1→v2 migration, 412-wide visual) owns the final sign-off.
+
+---
+
+## Branding
+
+- [x] App branding — "Ascent" logo: `LmLogo` widget + generated Android launcher icon (see docs/superpowers/specs/2026-06-02-app-logo-design.md).
