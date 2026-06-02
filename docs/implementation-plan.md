@@ -352,11 +352,11 @@
 - [x] Tests (7): SettingsService round-trip/reload/clear; switcher updates + persists; persisted locale restored on next launch; system → bg/en default resolution with bg fallback. Smoke test now installs the l10n delegates.
 - **Verify:** ✅ analyze clean; full suite green (202); switch round-trips across a simulated restart. On-device v1→v2 migration is device-verified (host tests use `onCreate`/`createAll`).
 
-### Slice 10.3 — Enum display labels → ARB + resolver
-- [ ] ARB entries keyed by enum code; presentation-layer resolver (e.g. `localizedLabel(context, codedEnum)`). `domain/enums.dart` keeps `code` (storage/search/export/backup) — UI stops using `enum.label`.
-- [ ] Migrate every UI use of `enum.label`.
-- [ ] Tests: resolver returns per-locale labels; codes unchanged in storage/search/backup/export.
-- **Verify:** analyze clean; tests green; grep finds no `.label` in `lib/presentation/**`.
+### Slice 10.3 — Enum display labels → ARB + resolver ✅ (commit 7a4e746)
+- [x] ARB entries keyed by enum code (one ICU `select` message per enum, en + bg); presentation-layer resolver `localizedLabel(context, Coded)` + `periodChipLabel(context, Period)` in `core/l10n/enum_labels.dart`. `domain/enums.dart` keeps `code` AND its `enum.label` getter (still used by export_service/SearchDao until 10.4; resolver falls back to it for not-yet-migrated enums).
+- [x] Migrated every domain-enum `.label` / `Period.chipLabel` in `lib/presentation/**` (food, finance, activities, health, bucket, steps, stats, export period). Storage/search/export/backup keep stable codes.
+- [x] Tests (2 new → 204): resolver per-locale labels; codes unchanged. Feature/screen/form tests now pump under the l10n delegates pinned to **bg** via a new `localizedApp()` helper in `test/support/test_env.dart` (the 10.6 pump-with-locale helper, pulled forward); smoke test pinned to bg.
+- **Verify:** ✅ analyze clean; full suite green (204). Remaining `.label` in `lib/presentation/**` are non-enum widget params plus `ExportModule.label` and `QuickAction.label` (sheets) — **deferred to 10.4** with `home_data` timeline labels and the export/search Markdown, which need their own string migration / context threading.
 
 ### Slice 10.4 — Per-feature string migration (one sub-slice per area, in order)
 - [ ] finance · food · activities · steps · health · daily · bucket · trips · home · stats · memories · search · more · export · backup, plus `app/sheets.dart` (titles/subtitles/quick-log labels/validation/toasts) and shared widgets (`empty_state.dart`, `lm_bottom_nav.dart` tab + semantics labels, `AppTopBar` titles, `LmInlineError`, Phase-9 semantics labels).
