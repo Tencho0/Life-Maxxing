@@ -1638,4 +1638,187 @@ class AppLocalizationsEn extends AppLocalizations {
   String homeMedsTaken(int count) {
     return 'Supplements · $count taken';
   }
+
+  @override
+  String get exportMdTitle => 'LifeMaxxing — AI Export';
+
+  @override
+  String get exportMdPeriodLabel => 'Period:';
+
+  @override
+  String get exportMdSummary => 'Overall summary';
+
+  @override
+  String get exportMdPeriodAll => 'All data';
+
+  @override
+  String exportMdPeriodModule(String module) {
+    return 'Module: $module';
+  }
+
+  @override
+  String get exportMdSectionDaily => 'Daily logs';
+
+  @override
+  String get exportMdSectionFood => 'Food';
+
+  @override
+  String get exportMdSectionActivities => 'Activities';
+
+  @override
+  String get exportMdSectionSteps => 'Steps';
+
+  @override
+  String get exportMdSectionMoney => 'Money';
+
+  @override
+  String get exportMdSectionHealthEvents => 'Health events';
+
+  @override
+  String get exportMdSectionLabTests => 'Lab tests';
+
+  @override
+  String get exportMdSectionBloodPressure => 'Blood pressure & pulse';
+
+  @override
+  String get exportMdSectionMedications => 'Medications & supplements';
+
+  @override
+  String get exportMdSectionBucketList => 'Bucket List';
+
+  @override
+  String get exportMdSectionBucketExperiences =>
+      'Bucket List completed experiences';
+
+  @override
+  String get exportMdSectionTrips => 'Trips';
+
+  @override
+  String exportMdStepsLine(String date, int count) {
+    return '$date: $count steps';
+  }
+
+  @override
+  String exportMdIncomeLine(
+    String date,
+    num amount,
+    String category,
+    String source,
+  ) {
+    return '$date: +$amount € ($category) — $source';
+  }
+
+  @override
+  String exportMdExpenseLine(
+    String date,
+    num amount,
+    String category,
+    String description,
+  ) {
+    return '$date: −$amount € ($category) — $description';
+  }
+
+  @override
+  String exportMdLabLine(String date, String lab, String reason) {
+    return '$date: $lab — $reason';
+  }
+
+  @override
+  String exportMdBloodPressureLine(
+    String date,
+    String time,
+    int systolic,
+    int diastolic,
+    int pulse,
+  ) {
+    return '$date $time: $systolic/$diastolic, pulse $pulse';
+  }
+
+  @override
+  String exportMdMedicationLine(
+    String date,
+    String time,
+    String name,
+    String type,
+    String status,
+  ) {
+    return '$date $time: $name ($type) — $status';
+  }
+
+  @override
+  String exportMdBucketExperienceLine(String date, int rating, String worth) {
+    return '$date: rating $rating/10, $worth';
+  }
+
+  @override
+  String get exportMdWorthIt => 'worth it';
+
+  @override
+  String get exportMdNotWorthIt => 'not worth it';
+
+  @override
+  String exportMdTripLine(
+    String fromDate,
+    String toDate,
+    String title,
+    String destination,
+    int overall,
+  ) {
+    return '$fromDate–$toDate: $title, $destination (overall rating $overall/10)';
+  }
+
+  @override
+  String exportMdSummaryFinance(
+    Object income,
+    Object expenses,
+    Object balance,
+  ) {
+    return 'Income: $income €, expenses: $expenses €, balance: $balance €';
+  }
+
+  @override
+  String exportMdSummaryHealth(
+    Object systolic,
+    Object diastolic,
+    Object pulse,
+    Object count,
+  ) {
+    return 'Blood pressure (avg): $systolic/$diastolic, pulse $pulse ($count measurements)';
+  }
+
+  @override
+  String exportMdSummaryBucket(Object completed, Object rating) {
+    return 'Bucket List: $completed completed, average feeling $rating/10';
+  }
+
+  @override
+  String exportMdDailyMood(int mood) {
+    return 'mood $mood/10';
+  }
+
+  @override
+  String get exportMdDailyWorkout => 'workout';
+
+  @override
+  String get exportMdDailyAlcohol => 'alcohol';
+
+  @override
+  String exportMdMealCalories(int calories) {
+    return ' — $calories kcal';
+  }
+
+  @override
+  String exportMdActivityDuration(int minutes) {
+    return ' — $minutes min';
+  }
+
+  @override
+  String exportMdEventNext(String date) {
+    return ' (next: $date)';
+  }
+
+  @override
+  String exportMdBucketLine(String title, String status, String priority) {
+    return '$title ($status, priority $priority)';
+  }
 }

@@ -448,28 +448,29 @@ class SearchDao extends DatabaseAccessor<AppDatabase> with _$SearchDaoMixin {
         .get()) {
       hits.add(SearchHit(
           kind: SearchKind.meal, id: m.id, title: m.name,
-          subtitle: m.type.label, date: m.date));
+          subtitleEnum: m.type, date: m.date));
     }
     for (final a in await (select(activities)
           ..where((t) => t.nameLower.like(p) | t.noteLower.like(p)))
         .get()) {
       hits.add(SearchHit(
-          kind: SearchKind.activity, id: a.id, title: a.name ?? a.type.label,
-          subtitle: a.type.label, date: a.date));
+          kind: SearchKind.activity, id: a.id, title: a.name ?? '',
+          titleEnum: a.name == null ? a.type : null,
+          subtitleEnum: a.type, date: a.date));
     }
     for (final e in await (select(expenses)
           ..where((t) => t.descriptionLower.like(p) | t.noteLower.like(p)))
         .get()) {
       hits.add(SearchHit(
           kind: SearchKind.expense, id: e.id, title: e.description,
-          subtitle: e.category.label, date: e.date));
+          subtitleEnum: e.category, date: e.date));
     }
     for (final i in await (select(income)
           ..where((t) => t.sourceLower.like(p) | t.noteLower.like(p)))
         .get()) {
       hits.add(SearchHit(
           kind: SearchKind.income, id: i.id, title: i.source,
-          subtitle: i.category.label, date: i.date));
+          subtitleEnum: i.category, date: i.date));
     }
     for (final h in await (select(healthEvents)
           ..where((t) =>
@@ -479,7 +480,7 @@ class SearchDao extends DatabaseAccessor<AppDatabase> with _$SearchDaoMixin {
               t.noteLower.like(p)))
         .get()) {
       hits.add(SearchHit(
-          kind: SearchKind.healthEvent, id: h.id, title: h.type.label,
+          kind: SearchKind.healthEvent, id: h.id, titleEnum: h.type,
           subtitle: h.clinic ?? h.whatWasDone, date: h.date));
     }
     for (final l in await (select(labTests)
@@ -507,13 +508,13 @@ class SearchDao extends DatabaseAccessor<AppDatabase> with _$SearchDaoMixin {
         .get()) {
       hits.add(SearchHit(
           kind: SearchKind.medication, id: md.id, title: md.name,
-          subtitle: md.type.label, date: md.date));
+          subtitleEnum: md.type, date: md.date));
     }
     for (final d in await (select(dailyLogs)..where((t) => t.noteLower.like(p)))
         .get()) {
       hits.add(SearchHit(
-          kind: SearchKind.dailyLog, id: d.id, title: 'Дневен отчет',
-          subtitle: d.note ?? '', date: d.date));
+          kind: SearchKind.dailyLog, id: d.id,
+          subtitle: d.note ?? '', date: d.date)); // title resolved by kind
     }
     final seenItems = <String>{};
     for (final bi in await (select(bucketItems)
@@ -525,7 +526,7 @@ class SearchDao extends DatabaseAccessor<AppDatabase> with _$SearchDaoMixin {
       seenItems.add(bi.id);
       hits.add(SearchHit(
           kind: SearchKind.bucketItem, id: bi.id, title: bi.title,
-          subtitle: bi.status.label));
+          subtitleEnum: bi.status));
     }
     // Bucket experiences (reflection) → map back to their item.
     for (final ex in await (select(bucketExperiences)
@@ -539,7 +540,7 @@ class SearchDao extends DatabaseAccessor<AppDatabase> with _$SearchDaoMixin {
         seenItems.add(item.id);
         hits.add(SearchHit(
             kind: SearchKind.bucketItem, id: item.id, title: item.title,
-            subtitle: item.status.label));
+            subtitleEnum: item.status));
       }
     }
     for (final tr in await (select(trips)

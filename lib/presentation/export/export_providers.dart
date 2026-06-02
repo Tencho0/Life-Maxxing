@@ -46,11 +46,6 @@ final exportDataProvider = FutureProvider.autoDispose<ExportData>((ref) {
   return svc.gather(ref.watch(exportRequestProvider));
 });
 
-/// The rendered export string for the chosen format, tracking [exportDataProvider].
-final exportTextProvider = Provider.autoDispose<AsyncValue<String>>((ref) {
-  final svc = ref.watch(exportServiceProvider);
-  final json = ref.watch(exportFormatProvider) == ExportFormat.json;
-  return ref
-      .watch(exportDataProvider)
-      .whenData((d) => json ? svc.toJson(d) : svc.toMarkdown(d));
-});
+// The rendered export string is built in the screen (ExportScreen), where a
+// BuildContext/AppLocalizations is available — Markdown headings follow the UI
+// language while JSON keys/codes stay stable. See export_screen.dart.

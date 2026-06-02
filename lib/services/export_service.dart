@@ -13,6 +13,7 @@
 import 'dart:convert';
 
 import '../data/database.dart';
+import '../l10n/app_localizations.dart';
 import '../domain/enums.dart';
 import '../domain/period.dart';
 
@@ -355,16 +356,16 @@ class ExportService {
 
   // ── Markdown (§25.9) ─────────────────────────────────────────────────
 
-  String toMarkdown(ExportData d) {
+  String toMarkdown(ExportData d, AppLocalizations l10n) {
     final b = StringBuffer();
-    b.writeln('# LifeMaxxing — Експорт за AI');
+    b.writeln('# ${l10n.exportMdTitle}');
     b.writeln();
-    b.writeln('**Период:** ${_periodLabel(d)}');
+    b.writeln('**${l10n.exportMdPeriodLabel}** ${_periodLabel(d, l10n)}');
     b.writeln();
 
-    final summaryLines = _summaryLines(d);
+    final summaryLines = _summaryLines(d, l10n);
     if (summaryLines.isNotEmpty) {
-      b.writeln('## Общо резюме');
+      b.writeln('## ${l10n.exportMdSummary}');
       b.writeln();
       for (final line in summaryLines) {
         b.writeln('- $line');
@@ -382,34 +383,50 @@ class ExportService {
       b.writeln();
     }
 
-    section('Дневни отчети', [for (final l in d.dailyLogs) _dailyLine(l)]);
-    section('Храна', [for (final m in d.meals) _mealLine(m)]);
-    section('Активности', [for (final a in d.activities) _activityLine(a)]);
-    section('Крачки', [for (final s in d.steps) '${s.date}: ${s.count} крачки']);
-    section('Пари', [
-      for (final i in d.income) '${i.date}: +${_eur(i.amountCents)} € (${i.category.label}) — ${i.source}',
-      for (final e in d.expenses) '${e.date}: −${_eur(e.amountCents)} € (${e.category.label}) — ${e.description}',
+    section(l10n.exportMdSectionDaily,
+        [for (final l in d.dailyLogs) _dailyLine(l, l10n)]);
+    section(l10n.exportMdSectionFood,
+        [for (final m in d.meals) _mealLine(m, l10n)]);
+    section(l10n.exportMdSectionActivities,
+        [for (final a in d.activities) _activityLine(a, l10n)]);
+    section(l10n.exportMdSectionSteps,
+        [for (final s in d.steps) l10n.exportMdStepsLine(s.date, s.count)]);
+    section(l10n.exportMdSectionMoney, [
+      for (final i in d.income)
+        l10n.exportMdIncomeLine(i.date, _eur(i.amountCents),
+            l10n.incomeCategoryLabel(i.category.code), i.source),
+      for (final e in d.expenses)
+        l10n.exportMdExpenseLine(e.date, _eur(e.amountCents),
+            l10n.expenseCategoryLabel(e.category.code), e.description),
     ]);
-    section('Здравни събития', [for (final e in d.healthEvents) _eventLine(e)]);
-    section('Изследвания', [for (final l in d.labTests) '${l.date}: ${l.lab} — ${l.reason}']);
-    section('Кръвно и пулс', [
+    section(l10n.exportMdSectionHealthEvents,
+        [for (final e in d.healthEvents) _eventLine(e, l10n)]);
+    section(l10n.exportMdSectionLabTests,
+        [for (final l in d.labTests) l10n.exportMdLabLine(l.date, l.lab, l.reason)]);
+    section(l10n.exportMdSectionBloodPressure, [
       for (final p in d.bloodPressure)
-        '${p.date} ${p.time}: ${p.systolic}/${p.diastolic}, пулс ${p.pulse}',
+        l10n.exportMdBloodPressureLine(
+            p.date, p.time, p.systolic, p.diastolic, p.pulse),
     ]);
-    section('Медикаменти и добавки', [
+    section(l10n.exportMdSectionMedications, [
       for (final m in d.medications)
-        '${m.date} ${m.time}: ${m.name} (${m.type.label}) — ${m.status.label}',
+        l10n.exportMdMedicationLine(m.date, m.time, m.name,
+            l10n.medTypeLabel(m.type.code), l10n.medStatusLabel(m.status.code)),
     ]);
-    section('Bucket List', [for (final i in d.bucketItems) _bucketLine(i)]);
-    section('Bucket List completed experiences', [
+    section(l10n.exportMdSectionBucketList,
+        [for (final i in d.bucketItems) _bucketLine(i, l10n)]);
+    section(l10n.exportMdSectionBucketExperiences, [
       for (final e in d.bucketExperiences)
-        '${e.completedDate}: оценка ${e.feelingRating}/10, '
-            '${e.worthIt ? 'струваше си' : 'не си струваше'}'
-            '${e.reflection != null ? ' — ${e.reflection}' : ''}',
+        l10n.exportMdBucketExperienceLine(
+                e.completedDate,
+                e.feelingRating,
+                e.worthIt ? l10n.exportMdWorthIt : l10n.exportMdNotWorthIt) +
+            (e.reflection != null ? ' — ${e.reflection}' : ''),
     ]);
-    section('Пътувания', [
+    section(l10n.exportMdSectionTrips, [
       for (final t in d.trips)
-        '${t.fromDate}–${t.toDate}: ${t.title}, ${t.destination} (обща оценка ${t.overall}/10)',
+        l10n.exportMdTripLine(
+            t.fromDate, t.toDate, t.title, t.destination, t.overall),
     ]);
 
     b.writeln('## Questions for AI Analysis');
@@ -423,36 +440,39 @@ class ExportService {
     return b.toString();
   }
 
-  String _periodLabel(ExportData d) {
+  String _periodLabel(ExportData d, AppLocalizations l10n) {
     switch (d.request.scope) {
       case ExportScopeType.full:
-        return 'Всички данни';
+        return l10n.exportMdPeriodAll;
       case ExportScopeType.module:
-        return 'Модул: ${d.request.module!.label}';
+        return l10n.exportMdPeriodModule(
+            l10n.exportModuleLabel(d.request.module!.code));
       case ExportScopeType.period:
         final r = d.request.range!;
         return '${r.from} – ${r.to}';
     }
   }
 
-  List<String> _summaryLines(ExportData d) {
+  List<String> _summaryLines(ExportData d, AppLocalizations l10n) {
     final lines = <String>[];
     final s = _summary(d);
     final fin = s['finance'] as Map<String, dynamic>?;
     if (fin != null) {
-      lines.add('Приходи: ${fin['totalIncome']} €, разходи: '
-          '${fin['totalExpenses']} €, баланс: ${fin['balance']} €');
+      lines.add(l10n.exportMdSummaryFinance(
+          fin['totalIncome'], fin['totalExpenses'], fin['balance']));
     }
     final health = s['health'] as Map<String, dynamic>?;
     if (health != null) {
-      lines.add('Кръвно (средно): ${health['averageSystolic']}/'
-          '${health['averageDiastolic']}, пулс ${health['averagePulse']} '
-          '(${health['bloodPressureMeasurementsCount']} измервания)');
+      lines.add(l10n.exportMdSummaryHealth(
+          health['averageSystolic'],
+          health['averageDiastolic'],
+          health['averagePulse'],
+          health['bloodPressureMeasurementsCount']));
     }
     final bucket = s['bucketList'] as Map<String, dynamic>?;
     if (bucket != null) {
-      lines.add('Bucket List: ${bucket['completedCount']} завършени, '
-          'средно усещане ${bucket['averageFeelingRating'] ?? '—'}/10');
+      lines.add(l10n.exportMdSummaryBucket(
+          bucket['completedCount'], bucket['averageFeelingRating'] ?? '—'));
     }
     return lines;
   }
@@ -562,33 +582,36 @@ class ExportService {
 
   // ── Markdown line helpers ────────────────────────────────────────────
 
-  String _dailyLine(DailyLog l) {
-    final parts = ['настроение ${l.mood}/10'];
-    if (l.workout) parts.add('тренировка');
-    if (l.drankAlcohol) parts.add('алкохол');
+  String _dailyLine(DailyLog l, AppLocalizations l10n) {
+    final parts = [l10n.exportMdDailyMood(l.mood)];
+    if (l.workout) parts.add(l10n.exportMdDailyWorkout);
+    if (l.drankAlcohol) parts.add(l10n.exportMdDailyAlcohol);
     if (l.note != null && l.note!.isNotEmpty) parts.add(l.note!);
     return '${l.date}: ${parts.join(', ')}';
   }
 
-  String _mealLine(Meal m) {
-    final cal = m.calories != null ? ' — ${m.calories} kcal' : '';
-    return '${m.date}: ${m.name} (${m.type.label})$cal';
+  String _mealLine(Meal m, AppLocalizations l10n) {
+    final cal = m.calories != null ? l10n.exportMdMealCalories(m.calories!) : '';
+    return '${m.date}: ${m.name} (${l10n.mealTypeLabel(m.type.code)})$cal';
   }
 
-  String _activityLine(Activity a) {
-    final dur = a.durationMin != null ? ' — ${a.durationMin} мин' : '';
-    return '${a.date}: ${a.name ?? a.type.label} (${a.type.label})$dur';
+  String _activityLine(Activity a, AppLocalizations l10n) {
+    final dur =
+        a.durationMin != null ? l10n.exportMdActivityDuration(a.durationMin!) : '';
+    final typeLabel = l10n.activityTypeLabel(a.type.code);
+    return '${a.date}: ${a.name ?? typeLabel} ($typeLabel)$dur';
   }
 
-  String _eventLine(HealthEvent e) {
+  String _eventLine(HealthEvent e, AppLocalizations l10n) {
     final next = e.nextRecommendedDate != null
-        ? ' (следващ: ${e.nextRecommendedDate})'
+        ? l10n.exportMdEventNext(e.nextRecommendedDate!)
         : '';
-    return '${e.date}: ${e.type.label} — ${e.whatWasDone}$next';
+    return '${e.date}: ${l10n.healthEventTypeLabel(e.type.code)} — ${e.whatWasDone}$next';
   }
 
-  String _bucketLine(BucketItem i) =>
-      '${i.title} (${i.status.label}, приоритет ${i.priority.label})';
+  String _bucketLine(BucketItem i, AppLocalizations l10n) =>
+      l10n.exportMdBucketLine(i.title, l10n.bucketStatusLabel(i.status.code),
+          l10n.bucketPriorityLabel(i.priority.code));
 
   // ── Primitives ─────────────────────────────────────────────────────
 

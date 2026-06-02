@@ -4,13 +4,17 @@
 // is unit-testable on the VM.
 
 import 'dart:convert';
+import 'dart:ui' show Locale;
 
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lifemaxxing/data/database.dart';
 import 'package:lifemaxxing/domain/enums.dart';
 import 'package:lifemaxxing/domain/period.dart';
+import 'package:lifemaxxing/l10n/app_localizations.dart';
 import 'package:lifemaxxing/services/export_service.dart';
+
+final _l10n = lookupAppLocalizations(const Locale('bg'));
 
 void main() {
   late AppDatabase db;
@@ -195,7 +199,7 @@ void main() {
     test('always ends with the Questions for AI Analysis block', () async {
       await seedMixed();
       final data = await svc.gather(const ExportRequest(scope: ExportScopeType.full));
-      final md = svc.toMarkdown(data);
+      final md = svc.toMarkdown(data, _l10n);
       expect(md.contains('## Questions for AI Analysis'), isTrue);
       expect(md.trimRight().endsWith('Suggest concrete changes for next month.'),
           isTrue);
@@ -205,7 +209,7 @@ void main() {
       await seedMixed();
       final data = await svc.gather(const ExportRequest(
           scope: ExportScopeType.module, module: ExportModule.expenses));
-      final md = svc.toMarkdown(data);
+      final md = svc.toMarkdown(data, _l10n);
       expect(md.contains('## Пари'), isTrue);
       expect(md.contains('## Храна'), isFalse); // no meals in this export
     });

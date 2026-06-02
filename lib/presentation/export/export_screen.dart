@@ -50,8 +50,12 @@ class ExportScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scope = ref.watch(exportScopeProvider);
     final format = ref.watch(exportFormatProvider);
+    final svc = ref.watch(exportServiceProvider);
     final dataAsync = ref.watch(exportDataProvider);
-    final textAsync = ref.watch(exportTextProvider);
+    // Render here (not in a provider) so Markdown headings follow the UI locale.
+    final textAsync = dataAsync.whenData((d) => format == ExportFormat.json
+        ? svc.toJson(d)
+        : svc.toMarkdown(d, context.l10n));
     final text = textAsync.asData?.value;
 
     return Column(

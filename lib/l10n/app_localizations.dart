@@ -2917,6 +2917,261 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Supplements · {count} taken'**
   String homeMedsTaken(int count);
+
+  /// No description provided for @exportMdTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'LifeMaxxing — AI Export'**
+  String get exportMdTitle;
+
+  /// No description provided for @exportMdPeriodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Period:'**
+  String get exportMdPeriodLabel;
+
+  /// No description provided for @exportMdSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Overall summary'**
+  String get exportMdSummary;
+
+  /// No description provided for @exportMdPeriodAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All data'**
+  String get exportMdPeriodAll;
+
+  /// No description provided for @exportMdPeriodModule.
+  ///
+  /// In en, this message translates to:
+  /// **'Module: {module}'**
+  String exportMdPeriodModule(String module);
+
+  /// No description provided for @exportMdSectionDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily logs'**
+  String get exportMdSectionDaily;
+
+  /// No description provided for @exportMdSectionFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get exportMdSectionFood;
+
+  /// No description provided for @exportMdSectionActivities.
+  ///
+  /// In en, this message translates to:
+  /// **'Activities'**
+  String get exportMdSectionActivities;
+
+  /// No description provided for @exportMdSectionSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get exportMdSectionSteps;
+
+  /// No description provided for @exportMdSectionMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'Money'**
+  String get exportMdSectionMoney;
+
+  /// No description provided for @exportMdSectionHealthEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Health events'**
+  String get exportMdSectionHealthEvents;
+
+  /// No description provided for @exportMdSectionLabTests.
+  ///
+  /// In en, this message translates to:
+  /// **'Lab tests'**
+  String get exportMdSectionLabTests;
+
+  /// No description provided for @exportMdSectionBloodPressure.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood pressure & pulse'**
+  String get exportMdSectionBloodPressure;
+
+  /// No description provided for @exportMdSectionMedications.
+  ///
+  /// In en, this message translates to:
+  /// **'Medications & supplements'**
+  String get exportMdSectionMedications;
+
+  /// No description provided for @exportMdSectionBucketList.
+  ///
+  /// In en, this message translates to:
+  /// **'Bucket List'**
+  String get exportMdSectionBucketList;
+
+  /// No description provided for @exportMdSectionBucketExperiences.
+  ///
+  /// In en, this message translates to:
+  /// **'Bucket List completed experiences'**
+  String get exportMdSectionBucketExperiences;
+
+  /// No description provided for @exportMdSectionTrips.
+  ///
+  /// In en, this message translates to:
+  /// **'Trips'**
+  String get exportMdSectionTrips;
+
+  /// No description provided for @exportMdStepsLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}: {count} steps'**
+  String exportMdStepsLine(String date, int count);
+
+  /// No description provided for @exportMdIncomeLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}: +{amount} € ({category}) — {source}'**
+  String exportMdIncomeLine(
+    String date,
+    num amount,
+    String category,
+    String source,
+  );
+
+  /// No description provided for @exportMdExpenseLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}: −{amount} € ({category}) — {description}'**
+  String exportMdExpenseLine(
+    String date,
+    num amount,
+    String category,
+    String description,
+  );
+
+  /// No description provided for @exportMdLabLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}: {lab} — {reason}'**
+  String exportMdLabLine(String date, String lab, String reason);
+
+  /// No description provided for @exportMdBloodPressureLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{date} {time}: {systolic}/{diastolic}, pulse {pulse}'**
+  String exportMdBloodPressureLine(
+    String date,
+    String time,
+    int systolic,
+    int diastolic,
+    int pulse,
+  );
+
+  /// No description provided for @exportMdMedicationLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{date} {time}: {name} ({type}) — {status}'**
+  String exportMdMedicationLine(
+    String date,
+    String time,
+    String name,
+    String type,
+    String status,
+  );
+
+  /// No description provided for @exportMdBucketExperienceLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}: rating {rating}/10, {worth}'**
+  String exportMdBucketExperienceLine(String date, int rating, String worth);
+
+  /// No description provided for @exportMdWorthIt.
+  ///
+  /// In en, this message translates to:
+  /// **'worth it'**
+  String get exportMdWorthIt;
+
+  /// No description provided for @exportMdNotWorthIt.
+  ///
+  /// In en, this message translates to:
+  /// **'not worth it'**
+  String get exportMdNotWorthIt;
+
+  /// No description provided for @exportMdTripLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{fromDate}–{toDate}: {title}, {destination} (overall rating {overall}/10)'**
+  String exportMdTripLine(
+    String fromDate,
+    String toDate,
+    String title,
+    String destination,
+    int overall,
+  );
+
+  /// No description provided for @exportMdSummaryFinance.
+  ///
+  /// In en, this message translates to:
+  /// **'Income: {income} €, expenses: {expenses} €, balance: {balance} €'**
+  String exportMdSummaryFinance(Object income, Object expenses, Object balance);
+
+  /// No description provided for @exportMdSummaryHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood pressure (avg): {systolic}/{diastolic}, pulse {pulse} ({count} measurements)'**
+  String exportMdSummaryHealth(
+    Object systolic,
+    Object diastolic,
+    Object pulse,
+    Object count,
+  );
+
+  /// No description provided for @exportMdSummaryBucket.
+  ///
+  /// In en, this message translates to:
+  /// **'Bucket List: {completed} completed, average feeling {rating}/10'**
+  String exportMdSummaryBucket(Object completed, Object rating);
+
+  /// No description provided for @exportMdDailyMood.
+  ///
+  /// In en, this message translates to:
+  /// **'mood {mood}/10'**
+  String exportMdDailyMood(int mood);
+
+  /// No description provided for @exportMdDailyWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'workout'**
+  String get exportMdDailyWorkout;
+
+  /// No description provided for @exportMdDailyAlcohol.
+  ///
+  /// In en, this message translates to:
+  /// **'alcohol'**
+  String get exportMdDailyAlcohol;
+
+  /// No description provided for @exportMdMealCalories.
+  ///
+  /// In en, this message translates to:
+  /// **' — {calories} kcal'**
+  String exportMdMealCalories(int calories);
+
+  /// No description provided for @exportMdActivityDuration.
+  ///
+  /// In en, this message translates to:
+  /// **' — {minutes} min'**
+  String exportMdActivityDuration(int minutes);
+
+  /// No description provided for @exportMdEventNext.
+  ///
+  /// In en, this message translates to:
+  /// **' (next: {date})'**
+  String exportMdEventNext(String date);
+
+  /// No description provided for @exportMdBucketLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} ({status}, priority {priority})'**
+  String exportMdBucketLine(String title, String status, String priority);
 }
 
 class _AppLocalizationsDelegate

@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/enum_labels.dart';
 import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -74,10 +75,10 @@ class SearchScreen extends ConsumerWidget {
                     child: LmRow(
                       icon: _icon(h.kind),
                       iconColor: AppColors.accent,
-                      title: h.title,
+                      title: _title(context, h),
                       subtitle: h.date.isEmpty
-                          ? h.subtitle
-                          : '${h.subtitle} · ${dmy(h.date)}',
+                          ? _subtitle(context, h)
+                          : '${_subtitle(context, h)} · ${dmy(h.date)}',
                       onTap: () => _navigate(context, ref, h),
                     ),
                   ),
@@ -88,6 +89,15 @@ class SearchScreen extends ConsumerWidget {
       ],
     );
   }
+
+  // Enum-derived title/subtitle are localized here (the DAO has no context).
+  String _title(BuildContext context, SearchHit h) {
+    if (h.kind == SearchKind.dailyLog) return context.l10n.dailyTitle;
+    return h.titleEnum != null ? localizedLabel(context, h.titleEnum!) : h.title;
+  }
+
+  String _subtitle(BuildContext context, SearchHit h) =>
+      h.subtitleEnum != null ? localizedLabel(context, h.subtitleEnum!) : h.subtitle;
 
   void _navigate(BuildContext context, WidgetRef ref, SearchHit h) {
     switch (h.kind) {
