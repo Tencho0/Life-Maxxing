@@ -372,7 +372,18 @@
 - [x] Tests: `home_test` inits date symbols + renders the home under **en** asserting the localized 'THIS WEEK' eyebrow (the bg render covers bg). Storage values unchanged.
 - **Verify:** ✅ analyze clean; full suite green (205). Picker language is device-verified.
 
-### Slice 10.6 — i18n QA pass
-- [ ] `pumpWithLocale(tester, locale)` shared test helper; render key screens in bg + en; verify no missing keys (`flutter gen-l10n`), no overflow at en lengths (check 412-wide), switcher round-trips.
-- [ ] Extend the §30-style checklist with i18n acceptance criteria.
-- **Verify:** analyze clean; full suite green in both locales; `flutter gen-l10n` no missing translations.
+### Slice 10.6 — i18n QA pass ✅ (commit 568f503)
+- [x] Shared `localizedApp({home, locale})` helper (the `pumpWithLocale` equivalent, added in 10.3) is used across feature/widget tests. New `test/l10n/i18n_qa_test.dart` renders food/finance/activities/health/home at **412-wide in both bg and en** (a layout overflow or missing-key lookup throws → fails) and asserts a screen title localizes (`Храна`↔`Food`). No en-length overflow found.
+- [x] Final UI-string cleanup so the acceptance grep passes: shared widgets (`AppTopBar` back, `YesNo` Да/Не, `MoodPicker` copy + `localizedMoodLabel`), `photo_field` add/remove, finance payment-method options, and formatting unit abbreviations (м/ч/г/к → `unit*`). `PeriodChips.options` now required.
+- [x] `flutter gen-l10n` reports **no missing translations**; en/bg ARB message-key sets match.
+- **Verify:** ✅ analyze clean; full suite green (208) incl. the bilingual QA renders.
+
+#### i18n acceptance criteria (milestone gate)
+- [x] **Launches in system language** (bg/en) and **honors a persisted choice** — system→bg/en with bg fallback (no custom callback needed); `main()` loads the saved locale before first frame (10.1/10.2).
+- [x] **Switcher updates the whole UI live + survives restart** — `localeProvider` (Notifier) drives `MaterialApp.locale`; `SettingsService` persists to the drift `settings` table; covered by `settings_test` (update+persist, restore-on-launch, default resolution).
+- [x] **No hardcoded user-facing strings** in `lib/presentation/**`, `lib/app/sheets.dart`, shared widgets — Cyrillic grep returns only the owner's name `Мартин` (content) + comments. Dev gallery copy is intentionally exempt.
+- [x] **Native date pickers** render in the selected language via the delegates + `supportedLocales` (10.1); device-verified.
+- [x] **Storage / search / export-keys / backup unchanged & language-independent** — enum `code`s, `*Lower` columns, AI-export **JSON keys + codes + "Questions for AI"** block, and ZIP `data.json` are untouched; existing backup/export tests pass. Export **Markdown** headings + search-result labels localize at display time.
+- [x] **`flutter analyze` clean; full suite green (208) in both locales; `flutter gen-l10n` no missing translations.**
+
+> **Phase 10 (localization) complete** — bg/en runtime switcher with persistence; every user-facing string, enum label, export-Markdown heading, and the home long-date localized; storage/search/export-keys/backup remain language-independent. Record dates (`dd.MM.yyyy`) + EUR formatting stay locale-independent by design (CLAUDE §2/§4). `flutter analyze` clean; full suite green (208). Device pass (APK build, picker language, on-device v1→v2 migration, 412-wide visual) owns the final sign-off.
