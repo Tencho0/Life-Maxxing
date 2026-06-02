@@ -365,10 +365,12 @@
 - **Verify:** ✅ analyze clean; full suite green (204) after each wave. *Context-less producers* (`home_data` timeline, `export_service` Markdown, `SearchDao`) were refactored to resolve labels in the widget layer / take an injected `AppLocalizations`, keeping providers/DAO context-free.
 - *Deferred to 10.5 (locale-aware formatting):* home's bg month/weekday name arrays (`_months`/`_weekdays`) + numeric date/currency formatting. The hardcoded user name (`Мартин`) is content, not UI chrome.
 
-### Slice 10.5 — Locale-aware formatting
-- [ ] `core/format/dates.dart` + `finance/finance_format.dart` use the active locale (`DateFormat`/`NumberFormat`); confirm native `showDatePicker`/`showDateRangePicker` localize via delegates. Keep EUR `€`.
-- [ ] Tests: formatters render per-locale; storage values unchanged.
-- **Verify:** analyze clean; tests green; pickers render in the selected language (device).
+### Slice 10.5 — Locale-aware formatting ✅ (commit 3a650d6)
+- [x] **Decision:** record dates stay numeric `dd.MM.yyyy` and EUR stays space-grouped/comma-decimals — deliberately **locale-independent** to match the finalized, locked design (CLAUDE §2 visuals, §4 dates/EUR). The brief's "your call, be consistent" → keep the design format in every language; only natural-language date text is localized. Documented in `dates.dart` + `finance_format.dart`.
+- [x] Home header long date → `DateFormat('EEEE · d MMMM y', activeLocale)` (weekday/month names follow the UI language); removed the hardcoded bg month/weekday arrays. `initializeDateFormatting(bg/en)` runs at startup (10.1) and in the home test.
+- [x] Native `showDatePicker`/`showDateRangePicker` localize automatically via the delegates + `supportedLocales` wired in 10.1.
+- [x] Tests: `home_test` inits date symbols + renders the home under **en** asserting the localized 'THIS WEEK' eyebrow (the bg render covers bg). Storage values unchanged.
+- **Verify:** ✅ analyze clean; full suite green (205). Picker language is device-verified.
 
 ### Slice 10.6 — i18n QA pass
 - [ ] `pumpWithLocale(tester, locale)` shared test helper; render key screens in bg + en; verify no missing keys (`flutter gen-l10n`), no overflow at en lengths (check 412-wide), switcher round-trips.
