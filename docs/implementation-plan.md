@@ -223,13 +223,14 @@
 - [x] Extracted shared `PhotoFormMixin` (`common/photo_form_mixin.dart`); Health refactored onto it. `LmButton` long labels ellipsize.
 - **Verify:** ✅ analyze clean; full suite green (132). Photo IO device-verified (§7.2).
 
-### Slice 7.9 — Trips (+ detail)
-- [ ] Providers: trips (filter by period/rating/repeat) + trip stats; trip detail.
-- [ ] Trips screen: stat cards, trip cards with cover + overall badge.
-- [ ] Detail screen: cover header, rating bars, comment, gallery grid.
-- [ ] Trip sheet (title*/destination*/from*/to*/overall* + sub-ratings/wouldRepeat/comment, cover photo + gallery) CRUD; date-order validation; cover replace; gallery add/remove.
-- [ ] Tests: toDate≥fromDate; one cover + many gallery; stats (avg overall, repeat count); search title/destination.
-- **Verify:** create a trip with cover + gallery; ratings render; edit/delete works.
+### Slice 7.9 — Trips (+ detail) ✅ (commit 8b04aad)
+- [x] Providers: trips list (would-repeat filter) + all-trips stats + per-trip detail/photos/cover. `TripsDao.watchById` added.
+- [x] Trips screen: stat cards, would-repeat filter, trip cards (cover header + overall badge).
+- [x] Detail screen: cover header, rating bars (overall + sub-ratings), would-repeat + comment, gallery grid; edit + delete.
+- [x] Trip sheet (title*/destination*/from*/to*/overall* + sub-ratings/wouldRepeat/comment, cover + gallery) CRUD; date-order validation; cover replace; gallery add/remove.
+- [x] Tests (8): toDate≥fromDate (DB); one cover + many gallery + deleteTrip cleanup; stats (avg overall, repeat); search title/destination; form requires title+dest, saves; screen + detail render.
+- **Verify:** ✅ analyze clean; full suite green (140). Cover/gallery photo IO device-verified (§7.2).
+- *Note:* period filtering of trip stats deferred (spans all trips, per §3.4 note); a would-repeat filter ships instead.
 
 ### Slice 7.10 — Home
 - [ ] Providers: today snapshot + week rails (mood/steps/expense/pulse) + today timeline across modules.
