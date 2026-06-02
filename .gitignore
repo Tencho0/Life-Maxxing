@@ -45,3 +45,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 .superpowers/
+
+# Promo video: never commit the bundled ffmpeg binary (~400MB) or intermediate
+# frames/screenshots. Scripts, source photos, VO, and final renders are kept.
+/promo/tools/
+/promo/work/

@@ -9,11 +9,17 @@
 // drift into cheat meals) so every screen looks like a real, lived-in log
 // rather than random noise.
 
+import 'dart:io';
 import 'dart:math';
+
 import 'package:drift/drift.dart' show Value;
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 import '../data/database.dart';
 import '../domain/enums.dart';
+import '../services/attachment_service.dart';
 
 String _ymd(DateTime d) =>
     '${d.year.toString().padLeft(4, '0')}-'
@@ -22,6 +28,16 @@ String _ymd(DateTime d) =>
 
 String _hm(int h, int m) =>
     '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}';
+
+/// Copies a bundled seed photo to a temp file and returns its path, so the
+/// AttachmentService pipeline (which expects a file on disk) can ingest it.
+Future<String> _assetToTemp(String name) async {
+  final data = await rootBundle.load('assets/seed_photos/$name');
+  final dir = await getTemporaryDirectory();
+  final f = File(p.join(dir.path, name));
+  await f.writeAsBytes(data.buffer.asUint8List(), flush: true);
+  return f.path;
+}
 
 /// A meal template: name, type, kcal, protein, carbs, fat.
 typedef _Meal = (String, MealType, int, double, double, double);
@@ -54,6 +70,9 @@ Future<void> seedDatabase(AppDatabase db, {DateTime? today}) async {
   T pick<T>(List<T> xs) => xs[rnd.nextInt(xs.length)];
 
   await clearAll(db);
+
+  final att = AttachmentService(db.attachmentsDao);
+  final dailyLogIds = <String>[];
 
   // Running id counters per table.
   var mealId = 0, actId = 0, expId = 0, bpId = 0, medId = 0;
@@ -216,6 +235,7 @@ Future<void> seedDatabase(AppDatabase db, {DateTime? today}) async {
         screenTimeMin: Value(120 + rnd.nextInt(220) + (trained ? 0 : 40)),
         note: Value(pick(notes)), createdAt: now, updatedAt: now,
       ));
+      dailyLogIds.add('dl$i');
     }
 
     // Meals — breakfast/lunch/dinner most days, plus snacks.
@@ -436,5 +456,42 @@ Future<void> seedDatabase(AppDatabase db, {DateTime? today}) async {
       comment: const Value('Incredible experience, every step was worth it.'),
       createdAt: now, updatedAt: now,
     ));
+  }
+
+  // ── Photos: trip covers + visual-diary daily-log photos ────────────
+  // Dev-only sample images (assets/seed_photos) run through the real
+  // AttachmentService pipeline so Memories + Trips look lived-in.
+  const tripCovers = [
+    'cover_rome.jpg', 'cover_bansko.jpg', 'cover_thassos.jpg', 'cover_budapest.jpg',
+  ];
+  for (var k = 0; k < trips.length && k < tripCovers.length; k++) {
+    await att.addFromFile(
+      entity: AttachmentEntity.trip,
+      entityId: 'tr$k',
+      role: AttachmentRole.cover,
+      sourcePath: await _assetToTemp(tripCovers[k]),
+      originalFileName: tripCovers[k],
+    );
+  }
+
+  const diaryPhotos = [
+    'diary_gym.jpg', 'diary_bjj.jpg', 'diary_coffee.jpg', 'diary_hike.jpg',
+    'diary_food.jpg', 'diary_city.jpg', 'diary_run.jpg', 'diary_book.jpg',
+  ];
+  if (dailyLogIds.isNotEmpty) {
+    // dailyLogIds run oldest→newest; spread photos across the recent days.
+    final step =
+        (dailyLogIds.length / diaryPhotos.length).floor().clamp(1, dailyLogIds.length).toInt();
+    for (var k = 0; k < diaryPhotos.length; k++) {
+      final idx = dailyLogIds.length - 1 - k * step;
+      if (idx < 0) break;
+      await att.addFromFile(
+        entity: AttachmentEntity.dailyLog,
+        entityId: dailyLogIds[idx],
+        role: AttachmentRole.main,
+        sourcePath: await _assetToTemp(diaryPhotos[k]),
+        originalFileName: diaryPhotos[k],
+      );
+    }
   }
 }

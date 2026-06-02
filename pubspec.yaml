@@ -87,6 +87,11 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  # Dev-only sample photos for the seeder (trip covers + visual diary).
+  # Not used in any release UI; bundled so the dev seed can attach real images.
+  assets:
+    - assets/seed_photos/
+
   # IBM Plex Sans (UI text) + IBM Plex Mono (numbers/metrics).
   # "complete" cut → includes Cyrillic for the Bulgarian UI. Only the weights
   # used by the design system are bundled, to keep app size down.
