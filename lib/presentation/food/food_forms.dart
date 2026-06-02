@@ -12,6 +12,7 @@ import 'package:uuid/uuid.dart';
 import '../../app/providers.dart';
 import '../../app/sheets.dart';
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/enum_labels.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/field.dart';
@@ -186,10 +187,11 @@ class _FoodFormState extends ConsumerState<_FoodForm> {
           label: 'Тип хранене',
           required: true,
           child: Segmented(
-            options: MealType.values.map((t) => t.label).toList(),
-            value: _type.label,
-            onChanged: (l) => setState(
-                () => _type = MealType.values.firstWhere((t) => t.label == l)),
+            options:
+                MealType.values.map((t) => localizedLabel(context, t)).toList(),
+            value: localizedLabel(context, _type),
+            onChanged: (l) => setState(() => _type =
+                MealType.values.firstWhere((t) => localizedLabel(context, t) == l)),
           ),
         ),
         Field(

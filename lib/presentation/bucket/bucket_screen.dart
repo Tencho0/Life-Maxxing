@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/enum_labels.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -52,12 +53,12 @@ class BucketScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 12),
               Segmented(
-                options: [_allLabel, for (final s in BucketStatus.values) s.label],
-                value: filter?.label ?? _allLabel,
+                options: [_allLabel, for (final s in BucketStatus.values) localizedLabel(context, s)],
+                value: filter == null ? _allLabel : localizedLabel(context, filter),
                 onChanged: (l) =>
                     ref.read(bucketStatusFilterProvider.notifier).state = l == _allLabel
                         ? null
-                        : BucketStatus.values.firstWhere((s) => s.label == l),
+                        : BucketStatus.values.firstWhere((s) => localizedLabel(context, s) == l),
               ),
               const SizedBox(height: 12),
               ..._itemRows(context, items),
@@ -88,9 +89,9 @@ class BucketScreen extends ConsumerWidget {
             icon: LmIcons.flag,
             iconColor: bucketPriorityColor(it.priority),
             title: it.title,
-            subtitle: it.priority.label,
+            subtitle: localizedLabel(context, it.priority),
             onTap: () => context.push('/bucket/${it.id}'),
-            trailing: Pill(it.status.label, color: bucketStatusColor(it.status)),
+            trailing: Pill(localizedLabel(context, it.status), color: bucketStatusColor(it.status)),
           ),
         ),
     ];

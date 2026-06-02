@@ -10,6 +10,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../app/sheets.dart';
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/enum_labels.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/field.dart';
@@ -144,20 +145,20 @@ class _BucketItemFormState extends ConsumerState<_BucketItemForm>
           required: true,
           child: Segmented(
             columns: 3,
-            options: BucketPriority.values.map((p) => p.label).toList(),
-            value: _priority.label,
+            options: BucketPriority.values.map((p) => localizedLabel(context, p)).toList(),
+            value: localizedLabel(context, _priority),
             onChanged: (l) => setState(() =>
-                _priority = BucketPriority.values.firstWhere((p) => p.label == l)),
+                _priority = BucketPriority.values.firstWhere((p) => localizedLabel(context, p) == l)),
           ),
         ),
         Field(
           label: 'Статус',
           required: true,
           child: Segmented(
-            options: BucketStatus.values.map((s) => s.label).toList(),
-            value: _status.label,
+            options: BucketStatus.values.map((s) => localizedLabel(context, s)).toList(),
+            value: localizedLabel(context, _status),
             onChanged: (l) => setState(() =>
-                _status = BucketStatus.values.firstWhere((s) => s.label == l)),
+                _status = BucketStatus.values.firstWhere((s) => localizedLabel(context, s) == l)),
           ),
         ),
         Field(

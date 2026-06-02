@@ -88,7 +88,7 @@ void main() {
       addTearDown(tester.view.resetDevicePixelRatio);
       await tester.pumpWidget(ProviderScope(
         overrides: [databaseProvider.overrideWithValue(db)],
-        child: MaterialApp(
+        child: localizedApp(
           home: Scaffold(
             body: Builder(
               builder: (context) => Center(
@@ -163,7 +163,7 @@ void main() {
 
     await tester.pumpWidget(ProviderScope(
       overrides: [databaseProvider.overrideWithValue(db)],
-      child: const MaterialApp(home: Scaffold(body: FoodScreen())),
+      child: localizedApp(home: Scaffold(body: FoodScreen())),
     ));
     await tester.pump(); // loading frame
     await tester.pump(const Duration(milliseconds: 300)); // drift streams emit

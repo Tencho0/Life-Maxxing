@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/charts/income_expense_bars.dart';
 import '../../core/charts/lm_bar_chart.dart';
 import '../../core/charts/sparkline.dart';
+import '../../core/l10n/enum_labels.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -63,7 +64,7 @@ class StatsScreen extends ConsumerWidget {
       children: [
         AppTopBar(
           title: 'Графики',
-          subtitle: period.label,
+          subtitle: localizedLabel(context, period),
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
         ),
@@ -71,8 +72,9 @@ class StatsScreen extends ConsumerWidget {
           child: ScreenBody(
             children: [
               PeriodChips(
-                value: period.chipLabel,
-                options: Period.values.map((p) => p.chipLabel).toList(),
+                value: periodChipLabel(context, period),
+                options:
+                    Period.values.map((p) => periodChipLabel(context, p)).toList(),
                 onChanged: (label) => _onPeriod(context, ref, label),
               ),
               _ChartCard(
@@ -132,7 +134,8 @@ class StatsScreen extends ConsumerWidget {
 
   Future<void> _onPeriod(
       BuildContext context, WidgetRef ref, String label) async {
-    final p = Period.values.firstWhere((x) => x.chipLabel == label);
+    final p =
+        Period.values.firstWhere((x) => periodChipLabel(context, x) == label);
     if (p == Period.custom) {
       final picked = await showDateRangePicker(
         context: context,

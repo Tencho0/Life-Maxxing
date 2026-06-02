@@ -13,5 +13,21 @@
   "settingsLanguage": "Език",
   "languageSystem": "Системен",
   "languageBulgarian": "Български",
-  "languageEnglish": "English"
+  "languageEnglish": "English",
+
+  "mealTypeLabel": "{code, select, breakfast{Закуска} lunch{Обяд} dinner{Вечеря} snack{Snack} other{Друго}}",
+  "activityTypeLabel": "{code, select, gym{Фитнес} bjj{BJJ} boxing{Бокс} kickboxing{Кикбокс} mma{ММА} tennis{Тенис} hiking{Разходка в планината} folk_dance{Народни танци} cycling{Колоездене} swimming{Плуване} ski{Ски} other{Друго}}",
+  "activityGroupLabel": "{code, select, strength{Силови тренировки} combat{Бойни спортове} cardio{Кардио / движение} dance{Танци} other{Друго}}",
+  "intensityLabel": "{code, select, low{Ниска} medium{Средна} high{Висока} other{{code}}}",
+  "expenseCategoryLabel": "{code, select, food{Храна} entertainment{Забавления} social{Социални} transport{Транспорт} education{Образование} subscriptions{Абонаменти} car{Автомобил} clothing{Дрехи и обувки} health_supplements{Здраве и добавки} sport{Спорт} appearance{Външен вид} vape{Вейп} other{Друго}}",
+  "incomeCategoryLabel": "{code, select, salary{Заплата} freelance{Freelance} bonus{Бонус} sale{Продажба} gift{Подарък} business{Бизнес} other{Друго}}",
+  "paymentMethodLabel": "{code, select, card{Карта} cash{В брой} other{Друго}}",
+  "healthEventTypeLabel": "{code, select, dentist{Зъболекар} doctor{Лекар} procedure{Процедура} checkup{Профилактичен преглед} physiotherapy{Физиотерапия} other{Друго}}",
+  "dentalSubtypeLabel": "{code, select, prophylaxis{Профилактика} cleaning{Почистване} filling{Пломба} root_canal{Кореново лечение} whitening{Избелване} bonding{Бондинг/фасети} orthodontics{Ортодонт} extraction{Вадене} other{Друго}}",
+  "medTypeLabel": "{code, select, medication{Медикамент} supplement{Добавка} vitamin{Витамин} mineral{Минерал} sports_supplement{Спортна добавка} other{Друго}}",
+  "medStatusLabel": "{code, select, taken{Прието} missed{Пропуснато} other{{code}}}",
+  "bucketPriorityLabel": "{code, select, low{Low} medium{Medium} high{High} other{{code}}}",
+  "bucketStatusLabel": "{code, select, idea{Идея} planned{Планирано} completed{Завършено} abandoned{Изоставено} other{{code}}}",
+  "periodLabel": "{code, select, today{Днес} last7{Последните 7 дни} last30{Последните 30 дни} this_month{Текущ месец} prev_month{Предишен месец} custom{Custom период} other{{code}}}",
+  "periodChipLabel": "{code, select, today{Днес} last7{7 дни} last30{30 дни} this_month{Месец} prev_month{Предишен} custom{Custom} other{{code}}}"
 }

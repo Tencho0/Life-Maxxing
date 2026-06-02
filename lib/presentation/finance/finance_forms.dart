@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../app/sheets.dart';
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/enum_labels.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/field.dart';
@@ -222,10 +223,10 @@ class _ExpenseFormState extends ConsumerState<_ExpenseForm> {
           label: 'Категория',
           required: true,
           child: Segmented(
-            options: ExpenseCategory.values.map((c) => c.label).toList(),
-            value: _category.label,
+            options: ExpenseCategory.values.map((c) => localizedLabel(context, c)).toList(),
+            value: localizedLabel(context, _category),
             onChanged: (l) => setState(() => _category =
-                ExpenseCategory.values.firstWhere((c) => c.label == l)),
+                ExpenseCategory.values.firstWhere((c) => localizedLabel(context, c) == l)),
           ),
         ),
         Field(
@@ -237,9 +238,9 @@ class _ExpenseFormState extends ConsumerState<_ExpenseForm> {
           label: 'Начин на плащане',
           child: Segmented(
             options: const ['Карта', 'В брой', 'Друго'],
-            value: _payment.label,
+            value: localizedLabel(context, _payment),
             onChanged: (l) => setState(() => _payment =
-                PaymentMethod.values.firstWhere((p) => p.label == l)),
+                PaymentMethod.values.firstWhere((p) => localizedLabel(context, p) == l)),
           ),
         ),
         _DateField(date: _date, onPick: (d) => setState(() => _date = d)),
@@ -357,10 +358,10 @@ class _IncomeFormState extends ConsumerState<_IncomeForm> {
           label: 'Категория',
           required: true,
           child: Segmented(
-            options: IncomeCategory.values.map((c) => c.label).toList(),
-            value: _category.label,
+            options: IncomeCategory.values.map((c) => localizedLabel(context, c)).toList(),
+            value: localizedLabel(context, _category),
             onChanged: (l) => setState(() => _category =
-                IncomeCategory.values.firstWhere((c) => c.label == l)),
+                IncomeCategory.values.firstWhere((c) => localizedLabel(context, c) == l)),
           ),
         ),
         _DateField(date: _date, onPick: (d) => setState(() => _date = d)),

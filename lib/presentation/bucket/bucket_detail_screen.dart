@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/providers.dart';
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/enum_labels.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -75,9 +76,9 @@ class BucketDetailScreen extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  Pill(item.status.label, color: bucketStatusColor(item.status)),
+                  Pill(localizedLabel(context, item.status), color: bucketStatusColor(item.status)),
                   const SizedBox(width: 8),
-                  Pill(item.priority.label,
+                  Pill(localizedLabel(context, item.priority),
                       color: bucketPriorityColor(item.priority)),
                 ],
               ),

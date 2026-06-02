@@ -9,11 +9,13 @@
 //    then settle. Pair with useDeterministicTestEnv() so the loading spinner +
 //    charts settle once data is in.
 
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:lifemaxxing/core/charts/chart_anim.dart';
 import 'package:lifemaxxing/core/widgets/lm_toast.dart';
+import 'package:lifemaxxing/l10n/app_localizations.dart';
 
 /// Zeroes toast + chart animation durations for the current test, restoring
 /// them on teardown. Call from `setUp`.
@@ -47,3 +49,16 @@ Future<void> settleData(
 /// The ProviderScope container for a mounted widget found by [finder].
 ProviderContainer containerFor(WidgetTester tester, Finder finder) =>
     ProviderScope.containerOf(tester.element(finder));
+
+/// Wraps [home] in a [MaterialApp] with the app's gen-l10n delegates installed
+/// and a fixed [locale] (default bg). Localized screens call `context.l10n`, so
+/// their widget tests must pump under the delegates; pinning bg keeps existing
+/// Bulgarian-string assertions valid regardless of the host's system locale.
+Widget localizedApp({required Widget home, Locale locale = const Locale('bg')}) {
+  return MaterialApp(
+    locale: locale,
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    supportedLocales: AppLocalizations.supportedLocales,
+    home: home,
+  );
+}

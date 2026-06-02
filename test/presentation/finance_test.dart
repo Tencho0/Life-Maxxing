@@ -69,7 +69,7 @@ void main() {
       addTearDown(tester.view.resetDevicePixelRatio);
       await tester.pumpWidget(ProviderScope(
         overrides: [databaseProvider.overrideWithValue(db)],
-        child: MaterialApp(
+        child: localizedApp(
           home: Scaffold(
             body: Builder(
               builder: (context) => Center(
@@ -133,7 +133,7 @@ void main() {
 
     await tester.pumpWidget(ProviderScope(
       overrides: [databaseProvider.overrideWithValue(db)],
-      child: const MaterialApp(home: Scaffold(body: FinanceScreen())),
+      child: localizedApp(home: Scaffold(body: FinanceScreen())),
     ));
     await tester.pump(); // loading frame
     // Advance FakeAsync so the drift query streams emit (pump drives their

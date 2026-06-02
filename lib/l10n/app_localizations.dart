@@ -169,6 +169,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'English'**
   String get languageEnglish;
+
+  /// Display label for a MealType, by stable code.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, breakfast{Breakfast} lunch{Lunch} dinner{Dinner} snack{Snack} other{Other}}'**
+  String mealTypeLabel(String code);
+
+  /// No description provided for @activityTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, gym{Gym} bjj{BJJ} boxing{Boxing} kickboxing{Kickboxing} mma{MMA} tennis{Tennis} hiking{Hiking} folk_dance{Folk dancing} cycling{Cycling} swimming{Swimming} ski{Skiing} other{Other}}'**
+  String activityTypeLabel(String code);
+
+  /// No description provided for @activityGroupLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, strength{Strength training} combat{Combat sports} cardio{Cardio / movement} dance{Dance} other{Other}}'**
+  String activityGroupLabel(String code);
+
+  /// No description provided for @intensityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, low{Low} medium{Medium} high{High} other{{code}}}'**
+  String intensityLabel(String code);
+
+  /// No description provided for @expenseCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, food{Food} entertainment{Entertainment} social{Social} transport{Transport} education{Education} subscriptions{Subscriptions} car{Car} clothing{Clothing & shoes} health_supplements{Health & supplements} sport{Sport} appearance{Appearance} vape{Vape} other{Other}}'**
+  String expenseCategoryLabel(String code);
+
+  /// No description provided for @incomeCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, salary{Salary} freelance{Freelance} bonus{Bonus} sale{Sale} gift{Gift} business{Business} other{Other}}'**
+  String incomeCategoryLabel(String code);
+
+  /// No description provided for @paymentMethodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, card{Card} cash{Cash} other{Other}}'**
+  String paymentMethodLabel(String code);
+
+  /// No description provided for @healthEventTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, dentist{Dentist} doctor{Doctor} procedure{Procedure} checkup{Check-up} physiotherapy{Physiotherapy} other{Other}}'**
+  String healthEventTypeLabel(String code);
+
+  /// No description provided for @dentalSubtypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, prophylaxis{Prophylaxis} cleaning{Cleaning} filling{Filling} root_canal{Root canal} whitening{Whitening} bonding{Bonding/veneers} orthodontics{Orthodontics} extraction{Extraction} other{Other}}'**
+  String dentalSubtypeLabel(String code);
+
+  /// No description provided for @medTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, medication{Medication} supplement{Supplement} vitamin{Vitamin} mineral{Mineral} sports_supplement{Sports supplement} other{Other}}'**
+  String medTypeLabel(String code);
+
+  /// No description provided for @medStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, taken{Taken} missed{Missed} other{{code}}}'**
+  String medStatusLabel(String code);
+
+  /// No description provided for @bucketPriorityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, low{Low} medium{Medium} high{High} other{{code}}}'**
+  String bucketPriorityLabel(String code);
+
+  /// No description provided for @bucketStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, idea{Idea} planned{Planned} completed{Completed} abandoned{Abandoned} other{{code}}}'**
+  String bucketStatusLabel(String code);
+
+  /// No description provided for @periodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, today{Today} last7{Last 7 days} last30{Last 30 days} this_month{This month} prev_month{Previous month} custom{Custom period} other{{code}}}'**
+  String periodLabel(String code);
+
+  /// No description provided for @periodChipLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, today{Today} last7{7 days} last30{30 days} this_month{Month} prev_month{Previous} custom{Custom} other{{code}}}'**
+  String periodChipLabel(String code);
 }
 
 class _AppLocalizationsDelegate

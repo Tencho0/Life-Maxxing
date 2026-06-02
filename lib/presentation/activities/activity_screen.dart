@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/charts/seg_ring.dart';
+import '../../core/l10n/enum_labels.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
@@ -45,7 +46,7 @@ class ActivityScreen extends ConsumerWidget {
       children: [
         AppTopBar(
           title: 'Активности',
-          subtitle: period.label,
+          subtitle: localizedLabel(context, period),
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
           trailing: _AddButton(onTap: () => showActivitySheet(context)),
@@ -54,8 +55,9 @@ class ActivityScreen extends ConsumerWidget {
           child: ScreenBody(
             children: [
               PeriodChips(
-                value: period.chipLabel,
-                options: Period.values.map((p) => p.chipLabel).toList(),
+                value: periodChipLabel(context, period),
+                options:
+                    Period.values.map((p) => periodChipLabel(context, p)).toList(),
                 onChanged: (label) => _onPeriod(context, ref, label),
               ),
               summary.when(
@@ -95,7 +97,7 @@ class ActivityScreen extends ConsumerWidget {
 
   Future<void> _onPeriod(
       BuildContext context, WidgetRef ref, String label) async {
-    final p = Period.values.firstWhere((x) => x.chipLabel == label);
+    final p = Period.values.firstWhere((x) => periodChipLabel(context, x) == label);
     if (p == Period.custom) {
       final picked = await showDateRangePicker(
         context: context,
@@ -132,11 +134,11 @@ class ActivityScreen extends ConsumerWidget {
           child: LmRow(
             icon: LmIcons.run,
             iconColor: activityGroupColor(a.type.group),
-            title: a.name ?? a.type.label,
+            title: a.name ?? localizedLabel(context, a.type),
             subtitle: [
-              a.type.label,
+              localizedLabel(context, a.type),
               if (a.durationMin != null) formatDuration(a.durationMin!),
-              if (a.intensity != null) a.intensity!.label,
+              if (a.intensity != null) localizedLabel(context, a.intensity!),
               dmy(a.date),
             ].join(' · '),
             onTap: () => showActivitySheet(context, existing: a),
@@ -193,7 +195,7 @@ class _CountsCard extends StatelessWidget {
           ),
           if (s.mostFrequent != null) ...[
             const SizedBox(height: 12),
-            Text('Най-често: ${s.mostFrequent!.label}',
+            Text('Най-често: ${localizedLabel(context, s.mostFrequent!)}',
                 style: AppText.bodyDim.copyWith(fontSize: 12.5)),
           ],
         ],
@@ -265,7 +267,7 @@ class _GroupsCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             Expanded(
-                                child: Text(e.key.label,
+                                child: Text(localizedLabel(context, e.key),
                                     style: AppText.bodyDim
                                         .copyWith(fontSize: 12.5),
                                     overflow: TextOverflow.ellipsis)),
@@ -295,13 +297,17 @@ class _TypeFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     final present = byType.keys.toList()
       ..sort((a, b) => byType[b]!.compareTo(byType[a]!));
-    final options = [_allLabel, for (final t in present) t.label];
+    final options = [
+      _allLabel,
+      for (final t in present) localizedLabel(context, t)
+    ];
     return Segmented(
       options: options,
-      value: selected?.label ?? _allLabel,
+      value: selected == null ? _allLabel : localizedLabel(context, selected!),
       onChanged: (label) => onChanged(label == _allLabel
           ? null
-          : ActivityType.values.firstWhere((t) => t.label == label)),
+          : ActivityType.values
+              .firstWhere((t) => localizedLabel(context, t) == label)),
     );
   }
 }

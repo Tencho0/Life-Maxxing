@@ -77,7 +77,7 @@ void main() {
       addTearDown(tester.view.resetDevicePixelRatio);
       await tester.pumpWidget(ProviderScope(
         overrides: [databaseProvider.overrideWithValue(db)],
-        child: MaterialApp(
+        child: localizedApp(
           home: Scaffold(
             body: Builder(
               builder: (context) => Center(
@@ -133,7 +133,7 @@ void main() {
 
     await tester.pumpWidget(ProviderScope(
       overrides: [databaseProvider.overrideWithValue(db)],
-      child: const MaterialApp(home: Scaffold(body: StepsScreen())),
+      child: localizedApp(home: Scaffold(body: StepsScreen())),
     ));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));

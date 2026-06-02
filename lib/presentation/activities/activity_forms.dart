@@ -11,6 +11,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../app/providers.dart';
 import '../../app/sheets.dart';
+import '../../core/l10n/enum_labels.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
@@ -179,10 +180,11 @@ class _ActivityFormState extends ConsumerState<_ActivityForm> {
           label: 'Тип активност',
           required: true,
           child: Segmented(
-            options: ActivityType.values.map((t) => t.label).toList(),
-            value: _type.label,
-            onChanged: (l) => setState(() =>
-                _type = ActivityType.values.firstWhere((t) => t.label == l)),
+            options:
+                ActivityType.values.map((t) => localizedLabel(context, t)).toList(),
+            value: localizedLabel(context, _type),
+            onChanged: (l) => setState(() => _type = ActivityType.values
+                .firstWhere((t) => localizedLabel(context, t) == l)),
           ),
         ),
         Field(
@@ -222,10 +224,11 @@ class _ActivityFormState extends ConsumerState<_ActivityForm> {
           label: 'Интензивност',
           child: Segmented(
             columns: 3,
-            options: Intensity.values.map((i) => i.label).toList(),
-            value: _intensity?.label ?? '',
-            onChanged: (l) => setState(() =>
-                _intensity = Intensity.values.firstWhere((i) => i.label == l)),
+            options:
+                Intensity.values.map((i) => localizedLabel(context, i)).toList(),
+            value: _intensity == null ? '' : localizedLabel(context, _intensity!),
+            onChanged: (l) => setState(() => _intensity = Intensity.values
+                .firstWhere((i) => localizedLabel(context, i) == l)),
           ),
         ),
         Field(

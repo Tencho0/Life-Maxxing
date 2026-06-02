@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../app/sheets.dart';
+import '../../core/l10n/enum_labels.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
@@ -321,10 +322,10 @@ class _MedFormState extends ConsumerState<_MedForm> {
           label: 'Тип',
           required: true,
           child: Segmented(
-            options: MedType.values.map((t) => t.label).toList(),
-            value: _type.label,
+            options: MedType.values.map((t) => localizedLabel(context, t)).toList(),
+            value: localizedLabel(context, _type),
             onChanged: (l) => setState(
-                () => _type = MedType.values.firstWhere((t) => t.label == l)),
+                () => _type = MedType.values.firstWhere((t) => localizedLabel(context, t) == l)),
           ),
         ),
         Row(
@@ -350,10 +351,10 @@ class _MedFormState extends ConsumerState<_MedForm> {
           required: true,
           child: Segmented(
             columns: 2,
-            options: MedStatus.values.map((s) => s.label).toList(),
-            value: _status.label,
+            options: MedStatus.values.map((s) => localizedLabel(context, s)).toList(),
+            value: localizedLabel(context, _status),
             onChanged: (l) => setState(() =>
-                _status = MedStatus.values.firstWhere((s) => s.label == l)),
+                _status = MedStatus.values.firstWhere((s) => localizedLabel(context, s) == l)),
           ),
         ),
         _DateField(date: _date, onPick: (d) => setState(() => _date = d)),
@@ -481,20 +482,20 @@ class _EventFormState extends ConsumerState<_EventForm>
           label: 'Тип',
           required: true,
           child: Segmented(
-            options: HealthEventType.values.map((t) => t.label).toList(),
-            value: _type.label,
+            options: HealthEventType.values.map((t) => localizedLabel(context, t)).toList(),
+            value: localizedLabel(context, _type),
             onChanged: (l) => setState(() =>
-                _type = HealthEventType.values.firstWhere((t) => t.label == l)),
+                _type = HealthEventType.values.firstWhere((t) => localizedLabel(context, t) == l)),
           ),
         ),
         if (_type == HealthEventType.dentist)
           Field(
             label: 'Вид (зъболекар)',
             child: Segmented(
-              options: DentalSubtype.values.map((s) => s.label).toList(),
-              value: _subtype.label,
+              options: DentalSubtype.values.map((s) => localizedLabel(context, s)).toList(),
+              value: localizedLabel(context, _subtype),
               onChanged: (l) => setState(() =>
-                  _subtype = DentalSubtype.values.firstWhere((s) => s.label == l)),
+                  _subtype = DentalSubtype.values.firstWhere((s) => localizedLabel(context, s) == l)),
             ),
           ),
         Field(

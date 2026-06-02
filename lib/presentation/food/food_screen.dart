@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/charts/lm_bar_chart.dart';
 import '../../core/charts/ring.dart';
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/enum_labels.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -62,7 +63,7 @@ class FoodScreen extends ConsumerWidget {
       children: [
         AppTopBar(
           title: 'Храна',
-          subtitle: period.label,
+          subtitle: localizedLabel(context, period),
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
           trailing: _AddButton(onTap: () => showFoodSheet(context)),
@@ -71,8 +72,9 @@ class FoodScreen extends ConsumerWidget {
           child: ScreenBody(
             children: [
               PeriodChips(
-                value: period.chipLabel,
-                options: Period.values.map((p) => p.chipLabel).toList(),
+                value: periodChipLabel(context, period),
+                options:
+                    Period.values.map((p) => periodChipLabel(context, p)).toList(),
                 onChanged: (label) => _onPeriod(context, ref, label),
               ),
               summary.when(
@@ -102,7 +104,7 @@ class FoodScreen extends ConsumerWidget {
 
   Future<void> _onPeriod(
       BuildContext context, WidgetRef ref, String label) async {
-    final p = Period.values.firstWhere((x) => x.chipLabel == label);
+    final p = Period.values.firstWhere((x) => periodChipLabel(context, x) == label);
     if (p == Period.custom) {
       final picked = await showDateRangePicker(
         context: context,
@@ -141,7 +143,7 @@ class FoodScreen extends ConsumerWidget {
             iconColor: mealTypeColor(m.type),
             title: m.name,
             subtitle:
-                '${m.type.label}${m.time != null ? ' · ${m.time}' : ''} · ${dmy(m.date)}',
+                '${localizedLabel(context, m.type)}${m.time != null ? ' · ${m.time}' : ''} · ${dmy(m.date)}',
             onTap: () => showFoodSheet(context, existing: m),
             trailing: Text(
               m.calories != null ? kcal(m.calories!) : '—',

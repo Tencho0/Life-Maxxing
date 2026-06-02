@@ -32,7 +32,7 @@ void main() {
 
     await tester.pumpWidget(ProviderScope(
       overrides: [databaseProvider.overrideWithValue(db)],
-      child: MaterialApp(home: Scaffold(body: screen)),
+      child: localizedApp(home: Scaffold(body: screen)),
     ));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/charts/sparkline.dart';
+import '../../core/l10n/enum_labels.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
@@ -52,7 +53,7 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
       children: [
         AppTopBar(
           title: 'Здраве',
-          subtitle: period.label,
+          subtitle: localizedLabel(context, period),
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
           trailing: _AddButton(onTap: _addForCurrentTab),
@@ -61,8 +62,8 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
           child: ScreenBody(
             children: [
               PeriodChips(
-                value: period.chipLabel,
-                options: Period.values.map((p) => p.chipLabel).toList(),
+                value: periodChipLabel(context, period),
+                options: Period.values.map((p) => periodChipLabel(context, p)).toList(),
                 onChanged: (label) => _onPeriod(context, label),
               ),
               summary.when(
@@ -107,7 +108,7 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
   }
 
   Future<void> _onPeriod(BuildContext context, String label) async {
-    final p = Period.values.firstWhere((x) => x.chipLabel == label);
+    final p = Period.values.firstWhere((x) => periodChipLabel(context, x) == label);
     if (p == Period.custom) {
       final picked = await showDateRangePicker(
         context: context,
@@ -163,9 +164,9 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
               iconColor: AppColors.accent,
               title: m.name,
               subtitle:
-                  '${m.type.label} · ${m.time}${m.dose != null ? ' · ${m.dose}' : ''}',
+                  '${localizedLabel(context, m.type)} · ${m.time}${m.dose != null ? ' · ${m.dose}' : ''}',
               onTap: () => showMedSheet(context, existing: m),
-              trailing: Pill(m.status.label, color: medStatusColor(m.status)),
+              trailing: Pill(localizedLabel(context, m.status), color: medStatusColor(m.status)),
             ),
         ]);
       case 2:
@@ -182,8 +183,8 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
               icon: LmIcons.event,
               iconColor: AppColors.amber,
               title: e.type == HealthEventType.dentist && e.subtype != null
-                  ? '${e.type.label} · ${e.subtype!.label}'
-                  : e.type.label,
+                  ? '${localizedLabel(context, e.type)} · ${localizedLabel(context, e.subtype!)}'
+                  : localizedLabel(context, e.type),
               subtitle:
                   '${dmy(e.date)}${e.clinic != null ? ' · ${e.clinic}' : ''}',
               onTap: () => showEventSheet(context, existing: e),

@@ -31,6 +31,7 @@ void main() {
       overrides: [databaseProvider.overrideWithValue(db)],
       child: MaterialApp.router(
         theme: AppTheme.dark,
+        locale: const Locale('bg'),
         routerConfig: appRouter,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,

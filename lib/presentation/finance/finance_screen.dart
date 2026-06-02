@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/charts/income_expense_bars.dart';
 import '../../core/charts/seg_ring.dart';
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/enum_labels.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -48,7 +49,7 @@ class _FinanceScreenState extends ConsumerState<FinanceScreen> {
       children: [
         AppTopBar(
           title: 'Финанси',
-          subtitle: period.label,
+          subtitle: localizedLabel(context, period),
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
           trailing: _AddButton(onTap: () => showFinanceChooser(context)),
@@ -57,8 +58,8 @@ class _FinanceScreenState extends ConsumerState<FinanceScreen> {
           child: ScreenBody(
             children: [
               PeriodChips(
-                value: period.chipLabel,
-                options: Period.values.map((p) => p.chipLabel).toList(),
+                value: periodChipLabel(context, period),
+                options: Period.values.map((p) => periodChipLabel(context, p)).toList(),
                 onChanged: (label) => _onPeriod(context, label),
               ),
               summary.when(
@@ -94,7 +95,7 @@ class _FinanceScreenState extends ConsumerState<FinanceScreen> {
   }
 
   Future<void> _onPeriod(BuildContext context, String label) async {
-    final p = Period.values.firstWhere((x) => x.chipLabel == label);
+    final p = Period.values.firstWhere((x) => periodChipLabel(context, x) == label);
     if (p == Period.custom) {
       final picked = await showDateRangePicker(
         context: context,
@@ -132,7 +133,7 @@ class _FinanceScreenState extends ConsumerState<FinanceScreen> {
             icon: LmIcons.expense,
             iconColor: expenseCategoryColor(e.category),
             title: e.description,
-            subtitle: '${e.category.label}${e.time != null ? ' · ${e.time}' : ''}',
+            subtitle: '${localizedLabel(context, e.category)}${e.time != null ? ' · ${e.time}' : ''}',
             onTap: () => showExpenseSheet(context, existing: e),
             trailing: Text(euroSigned(e.amountCents, negative: true),
                 style: AppText.stat.copyWith(fontSize: 15, color: AppColors.red)),
@@ -160,7 +161,7 @@ class _FinanceScreenState extends ConsumerState<FinanceScreen> {
             icon: LmIcons.income,
             iconColor: AppColors.green,
             title: i.source,
-            subtitle: '${i.category.label} · ${dmy(i.date)}',
+            subtitle: '${localizedLabel(context, i.category)} · ${dmy(i.date)}',
             onTap: () => showIncomeSheet(context, existing: i),
             trailing: Text(euroSigned(i.amountCents, negative: false),
                 style: AppText.stat.copyWith(fontSize: 15, color: AppColors.green)),
@@ -347,7 +348,7 @@ class _CategoryCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             Expanded(
-                                child: Text(e.key.label,
+                                child: Text(localizedLabel(context, e.key),
                                     style: AppText.bodyDim.copyWith(fontSize: 12.5),
                                     overflow: TextOverflow.ellipsis)),
                             Text(

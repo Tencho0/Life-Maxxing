@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../core/l10n/enum_labels.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -140,15 +141,17 @@ class _PeriodSelector extends ConsumerWidget {
     return Field(
       label: 'Период',
       child: PeriodChips(
-        value: period.chipLabel,
-        options: Period.values.map((p) => p.chipLabel).toList(),
+        value: periodChipLabel(context, period),
+        options:
+            Period.values.map((p) => periodChipLabel(context, p)).toList(),
         onChanged: (label) => _onPeriod(context, ref, label),
       ),
     );
   }
 
   Future<void> _onPeriod(BuildContext context, WidgetRef ref, String label) async {
-    final p = Period.values.firstWhere((x) => x.chipLabel == label);
+    final p =
+        Period.values.firstWhere((x) => periodChipLabel(context, x) == label);
     if (p == Period.custom) {
       final picked = await showDateRangePicker(
         context: context,

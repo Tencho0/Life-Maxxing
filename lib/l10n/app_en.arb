@@ -50,5 +50,67 @@
   "languageEnglish": "English",
   "@languageEnglish": {
     "description": "Language option: English (shown in its own name)."
+  },
+
+  "mealTypeLabel": "{code, select, breakfast{Breakfast} lunch{Lunch} dinner{Dinner} snack{Snack} other{Other}}",
+  "@mealTypeLabel": {
+    "description": "Display label for a MealType, by stable code.",
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "activityTypeLabel": "{code, select, gym{Gym} bjj{BJJ} boxing{Boxing} kickboxing{Kickboxing} mma{MMA} tennis{Tennis} hiking{Hiking} folk_dance{Folk dancing} cycling{Cycling} swimming{Swimming} ski{Skiing} other{Other}}",
+  "@activityTypeLabel": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "activityGroupLabel": "{code, select, strength{Strength training} combat{Combat sports} cardio{Cardio / movement} dance{Dance} other{Other}}",
+  "@activityGroupLabel": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "intensityLabel": "{code, select, low{Low} medium{Medium} high{High} other{{code}}}",
+  "@intensityLabel": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "expenseCategoryLabel": "{code, select, food{Food} entertainment{Entertainment} social{Social} transport{Transport} education{Education} subscriptions{Subscriptions} car{Car} clothing{Clothing & shoes} health_supplements{Health & supplements} sport{Sport} appearance{Appearance} vape{Vape} other{Other}}",
+  "@expenseCategoryLabel": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "incomeCategoryLabel": "{code, select, salary{Salary} freelance{Freelance} bonus{Bonus} sale{Sale} gift{Gift} business{Business} other{Other}}",
+  "@incomeCategoryLabel": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "paymentMethodLabel": "{code, select, card{Card} cash{Cash} other{Other}}",
+  "@paymentMethodLabel": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "healthEventTypeLabel": "{code, select, dentist{Dentist} doctor{Doctor} procedure{Procedure} checkup{Check-up} physiotherapy{Physiotherapy} other{Other}}",
+  "@healthEventTypeLabel": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "dentalSubtypeLabel": "{code, select, prophylaxis{Prophylaxis} cleaning{Cleaning} filling{Filling} root_canal{Root canal} whitening{Whitening} bonding{Bonding/veneers} orthodontics{Orthodontics} extraction{Extraction} other{Other}}",
+  "@dentalSubtypeLabel": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "medTypeLabel": "{code, select, medication{Medication} supplement{Supplement} vitamin{Vitamin} mineral{Mineral} sports_supplement{Sports supplement} other{Other}}",
+  "@medTypeLabel": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "medStatusLabel": "{code, select, taken{Taken} missed{Missed} other{{code}}}",
+  "@medStatusLabel": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "bucketPriorityLabel": "{code, select, low{Low} medium{Medium} high{High} other{{code}}}",
+  "@bucketPriorityLabel": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "bucketStatusLabel": "{code, select, idea{Idea} planned{Planned} completed{Completed} abandoned{Abandoned} other{{code}}}",
+  "@bucketStatusLabel": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "periodLabel": "{code, select, today{Today} last7{Last 7 days} last30{Last 30 days} this_month{This month} prev_month{Previous month} custom{Custom period} other{{code}}}",
+  "@periodLabel": {
+    "placeholders": { "code": { "type": "String" } }
+  },
+  "periodChipLabel": "{code, select, today{Today} last7{7 days} last30{30 days} this_month{Month} prev_month{Previous} custom{Custom} other{{code}}}",
+  "@periodChipLabel": {
+    "placeholders": { "code": { "type": "String" } }
   }
 }

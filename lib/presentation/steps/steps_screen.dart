@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/charts/lm_bar_chart.dart';
 import '../../core/charts/ring.dart';
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/enum_labels.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -60,7 +61,7 @@ class StepsScreen extends ConsumerWidget {
       children: [
         AppTopBar(
           title: 'Крачки',
-          subtitle: period.label,
+          subtitle: localizedLabel(context, period),
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
           trailing: _AddButton(onTap: () => showStepsSheet(context)),
@@ -69,8 +70,9 @@ class StepsScreen extends ConsumerWidget {
           child: ScreenBody(
             children: [
               PeriodChips(
-                value: period.chipLabel,
-                options: Period.values.map((p) => p.chipLabel).toList(),
+                value: periodChipLabel(context, period),
+                options:
+                    Period.values.map((p) => periodChipLabel(context, p)).toList(),
                 onChanged: (label) => _onPeriod(context, ref, label),
               ),
               _TodayCard(count: today?.count ?? 0),
@@ -102,7 +104,8 @@ class StepsScreen extends ConsumerWidget {
 
   Future<void> _onPeriod(
       BuildContext context, WidgetRef ref, String label) async {
-    final p = Period.values.firstWhere((x) => x.chipLabel == label);
+    final p =
+        Period.values.firstWhere((x) => periodChipLabel(context, x) == label);
     if (p == Period.custom) {
       final picked = await showDateRangePicker(
         context: context,
