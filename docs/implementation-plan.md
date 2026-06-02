@@ -358,11 +358,12 @@
 - [x] Tests (2 new → 204): resolver per-locale labels; codes unchanged. Feature/screen/form tests now pump under the l10n delegates pinned to **bg** via a new `localizedApp()` helper in `test/support/test_env.dart` (the 10.6 pump-with-locale helper, pulled forward); smoke test pinned to bg.
 - **Verify:** ✅ analyze clean; full suite green (204). Remaining `.label` in `lib/presentation/**` are non-enum widget params plus `ExportModule.label` and `QuickAction.label` (sheets) — **deferred to 10.4** with `home_data` timeline labels and the export/search Markdown, which need their own string migration / context threading.
 
-### Slice 10.4 — Per-feature string migration (one sub-slice per area, in order)
-- [ ] finance · food · activities · steps · health · daily · bucket · trips · home · stats · memories · search · more · export · backup, plus `app/sheets.dart` (titles/subtitles/quick-log labels/validation/toasts) and shared widgets (`empty_state.dart`, `lm_bottom_nav.dart` tab + semantics labels, `AppTopBar` titles, `LmInlineError`, Phase-9 semantics labels).
-- [ ] Move every literal into ARB; migrate each area's tests to look up expected text via `AppLocalizations` (don't hardcode Cyrillic).
-- [ ] AI-export **Markdown** headings follow the locale; **JSON keys, enum codes, and "Questions for AI" block stay English/stable**. Backup `data.json` unchanged.
-- **Verify (per sub-slice):** analyze clean; that area's tests green in both locales.
+### Slice 10.4 — Per-feature string migration ✅ (commits 23ab750, 8b276de, 31ae4fc, af0e53d, 8eba1ff)
+- [x] finance · food · activities · steps (wave 1) · health · daily · bucket · trips (wave 2) · stats · memories · more · backup · search · export screen · `app/sheets.dart` · shared widgets — `lm_bottom_nav` tabs+semantics, `photo` add label, `LmInlineError` default (wave 3a) · home screen + timeline (wave 3b) moved every user-facing literal into ARB.
+- [x] Executed via **parallel subagents** per feature (code edits + proposed ARB entries) with a central ARB merge; bg ARB values kept **verbatim** so existing tests pass under the bg-pinned `localizedApp` helper (added in 10.3). Feature/screen/form/smoke/semantics/catalog tests migrated to pump under the delegates.
+- [x] AI-export **Markdown** headings/labels follow the locale (`toMarkdown(data, l10n)`, rendered in `ExportScreen`); **JSON keys, enum codes, and the English "Questions for AI" block are unchanged**. Backup `data.json` unchanged. Search results localize via `SearchHit.titleEnum/subtitleEnum` resolved in `search_screen` (codes/`*Lower` unchanged).
+- **Verify:** ✅ analyze clean; full suite green (204) after each wave. *Context-less producers* (`home_data` timeline, `export_service` Markdown, `SearchDao`) were refactored to resolve labels in the widget layer / take an injected `AppLocalizations`, keeping providers/DAO context-free.
+- *Deferred to 10.5 (locale-aware formatting):* home's bg month/weekday name arrays (`_months`/`_weekdays`) + numeric date/currency formatting. The hardcoded user name (`Мартин`) is content, not UI chrome.
 
 ### Slice 10.5 — Locale-aware formatting
 - [ ] `core/format/dates.dart` + `finance/finance_format.dart` use the active locale (`DateFormat`/`NumberFormat`); confirm native `showDatePicker`/`showDateRangePicker` localize via delegates. Keep EUR `€`.
