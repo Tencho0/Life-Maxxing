@@ -123,7 +123,9 @@ canvas with stroke-width 7.
 
 ## 9. Verification
 
-- `assets/branding/` files exist and are referenced in `pubspec.yaml` assets.
+- `assets/branding/` files exist on disk as inputs to the icon generator — they
+  are intentionally **not** listed under `flutter: assets:` (the mark ships as the
+  `LmLogo` painter, not as a bundled image).
 - `dart run flutter_launcher_icons` completes; `android/app/src/main/res/mipmap-*`
   contains the generated PNGs and the device home screen shows the new icon.
 - `flutter analyze` is clean; an `LmLogo` widget test renders both variants without

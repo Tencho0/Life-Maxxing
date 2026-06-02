@@ -42,7 +42,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 50));
 
     // DB-backed Home + persistent bottom nav.
-    expect(find.textContaining('Мартин'), findsOneWidget);
+    expect(find.textContaining('Martin'), findsOneWidget);
     expect(find.text('Още'), findsWidgets);
 
     // Switch to the Графики tab (now the DB-backed Stats screen).

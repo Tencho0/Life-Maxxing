@@ -147,7 +147,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
     await tester.pump(const Duration(milliseconds: 50));
 
-    expect(find.textContaining('Мартин'), findsOneWidget); // greeting
+    expect(find.textContaining('Martin'), findsOneWidget); // greeting
     expect(find.text('ТАЗИ СЕДМИЦА'), findsOneWidget); // eyebrow
 
     await tester.pumpWidget(const SizedBox());

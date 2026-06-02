@@ -20,7 +20,7 @@ import '../../core/widgets/section_title.dart';
 import 'home_data.dart';
 import 'home_providers.dart';
 
-const _name = 'Мартин';
+const _name = 'Martin';
 
 String _greeting(BuildContext c, int hour) => hour < 12
     ? c.l10n.homeGreetMorning

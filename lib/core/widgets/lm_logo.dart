@@ -111,6 +111,6 @@ class LmLogoPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(LmLogoPainter oldDelegate) =>
+  bool shouldRepaint(covariant LmLogoPainter oldDelegate) =>
       oldDelegate.withBackground != withBackground;
 }
