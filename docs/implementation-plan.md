@@ -232,11 +232,11 @@
 - **Verify:** ✅ analyze clean; full suite green (140). Cover/gallery photo IO device-verified (§7.2).
 - *Note:* period filtering of trip stats deferred (spans all trips, per §3.4 note); a would-repeat filter ships instead.
 
-### Slice 7.10 — Home
-- [ ] Providers: today snapshot + week rails (mood/steps/expense/pulse) + today timeline across modules.
-- [ ] Home screen: greeting header, 4 quick-action tiles (open sheets), week rail cards, daily-flow timeline, "finish daily report" CTA.
-- [ ] Tests: timeline aggregates today's rows; rails pull last-7 series.
-- **Verify:** with seed data, Home matches the prototype layout and reflects real data; quick tiles open the right sheets.
+### Slice 7.10 — Home ✅ (commit cb26900)
+- [x] Providers: trailing-7-day rails (mood/steps/expense/pulse + averages) + today timeline across modules, combined from the module DAOs.
+- [x] Home screen: greeting header, 4 quick-log tiles (open sheets), week rail cards (sparklines), daily-flow timeline, "finish daily report" CTA. Wired `/` → HomeScreen.
+- [x] Tests (3): timeline aggregates today's rows (meds collapsed); rails pull last-7 series + averages; screen renders from seed. Shell smoke test reworked to boot the DB-backed Home with an in-memory override.
+- **Verify:** ✅ analyze clean; full suite green (143).
 
 ### Slice 7.11 — Stats overview
 - [ ] Provider: cross-module series by period.
