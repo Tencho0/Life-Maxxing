@@ -10,7 +10,9 @@ import 'package:go_router/go_router.dart';
 import '../../app/providers.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
+import '../../core/icons/lm_icons.dart';
 import '../../core/widgets/app_top_bar.dart';
+import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/eyebrow.dart';
 import '../../core/widgets/screen_body.dart';
 import '../../core/widgets/section_title.dart';
@@ -53,11 +55,10 @@ class MemoriesScreen extends ConsumerWidget {
                 ),
               const SectionTitle('Визуален дневник'),
               if (days.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 28),
-                  child: Center(
-                      child: Text('Все още няма снимки в дневника',
-                          style: AppText.bodyDim)),
+                const LmEmpty(
+                  icon: LmIcons.camera,
+                  message: 'Все още няма снимки в дневника.\n'
+                      'Добави снимка към дневен отчет, за да се появи тук.',
                 )
               else
                 GridView.count(

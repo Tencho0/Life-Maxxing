@@ -13,6 +13,7 @@ import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
 import '../../core/widgets/card.dart';
+import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/eyebrow.dart';
 import '../../core/widgets/screen_body.dart';
 import '../../core/widgets/segmented.dart';
@@ -58,10 +59,13 @@ class TripScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 12),
               if (trips.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 28),
-                  child: Center(
-                      child: Text('Няма пътувания', style: AppText.bodyDim)),
+                LmEmpty(
+                  icon: LmIcons.trip,
+                  message: repeatOnly
+                      ? 'Няма пътувания, които би повторил'
+                      : 'Няма записани пътувания',
+                  actionLabel: repeatOnly ? null : 'Добави пътуване',
+                  onAction: repeatOnly ? null : () => showTripSheet(context),
                 )
               else
                 for (final t in trips)

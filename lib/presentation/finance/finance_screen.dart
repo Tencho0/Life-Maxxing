@@ -12,7 +12,9 @@ import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
 import '../../core/widgets/eyebrow.dart';
 import '../../core/widgets/card.dart';
+import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/lm_row.dart';
+import '../../core/widgets/lm_skeleton.dart';
 import '../../core/widgets/screen_body.dart';
 import '../../core/widgets/section_title.dart';
 import '../../core/widgets/period_chips.dart';
@@ -60,13 +62,10 @@ class _FinanceScreenState extends ConsumerState<FinanceScreen> {
               ),
               summary.when(
                 loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 40),
-                  child: Center(child: CircularProgressIndicator()),
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: LmListSkeleton(rows: 3, height: 110),
                 ),
-                error: (e, _) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 40),
-                  child: Center(child: Text('Грешка: $e', style: AppText.bodyDim)),
-                ),
+                error: (e, _) => const LmInlineError(),
                 data: (s) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -114,7 +113,16 @@ class _FinanceScreenState extends ConsumerState<FinanceScreen> {
   }
 
   List<Widget> _expenseRows(BuildContext context, List<Expense> items) {
-    if (items.isEmpty) return [_empty('Няма разходи за периода')];
+    if (items.isEmpty) {
+      return [
+        LmEmpty(
+          icon: LmIcons.expense,
+          message: 'Няма разходи за периода',
+          actionLabel: 'Добави разход',
+          onAction: () => showExpenseSheet(context),
+        ),
+      ];
+    }
     return [
       for (final e in items)
         Padding(
@@ -133,7 +141,16 @@ class _FinanceScreenState extends ConsumerState<FinanceScreen> {
   }
 
   List<Widget> _incomeRows(BuildContext context, List<IncomeEntry> items) {
-    if (items.isEmpty) return [_empty('Няма приходи за периода')];
+    if (items.isEmpty) {
+      return [
+        LmEmpty(
+          icon: LmIcons.income,
+          message: 'Няма приходи за периода',
+          actionLabel: 'Добави приход',
+          onAction: () => showIncomeSheet(context),
+        ),
+      ];
+    }
     return [
       for (final i in items)
         Padding(
@@ -151,10 +168,6 @@ class _FinanceScreenState extends ConsumerState<FinanceScreen> {
     ];
   }
 
-  Widget _empty(String text) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 28),
-        child: Center(child: Text(text, style: AppText.bodyDim)),
-      );
 }
 
 class _AddButton extends StatelessWidget {

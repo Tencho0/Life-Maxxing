@@ -8,8 +8,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/icons/lm_icons.dart';
 import '../../core/theme/tokens.dart';
-import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
+import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/field.dart';
 import '../../core/widgets/lm_row.dart';
 import '../../core/widgets/screen_body.dart';
@@ -56,16 +56,14 @@ class SearchScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 12),
               if (query.trim().isEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 28),
-                  child: Center(
-                      child: Text('Въведи дума за търсене', style: AppText.bodyDim)),
+                const LmEmpty(
+                  icon: LmIcons.search,
+                  message: 'Въведи дума за търсене из всички модули',
                 )
               else if (results.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 28),
-                  child: Center(
-                      child: Text('Няма резултати', style: AppText.bodyDim)),
+                const LmEmpty(
+                  icon: LmIcons.search,
+                  message: 'Няма резултати',
                 )
               else
                 for (final h in results)

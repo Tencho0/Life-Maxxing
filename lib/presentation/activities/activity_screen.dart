@@ -11,8 +11,10 @@ import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
 import '../../core/widgets/card.dart';
+import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/eyebrow.dart';
 import '../../core/widgets/lm_row.dart';
+import '../../core/widgets/lm_skeleton.dart';
 import '../../core/widgets/period_chips.dart';
 import '../../core/widgets/pill.dart';
 import '../../core/widgets/screen_body.dart';
@@ -57,13 +59,10 @@ class ActivityScreen extends ConsumerWidget {
               ),
               summary.when(
                 loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 40),
-                  child: Center(child: CircularProgressIndicator()),
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: LmListSkeleton(rows: 2, height: 120),
                 ),
-                error: (e, _) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 40),
-                  child: Center(child: Text('Грешка: $e', style: AppText.bodyDim)),
-                ),
+                error: (e, _) => const LmInlineError(),
                 data: (s) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -117,10 +116,11 @@ class ActivityScreen extends ConsumerWidget {
   List<Widget> _activityRows(BuildContext context, List<Activity> items) {
     if (items.isEmpty) {
       return [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 28),
-          child: Center(
-              child: Text('Няма активности за периода', style: AppText.bodyDim)),
+        LmEmpty(
+          icon: LmIcons.run,
+          message: 'Няма активности за периода',
+          actionLabel: 'Добави активност',
+          onAction: () => showActivitySheet(context),
         ),
       ];
     }

@@ -10,6 +10,7 @@ import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
 import '../../core/widgets/card.dart';
+import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/eyebrow.dart';
 import '../../core/widgets/lm_row.dart';
 import '../../core/widgets/pill.dart';
@@ -71,9 +72,11 @@ class BucketScreen extends ConsumerWidget {
   List<Widget> _itemRows(BuildContext context, List<BucketItem> items) {
     if (items.isEmpty) {
       return [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 28),
-          child: Center(child: Text('Няма желания', style: AppText.bodyDim)),
+        LmEmpty(
+          icon: LmIcons.bucket,
+          message: 'Няма желания в списъка',
+          actionLabel: 'Добави желание',
+          onAction: () => showBucketItemSheet(context),
         ),
       ];
     }

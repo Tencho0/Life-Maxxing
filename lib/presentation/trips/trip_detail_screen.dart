@@ -16,6 +16,7 @@ import '../../core/widgets/app_top_bar.dart';
 import '../../core/widgets/card.dart';
 import '../../core/widgets/eyebrow.dart';
 import '../../core/widgets/lm_button.dart';
+import '../../core/widgets/lm_skeleton.dart';
 import '../../core/widgets/pill.dart';
 import '../../core/widgets/screen_body.dart';
 import '../../data/database.dart';
@@ -39,7 +40,12 @@ class TripDetailScreen extends ConsumerWidget {
       return Column(
         children: [
           AppTopBar(title: 'Пътуване', showBack: true, onBack: () => context.pop()),
-          const Expanded(child: Center(child: CircularProgressIndicator())),
+          const Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: LmListSkeleton(rows: 3, height: 120),
+            ),
+          ),
         ],
       );
     }

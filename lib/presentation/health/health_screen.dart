@@ -11,8 +11,10 @@ import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
 import '../../core/widgets/card.dart';
+import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/eyebrow.dart';
 import '../../core/widgets/lm_row.dart';
+import '../../core/widgets/lm_skeleton.dart';
 import '../../core/widgets/period_chips.dart';
 import '../../core/widgets/pill.dart';
 import '../../core/widgets/screen_body.dart';
@@ -64,13 +66,10 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
               ),
               summary.when(
                 loading: () => const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 40),
-                  child: Center(child: CircularProgressIndicator()),
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: LmListSkeleton(rows: 2, height: 120),
                 ),
-                error: (e, _) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 40),
-                  child: Center(child: Text('Грешка: $e', style: AppText.bodyDim)),
-                ),
+                error: (e, _) => const LmInlineError(),
                 data: (s) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -130,7 +129,14 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
       List<HealthEvent> events, List<LabTest> labs) {
     switch (_tab) {
       case 0:
-        return _rows(bp.isEmpty, 'Няма измервания за периода', [
+        return _rows(
+            bp.isEmpty,
+            LmEmpty(
+                icon: LmIcons.pulse,
+                message: 'Няма измервания за периода',
+                actionLabel: 'Добави измерване',
+                onAction: () => showBpSheet(context)),
+            [
           for (final b in bp)
             LmRow(
               icon: LmIcons.pulse,
@@ -142,7 +148,14 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
             ),
         ]);
       case 1:
-        return _rows(meds.isEmpty, 'Няма добавки за периода', [
+        return _rows(
+            meds.isEmpty,
+            LmEmpty(
+                icon: LmIcons.pill,
+                message: 'Няма добавки за периода',
+                actionLabel: 'Добави добавка',
+                onAction: () => showMedSheet(context)),
+            [
           for (final m in meds)
             LmRow(
               icon: LmIcons.pill,
@@ -155,7 +168,14 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
             ),
         ]);
       case 2:
-        return _rows(events.isEmpty, 'Няма събития', [
+        return _rows(
+            events.isEmpty,
+            LmEmpty(
+                icon: LmIcons.event,
+                message: 'Няма събития',
+                actionLabel: 'Добави събитие',
+                onAction: () => showEventSheet(context)),
+            [
           for (final e in events)
             LmRow(
               icon: LmIcons.event,
@@ -173,7 +193,14 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
             ),
         ]);
       default:
-        return _rows(labs.isEmpty, 'Няма изследвания', [
+        return _rows(
+            labs.isEmpty,
+            LmEmpty(
+                icon: LmIcons.labs,
+                message: 'Няма изследвания',
+                actionLabel: 'Добави изследване',
+                onAction: () => showLabSheet(context)),
+            [
           for (final l in labs)
             LmRow(
               icon: LmIcons.labs,
@@ -186,15 +213,8 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
     }
   }
 
-  List<Widget> _rows(bool empty, String emptyText, List<Widget> rows) {
-    if (empty) {
-      return [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 28),
-          child: Center(child: Text(emptyText, style: AppText.bodyDim)),
-        ),
-      ];
-    }
+  List<Widget> _rows(bool empty, Widget emptyState, List<Widget> rows) {
+    if (empty) return [emptyState];
     return [
       for (final r in rows)
         Padding(padding: const EdgeInsets.only(bottom: 8), child: r),
