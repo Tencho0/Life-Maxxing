@@ -250,11 +250,13 @@
 - [x] Tests (2): only photo-days appear (correct date/logId, sorted); screen renders trips rail from seed.
 - **Verify:** ✅ analyze clean; full suite green (147). Photo thumbs device-verified.
 
-### Slice 7.13 — More menu + Search
-- [ ] More screen: grouped module list (Логване/Пари/Здраве/Живот/Данни) → routes.
-- [ ] Search screen: query box → unified Cyrillic-safe results across modules (spec §24.2) → tap navigates to the record's module.
-- [ ] Tests: search returns hits across ≥3 modules for a Cyrillic query.
-- **Verify:** searching a Cyrillic term surfaces results from multiple modules and navigates correctly.
+### Slice 7.13 — More menu + Search ✅ (commit e58fa3d)
+- [x] More screen: grouped module list (Логване/Пари/Здраве/Живот/Данни) + Dev → routes.
+- [x] Search screen: query box → unified Cyrillic-safe results across modules (spec §24.2) → tap navigates to the record's module (detail for bucket/trip, the day for a daily log).
+- [x] Tests (3): results span ≥3 modules for a Cyrillic query; empty query → none; screen shows results as you type.
+- **Verify:** ✅ analyze clean; full suite green (150).
+
+> **Phase 7 complete** — all 13 feature verticals shipped (Finance, AttachmentService, Food, Activities, Steps, Health, Daily, Bucket, Trips, Home, Stats, Memories, More+Search). Every bottom-nav tab + module is a real, DB-backed screen. `flutter analyze` clean; full suite green (150). Photo file IO and the Android APK build are device-verified (not exercised by `flutter test`).
 
 ---
 
