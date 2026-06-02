@@ -238,10 +238,11 @@
 - [x] Tests (3): timeline aggregates today's rows (meds collapsed); rails pull last-7 series + averages; screen renders from seed. Shell smoke test reworked to boot the DB-backed Home with an in-memory override.
 - **Verify:** ✅ analyze clean; full suite green (143).
 
-### Slice 7.11 — Stats overview
-- [ ] Provider: cross-module series by period.
-- [ ] Stats screen: period chips + chart cards (mood, income-vs-expense, steps, BP) each linking to its module.
-- **Verify:** period switch recomputes all cards; links navigate.
+### Slice 7.11 — Stats overview ✅ (commit 8d2fe82)
+- [x] Providers: one period → range driving per-metric streams (mood, expense, income, steps, BP).
+- [x] Stats screen: period chips + chart cards (mood, income-vs-expense, steps, BP) each linking to its module.
+- [x] Tests (2): period drives range + series stream in-range; screen renders chart cards from seed.
+- **Verify:** ✅ analyze clean; full suite green (145). Period switch recomputes all cards; cards push to their modules.
 
 ### Slice 7.12 — Memories / visual diary
 - [ ] Providers: dates-with-daily-photo + trips rail.
