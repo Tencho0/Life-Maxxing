@@ -15,6 +15,8 @@ import '../core/widgets/lm_row.dart';
 import '../core/widgets/screen_body.dart';
 import '../dev/dev_home.dart';
 import '../presentation/activities/activity_screen.dart';
+import '../presentation/bucket/bucket_detail_screen.dart';
+import '../presentation/bucket/bucket_screen.dart';
 import '../presentation/daily/daily_screen.dart';
 import '../presentation/finance/finance_screen.dart';
 import '../presentation/food/food_screen.dart';
@@ -41,7 +43,8 @@ final appRouter = GoRouter(
           GoRoute(path: m.$1, builder: (c, s) => _moduleScreen(m)),
         GoRoute(
             path: '/bucket/:id',
-            builder: (c, s) => _Placeholder('Желание', back: true)),
+            builder: (c, s) =>
+                BucketDetailScreen(id: s.pathParameters['id']!)),
         GoRoute(
             path: '/trips/:id',
             builder: (c, s) => _Placeholder('Пътуване', back: true)),
@@ -60,6 +63,7 @@ Widget _moduleScreen((String, String) m) => switch (m.$1) {
       '/steps' => const StepsScreen(),
       '/health' => const HealthScreen(),
       '/daily' => const DailyScreen(),
+      '/bucket' => const BucketScreen(),
       _ => _Placeholder(m.$2, back: true),
     };
 

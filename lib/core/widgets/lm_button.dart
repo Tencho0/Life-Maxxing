@@ -70,7 +70,13 @@ class LmButton extends StatelessWidget {
           LmIcon(icon!, size: 18, color: foreground, strokeWidth: 2),
           const SizedBox(width: 8),
         ],
-        Text(label, style: AppText.button.copyWith(color: foreground)),
+        Flexible(
+          child: Text(label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: AppText.button.copyWith(color: foreground)),
+        ),
       ],
     );
 

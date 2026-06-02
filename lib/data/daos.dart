@@ -328,9 +328,16 @@ class BucketDao extends DatabaseAccessor<AppDatabase> with _$BucketDaoMixin {
       (delete(bucketItems)..where((t) => t.id.equals(id))).go();
   Future<BucketItem?> getItem(String id) =>
       (select(bucketItems)..where((t) => t.id.equals(id))).getSingleOrNull();
+  Stream<BucketItem?> watchItem(String id) =>
+      (select(bucketItems)..where((t) => t.id.equals(id))).watchSingleOrNull();
   Future<BucketExperience?> experienceForItem(String itemId) =>
       (select(bucketExperiences)..where((t) => t.bucketItemId.equals(itemId)))
           .getSingleOrNull();
+  Stream<BucketExperience?> watchExperienceForItem(String itemId) =>
+      (select(bucketExperiences)..where((t) => t.bucketItemId.equals(itemId)))
+          .watchSingleOrNull();
+  Stream<List<BucketExperience>> watchAllExperiences() =>
+      select(bucketExperiences).watch();
 
   Stream<List<BucketItem>> watchItems(
       {BucketStatus? status, BucketPriority? priority}) {

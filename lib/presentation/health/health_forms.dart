@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../app/providers.dart';
 import '../../app/sheets.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/theme/tokens.dart';
@@ -20,8 +19,8 @@ import '../../core/widgets/lm_toast.dart';
 import '../../core/widgets/segmented.dart';
 import '../../data/database.dart';
 import '../../domain/enums.dart';
-import '../../services/attachment_service.dart';
 import '../common/photo_field.dart';
+import '../common/photo_form_mixin.dart';
 import 'health_providers.dart';
 
 String _ymd(DateTime d) =>
@@ -65,56 +64,6 @@ void showLabSheet(BuildContext context, {LabTest? existing}) =>
         title: existing == null ? 'Изследване' : 'Редакция — изследване',
         subtitle: 'лаборатория и причина са задължителни',
         child: _LabForm(existing: existing));
-
-// ── Photo mixin (events / labs: 0–many) ─────────────────────────────
-mixin _PhotoFormMixin<T extends ConsumerStatefulWidget> on ConsumerState<T> {
-  late final String entityId;
-  late final AttachmentService svc;
-  List<Attachment> photos = const [];
-  bool committed = false;
-
-  AttachmentEntity get photoEntity;
-  bool get isNew;
-
-  void initPhotos(String id) {
-    entityId = id;
-    svc = ref.read(attachmentServiceProvider);
-    if (!isNew) _loadPhotos();
-  }
-
-  Future<void> _loadPhotos() async {
-    final ps = await ref
-        .read(databaseProvider)
-        .attachmentsDao
-        .forEntity(photoEntity, entityId);
-    if (mounted) setState(() => photos = ps);
-  }
-
-  Future<void> addPhotos() async {
-    final added = await svc.pickMultiAndAdd(
-        entity: photoEntity, entityId: entityId, role: AttachmentRole.photo);
-    if (added.isNotEmpty) await _loadPhotos();
-  }
-
-  Future<void> removePhoto(Attachment a) async {
-    await svc.removeAttachment(a);
-    await _loadPhotos();
-  }
-
-  void cleanupOrphansIfAbandoned() {
-    if (!committed && isNew && photos.isNotEmpty) {
-      final s = svc;
-      final orphans = List<Attachment>.of(photos);
-      Future<void>(() async {
-        for (final a in orphans) {
-          try {
-            await s.removeAttachment(a);
-          } catch (_) {}
-        }
-      });
-    }
-  }
-}
 
 // ── Blood pressure ──────────────────────────────────────────────────
 class _BpForm extends ConsumerStatefulWidget {
@@ -440,7 +389,7 @@ class _EventForm extends ConsumerStatefulWidget {
 }
 
 class _EventFormState extends ConsumerState<_EventForm>
-    with _PhotoFormMixin<_EventForm> {
+    with PhotoFormMixin<_EventForm> {
   late final TextEditingController _clinic;
   late final TextEditingController _reason;
   late final TextEditingController _whatWasDone;
@@ -619,7 +568,7 @@ class _LabForm extends ConsumerStatefulWidget {
 }
 
 class _LabFormState extends ConsumerState<_LabForm>
-    with _PhotoFormMixin<_LabForm> {
+    with PhotoFormMixin<_LabForm> {
   late final TextEditingController _lab;
   late final TextEditingController _reason;
   late final TextEditingController _results;
