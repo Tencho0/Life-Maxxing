@@ -9,6 +9,7 @@ import '../../app/providers.dart';
 import '../../core/charts/lm_bar_chart.dart';
 import '../../core/charts/ring.dart';
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/mood_color.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
@@ -56,7 +57,7 @@ class DailyScreen extends ConsumerWidget {
     return Column(
       children: [
         AppTopBar(
-          title: 'Дневен отчет',
+          title: context.l10n.dailyTitle,
           subtitle: dmy(date),
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
@@ -132,9 +133,9 @@ class _EmptyReport extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 36),
         child: Column(
           children: [
-            Text('Няма отчет за този ден', style: AppText.bodyDim),
+            Text(context.l10n.dailyEmpty, style: AppText.bodyDim),
             const SizedBox(height: 16),
-            LmButton('Попълни отчета', icon: LmIcons.sun, onTap: onFill),
+            LmButton(context.l10n.dailyFill, icon: LmIcons.sun, onTap: onFill),
           ],
         ),
       );
@@ -150,7 +151,7 @@ class _MoodHero extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Eyebrow('Настроение', color: col),
+          Eyebrow(context.l10n.dailyMood, color: col),
           const SizedBox(height: 14),
           Center(
             child: Ring(
@@ -186,24 +187,24 @@ class _FlagsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(children: [
-            Expanded(child: _flag('Горд', log.proud)),
-            Expanded(child: _flag('Тренировка', log.workout)),
+            Expanded(child: _flag(context, context.l10n.dailyProudShort, log.proud)),
+            Expanded(child: _flag(context, context.l10n.dailyWorkoutShort, log.workout)),
           ]),
           const SizedBox(height: 10),
           Row(children: [
-            Expanded(child: _flag('Неудобно нещо', log.didUncomfortable)),
-            Expanded(child: _flag('Алкохол', log.drankAlcohol)),
+            Expanded(child: _flag(context, context.l10n.dailyUncomfortableShort, log.didUncomfortable)),
+            Expanded(child: _flag(context, context.l10n.dailyAlcoholShort, log.drankAlcohol)),
           ]),
           if (log.didUncomfortable && (log.uncomfortableWhat?.isNotEmpty ?? false))
             Padding(
               padding: const EdgeInsets.only(top: 10),
-              child: Text('Неудобно: ${log.uncomfortableWhat}',
+              child: Text(context.l10n.dailyUncomfortableNote(log.uncomfortableWhat!),
                   style: AppText.bodyDim.copyWith(fontSize: 12.5)),
             ),
           if (log.drankAlcohol && (log.alcoholWhat?.isNotEmpty ?? false))
             Padding(
               padding: const EdgeInsets.only(top: 6),
-              child: Text('Алкохол: ${log.alcoholWhat}',
+              child: Text(context.l10n.dailyAlcoholNote(log.alcoholWhat!),
                   style: AppText.bodyDim.copyWith(fontSize: 12.5)),
             ),
         ],
@@ -211,9 +212,9 @@ class _FlagsCard extends StatelessWidget {
     );
   }
 
-  Widget _flag(String label, bool yes) => Row(
+  Widget _flag(BuildContext context, String label, bool yes) => Row(
         children: [
-          Pill(yes ? 'Да' : 'Не',
+          Pill(yes ? context.l10n.dailyYes : context.l10n.dailyNo,
               color: yes ? AppColors.green : AppColors.red),
           const SizedBox(width: 8),
           Expanded(
@@ -231,14 +232,16 @@ class _MetricsCard extends StatelessWidget {
   final StepEntry? steps;
   @override
   Widget build(BuildContext context) {
-    final screen = log.screenTimeMin != null ? '${log.screenTimeMin} мин' : '—';
+    final screen = log.screenTimeMin != null
+        ? context.l10n.dailyMinutes(log.screenTimeMin!)
+        : '—';
     return LmCard(
       child: Row(
         children: [
-          Expanded(child: _stat('Screen time', screen)),
+          Expanded(child: _stat(context.l10n.dailyScreenTime, screen)),
           Expanded(
-            child: _stat('Крачки',
-                steps != null ? '${steps!.count} · заключено' : '—'),
+            child: _stat(context.l10n.dailySteps,
+                steps != null ? context.l10n.dailyStepsLocked(steps!.count) : '—'),
           ),
         ],
       ),
@@ -266,7 +269,7 @@ class _NoteCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Eyebrow('Бележки'),
+            Eyebrow(context.l10n.dailyNotes),
             const SizedBox(height: 8),
             Text(note, style: AppText.body.copyWith(fontSize: 14, height: 1.5)),
           ],
@@ -282,7 +285,7 @@ class _MoodTrendCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Eyebrow('Тренд (30 дни)'),
+            Eyebrow(context.l10n.dailyMoodTrend),
             const SizedBox(height: 14),
             LmBarChart(data: data, color: AppColors.accent),
           ],

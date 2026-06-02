@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/providers.dart';
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -32,11 +33,13 @@ class TripScreen extends ConsumerWidget {
     final stats = ref.watch(tripStatsProvider);
     final trips = ref.watch(tripsProvider).asData?.value ?? const [];
     final repeatOnly = ref.watch(tripRepeatOnlyProvider);
+    final allLabel = context.l10n.tripFilterAll;
+    final repeatLabel = context.l10n.tripFilterWouldRepeat;
 
     return Column(
       children: [
         AppTopBar(
-          title: 'Пътувания',
+          title: context.l10n.tripTitle,
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
           trailing: _AddButton(onTap: () => showTripSheet(context)),
@@ -46,26 +49,27 @@ class TripScreen extends ConsumerWidget {
             children: [
               stats.when(
                 loading: () => const SizedBox.shrink(),
-                error: (e, _) => Text('Грешка: $e', style: AppText.bodyDim),
+                error: (e, _) =>
+                    Text(context.l10n.tripError('$e'), style: AppText.bodyDim),
                 data: (s) => _StatsCard(s),
               ),
               const SizedBox(height: 12),
               Segmented(
                 columns: 2,
-                options: const ['Всички', 'Бих повторил'],
-                value: repeatOnly ? 'Бих повторил' : 'Всички',
+                options: [allLabel, repeatLabel],
+                value: repeatOnly ? repeatLabel : allLabel,
                 onChanged: (l) => ref
                     .read(tripRepeatOnlyProvider.notifier)
-                    .state = l == 'Бих повторил',
+                    .state = l == repeatLabel,
               ),
               const SizedBox(height: 12),
               if (trips.isEmpty)
                 LmEmpty(
                   icon: LmIcons.trip,
                   message: repeatOnly
-                      ? 'Няма пътувания, които би повторил'
-                      : 'Няма записани пътувания',
-                  actionLabel: repeatOnly ? null : 'Добави пътуване',
+                      ? context.l10n.tripEmptyRepeat
+                      : context.l10n.tripEmpty,
+                  actionLabel: repeatOnly ? null : context.l10n.tripAddAction,
                   onAction: repeatOnly ? null : () => showTripSheet(context),
                 )
               else
@@ -89,7 +93,7 @@ class _AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Semantics(
         button: true,
-        label: 'Добави',
+        label: context.l10n.actionAdd,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: onTap,
@@ -114,14 +118,17 @@ class _StatsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Преглед'),
+          Eyebrow(context.l10n.tripOverview),
           const SizedBox(height: 14),
           Row(
             children: [
-              Expanded(child: _stat('${s.count}', 'пътувания')),
+              Expanded(child: _stat('${s.count}', context.l10n.tripStatCount)),
               Expanded(
-                  child: _stat(s.avgOverall.toStringAsFixed(1), 'ср. оценка')),
-              Expanded(child: _stat('${s.repeatCount}', 'бих повторил')),
+                  child: _stat(s.avgOverall.toStringAsFixed(1),
+                      context.l10n.tripStatAvg)),
+              Expanded(
+                  child:
+                      _stat('${s.repeatCount}', context.l10n.tripStatRepeat)),
             ],
           ),
         ],

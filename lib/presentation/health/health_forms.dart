@@ -11,6 +11,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../app/sheets.dart';
 import '../../core/l10n/enum_labels.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
@@ -41,26 +42,34 @@ int? _parseCents(String text) {
 // ── show* entry points ──────────────────────────────────────────────
 void showBpSheet(BuildContext context, {BloodPressureLog? existing}) =>
     showLmSheet(context,
-        title: existing == null ? 'Кръвно и пулс' : 'Редакция — кръвно',
-        subtitle: 'дата, час и трите стойности са задължителни',
+        title: existing == null
+            ? context.l10n.healthBpSheetTitle
+            : context.l10n.healthBpSheetEditTitle,
+        subtitle: context.l10n.healthBpSheetSubtitle,
         child: _BpForm(existing: existing));
 
 void showMedSheet(BuildContext context, {MedicationLog? existing}) =>
     showLmSheet(context,
-        title: existing == null ? 'Медикамент / добавка' : 'Редакция — добавка',
-        subtitle: 'име, тип и статус са задължителни',
+        title: existing == null
+            ? context.l10n.healthMedSheetTitle
+            : context.l10n.healthMedSheetEditTitle,
+        subtitle: context.l10n.healthMedSheetSubtitle,
         child: _MedForm(existing: existing));
 
 void showEventSheet(BuildContext context, {HealthEvent? existing}) =>
     showLmSheet(context,
-        title: existing == null ? 'Здравно събитие' : 'Редакция — събитие',
-        subtitle: 'какво е направено е задължително',
+        title: existing == null
+            ? context.l10n.healthEventSheetTitle
+            : context.l10n.healthEventSheetEditTitle,
+        subtitle: context.l10n.healthEventSheetSubtitle,
         child: _EventForm(existing: existing));
 
 void showLabSheet(BuildContext context, {LabTest? existing}) =>
     showLmSheet(context,
-        title: existing == null ? 'Изследване' : 'Редакция — изследване',
-        subtitle: 'лаборатория и причина са задължителни',
+        title: existing == null
+            ? context.l10n.healthLabSheetTitle
+            : context.l10n.healthLabSheetEditTitle,
+        subtitle: context.l10n.healthLabSheetSubtitle,
         child: _LabForm(existing: existing));
 
 // ── Blood pressure ──────────────────────────────────────────────────
@@ -105,9 +114,8 @@ class _BpFormState extends ConsumerState<_BpForm> {
   void _revalidate() {
     final s = int.tryParse(_sys.text.trim());
     final d = int.tryParse(_dia.text.trim());
-    setState(() => _error = (s != null && d != null && s <= d)
-        ? 'Систоличното трябва да е по-голямо от диастоличното'
-        : null);
+    setState(() => _error =
+        (s != null && d != null && s <= d) ? context.l10n.healthSysGtDia : null);
   }
 
   Future<void> _save() async {
@@ -115,16 +123,15 @@ class _BpFormState extends ConsumerState<_BpForm> {
     final d = int.tryParse(_dia.text.trim());
     final p = int.tryParse(_pulse.text.trim());
     if (s == null || d == null || p == null || s <= 0 || d <= 0 || p <= 0) {
-      setState(() => _error = 'Въведи валидни стойности');
+      setState(() => _error = context.l10n.healthInvalidValues);
       return;
     }
     if (s <= d) {
-      setState(() =>
-          _error = 'Систоличното трябва да е по-голямо от диастоличното');
+      setState(() => _error = context.l10n.healthSysGtDia);
       return;
     }
     if (_time.text.trim().isEmpty) {
-      setState(() => _error = 'Часът е задължителен');
+      setState(() => _error = context.l10n.healthTimeRequired);
       return;
     }
     final nowUtc = DateTime.now().toUtc();
@@ -141,7 +148,7 @@ class _BpFormState extends ConsumerState<_BpForm> {
         ));
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Записано успешно');
+      showLmToast(context, context.l10n.healthSaved);
     }
   }
 
@@ -149,7 +156,7 @@ class _BpFormState extends ConsumerState<_BpForm> {
     await ref.read(healthDaoProvider).deleteBp(widget.existing!.id);
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Изтрито');
+      showLmToast(context, context.l10n.healthDeleted);
     }
   }
 
@@ -167,7 +174,7 @@ class _BpFormState extends ConsumerState<_BpForm> {
             const SizedBox(width: 10),
             Expanded(
               child: Field(
-                label: 'Час',
+                label: context.l10n.healthTime,
                 required: true,
                 child: LmInput(controller: _time, hintText: '08:20'),
               ),
@@ -179,7 +186,7 @@ class _BpFormState extends ConsumerState<_BpForm> {
           children: [
             Expanded(
               child: Field(
-                label: 'Систолно',
+                label: context.l10n.healthSystolic,
                 required: true,
                 child: LmInput(
                   controller: _sys,
@@ -192,7 +199,7 @@ class _BpFormState extends ConsumerState<_BpForm> {
             const SizedBox(width: 10),
             Expanded(
               child: Field(
-                label: 'Диастолно',
+                label: context.l10n.healthDiastolic,
                 required: true,
                 child: LmInput(
                   controller: _dia,
@@ -205,7 +212,7 @@ class _BpFormState extends ConsumerState<_BpForm> {
             const SizedBox(width: 10),
             Expanded(
               child: Field(
-                label: 'Пулс',
+                label: context.l10n.healthPulse,
                 required: true,
                 child: LmInput(
                   controller: _pulse,
@@ -217,15 +224,17 @@ class _BpFormState extends ConsumerState<_BpForm> {
           ],
         ),
         Field(
-          label: 'Бележка',
-          child: LmInput(controller: _note, hintText: 'напр. сутрин, в покой'),
+          label: context.l10n.healthNote,
+          child: LmInput(
+              controller: _note, hintText: context.l10n.healthBpNoteHint),
         ),
         if (_error != null) _ErrorText(_error!),
         const SizedBox(height: 4),
-        LmButton('Запази', full: true, icon: LmIcons.check, onTap: _save),
+        LmButton(context.l10n.actionSave,
+            full: true, icon: LmIcons.check, onTap: _save),
         if (widget.existing != null) ...[
           const SizedBox(height: 10),
-          LmButton('Изтрий',
+          LmButton(context.l10n.actionDelete,
               full: true,
               variant: LmButtonVariant.danger,
               icon: LmIcons.trash,
@@ -278,7 +287,7 @@ class _MedFormState extends ConsumerState<_MedForm> {
 
   Future<void> _save() async {
     if (_name.text.trim().isEmpty) {
-      setState(() => _error = 'Името е задължително');
+      setState(() => _error = context.l10n.healthNameRequired);
       return;
     }
     final nowUtc = DateTime.now().toUtc();
@@ -296,7 +305,7 @@ class _MedFormState extends ConsumerState<_MedForm> {
         ));
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Записано успешно');
+      showLmToast(context, context.l10n.healthSaved);
     }
   }
 
@@ -304,7 +313,7 @@ class _MedFormState extends ConsumerState<_MedForm> {
     await ref.read(healthDaoProvider).deleteMed(widget.existing!.id);
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Изтрито');
+      showLmToast(context, context.l10n.healthDeleted);
     }
   }
 
@@ -314,12 +323,13 @@ class _MedFormState extends ConsumerState<_MedForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Field(
-          label: 'Име',
+          label: context.l10n.healthName,
           required: true,
-          child: LmInput(controller: _name, hintText: 'напр. Витамин D3'),
+          child: LmInput(
+              controller: _name, hintText: context.l10n.healthMedNameHint),
         ),
         Field(
-          label: 'Тип',
+          label: context.l10n.healthType,
           required: true,
           child: Segmented(
             options: MedType.values.map((t) => localizedLabel(context, t)).toList(),
@@ -333,21 +343,21 @@ class _MedFormState extends ConsumerState<_MedForm> {
           children: [
             Expanded(
               child: Field(
-                label: 'Час',
+                label: context.l10n.healthTime,
                 child: LmInput(controller: _time, hintText: '08:15'),
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: Field(
-                label: 'Доза',
+                label: context.l10n.healthDose,
                 child: LmInput(controller: _dose, hintText: '4000 IU'),
               ),
             ),
           ],
         ),
         Field(
-          label: 'Статус',
+          label: context.l10n.healthStatus,
           required: true,
           child: Segmented(
             columns: 2,
@@ -359,15 +369,17 @@ class _MedFormState extends ConsumerState<_MedForm> {
         ),
         _DateField(date: _date, onPick: (d) => setState(() => _date = d)),
         Field(
-          label: 'Бележка',
-          child: LmInput(controller: _note, hintText: 'незадължително'),
+          label: context.l10n.healthNote,
+          child: LmInput(
+              controller: _note, hintText: context.l10n.healthOptional),
         ),
         if (_error != null) _ErrorText(_error!),
         const SizedBox(height: 4),
-        LmButton('Запази', full: true, icon: LmIcons.check, onTap: _save),
+        LmButton(context.l10n.actionSave,
+            full: true, icon: LmIcons.check, onTap: _save),
         if (widget.existing != null) ...[
           const SizedBox(height: 10),
-          LmButton('Изтрий',
+          LmButton(context.l10n.actionDelete,
               full: true,
               variant: LmButtonVariant.danger,
               icon: LmIcons.trash,
@@ -435,7 +447,7 @@ class _EventFormState extends ConsumerState<_EventForm>
 
   Future<void> _save() async {
     if (_whatWasDone.text.trim().isEmpty) {
-      setState(() => _error = 'Полето „какво е направено“ е задължително');
+      setState(() => _error = context.l10n.healthWhatDoneRequired);
       return;
     }
     final nowUtc = DateTime.now().toUtc();
@@ -459,7 +471,7 @@ class _EventFormState extends ConsumerState<_EventForm>
     committed = true;
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Записано успешно');
+      showLmToast(context, context.l10n.healthSaved);
     }
   }
 
@@ -469,7 +481,7 @@ class _EventFormState extends ConsumerState<_EventForm>
     committed = true;
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Изтрито');
+      showLmToast(context, context.l10n.healthDeleted);
     }
   }
 
@@ -479,7 +491,7 @@ class _EventFormState extends ConsumerState<_EventForm>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Field(
-          label: 'Тип',
+          label: context.l10n.healthType,
           required: true,
           child: Segmented(
             options: HealthEventType.values.map((t) => localizedLabel(context, t)).toList(),
@@ -490,7 +502,7 @@ class _EventFormState extends ConsumerState<_EventForm>
         ),
         if (_type == HealthEventType.dentist)
           Field(
-            label: 'Вид (зъболекар)',
+            label: context.l10n.healthDentalSubtype,
             child: Segmented(
               options: DentalSubtype.values.map((s) => localizedLabel(context, s)).toList(),
               value: localizedLabel(context, _subtype),
@@ -499,21 +511,24 @@ class _EventFormState extends ConsumerState<_EventForm>
             ),
           ),
         Field(
-          label: 'Клиника / лекар',
-          child: LmInput(controller: _clinic, hintText: 'напр. Д-р Иванова'),
+          label: context.l10n.healthClinic,
+          child: LmInput(
+              controller: _clinic, hintText: context.l10n.healthClinicHint),
         ),
         Field(
-          label: 'Причина',
-          child: LmInput(controller: _reason, hintText: 'незадължително'),
+          label: context.l10n.healthReason,
+          child: LmInput(
+              controller: _reason, hintText: context.l10n.healthOptional),
         ),
         Field(
-          label: 'Какво е направено',
+          label: context.l10n.healthWhatDone,
           required: true,
           child: LmInput(
-              controller: _whatWasDone, hintText: 'напр. Профилактично почистване'),
+              controller: _whatWasDone,
+              hintText: context.l10n.healthWhatDoneHint),
         ),
         Field(
-          label: 'Цена',
+          label: context.l10n.healthPrice,
           hint: '€',
           child: LmInput(
             controller: _price,
@@ -522,18 +537,19 @@ class _EventFormState extends ConsumerState<_EventForm>
           ),
         ),
         _OptionalDateField(
-          label: 'Следваща препоръчана дата',
+          label: context.l10n.healthNextRecommendedDate,
           date: _nextDate,
           onPick: (d) => setState(() => _nextDate = d),
           onClear: () => setState(() => _nextDate = null),
         ),
         _DateField(date: _date, onPick: (d) => setState(() => _date = d)),
         Field(
-          label: 'Бележка',
-          child: LmTextArea(controller: _note, hintText: 'незадължително'),
+          label: context.l10n.healthNote,
+          child: LmTextArea(
+              controller: _note, hintText: context.l10n.healthOptional),
         ),
         Field(
-          label: 'Снимки',
+          label: context.l10n.healthPhotos,
           child: MultiPhotoField(
             photos: photos,
             svc: svc,
@@ -543,10 +559,11 @@ class _EventFormState extends ConsumerState<_EventForm>
         ),
         if (_error != null) _ErrorText(_error!),
         const SizedBox(height: 4),
-        LmButton('Запази', full: true, icon: LmIcons.check, onTap: _save),
+        LmButton(context.l10n.actionSave,
+            full: true, icon: LmIcons.check, onTap: _save),
         if (widget.existing != null) ...[
           const SizedBox(height: 10),
-          LmButton('Изтрий',
+          LmButton(context.l10n.actionDelete,
               full: true,
               variant: LmButtonVariant.danger,
               icon: LmIcons.trash,
@@ -603,7 +620,7 @@ class _LabFormState extends ConsumerState<_LabForm>
 
   Future<void> _save() async {
     if (_lab.text.trim().isEmpty || _reason.text.trim().isEmpty) {
-      setState(() => _error = 'Лаборатория и причина са задължителни');
+      setState(() => _error = context.l10n.healthLabRequired);
       return;
     }
     final nowUtc = DateTime.now().toUtc();
@@ -621,7 +638,7 @@ class _LabFormState extends ConsumerState<_LabForm>
     committed = true;
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Записано успешно');
+      showLmToast(context, context.l10n.healthSaved);
     }
   }
 
@@ -631,7 +648,7 @@ class _LabFormState extends ConsumerState<_LabForm>
     committed = true;
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Изтрито');
+      showLmToast(context, context.l10n.healthDeleted);
     }
   }
 
@@ -642,26 +659,31 @@ class _LabFormState extends ConsumerState<_LabForm>
       children: [
         _DateField(date: _date, onPick: (d) => setState(() => _date = d)),
         Field(
-          label: 'Лаборатория',
+          label: context.l10n.healthLab,
           required: true,
-          child: LmInput(controller: _lab, hintText: 'напр. Цибалаб'),
+          child: LmInput(
+              controller: _lab, hintText: context.l10n.healthLabHint),
         ),
         Field(
-          label: 'Причина',
+          label: context.l10n.healthReason,
           required: true,
-          child: LmInput(controller: _reason, hintText: 'напр. Хормони'),
+          child: LmInput(
+              controller: _reason, hintText: context.l10n.healthLabReasonHint),
         ),
         Field(
-          label: 'Резултати',
+          label: context.l10n.healthResults,
           child: LmTextArea(
-              controller: _results, mono: true, hintText: 'свободен текст'),
+              controller: _results,
+              mono: true,
+              hintText: context.l10n.healthResultsHint),
         ),
         Field(
-          label: 'Бележка',
-          child: LmInput(controller: _note, hintText: 'незадължително'),
+          label: context.l10n.healthNote,
+          child: LmInput(
+              controller: _note, hintText: context.l10n.healthOptional),
         ),
         Field(
-          label: 'Снимки',
+          label: context.l10n.healthPhotos,
           child: MultiPhotoField(
             photos: photos,
             svc: svc,
@@ -671,10 +693,11 @@ class _LabFormState extends ConsumerState<_LabForm>
         ),
         if (_error != null) _ErrorText(_error!),
         const SizedBox(height: 4),
-        LmButton('Запази', full: true, icon: LmIcons.check, onTap: _save),
+        LmButton(context.l10n.actionSave,
+            full: true, icon: LmIcons.check, onTap: _save),
         if (widget.existing != null) ...[
           const SizedBox(height: 10),
-          LmButton('Изтрий',
+          LmButton(context.l10n.actionDelete,
               full: true,
               variant: LmButtonVariant.danger,
               icon: LmIcons.trash,
@@ -693,7 +716,7 @@ class _DateField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Field(
-      label: 'Дата',
+      label: context.l10n.healthDate,
       required: true,
       child: _DateBox(
         text: dmyDate(date),

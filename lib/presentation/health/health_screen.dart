@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/charts/sparkline.dart';
 import '../../core/l10n/enum_labels.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
@@ -29,7 +30,12 @@ import 'health_format.dart';
 import 'health_forms.dart';
 import 'health_providers.dart';
 
-const _tabLabels = ['Кръвно', 'Добавки', 'Събития', 'Изследвания'];
+List<String> _tabLabels(BuildContext context) => [
+      context.l10n.healthTabBp,
+      context.l10n.healthTabMeds,
+      context.l10n.healthTabEvents,
+      context.l10n.healthTabLabs,
+    ];
 
 class HealthScreen extends ConsumerStatefulWidget {
   const HealthScreen({super.key});
@@ -52,7 +58,7 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
     return Column(
       children: [
         AppTopBar(
-          title: 'Здраве',
+          title: context.l10n.healthTitle,
           subtitle: localizedLabel(context, period),
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
@@ -135,8 +141,8 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
             bp.isEmpty,
             LmEmpty(
                 icon: LmIcons.pulse,
-                message: 'Няма измервания за периода',
-                actionLabel: 'Добави измерване',
+                message: context.l10n.healthBpEmpty,
+                actionLabel: context.l10n.healthBpAdd,
                 onAction: () => showBpSheet(context)),
             [
           for (final b in bp)
@@ -145,7 +151,7 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
               iconColor: AppColors.pink,
               title: '${b.systolic}/${b.diastolic}',
               subtitle:
-                  '${dmy(b.date)} ${b.time} · пулс ${b.pulse}${b.note != null ? ' · ${b.note}' : ''}',
+                  '${dmy(b.date)} ${b.time} · ${context.l10n.healthPulseShort} ${b.pulse}${b.note != null ? ' · ${b.note}' : ''}',
               onTap: () => showBpSheet(context, existing: b),
             ),
         ]);
@@ -154,8 +160,8 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
             meds.isEmpty,
             LmEmpty(
                 icon: LmIcons.pill,
-                message: 'Няма добавки за периода',
-                actionLabel: 'Добави добавка',
+                message: context.l10n.healthMedsEmpty,
+                actionLabel: context.l10n.healthMedsAdd,
                 onAction: () => showMedSheet(context)),
             [
           for (final m in meds)
@@ -174,8 +180,8 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
             events.isEmpty,
             LmEmpty(
                 icon: LmIcons.event,
-                message: 'Няма събития',
-                actionLabel: 'Добави събитие',
+                message: context.l10n.healthEventsEmpty,
+                actionLabel: context.l10n.healthEventsAdd,
                 onAction: () => showEventSheet(context)),
             [
           for (final e in events)
@@ -199,8 +205,8 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
             labs.isEmpty,
             LmEmpty(
                 icon: LmIcons.labs,
-                message: 'Няма изследвания',
-                actionLabel: 'Добави изследване',
+                message: context.l10n.healthLabsEmpty,
+                actionLabel: context.l10n.healthLabsAdd,
                 onAction: () => showLabSheet(context)),
             [
           for (final l in labs)
@@ -230,7 +236,7 @@ class _AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Semantics(
         button: true,
-        label: 'Добави',
+        label: context.l10n.actionAdd,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: onTap,
@@ -261,12 +267,13 @@ class _VitalsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Витални', color: AppColors.pink),
+          Eyebrow(context.l10n.healthVitals, color: AppColors.pink),
           const SizedBox(height: 14),
           Row(
             children: [
-              Expanded(child: _stat(lastBp, 'последно кръвно')),
-              Expanded(child: _stat('${s.lastPulse ?? '—'}', 'пулс')),
+              Expanded(child: _stat(lastBp, context.l10n.healthLastBp)),
+              Expanded(
+                  child: _stat('${s.lastPulse ?? '—'}', context.l10n.healthPulse)),
             ],
           ),
           const SizedBox(height: 12),
@@ -274,13 +281,13 @@ class _VitalsCard extends StatelessWidget {
             children: [
               Expanded(
                   child: _stat('${avg(s.avgSystolic)}/${avg(s.avgDiastolic)}',
-                      'ср. кръвно')),
-              Expanded(child: _stat(avg(s.avgPulse), 'ср. пулс')),
+                      context.l10n.healthAvgBp)),
+              Expanded(child: _stat(avg(s.avgPulse), context.l10n.healthAvgPulse)),
             ],
           ),
           if (nextDental != null) ...[
             const SizedBox(height: 12),
-            Text('Следващ зъболекар: ${dmy(nextDental!)}',
+            Text(context.l10n.healthNextDental(dmy(nextDental!)),
                 style: AppText.bodyDim.copyWith(fontSize: 12.5)),
           ],
         ],
@@ -316,20 +323,21 @@ class _BpChartCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Кръвно над времето'),
+          Eyebrow(context.l10n.healthBpOverTime),
           const SizedBox(height: 12),
           if (sys.length < 2)
-            Text('Малко данни за графика', style: AppText.bodyDim)
+            Text(context.l10n.healthChartTooFewData, style: AppText.bodyDim)
           else ...[
             Sparkline(data: sys, color: AppColors.pink, height: 44),
             const SizedBox(height: 8),
             Sparkline(data: dia, color: AppColors.accent, height: 44),
             const SizedBox(height: 8),
             Row(
-              children: const [
-                _Legend(color: AppColors.pink, label: 'Систолно'),
-                SizedBox(width: 16),
-                _Legend(color: AppColors.accent, label: 'Диастолно'),
+              children: [
+                _Legend(color: AppColors.pink, label: context.l10n.healthSystolic),
+                const SizedBox(width: 16),
+                _Legend(
+                    color: AppColors.accent, label: context.l10n.healthDiastolic),
               ],
             ),
           ],
@@ -364,6 +372,7 @@ class _Tabs extends StatelessWidget {
   final ValueChanged<int> onChanged;
   @override
   Widget build(BuildContext context) {
+    final labels = _tabLabels(context);
     Widget tab(int i) {
       final sel = value == i;
       return Expanded(
@@ -377,7 +386,7 @@ class _Tabs extends StatelessWidget {
               color: sel ? AppColors.accentSoft : Colors.transparent,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Text(_tabLabels[i],
+            child: Text(labels[i],
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -395,7 +404,7 @@ class _Tabs extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadii.input),
         border: Border.all(color: AppColors.border),
       ),
-      child: Row(children: [for (var i = 0; i < _tabLabels.length; i++) tab(i)]),
+      child: Row(children: [for (var i = 0; i < labels.length; i++) tab(i)]),
     );
   }
 }

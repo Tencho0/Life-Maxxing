@@ -629,4 +629,575 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stepsProvFromSteps => 'entered from Steps';
+
+  @override
+  String get healthTitle => 'Health';
+
+  @override
+  String get healthTabBp => 'Blood pressure';
+
+  @override
+  String get healthTabMeds => 'Supplements';
+
+  @override
+  String get healthTabEvents => 'Events';
+
+  @override
+  String get healthTabLabs => 'Lab tests';
+
+  @override
+  String get healthVitals => 'Vitals';
+
+  @override
+  String get healthLastBp => 'last blood pressure';
+
+  @override
+  String get healthPulse => 'Pulse';
+
+  @override
+  String get healthAvgBp => 'avg. blood pressure';
+
+  @override
+  String get healthAvgPulse => 'avg. pulse';
+
+  @override
+  String get healthPulseShort => 'pulse';
+
+  @override
+  String healthNextDental(String date) {
+    return 'Next dentist: $date';
+  }
+
+  @override
+  String get healthBpOverTime => 'Blood pressure over time';
+
+  @override
+  String get healthChartTooFewData => 'Too little data for a chart';
+
+  @override
+  String get healthSystolic => 'Systolic';
+
+  @override
+  String get healthDiastolic => 'Diastolic';
+
+  @override
+  String get healthBpEmpty => 'No measurements for the period';
+
+  @override
+  String get healthBpAdd => 'Add measurement';
+
+  @override
+  String get healthMedsEmpty => 'No supplements for the period';
+
+  @override
+  String get healthMedsAdd => 'Add supplement';
+
+  @override
+  String get healthEventsEmpty => 'No events';
+
+  @override
+  String get healthEventsAdd => 'Add event';
+
+  @override
+  String get healthLabsEmpty => 'No lab tests';
+
+  @override
+  String get healthLabsAdd => 'Add lab test';
+
+  @override
+  String get healthBpSheetTitle => 'Blood pressure & pulse';
+
+  @override
+  String get healthBpSheetEditTitle => 'Edit — blood pressure';
+
+  @override
+  String get healthBpSheetSubtitle =>
+      'date, time and all three values are required';
+
+  @override
+  String get healthMedSheetTitle => 'Medication / supplement';
+
+  @override
+  String get healthMedSheetEditTitle => 'Edit — supplement';
+
+  @override
+  String get healthMedSheetSubtitle => 'name, type and status are required';
+
+  @override
+  String get healthEventSheetTitle => 'Health event';
+
+  @override
+  String get healthEventSheetEditTitle => 'Edit — event';
+
+  @override
+  String get healthEventSheetSubtitle => 'what was done is required';
+
+  @override
+  String get healthLabSheetTitle => 'Lab test';
+
+  @override
+  String get healthLabSheetEditTitle => 'Edit — lab test';
+
+  @override
+  String get healthLabSheetSubtitle => 'lab and reason are required';
+
+  @override
+  String get healthSysGtDia => 'Systolic must be greater than diastolic';
+
+  @override
+  String get healthInvalidValues => 'Enter valid values';
+
+  @override
+  String get healthTimeRequired => 'Time is required';
+
+  @override
+  String get healthNameRequired => 'Name is required';
+
+  @override
+  String get healthWhatDoneRequired =>
+      'The \"what was done\" field is required';
+
+  @override
+  String get healthLabRequired => 'Lab and reason are required';
+
+  @override
+  String get healthSaved => 'Saved successfully';
+
+  @override
+  String get healthDeleted => 'Deleted';
+
+  @override
+  String get healthTime => 'Time';
+
+  @override
+  String get healthName => 'Name';
+
+  @override
+  String get healthType => 'Type';
+
+  @override
+  String get healthDose => 'Dose';
+
+  @override
+  String get healthStatus => 'Status';
+
+  @override
+  String get healthNote => 'Note';
+
+  @override
+  String get healthOptional => 'optional';
+
+  @override
+  String get healthBpNoteHint => 'e.g. morning, at rest';
+
+  @override
+  String get healthMedNameHint => 'e.g. Vitamin D3';
+
+  @override
+  String get healthDentalSubtype => 'Kind (dentist)';
+
+  @override
+  String get healthClinic => 'Clinic / doctor';
+
+  @override
+  String get healthClinicHint => 'e.g. Dr. Ivanova';
+
+  @override
+  String get healthReason => 'Reason';
+
+  @override
+  String get healthWhatDone => 'What was done';
+
+  @override
+  String get healthWhatDoneHint => 'e.g. Prophylactic cleaning';
+
+  @override
+  String get healthPrice => 'Price';
+
+  @override
+  String get healthNextRecommendedDate => 'Next recommended date';
+
+  @override
+  String get healthPhotos => 'Photos';
+
+  @override
+  String get healthLab => 'Lab';
+
+  @override
+  String get healthLabHint => 'e.g. Cibalab';
+
+  @override
+  String get healthLabReasonHint => 'e.g. Hormones';
+
+  @override
+  String get healthResults => 'Results';
+
+  @override
+  String get healthResultsHint => 'free text';
+
+  @override
+  String get healthDate => 'Date';
+
+  @override
+  String get dailyTitle => 'Daily report';
+
+  @override
+  String get dailyEmpty => 'No report for this day';
+
+  @override
+  String get dailyFill => 'Fill in the report';
+
+  @override
+  String get dailyMood => 'Mood';
+
+  @override
+  String get dailyProud => 'Are you proud of yourself?';
+
+  @override
+  String get dailyProudShort => 'Proud';
+
+  @override
+  String get dailyUncomfortable => 'Did you do 1 uncomfortable thing?';
+
+  @override
+  String get dailyUncomfortableShort => 'Uncomfortable thing';
+
+  @override
+  String get dailyUncomfortableWhat => 'What uncomfortable thing?';
+
+  @override
+  String dailyUncomfortableNote(String what) {
+    return 'Uncomfortable: $what';
+  }
+
+  @override
+  String get dailyWorkout => 'Workout?';
+
+  @override
+  String get dailyWorkoutShort => 'Workout';
+
+  @override
+  String get dailyAlcohol => 'Did you drink alcohol?';
+
+  @override
+  String get dailyAlcoholShort => 'Alcohol';
+
+  @override
+  String get dailyAlcoholWhat => 'What did you drink?';
+
+  @override
+  String get dailyAlcoholHint => 'e.g. 2 beers';
+
+  @override
+  String dailyAlcoholNote(String what) {
+    return 'Alcohol: $what';
+  }
+
+  @override
+  String get dailyOptional => 'optional';
+
+  @override
+  String get dailyScreenTime => 'Screen time';
+
+  @override
+  String get dailyMinutesUnit => 'min';
+
+  @override
+  String dailyMinutes(int count) {
+    return '$count min';
+  }
+
+  @override
+  String get dailySteps => 'Steps';
+
+  @override
+  String dailyStepsLocked(int count) {
+    return '$count · locked';
+  }
+
+  @override
+  String get dailyLocked => 'locked';
+
+  @override
+  String get dailyNotes => 'Notes';
+
+  @override
+  String get dailyNotesHint => 'how was the day?';
+
+  @override
+  String get dailyPhoto => 'Photo of the day';
+
+  @override
+  String get dailySaveReport => 'Save the report';
+
+  @override
+  String get dailySaved => 'Saved successfully';
+
+  @override
+  String get dailyMoodTrend => 'Trend (30 days)';
+
+  @override
+  String get dailyYes => 'Yes';
+
+  @override
+  String get dailyNo => 'No';
+
+  @override
+  String get bucketTitle => 'Bucket List';
+
+  @override
+  String get bucketAll => 'All';
+
+  @override
+  String bucketError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get bucketEmpty => 'No items in the list';
+
+  @override
+  String get bucketAddItem => 'Add item';
+
+  @override
+  String get bucketOverview => 'Overview';
+
+  @override
+  String get bucketStatTotal => 'total';
+
+  @override
+  String get bucketStatCompleted => 'completed';
+
+  @override
+  String get bucketStatPlanned => 'planned';
+
+  @override
+  String get bucketStatHigh => 'high prio.';
+
+  @override
+  String get bucketItemTitle => 'Item';
+
+  @override
+  String get bucketWhy => 'Why I want it';
+
+  @override
+  String get bucketComplete => 'Complete it';
+
+  @override
+  String get bucketEditExperience => 'Edit the experience';
+
+  @override
+  String get bucketDeleteItem => 'Delete item';
+
+  @override
+  String get bucketDeleteTitle => 'Delete';
+
+  @override
+  String get bucketDeleteConfirm => 'Delete the item and its experience?';
+
+  @override
+  String get bucketExperience => 'Experience';
+
+  @override
+  String get bucketFeeling => 'feeling';
+
+  @override
+  String get bucketWorthIt => 'worth it';
+
+  @override
+  String get bucketYes => 'Yes';
+
+  @override
+  String get bucketNo => 'No';
+
+  @override
+  String get bucketDate => 'date';
+
+  @override
+  String get bucketNewItem => 'New item';
+
+  @override
+  String get bucketEditItem => 'Edit item';
+
+  @override
+  String get bucketItemSubtitle => 'title, priority and status';
+
+  @override
+  String get bucketCompleteTitle => 'Complete the item';
+
+  @override
+  String get bucketCompleteSubtitle => 'log your experience';
+
+  @override
+  String get bucketSaved => 'Saved successfully';
+
+  @override
+  String get bucketTitleRequired => 'Title is required';
+
+  @override
+  String get bucketFieldTitle => 'Title';
+
+  @override
+  String get bucketTitleHint => 'e.g. Northern lights in Iceland';
+
+  @override
+  String get bucketWhyHint => 'the motivation behind the wish';
+
+  @override
+  String get bucketPriority => 'Priority';
+
+  @override
+  String get bucketStatus => 'Status';
+
+  @override
+  String get bucketPhotos => 'Photos';
+
+  @override
+  String get bucketFeelingPrompt => 'How do you feel?';
+
+  @override
+  String get bucketCompletedDate => 'Date of completion';
+
+  @override
+  String get bucketWorthItPrompt => 'Was it worth it?';
+
+  @override
+  String get bucketReflection => 'Note / reflection';
+
+  @override
+  String get bucketReflectionHint => 'How did you feel? Would you do it again?';
+
+  @override
+  String get bucketMarkCompleted => 'Mark as completed';
+
+  @override
+  String get tripTitle => 'Trips';
+
+  @override
+  String get tripDetailTitle => 'Trip';
+
+  @override
+  String get tripOverview => 'Overview';
+
+  @override
+  String get tripStatCount => 'trips';
+
+  @override
+  String get tripStatAvg => 'avg. rating';
+
+  @override
+  String get tripStatRepeat => 'would repeat';
+
+  @override
+  String tripError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get tripFilterAll => 'All';
+
+  @override
+  String get tripFilterWouldRepeat => 'Would repeat';
+
+  @override
+  String get tripEmpty => 'No trips recorded';
+
+  @override
+  String get tripEmptyRepeat => 'No trips you would repeat';
+
+  @override
+  String get tripAddAction => 'Add trip';
+
+  @override
+  String get tripRatings => 'Ratings';
+
+  @override
+  String get tripOverall => 'Overall';
+
+  @override
+  String get tripFun => 'Fun';
+
+  @override
+  String get tripFood => 'Food';
+
+  @override
+  String get tripSights => 'Sights';
+
+  @override
+  String get tripValue => 'Value';
+
+  @override
+  String get tripWouldRepeat => 'Would repeat';
+
+  @override
+  String get tripWouldNotRepeat => 'Would not repeat';
+
+  @override
+  String get tripGallery => 'Gallery';
+
+  @override
+  String get tripDelete => 'Delete trip';
+
+  @override
+  String get tripDeleteTitle => 'Delete';
+
+  @override
+  String get tripDeleteConfirm => 'Delete the trip and its photos?';
+
+  @override
+  String get tripSheetNew => 'New trip';
+
+  @override
+  String get tripSheetEdit => 'Edit trip';
+
+  @override
+  String get tripSheetSubtitle => 'title, destination, period, rating';
+
+  @override
+  String get tripFieldTitle => 'Title';
+
+  @override
+  String get tripTitleHint => 'e.g. Weekend in Rome';
+
+  @override
+  String get tripDestination => 'Destination';
+
+  @override
+  String get tripDestinationHint => 'e.g. Rome, Italy';
+
+  @override
+  String get tripFromDate => 'From date';
+
+  @override
+  String get tripToDate => 'To date';
+
+  @override
+  String get tripOverallRating => 'Overall rating';
+
+  @override
+  String get tripWouldRepeatLabel => 'Would you repeat?';
+
+  @override
+  String get tripComment => 'Comment';
+
+  @override
+  String get tripCommentHint => 'how was it?';
+
+  @override
+  String get tripCover => 'Cover photo';
+
+  @override
+  String get tripAddCover => 'Add cover';
+
+  @override
+  String get tripRequiredError => 'Title and destination are required';
+
+  @override
+  String get tripDateOrderError => 'The end date must be after the start date';
+
+  @override
+  String get tripSavedToast => 'Saved successfully';
+
+  @override
+  String get tripDeletedToast => 'Deleted';
 }

@@ -11,6 +11,7 @@ import 'package:uuid/uuid.dart';
 import '../../app/providers.dart';
 import '../../app/sheets.dart';
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/field.dart';
@@ -39,8 +40,10 @@ Future<void> deleteTrip(
 void showTripSheet(BuildContext context, {Trip? existing}) {
   showLmSheet(
     context,
-    title: existing == null ? 'Ново пътуване' : 'Редакция на пътуване',
-    subtitle: 'заглавие, дестинация, период, оценка',
+    title: existing == null
+        ? context.l10n.tripSheetNew
+        : context.l10n.tripSheetEdit,
+    subtitle: context.l10n.tripSheetSubtitle,
     child: _TripForm(existing: existing),
   );
 }
@@ -145,11 +148,11 @@ class _TripFormState extends ConsumerState<_TripForm> {
 
   Future<void> _save() async {
     if (_title.text.trim().isEmpty || _destination.text.trim().isEmpty) {
-      setState(() => _error = 'Заглавие и дестинация са задължителни');
+      setState(() => _error = context.l10n.tripRequiredError);
       return;
     }
     if (ymd(_to).compareTo(ymd(_from)) < 0) {
-      setState(() => _error = 'Крайната дата трябва да е след началната');
+      setState(() => _error = context.l10n.tripDateOrderError);
       return;
     }
     final nowUtc = DateTime.now().toUtc();
@@ -173,7 +176,7 @@ class _TripFormState extends ConsumerState<_TripForm> {
     _committed = true;
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Записано успешно');
+      showLmToast(context, context.l10n.tripSavedToast);
     }
   }
 
@@ -181,7 +184,7 @@ class _TripFormState extends ConsumerState<_TripForm> {
     await deleteTrip(ref.read(tripsDaoProvider), _svc, _tripId);
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Изтрито');
+      showLmToast(context, context.l10n.tripDeletedToast);
     }
   }
 
@@ -191,33 +194,36 @@ class _TripFormState extends ConsumerState<_TripForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Field(
-          label: 'Заглавие',
+          label: context.l10n.tripFieldTitle,
           required: true,
-          child: LmInput(controller: _title, hintText: 'напр. Уикенд в Рим'),
+          child: LmInput(
+              controller: _title, hintText: context.l10n.tripTitleHint),
         ),
         Field(
-          label: 'Дестинация',
+          label: context.l10n.tripDestination,
           required: true,
-          child: LmInput(controller: _destination, hintText: 'напр. Рим, Италия'),
+          child: LmInput(
+              controller: _destination,
+              hintText: context.l10n.tripDestinationHint),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
                 child: _DateField(
-                    label: 'От дата',
+                    label: context.l10n.tripFromDate,
                     date: _from,
                     onPick: (d) => setState(() => _from = d))),
             const SizedBox(width: 10),
             Expanded(
                 child: _DateField(
-                    label: 'До дата',
+                    label: context.l10n.tripToDate,
                     date: _to,
                     onPick: (d) => setState(() => _to = d))),
           ],
         ),
         Field(
-          label: 'Обща оценка',
+          label: context.l10n.tripOverallRating,
           required: true,
           hint: '$_overall / 10',
           child: Scale10(
@@ -225,32 +231,37 @@ class _TripFormState extends ConsumerState<_TripForm> {
               color: AppColors.amber,
               onChanged: (v) => setState(() => _overall = v)),
         ),
-        _RatingField('Забавление', _fun, (v) => setState(() => _fun = v)),
-        _RatingField('Храна', _food, (v) => setState(() => _food = v)),
-        _RatingField('Забележителности', _sights, (v) => setState(() => _sights = v)),
-        _RatingField('Стойност', _value, (v) => setState(() => _value = v)),
+        _RatingField(
+            context.l10n.tripFun, _fun, (v) => setState(() => _fun = v)),
+        _RatingField(
+            context.l10n.tripFood, _food, (v) => setState(() => _food = v)),
+        _RatingField(context.l10n.tripSights, _sights,
+            (v) => setState(() => _sights = v)),
+        _RatingField(context.l10n.tripValue, _value,
+            (v) => setState(() => _value = v)),
         Field(
-          label: 'Би ли повторил?',
+          label: context.l10n.tripWouldRepeatLabel,
           child: YesNo(
               value: _wouldRepeat,
               onChanged: (v) => setState(() => _wouldRepeat = v)),
         ),
         Field(
-          label: 'Коментар',
-          child: LmTextArea(controller: _comment, hintText: 'как беше?'),
+          label: context.l10n.tripComment,
+          child: LmTextArea(
+              controller: _comment, hintText: context.l10n.tripCommentHint),
         ),
         Field(
-          label: 'Cover снимка',
+          label: context.l10n.tripCover,
           child: SinglePhotoField(
             photos: _cover,
             svc: _svc,
             onAdd: _addCover,
             onRemove: _removePhoto,
-            addLabel: 'Добави корица',
+            addLabel: context.l10n.tripAddCover,
           ),
         ),
         Field(
-          label: 'Галерия',
+          label: context.l10n.tripGallery,
           child: MultiPhotoField(
             photos: _gallery,
             svc: _svc,
@@ -260,10 +271,11 @@ class _TripFormState extends ConsumerState<_TripForm> {
         ),
         if (_error != null) _ErrorText(_error!),
         const SizedBox(height: 4),
-        LmButton('Запази', full: true, icon: LmIcons.check, onTap: _save),
+        LmButton(context.l10n.actionSave,
+            full: true, icon: LmIcons.check, onTap: _save),
         if (widget.existing != null) ...[
           const SizedBox(height: 10),
-          LmButton('Изтрий',
+          LmButton(context.l10n.actionDelete,
               full: true,
               variant: LmButtonVariant.danger,
               icon: LmIcons.trash,

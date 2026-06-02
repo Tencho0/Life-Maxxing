@@ -629,4 +629,576 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get stepsProvFromSteps => 'въведено от Крачки';
+
+  @override
+  String get healthTitle => 'Здраве';
+
+  @override
+  String get healthTabBp => 'Кръвно';
+
+  @override
+  String get healthTabMeds => 'Добавки';
+
+  @override
+  String get healthTabEvents => 'Събития';
+
+  @override
+  String get healthTabLabs => 'Изследвания';
+
+  @override
+  String get healthVitals => 'Витални';
+
+  @override
+  String get healthLastBp => 'последно кръвно';
+
+  @override
+  String get healthPulse => 'Пулс';
+
+  @override
+  String get healthAvgBp => 'ср. кръвно';
+
+  @override
+  String get healthAvgPulse => 'ср. пулс';
+
+  @override
+  String get healthPulseShort => 'пулс';
+
+  @override
+  String healthNextDental(String date) {
+    return 'Следващ зъболекар: $date';
+  }
+
+  @override
+  String get healthBpOverTime => 'Кръвно над времето';
+
+  @override
+  String get healthChartTooFewData => 'Малко данни за графика';
+
+  @override
+  String get healthSystolic => 'Систолно';
+
+  @override
+  String get healthDiastolic => 'Диастолно';
+
+  @override
+  String get healthBpEmpty => 'Няма измервания за периода';
+
+  @override
+  String get healthBpAdd => 'Добави измерване';
+
+  @override
+  String get healthMedsEmpty => 'Няма добавки за периода';
+
+  @override
+  String get healthMedsAdd => 'Добави добавка';
+
+  @override
+  String get healthEventsEmpty => 'Няма събития';
+
+  @override
+  String get healthEventsAdd => 'Добави събитие';
+
+  @override
+  String get healthLabsEmpty => 'Няма изследвания';
+
+  @override
+  String get healthLabsAdd => 'Добави изследване';
+
+  @override
+  String get healthBpSheetTitle => 'Кръвно и пулс';
+
+  @override
+  String get healthBpSheetEditTitle => 'Редакция — кръвно';
+
+  @override
+  String get healthBpSheetSubtitle =>
+      'дата, час и трите стойности са задължителни';
+
+  @override
+  String get healthMedSheetTitle => 'Медикамент / добавка';
+
+  @override
+  String get healthMedSheetEditTitle => 'Редакция — добавка';
+
+  @override
+  String get healthMedSheetSubtitle => 'име, тип и статус са задължителни';
+
+  @override
+  String get healthEventSheetTitle => 'Здравно събитие';
+
+  @override
+  String get healthEventSheetEditTitle => 'Редакция — събитие';
+
+  @override
+  String get healthEventSheetSubtitle => 'какво е направено е задължително';
+
+  @override
+  String get healthLabSheetTitle => 'Изследване';
+
+  @override
+  String get healthLabSheetEditTitle => 'Редакция — изследване';
+
+  @override
+  String get healthLabSheetSubtitle => 'лаборатория и причина са задължителни';
+
+  @override
+  String get healthSysGtDia =>
+      'Систоличното трябва да е по-голямо от диастоличното';
+
+  @override
+  String get healthInvalidValues => 'Въведи валидни стойности';
+
+  @override
+  String get healthTimeRequired => 'Часът е задължителен';
+
+  @override
+  String get healthNameRequired => 'Името е задължително';
+
+  @override
+  String get healthWhatDoneRequired =>
+      'Полето „какво е направено“ е задължително';
+
+  @override
+  String get healthLabRequired => 'Лаборатория и причина са задължителни';
+
+  @override
+  String get healthSaved => 'Записано успешно';
+
+  @override
+  String get healthDeleted => 'Изтрито';
+
+  @override
+  String get healthTime => 'Час';
+
+  @override
+  String get healthName => 'Име';
+
+  @override
+  String get healthType => 'Тип';
+
+  @override
+  String get healthDose => 'Доза';
+
+  @override
+  String get healthStatus => 'Статус';
+
+  @override
+  String get healthNote => 'Бележка';
+
+  @override
+  String get healthOptional => 'незадължително';
+
+  @override
+  String get healthBpNoteHint => 'напр. сутрин, в покой';
+
+  @override
+  String get healthMedNameHint => 'напр. Витамин D3';
+
+  @override
+  String get healthDentalSubtype => 'Вид (зъболекар)';
+
+  @override
+  String get healthClinic => 'Клиника / лекар';
+
+  @override
+  String get healthClinicHint => 'напр. Д-р Иванова';
+
+  @override
+  String get healthReason => 'Причина';
+
+  @override
+  String get healthWhatDone => 'Какво е направено';
+
+  @override
+  String get healthWhatDoneHint => 'напр. Профилактично почистване';
+
+  @override
+  String get healthPrice => 'Цена';
+
+  @override
+  String get healthNextRecommendedDate => 'Следваща препоръчана дата';
+
+  @override
+  String get healthPhotos => 'Снимки';
+
+  @override
+  String get healthLab => 'Лаборатория';
+
+  @override
+  String get healthLabHint => 'напр. Цибалаб';
+
+  @override
+  String get healthLabReasonHint => 'напр. Хормони';
+
+  @override
+  String get healthResults => 'Резултати';
+
+  @override
+  String get healthResultsHint => 'свободен текст';
+
+  @override
+  String get healthDate => 'Дата';
+
+  @override
+  String get dailyTitle => 'Дневен отчет';
+
+  @override
+  String get dailyEmpty => 'Няма отчет за този ден';
+
+  @override
+  String get dailyFill => 'Попълни отчета';
+
+  @override
+  String get dailyMood => 'Настроение';
+
+  @override
+  String get dailyProud => 'Горд ли си от себе си?';
+
+  @override
+  String get dailyProudShort => 'Горд';
+
+  @override
+  String get dailyUncomfortable => 'Направи ли 1 неудобно нещо?';
+
+  @override
+  String get dailyUncomfortableShort => 'Неудобно нещо';
+
+  @override
+  String get dailyUncomfortableWhat => 'Какво неудобно нещо?';
+
+  @override
+  String dailyUncomfortableNote(String what) {
+    return 'Неудобно: $what';
+  }
+
+  @override
+  String get dailyWorkout => 'Тренировка?';
+
+  @override
+  String get dailyWorkoutShort => 'Тренировка';
+
+  @override
+  String get dailyAlcohol => 'Пил ли си алкохол?';
+
+  @override
+  String get dailyAlcoholShort => 'Алкохол';
+
+  @override
+  String get dailyAlcoholWhat => 'Какво пи?';
+
+  @override
+  String get dailyAlcoholHint => 'напр. 2 бири';
+
+  @override
+  String dailyAlcoholNote(String what) {
+    return 'Алкохол: $what';
+  }
+
+  @override
+  String get dailyOptional => 'незадължително';
+
+  @override
+  String get dailyScreenTime => 'Screen time';
+
+  @override
+  String get dailyMinutesUnit => 'мин';
+
+  @override
+  String dailyMinutes(int count) {
+    return '$count мин';
+  }
+
+  @override
+  String get dailySteps => 'Крачки';
+
+  @override
+  String dailyStepsLocked(int count) {
+    return '$count · заключено';
+  }
+
+  @override
+  String get dailyLocked => 'заключено';
+
+  @override
+  String get dailyNotes => 'Бележки';
+
+  @override
+  String get dailyNotesHint => 'как мина денят?';
+
+  @override
+  String get dailyPhoto => 'Снимка на деня';
+
+  @override
+  String get dailySaveReport => 'Запази отчета';
+
+  @override
+  String get dailySaved => 'Записано успешно';
+
+  @override
+  String get dailyMoodTrend => 'Тренд (30 дни)';
+
+  @override
+  String get dailyYes => 'Да';
+
+  @override
+  String get dailyNo => 'Не';
+
+  @override
+  String get bucketTitle => 'Bucket List';
+
+  @override
+  String get bucketAll => 'Всички';
+
+  @override
+  String bucketError(Object error) {
+    return 'Грешка: $error';
+  }
+
+  @override
+  String get bucketEmpty => 'Няма желания в списъка';
+
+  @override
+  String get bucketAddItem => 'Добави желание';
+
+  @override
+  String get bucketOverview => 'Преглед';
+
+  @override
+  String get bucketStatTotal => 'общо';
+
+  @override
+  String get bucketStatCompleted => 'завършени';
+
+  @override
+  String get bucketStatPlanned => 'планирани';
+
+  @override
+  String get bucketStatHigh => 'висок приор.';
+
+  @override
+  String get bucketItemTitle => 'Желание';
+
+  @override
+  String get bucketWhy => 'Защо го искам';
+
+  @override
+  String get bucketComplete => 'Завърши го';
+
+  @override
+  String get bucketEditExperience => 'Редактирай преживяването';
+
+  @override
+  String get bucketDeleteItem => 'Изтрий желанието';
+
+  @override
+  String get bucketDeleteTitle => 'Изтриване';
+
+  @override
+  String get bucketDeleteConfirm => 'Да изтрия желанието и преживяването му?';
+
+  @override
+  String get bucketExperience => 'Преживяване';
+
+  @override
+  String get bucketFeeling => 'усещане';
+
+  @override
+  String get bucketWorthIt => 'струваше ли си';
+
+  @override
+  String get bucketYes => 'Да';
+
+  @override
+  String get bucketNo => 'Не';
+
+  @override
+  String get bucketDate => 'дата';
+
+  @override
+  String get bucketNewItem => 'Ново желание';
+
+  @override
+  String get bucketEditItem => 'Редакция на желание';
+
+  @override
+  String get bucketItemSubtitle => 'заглавие, приоритет и статус';
+
+  @override
+  String get bucketCompleteTitle => 'Завърши желанието';
+
+  @override
+  String get bucketCompleteSubtitle => 'запиши преживяването си';
+
+  @override
+  String get bucketSaved => 'Записано успешно';
+
+  @override
+  String get bucketTitleRequired => 'Заглавието е задължително';
+
+  @override
+  String get bucketFieldTitle => 'Заглавие';
+
+  @override
+  String get bucketTitleHint => 'напр. Северно сияние в Исландия';
+
+  @override
+  String get bucketWhyHint => 'мотивацията зад желанието';
+
+  @override
+  String get bucketPriority => 'Приоритет';
+
+  @override
+  String get bucketStatus => 'Статус';
+
+  @override
+  String get bucketPhotos => 'Снимки';
+
+  @override
+  String get bucketFeelingPrompt => 'Как се чувстваш?';
+
+  @override
+  String get bucketCompletedDate => 'Дата на изпълнение';
+
+  @override
+  String get bucketWorthItPrompt => 'Струваше ли си?';
+
+  @override
+  String get bucketReflection => 'Бележка / рефлексия';
+
+  @override
+  String get bucketReflectionHint => 'Как се почувства? Би ли го направил пак?';
+
+  @override
+  String get bucketMarkCompleted => 'Маркирай като завършено';
+
+  @override
+  String get tripTitle => 'Пътувания';
+
+  @override
+  String get tripDetailTitle => 'Пътуване';
+
+  @override
+  String get tripOverview => 'Преглед';
+
+  @override
+  String get tripStatCount => 'пътувания';
+
+  @override
+  String get tripStatAvg => 'ср. оценка';
+
+  @override
+  String get tripStatRepeat => 'бих повторил';
+
+  @override
+  String tripError(String error) {
+    return 'Грешка: $error';
+  }
+
+  @override
+  String get tripFilterAll => 'Всички';
+
+  @override
+  String get tripFilterWouldRepeat => 'Бих повторил';
+
+  @override
+  String get tripEmpty => 'Няма записани пътувания';
+
+  @override
+  String get tripEmptyRepeat => 'Няма пътувания, които би повторил';
+
+  @override
+  String get tripAddAction => 'Добави пътуване';
+
+  @override
+  String get tripRatings => 'Оценки';
+
+  @override
+  String get tripOverall => 'Обща';
+
+  @override
+  String get tripFun => 'Забавление';
+
+  @override
+  String get tripFood => 'Храна';
+
+  @override
+  String get tripSights => 'Забележителности';
+
+  @override
+  String get tripValue => 'Стойност';
+
+  @override
+  String get tripWouldRepeat => 'Бих повторил';
+
+  @override
+  String get tripWouldNotRepeat => 'Не бих повторил';
+
+  @override
+  String get tripGallery => 'Галерия';
+
+  @override
+  String get tripDelete => 'Изтрий пътуването';
+
+  @override
+  String get tripDeleteTitle => 'Изтриване';
+
+  @override
+  String get tripDeleteConfirm => 'Да изтрия пътуването и снимките му?';
+
+  @override
+  String get tripSheetNew => 'Ново пътуване';
+
+  @override
+  String get tripSheetEdit => 'Редакция на пътуване';
+
+  @override
+  String get tripSheetSubtitle => 'заглавие, дестинация, период, оценка';
+
+  @override
+  String get tripFieldTitle => 'Заглавие';
+
+  @override
+  String get tripTitleHint => 'напр. Уикенд в Рим';
+
+  @override
+  String get tripDestination => 'Дестинация';
+
+  @override
+  String get tripDestinationHint => 'напр. Рим, Италия';
+
+  @override
+  String get tripFromDate => 'От дата';
+
+  @override
+  String get tripToDate => 'До дата';
+
+  @override
+  String get tripOverallRating => 'Обща оценка';
+
+  @override
+  String get tripWouldRepeatLabel => 'Би ли повторил?';
+
+  @override
+  String get tripComment => 'Коментар';
+
+  @override
+  String get tripCommentHint => 'как беше?';
+
+  @override
+  String get tripCover => 'Cover снимка';
+
+  @override
+  String get tripAddCover => 'Добави корица';
+
+  @override
+  String get tripRequiredError => 'Заглавие и дестинация са задължителни';
+
+  @override
+  String get tripDateOrderError => 'Крайната дата трябва да е след началната';
+
+  @override
+  String get tripSavedToast => 'Записано успешно';
+
+  @override
+  String get tripDeletedToast => 'Изтрито';
 }

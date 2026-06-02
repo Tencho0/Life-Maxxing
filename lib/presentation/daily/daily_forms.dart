@@ -11,6 +11,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../app/providers.dart';
 import '../../app/sheets.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/field.dart';
@@ -34,7 +35,7 @@ void showDailySheet(
 }) {
   showLmSheet(
     context,
-    title: 'Дневен отчет',
+    title: context.l10n.dailyTitle,
     subtitle: date,
     child: _DailyForm(date: date, existing: existing, existingSteps: existingSteps),
   );
@@ -164,7 +165,7 @@ class _DailyFormState extends ConsumerState<_DailyForm> {
     _committed = true;
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Записано успешно');
+      showLmToast(context, context.l10n.dailySaved);
     }
   }
 
@@ -174,17 +175,17 @@ class _DailyFormState extends ConsumerState<_DailyForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Field(
-          label: 'Настроение',
+          label: context.l10n.dailyMood,
           required: true,
           child: MoodPicker(value: _mood, onChanged: (v) => setState(() => _mood = v)),
         ),
         Field(
-          label: 'Горд ли си от себе си?',
+          label: context.l10n.dailyProud,
           required: true,
           child: YesNo(value: _proud, onChanged: (v) => setState(() => _proud = v)),
         ),
         Field(
-          label: 'Направи ли 1 неудобно нещо?',
+          label: context.l10n.dailyUncomfortable,
           required: true,
           child: YesNo(
               value: _didUncomfortable,
@@ -192,18 +193,18 @@ class _DailyFormState extends ConsumerState<_DailyForm> {
         ),
         if (_didUncomfortable)
           Field(
-            label: 'Какво неудобно нещо?',
+            label: context.l10n.dailyUncomfortableWhat,
             child: LmTextArea(
-                controller: _uncomfortableWhat, hintText: 'незадължително'),
+                controller: _uncomfortableWhat, hintText: context.l10n.dailyOptional),
           ),
         Field(
-          label: 'Тренировка?',
+          label: context.l10n.dailyWorkout,
           required: true,
           child: YesNo(
               value: _workout, onChanged: (v) => setState(() => _workout = v)),
         ),
         Field(
-          label: 'Пил ли си алкохол?',
+          label: context.l10n.dailyAlcohol,
           required: true,
           child: YesNo(
               value: _drankAlcohol,
@@ -211,16 +212,16 @@ class _DailyFormState extends ConsumerState<_DailyForm> {
         ),
         if (_drankAlcohol)
           Field(
-            label: 'Какво пи?',
-            child: LmInput(controller: _alcoholWhat, hintText: 'напр. 2 бири'),
+            label: context.l10n.dailyAlcoholWhat,
+            child: LmInput(controller: _alcoholWhat, hintText: context.l10n.dailyAlcoholHint),
           ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Field(
-                label: 'Screen time',
-                hint: 'мин',
+                label: context.l10n.dailyScreenTime,
+                hint: context.l10n.dailyMinutesUnit,
                 child: LmInput(
                   controller: _screenTime,
                   hintText: '270',
@@ -229,15 +230,15 @@ class _DailyFormState extends ConsumerState<_DailyForm> {
               ),
             ),
             const SizedBox(width: 10),
-            Expanded(child: _stepsField()),
+            Expanded(child: _stepsField(context)),
           ],
         ),
         Field(
-          label: 'Бележки',
-          child: LmTextArea(controller: _note, hintText: 'как мина денят?'),
+          label: context.l10n.dailyNotes,
+          child: LmTextArea(controller: _note, hintText: context.l10n.dailyNotesHint),
         ),
         Field(
-          label: 'Снимка на деня',
+          label: context.l10n.dailyPhoto,
           child: SinglePhotoField(
             photos: _photos,
             svc: _svc,
@@ -246,17 +247,17 @@ class _DailyFormState extends ConsumerState<_DailyForm> {
           ),
         ),
         const SizedBox(height: 4),
-        LmButton('Запази отчета',
+        LmButton(context.l10n.dailySaveReport,
             full: true, icon: LmIcons.check, onTap: _save),
       ],
     );
   }
 
-  Widget _stepsField() {
+  Widget _stepsField(BuildContext context) {
     if (_stepsLocked) {
       return Field(
-        label: 'Крачки',
-        hint: 'заключено',
+        label: context.l10n.dailySteps,
+        hint: context.l10n.dailyLocked,
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
@@ -271,7 +272,7 @@ class _DailyFormState extends ConsumerState<_DailyForm> {
       );
     }
     return Field(
-      label: 'Крачки',
+      label: context.l10n.dailySteps,
       child: LmInput(
         controller: _stepsCount,
         hintText: '9420',

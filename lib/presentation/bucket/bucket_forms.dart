@@ -11,6 +11,7 @@ import 'package:uuid/uuid.dart';
 import '../../app/sheets.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/l10n/enum_labels.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/field.dart';
@@ -44,8 +45,10 @@ Future<void> deleteBucketItem(
 void showBucketItemSheet(BuildContext context, {BucketItem? existing}) {
   showLmSheet(
     context,
-    title: existing == null ? 'Ново желание' : 'Редакция на желание',
-    subtitle: 'заглавие, приоритет и статус',
+    title: existing == null
+        ? context.l10n.bucketNewItem
+        : context.l10n.bucketEditItem,
+    subtitle: context.l10n.bucketItemSubtitle,
     child: _BucketItemForm(existing: existing),
   );
 }
@@ -57,8 +60,8 @@ void showBucketCompleteSheet(
 }) {
   showLmSheet(
     context,
-    title: 'Завърши желанието',
-    subtitle: 'запиши преживяването си',
+    title: context.l10n.bucketCompleteTitle,
+    subtitle: context.l10n.bucketCompleteSubtitle,
     child: _BucketExperienceForm(item: item, existing: existing),
   );
 }
@@ -105,7 +108,7 @@ class _BucketItemFormState extends ConsumerState<_BucketItemForm>
 
   Future<void> _save() async {
     if (_title.text.trim().isEmpty) {
-      setState(() => _error = 'Заглавието е задължително');
+      setState(() => _error = context.l10n.bucketTitleRequired);
       return;
     }
     final nowUtc = DateTime.now().toUtc();
@@ -121,7 +124,7 @@ class _BucketItemFormState extends ConsumerState<_BucketItemForm>
     committed = true;
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Записано успешно');
+      showLmToast(context, context.l10n.bucketSaved);
     }
   }
 
@@ -131,17 +134,17 @@ class _BucketItemFormState extends ConsumerState<_BucketItemForm>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Field(
-          label: 'Заглавие',
+          label: context.l10n.bucketFieldTitle,
           required: true,
           child: LmInput(
-              controller: _title, hintText: 'напр. Северно сияние в Исландия'),
+              controller: _title, hintText: context.l10n.bucketTitleHint),
         ),
         Field(
-          label: 'Защо го искам',
-          child: LmTextArea(controller: _why, hintText: 'мотивацията зад желанието'),
+          label: context.l10n.bucketWhy,
+          child: LmTextArea(controller: _why, hintText: context.l10n.bucketWhyHint),
         ),
         Field(
-          label: 'Приоритет',
+          label: context.l10n.bucketPriority,
           required: true,
           child: Segmented(
             columns: 3,
@@ -152,7 +155,7 @@ class _BucketItemFormState extends ConsumerState<_BucketItemForm>
           ),
         ),
         Field(
-          label: 'Статус',
+          label: context.l10n.bucketStatus,
           required: true,
           child: Segmented(
             options: BucketStatus.values.map((s) => localizedLabel(context, s)).toList(),
@@ -162,7 +165,7 @@ class _BucketItemFormState extends ConsumerState<_BucketItemForm>
           ),
         ),
         Field(
-          label: 'Снимки',
+          label: context.l10n.bucketPhotos,
           child: MultiPhotoField(
             photos: photos,
             svc: svc,
@@ -172,7 +175,8 @@ class _BucketItemFormState extends ConsumerState<_BucketItemForm>
         ),
         if (_error != null) _ErrorText(_error!),
         const SizedBox(height: 4),
-        LmButton('Запази', full: true, icon: LmIcons.check, onTap: _save),
+        LmButton(context.l10n.actionSave,
+            full: true, icon: LmIcons.check, onTap: _save),
       ],
     );
   }
@@ -239,7 +243,7 @@ class _BucketExperienceFormState extends ConsumerState<_BucketExperienceForm>
     committed = true;
     if (mounted) {
       Navigator.pop(context);
-      showLmToast(context, 'Записано успешно');
+      showLmToast(context, context.l10n.bucketSaved);
     }
   }
 
@@ -249,24 +253,24 @@ class _BucketExperienceFormState extends ConsumerState<_BucketExperienceForm>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Field(
-          label: 'Как се чувстваш?',
+          label: context.l10n.bucketFeelingPrompt,
           required: true,
           child: MoodPicker(
               value: _feeling, onChanged: (v) => setState(() => _feeling = v)),
         ),
         Field(
-          label: 'Дата на изпълнение',
+          label: context.l10n.bucketCompletedDate,
           required: true,
           child: _DateField(date: _date, onPick: (d) => setState(() => _date = d)),
         ),
         Field(
-          label: 'Струваше ли си?',
+          label: context.l10n.bucketWorthItPrompt,
           required: true,
           child: YesNo(
               value: _worthIt, onChanged: (v) => setState(() => _worthIt = v)),
         ),
         Field(
-          label: 'Снимки',
+          label: context.l10n.bucketPhotos,
           child: MultiPhotoField(
             photos: photos,
             svc: svc,
@@ -275,13 +279,13 @@ class _BucketExperienceFormState extends ConsumerState<_BucketExperienceForm>
           ),
         ),
         Field(
-          label: 'Бележка / рефлексия',
+          label: context.l10n.bucketReflection,
           child: LmTextArea(
               controller: _reflection,
-              hintText: 'Как се почувства? Би ли го направил пак?'),
+              hintText: context.l10n.bucketReflectionHint),
         ),
         const SizedBox(height: 4),
-        LmButton('Маркирай като завършено',
+        LmButton(context.l10n.bucketMarkCompleted,
             full: true, icon: LmIcons.check, onTap: _save),
       ],
     );

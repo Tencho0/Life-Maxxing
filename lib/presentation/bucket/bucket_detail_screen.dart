@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import '../../app/providers.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/l10n/enum_labels.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -41,7 +42,7 @@ class BucketDetailScreen extends ConsumerWidget {
       return Column(
         children: [
           AppTopBar(
-              title: 'Желание',
+              title: context.l10n.bucketItemTitle,
               showBack: true,
               onBack: () => context.pop()),
           const Expanded(
@@ -88,7 +89,7 @@ class BucketDetailScreen extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Eyebrow('Защо го искам'),
+                      Eyebrow(context.l10n.bucketWhy),
                       const SizedBox(height: 8),
                       Text(item.whyWantIt!,
                           style: AppText.body.copyWith(fontSize: 14, height: 1.5)),
@@ -102,7 +103,7 @@ class BucketDetailScreen extends ConsumerWidget {
               ],
               if (item.status != BucketStatus.completed) ...[
                 const SizedBox(height: 16),
-                LmButton('Завърши го',
+                LmButton(context.l10n.bucketComplete,
                     full: true,
                     icon: LmIcons.check,
                     onTap: () => showBucketCompleteSheet(context, item: item)),
@@ -115,7 +116,7 @@ class BucketDetailScreen extends ConsumerWidget {
                   _PhotoWrap(svc: svc, photos: expPhotos),
                 ],
                 const SizedBox(height: 12),
-                LmButton('Редактирай преживяването',
+                LmButton(context.l10n.bucketEditExperience,
                     full: true,
                     variant: LmButtonVariant.ghost,
                     icon: LmIcons.edit,
@@ -123,7 +124,7 @@ class BucketDetailScreen extends ConsumerWidget {
                         showBucketCompleteSheet(context, item: item, existing: exp)),
               ],
               const SizedBox(height: 20),
-              LmButton('Изтрий желанието',
+              LmButton(context.l10n.bucketDeleteItem,
                   full: true,
                   variant: LmButtonVariant.danger,
                   icon: LmIcons.trash,
@@ -141,16 +142,15 @@ class BucketDetailScreen extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.bg2,
-        title: Text('Изтриване', style: AppText.sheetTitle),
-        content: Text('Да изтрия желанието и преживяването му?',
-            style: AppText.bodyDim),
+        title: Text(context.l10n.bucketDeleteTitle, style: AppText.sheetTitle),
+        content: Text(context.l10n.bucketDeleteConfirm, style: AppText.bodyDim),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('Отказ')),
+              child: Text(context.l10n.actionCancel)),
           TextButton(
               onPressed: () => Navigator.pop(ctx, true),
-              child: const Text('Изтрий')),
+              child: Text(context.l10n.actionDelete)),
         ],
       ),
     );
@@ -190,13 +190,18 @@ class _ExperienceCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Преживяване', color: AppColors.green),
+          Eyebrow(context.l10n.bucketExperience, color: AppColors.green),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _stat('${exp.feelingRating}/10', 'усещане')),
-              Expanded(child: _stat(exp.worthIt ? 'Да' : 'Не', 'струваше ли си')),
-              Expanded(child: _stat(dmy(exp.completedDate), 'дата')),
+              Expanded(
+                  child: _stat(
+                      '${exp.feelingRating}/10', context.l10n.bucketFeeling)),
+              Expanded(
+                  child: _stat(
+                      exp.worthIt ? context.l10n.bucketYes : context.l10n.bucketNo,
+                      context.l10n.bucketWorthIt)),
+              Expanded(child: _stat(dmy(exp.completedDate), context.l10n.bucketDate)),
             ],
           ),
           if (exp.reflection != null && exp.reflection!.isNotEmpty) ...[

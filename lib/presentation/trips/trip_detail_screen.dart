@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/providers.dart';
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -40,7 +41,10 @@ class TripDetailScreen extends ConsumerWidget {
     if (trip == null) {
       return Column(
         children: [
-          AppTopBar(title: 'Пътуване', showBack: true, onBack: () => context.pop()),
+          AppTopBar(
+              title: context.l10n.tripDetailTitle,
+              showBack: true,
+              onBack: () => context.pop()),
           const Expanded(
             child: Padding(
               padding: EdgeInsets.all(16),
@@ -85,7 +89,10 @@ class TripDetailScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (trip.wouldRepeat != null)
-                        Pill(trip.wouldRepeat! ? 'Бих повторил' : 'Не бих повторил',
+                        Pill(
+                            trip.wouldRepeat!
+                                ? context.l10n.tripWouldRepeat
+                                : context.l10n.tripWouldNotRepeat,
                             color: trip.wouldRepeat! ? AppColors.green : AppColors.red),
                       if (trip.comment != null && trip.comment!.isNotEmpty) ...[
                         const SizedBox(height: 10),
@@ -98,7 +105,7 @@ class TripDetailScreen extends ConsumerWidget {
               ],
               if (gallery.isNotEmpty) ...[
                 const SizedBox(height: 14),
-                const Eyebrow('Галерия'),
+                Eyebrow(context.l10n.tripGallery),
                 const SizedBox(height: 10),
                 Wrap(
                   spacing: 10,
@@ -110,7 +117,7 @@ class TripDetailScreen extends ConsumerWidget {
                 ),
               ],
               const SizedBox(height: 20),
-              LmButton('Изтрий пътуването',
+              LmButton(context.l10n.tripDelete,
                   full: true,
                   variant: LmButtonVariant.danger,
                   icon: LmIcons.trash,
@@ -128,15 +135,16 @@ class TripDetailScreen extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.bg2,
-        title: Text('Изтриване', style: AppText.sheetTitle),
-        content: Text('Да изтрия пътуването и снимките му?', style: AppText.bodyDim),
+        title: Text(context.l10n.tripDeleteTitle, style: AppText.sheetTitle),
+        content:
+            Text(context.l10n.tripDeleteConfirm, style: AppText.bodyDim),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('Отказ')),
+              child: Text(context.l10n.actionCancel)),
           TextButton(
               onPressed: () => Navigator.pop(ctx, true),
-              child: const Text('Изтрий')),
+              child: Text(context.l10n.actionDelete)),
         ],
       ),
     );
@@ -194,13 +202,14 @@ class _RatingsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Оценки', color: AppColors.amber),
+          Eyebrow(context.l10n.tripRatings, color: AppColors.amber),
           const SizedBox(height: 12),
-          _bar('Обща', trip.overall),
-          if (trip.fun != null) _bar('Забавление', trip.fun!),
-          if (trip.food != null) _bar('Храна', trip.food!),
-          if (trip.sights != null) _bar('Забележителности', trip.sights!),
-          if (trip.value != null) _bar('Стойност', trip.value!),
+          _bar(context.l10n.tripOverall, trip.overall),
+          if (trip.fun != null) _bar(context.l10n.tripFun, trip.fun!),
+          if (trip.food != null) _bar(context.l10n.tripFood, trip.food!),
+          if (trip.sights != null)
+            _bar(context.l10n.tripSights, trip.sights!),
+          if (trip.value != null) _bar(context.l10n.tripValue, trip.value!),
         ],
       ),
     );

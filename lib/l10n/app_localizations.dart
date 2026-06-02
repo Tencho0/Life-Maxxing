@@ -1021,6 +1021,1116 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'entered from Steps'**
   String get stepsProvFromSteps;
+
+  /// No description provided for @healthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get healthTitle;
+
+  /// No description provided for @healthTabBp.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood pressure'**
+  String get healthTabBp;
+
+  /// No description provided for @healthTabMeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplements'**
+  String get healthTabMeds;
+
+  /// No description provided for @healthTabEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Events'**
+  String get healthTabEvents;
+
+  /// No description provided for @healthTabLabs.
+  ///
+  /// In en, this message translates to:
+  /// **'Lab tests'**
+  String get healthTabLabs;
+
+  /// No description provided for @healthVitals.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitals'**
+  String get healthVitals;
+
+  /// No description provided for @healthLastBp.
+  ///
+  /// In en, this message translates to:
+  /// **'last blood pressure'**
+  String get healthLastBp;
+
+  /// No description provided for @healthPulse.
+  ///
+  /// In en, this message translates to:
+  /// **'Pulse'**
+  String get healthPulse;
+
+  /// No description provided for @healthAvgBp.
+  ///
+  /// In en, this message translates to:
+  /// **'avg. blood pressure'**
+  String get healthAvgBp;
+
+  /// No description provided for @healthAvgPulse.
+  ///
+  /// In en, this message translates to:
+  /// **'avg. pulse'**
+  String get healthAvgPulse;
+
+  /// No description provided for @healthPulseShort.
+  ///
+  /// In en, this message translates to:
+  /// **'pulse'**
+  String get healthPulseShort;
+
+  /// No description provided for @healthNextDental.
+  ///
+  /// In en, this message translates to:
+  /// **'Next dentist: {date}'**
+  String healthNextDental(String date);
+
+  /// No description provided for @healthBpOverTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood pressure over time'**
+  String get healthBpOverTime;
+
+  /// No description provided for @healthChartTooFewData.
+  ///
+  /// In en, this message translates to:
+  /// **'Too little data for a chart'**
+  String get healthChartTooFewData;
+
+  /// No description provided for @healthSystolic.
+  ///
+  /// In en, this message translates to:
+  /// **'Systolic'**
+  String get healthSystolic;
+
+  /// No description provided for @healthDiastolic.
+  ///
+  /// In en, this message translates to:
+  /// **'Diastolic'**
+  String get healthDiastolic;
+
+  /// No description provided for @healthBpEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No measurements for the period'**
+  String get healthBpEmpty;
+
+  /// No description provided for @healthBpAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add measurement'**
+  String get healthBpAdd;
+
+  /// No description provided for @healthMedsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No supplements for the period'**
+  String get healthMedsEmpty;
+
+  /// No description provided for @healthMedsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add supplement'**
+  String get healthMedsAdd;
+
+  /// No description provided for @healthEventsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No events'**
+  String get healthEventsEmpty;
+
+  /// No description provided for @healthEventsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add event'**
+  String get healthEventsAdd;
+
+  /// No description provided for @healthLabsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No lab tests'**
+  String get healthLabsEmpty;
+
+  /// No description provided for @healthLabsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add lab test'**
+  String get healthLabsAdd;
+
+  /// No description provided for @healthBpSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood pressure & pulse'**
+  String get healthBpSheetTitle;
+
+  /// No description provided for @healthBpSheetEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit — blood pressure'**
+  String get healthBpSheetEditTitle;
+
+  /// No description provided for @healthBpSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'date, time and all three values are required'**
+  String get healthBpSheetSubtitle;
+
+  /// No description provided for @healthMedSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Medication / supplement'**
+  String get healthMedSheetTitle;
+
+  /// No description provided for @healthMedSheetEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit — supplement'**
+  String get healthMedSheetEditTitle;
+
+  /// No description provided for @healthMedSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'name, type and status are required'**
+  String get healthMedSheetSubtitle;
+
+  /// No description provided for @healthEventSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Health event'**
+  String get healthEventSheetTitle;
+
+  /// No description provided for @healthEventSheetEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit — event'**
+  String get healthEventSheetEditTitle;
+
+  /// No description provided for @healthEventSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'what was done is required'**
+  String get healthEventSheetSubtitle;
+
+  /// No description provided for @healthLabSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lab test'**
+  String get healthLabSheetTitle;
+
+  /// No description provided for @healthLabSheetEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit — lab test'**
+  String get healthLabSheetEditTitle;
+
+  /// No description provided for @healthLabSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'lab and reason are required'**
+  String get healthLabSheetSubtitle;
+
+  /// No description provided for @healthSysGtDia.
+  ///
+  /// In en, this message translates to:
+  /// **'Systolic must be greater than diastolic'**
+  String get healthSysGtDia;
+
+  /// No description provided for @healthInvalidValues.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid values'**
+  String get healthInvalidValues;
+
+  /// No description provided for @healthTimeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Time is required'**
+  String get healthTimeRequired;
+
+  /// No description provided for @healthNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Name is required'**
+  String get healthNameRequired;
+
+  /// No description provided for @healthWhatDoneRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'The \"what was done\" field is required'**
+  String get healthWhatDoneRequired;
+
+  /// No description provided for @healthLabRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Lab and reason are required'**
+  String get healthLabRequired;
+
+  /// No description provided for @healthSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully'**
+  String get healthSaved;
+
+  /// No description provided for @healthDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get healthDeleted;
+
+  /// No description provided for @healthTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get healthTime;
+
+  /// No description provided for @healthName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get healthName;
+
+  /// No description provided for @healthType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get healthType;
+
+  /// No description provided for @healthDose.
+  ///
+  /// In en, this message translates to:
+  /// **'Dose'**
+  String get healthDose;
+
+  /// No description provided for @healthStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get healthStatus;
+
+  /// No description provided for @healthNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get healthNote;
+
+  /// No description provided for @healthOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'optional'**
+  String get healthOptional;
+
+  /// No description provided for @healthBpNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. morning, at rest'**
+  String get healthBpNoteHint;
+
+  /// No description provided for @healthMedNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Vitamin D3'**
+  String get healthMedNameHint;
+
+  /// No description provided for @healthDentalSubtype.
+  ///
+  /// In en, this message translates to:
+  /// **'Kind (dentist)'**
+  String get healthDentalSubtype;
+
+  /// No description provided for @healthClinic.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinic / doctor'**
+  String get healthClinic;
+
+  /// No description provided for @healthClinicHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Dr. Ivanova'**
+  String get healthClinicHint;
+
+  /// No description provided for @healthReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get healthReason;
+
+  /// No description provided for @healthWhatDone.
+  ///
+  /// In en, this message translates to:
+  /// **'What was done'**
+  String get healthWhatDone;
+
+  /// No description provided for @healthWhatDoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Prophylactic cleaning'**
+  String get healthWhatDoneHint;
+
+  /// No description provided for @healthPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get healthPrice;
+
+  /// No description provided for @healthNextRecommendedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Next recommended date'**
+  String get healthNextRecommendedDate;
+
+  /// No description provided for @healthPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get healthPhotos;
+
+  /// No description provided for @healthLab.
+  ///
+  /// In en, this message translates to:
+  /// **'Lab'**
+  String get healthLab;
+
+  /// No description provided for @healthLabHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Cibalab'**
+  String get healthLabHint;
+
+  /// No description provided for @healthLabReasonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Hormones'**
+  String get healthLabReasonHint;
+
+  /// No description provided for @healthResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Results'**
+  String get healthResults;
+
+  /// No description provided for @healthResultsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'free text'**
+  String get healthResultsHint;
+
+  /// No description provided for @healthDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get healthDate;
+
+  /// No description provided for @dailyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily report'**
+  String get dailyTitle;
+
+  /// No description provided for @dailyEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No report for this day'**
+  String get dailyEmpty;
+
+  /// No description provided for @dailyFill.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the report'**
+  String get dailyFill;
+
+  /// No description provided for @dailyMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood'**
+  String get dailyMood;
+
+  /// No description provided for @dailyProud.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you proud of yourself?'**
+  String get dailyProud;
+
+  /// No description provided for @dailyProudShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Proud'**
+  String get dailyProudShort;
+
+  /// No description provided for @dailyUncomfortable.
+  ///
+  /// In en, this message translates to:
+  /// **'Did you do 1 uncomfortable thing?'**
+  String get dailyUncomfortable;
+
+  /// No description provided for @dailyUncomfortableShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Uncomfortable thing'**
+  String get dailyUncomfortableShort;
+
+  /// No description provided for @dailyUncomfortableWhat.
+  ///
+  /// In en, this message translates to:
+  /// **'What uncomfortable thing?'**
+  String get dailyUncomfortableWhat;
+
+  /// No description provided for @dailyUncomfortableNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Uncomfortable: {what}'**
+  String dailyUncomfortableNote(String what);
+
+  /// No description provided for @dailyWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout?'**
+  String get dailyWorkout;
+
+  /// No description provided for @dailyWorkoutShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout'**
+  String get dailyWorkoutShort;
+
+  /// No description provided for @dailyAlcohol.
+  ///
+  /// In en, this message translates to:
+  /// **'Did you drink alcohol?'**
+  String get dailyAlcohol;
+
+  /// No description provided for @dailyAlcoholShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Alcohol'**
+  String get dailyAlcoholShort;
+
+  /// No description provided for @dailyAlcoholWhat.
+  ///
+  /// In en, this message translates to:
+  /// **'What did you drink?'**
+  String get dailyAlcoholWhat;
+
+  /// No description provided for @dailyAlcoholHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 2 beers'**
+  String get dailyAlcoholHint;
+
+  /// No description provided for @dailyAlcoholNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Alcohol: {what}'**
+  String dailyAlcoholNote(String what);
+
+  /// No description provided for @dailyOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'optional'**
+  String get dailyOptional;
+
+  /// No description provided for @dailyScreenTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen time'**
+  String get dailyScreenTime;
+
+  /// No description provided for @dailyMinutesUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'min'**
+  String get dailyMinutesUnit;
+
+  /// No description provided for @dailyMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} min'**
+  String dailyMinutes(int count);
+
+  /// No description provided for @dailySteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get dailySteps;
+
+  /// No description provided for @dailyStepsLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} · locked'**
+  String dailyStepsLocked(int count);
+
+  /// No description provided for @dailyLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'locked'**
+  String get dailyLocked;
+
+  /// No description provided for @dailyNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get dailyNotes;
+
+  /// No description provided for @dailyNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'how was the day?'**
+  String get dailyNotesHint;
+
+  /// No description provided for @dailyPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo of the day'**
+  String get dailyPhoto;
+
+  /// No description provided for @dailySaveReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Save the report'**
+  String get dailySaveReport;
+
+  /// No description provided for @dailySaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully'**
+  String get dailySaved;
+
+  /// No description provided for @dailyMoodTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Trend (30 days)'**
+  String get dailyMoodTrend;
+
+  /// No description provided for @dailyYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get dailyYes;
+
+  /// No description provided for @dailyNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get dailyNo;
+
+  /// No description provided for @bucketTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bucket List'**
+  String get bucketTitle;
+
+  /// No description provided for @bucketAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get bucketAll;
+
+  /// No description provided for @bucketError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String bucketError(Object error);
+
+  /// No description provided for @bucketEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No items in the list'**
+  String get bucketEmpty;
+
+  /// No description provided for @bucketAddItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Add item'**
+  String get bucketAddItem;
+
+  /// No description provided for @bucketOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get bucketOverview;
+
+  /// No description provided for @bucketStatTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'total'**
+  String get bucketStatTotal;
+
+  /// No description provided for @bucketStatCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'completed'**
+  String get bucketStatCompleted;
+
+  /// No description provided for @bucketStatPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'planned'**
+  String get bucketStatPlanned;
+
+  /// No description provided for @bucketStatHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'high prio.'**
+  String get bucketStatHigh;
+
+  /// No description provided for @bucketItemTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Item'**
+  String get bucketItemTitle;
+
+  /// No description provided for @bucketWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'Why I want it'**
+  String get bucketWhy;
+
+  /// No description provided for @bucketComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete it'**
+  String get bucketComplete;
+
+  /// No description provided for @bucketEditExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit the experience'**
+  String get bucketEditExperience;
+
+  /// No description provided for @bucketDeleteItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete item'**
+  String get bucketDeleteItem;
+
+  /// No description provided for @bucketDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get bucketDeleteTitle;
+
+  /// No description provided for @bucketDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete the item and its experience?'**
+  String get bucketDeleteConfirm;
+
+  /// No description provided for @bucketExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Experience'**
+  String get bucketExperience;
+
+  /// No description provided for @bucketFeeling.
+  ///
+  /// In en, this message translates to:
+  /// **'feeling'**
+  String get bucketFeeling;
+
+  /// No description provided for @bucketWorthIt.
+  ///
+  /// In en, this message translates to:
+  /// **'worth it'**
+  String get bucketWorthIt;
+
+  /// No description provided for @bucketYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get bucketYes;
+
+  /// No description provided for @bucketNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get bucketNo;
+
+  /// No description provided for @bucketDate.
+  ///
+  /// In en, this message translates to:
+  /// **'date'**
+  String get bucketDate;
+
+  /// No description provided for @bucketNewItem.
+  ///
+  /// In en, this message translates to:
+  /// **'New item'**
+  String get bucketNewItem;
+
+  /// No description provided for @bucketEditItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit item'**
+  String get bucketEditItem;
+
+  /// No description provided for @bucketItemSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'title, priority and status'**
+  String get bucketItemSubtitle;
+
+  /// No description provided for @bucketCompleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete the item'**
+  String get bucketCompleteTitle;
+
+  /// No description provided for @bucketCompleteSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'log your experience'**
+  String get bucketCompleteSubtitle;
+
+  /// No description provided for @bucketSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully'**
+  String get bucketSaved;
+
+  /// No description provided for @bucketTitleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Title is required'**
+  String get bucketTitleRequired;
+
+  /// No description provided for @bucketFieldTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get bucketFieldTitle;
+
+  /// No description provided for @bucketTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Northern lights in Iceland'**
+  String get bucketTitleHint;
+
+  /// No description provided for @bucketWhyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'the motivation behind the wish'**
+  String get bucketWhyHint;
+
+  /// No description provided for @bucketPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get bucketPriority;
+
+  /// No description provided for @bucketStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get bucketStatus;
+
+  /// No description provided for @bucketPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get bucketPhotos;
+
+  /// No description provided for @bucketFeelingPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'How do you feel?'**
+  String get bucketFeelingPrompt;
+
+  /// No description provided for @bucketCompletedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of completion'**
+  String get bucketCompletedDate;
+
+  /// No description provided for @bucketWorthItPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Was it worth it?'**
+  String get bucketWorthItPrompt;
+
+  /// No description provided for @bucketReflection.
+  ///
+  /// In en, this message translates to:
+  /// **'Note / reflection'**
+  String get bucketReflection;
+
+  /// No description provided for @bucketReflectionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How did you feel? Would you do it again?'**
+  String get bucketReflectionHint;
+
+  /// No description provided for @bucketMarkCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as completed'**
+  String get bucketMarkCompleted;
+
+  /// No description provided for @tripTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trips'**
+  String get tripTitle;
+
+  /// No description provided for @tripDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip'**
+  String get tripDetailTitle;
+
+  /// No description provided for @tripOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get tripOverview;
+
+  /// No description provided for @tripStatCount.
+  ///
+  /// In en, this message translates to:
+  /// **'trips'**
+  String get tripStatCount;
+
+  /// No description provided for @tripStatAvg.
+  ///
+  /// In en, this message translates to:
+  /// **'avg. rating'**
+  String get tripStatAvg;
+
+  /// No description provided for @tripStatRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'would repeat'**
+  String get tripStatRepeat;
+
+  /// No description provided for @tripError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String tripError(String error);
+
+  /// No description provided for @tripFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get tripFilterAll;
+
+  /// No description provided for @tripFilterWouldRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Would repeat'**
+  String get tripFilterWouldRepeat;
+
+  /// No description provided for @tripEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No trips recorded'**
+  String get tripEmpty;
+
+  /// No description provided for @tripEmptyRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'No trips you would repeat'**
+  String get tripEmptyRepeat;
+
+  /// No description provided for @tripAddAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add trip'**
+  String get tripAddAction;
+
+  /// No description provided for @tripRatings.
+  ///
+  /// In en, this message translates to:
+  /// **'Ratings'**
+  String get tripRatings;
+
+  /// No description provided for @tripOverall.
+  ///
+  /// In en, this message translates to:
+  /// **'Overall'**
+  String get tripOverall;
+
+  /// No description provided for @tripFun.
+  ///
+  /// In en, this message translates to:
+  /// **'Fun'**
+  String get tripFun;
+
+  /// No description provided for @tripFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get tripFood;
+
+  /// No description provided for @tripSights.
+  ///
+  /// In en, this message translates to:
+  /// **'Sights'**
+  String get tripSights;
+
+  /// No description provided for @tripValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get tripValue;
+
+  /// No description provided for @tripWouldRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Would repeat'**
+  String get tripWouldRepeat;
+
+  /// No description provided for @tripWouldNotRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Would not repeat'**
+  String get tripWouldNotRepeat;
+
+  /// No description provided for @tripGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get tripGallery;
+
+  /// No description provided for @tripDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete trip'**
+  String get tripDelete;
+
+  /// No description provided for @tripDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get tripDeleteTitle;
+
+  /// No description provided for @tripDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete the trip and its photos?'**
+  String get tripDeleteConfirm;
+
+  /// No description provided for @tripSheetNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New trip'**
+  String get tripSheetNew;
+
+  /// No description provided for @tripSheetEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit trip'**
+  String get tripSheetEdit;
+
+  /// No description provided for @tripSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'title, destination, period, rating'**
+  String get tripSheetSubtitle;
+
+  /// No description provided for @tripFieldTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get tripFieldTitle;
+
+  /// No description provided for @tripTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Weekend in Rome'**
+  String get tripTitleHint;
+
+  /// No description provided for @tripDestination.
+  ///
+  /// In en, this message translates to:
+  /// **'Destination'**
+  String get tripDestination;
+
+  /// No description provided for @tripDestinationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Rome, Italy'**
+  String get tripDestinationHint;
+
+  /// No description provided for @tripFromDate.
+  ///
+  /// In en, this message translates to:
+  /// **'From date'**
+  String get tripFromDate;
+
+  /// No description provided for @tripToDate.
+  ///
+  /// In en, this message translates to:
+  /// **'To date'**
+  String get tripToDate;
+
+  /// No description provided for @tripOverallRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Overall rating'**
+  String get tripOverallRating;
+
+  /// No description provided for @tripWouldRepeatLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you repeat?'**
+  String get tripWouldRepeatLabel;
+
+  /// No description provided for @tripComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment'**
+  String get tripComment;
+
+  /// No description provided for @tripCommentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'how was it?'**
+  String get tripCommentHint;
+
+  /// No description provided for @tripCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover photo'**
+  String get tripCover;
+
+  /// No description provided for @tripAddCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Add cover'**
+  String get tripAddCover;
+
+  /// No description provided for @tripRequiredError.
+  ///
+  /// In en, this message translates to:
+  /// **'Title and destination are required'**
+  String get tripRequiredError;
+
+  /// No description provided for @tripDateOrderError.
+  ///
+  /// In en, this message translates to:
+  /// **'The end date must be after the start date'**
+  String get tripDateOrderError;
+
+  /// No description provided for @tripSavedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully'**
+  String get tripSavedToast;
+
+  /// No description provided for @tripDeletedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get tripDeletedToast;
 }
 
 class _AppLocalizationsDelegate

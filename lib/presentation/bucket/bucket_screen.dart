@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/icons/lm_icons.dart';
 import '../../core/l10n/enum_labels.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -24,8 +25,6 @@ import 'bucket_format.dart';
 import 'bucket_forms.dart';
 import 'bucket_providers.dart';
 
-const _allLabel = 'Всички';
-
 class BucketScreen extends ConsumerWidget {
   const BucketScreen({super.key});
 
@@ -34,11 +33,12 @@ class BucketScreen extends ConsumerWidget {
     final stats = ref.watch(bucketStatsProvider);
     final items = ref.watch(bucketItemsProvider).asData?.value ?? const [];
     final filter = ref.watch(bucketStatusFilterProvider);
+    final allLabel = context.l10n.bucketAll;
 
     return Column(
       children: [
         AppTopBar(
-          title: 'Bucket List',
+          title: context.l10n.bucketTitle,
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
           trailing: _AddButton(onTap: () => showBucketItemSheet(context)),
@@ -48,15 +48,16 @@ class BucketScreen extends ConsumerWidget {
             children: [
               stats.when(
                 loading: () => const SizedBox.shrink(),
-                error: (e, _) => Text('Грешка: $e', style: AppText.bodyDim),
+                error: (e, _) =>
+                    Text(context.l10n.bucketError('$e'), style: AppText.bodyDim),
                 data: (s) => _StatsCard(s),
               ),
               const SizedBox(height: 12),
               Segmented(
-                options: [_allLabel, for (final s in BucketStatus.values) localizedLabel(context, s)],
-                value: filter == null ? _allLabel : localizedLabel(context, filter),
+                options: [allLabel, for (final s in BucketStatus.values) localizedLabel(context, s)],
+                value: filter == null ? allLabel : localizedLabel(context, filter),
                 onChanged: (l) =>
-                    ref.read(bucketStatusFilterProvider.notifier).state = l == _allLabel
+                    ref.read(bucketStatusFilterProvider.notifier).state = l == allLabel
                         ? null
                         : BucketStatus.values.firstWhere((s) => localizedLabel(context, s) == l),
               ),
@@ -75,8 +76,8 @@ class BucketScreen extends ConsumerWidget {
       return [
         LmEmpty(
           icon: LmIcons.bucket,
-          message: 'Няма желания в списъка',
-          actionLabel: 'Добави желание',
+          message: context.l10n.bucketEmpty,
+          actionLabel: context.l10n.bucketAddItem,
           onAction: () => showBucketItemSheet(context),
         ),
       ];
@@ -104,7 +105,7 @@ class _AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Semantics(
         button: true,
-        label: 'Добави',
+        label: context.l10n.actionAdd,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: onTap,
@@ -129,14 +130,16 @@ class _StatsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Eyebrow('Преглед'),
+          Eyebrow(context.l10n.bucketOverview),
           const SizedBox(height: 14),
           Row(
             children: [
-              Expanded(child: _stat('${s.total}', 'общо')),
-              Expanded(child: _stat('${s.completed}', 'завършени')),
-              Expanded(child: _stat('${s.planned}', 'планирани')),
-              Expanded(child: _stat('${s.high}', 'висок приор.')),
+              Expanded(child: _stat('${s.total}', context.l10n.bucketStatTotal)),
+              Expanded(
+                  child: _stat('${s.completed}', context.l10n.bucketStatCompleted)),
+              Expanded(
+                  child: _stat('${s.planned}', context.l10n.bucketStatPlanned)),
+              Expanded(child: _stat('${s.high}', context.l10n.bucketStatHigh)),
             ],
           ),
         ],
