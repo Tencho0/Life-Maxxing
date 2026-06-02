@@ -345,12 +345,12 @@
 - [x] Test (2): per-locale string resolution via `context.l10n`; delegate + `supportedLocales == [bg, en]` wiring (`test/l10n`).
 - **Verify:** ✅ `flutter analyze` clean; `flutter gen-l10n` no missing translations; full suite green (195). Note: `Override` type imported from `package:flutter_riverpod/misc.dart` (not exported by the main barrel in 3.x); DB-backed wiring test uses the `settleData` + unmount-flush cadence to avoid a pending drift-stream timer.
 
-### Slice 10.2 — Settings store + locale provider + switcher UI
-- [ ] Drift `settings` KV table (`key` PK, `value` TEXT) + `SettingsDao`; `SettingsService` (get/set locale code). build_runner regen.
-- [ ] `localeProvider` (`StateProvider<Locale?>`, null = follow system), loaded from settings before first frame; `MaterialApp.locale` reads it. Default resolution: system → bg/en, fallback **bg**.
-- [ ] Language row/section reachable from **More** (System / Български / English); selecting updates provider + persists + rebuilds live.
-- [ ] Tests: choosing a language updates + persists; reload restores it; default resolution (system bg/en → fallback bg).
-- **Verify:** analyze clean; tests green; switch round-trips across a simulated restart.
+### Slice 10.2 — Settings store + locale provider + switcher UI ✅ (commit 8108747)
+- [x] Drift `settings` KV table (`key` PK, `value` TEXT) + `SettingsDao`; `SettingsService` (get/set locale code). Schema v1→v2 with `onUpgrade` creating the table; excluded from backup `data.json` and from `isEmpty()` (device preference). build_runner regen.
+- [x] `localeProvider` (Riverpod 3.x `NotifierProvider<LocaleController, Locale?>`, null = follow system) + `initialLocaleProvider`; loaded from settings in `main()` before first frame; `MaterialApp.locale` watches it. Default resolution: system → bg/en, fallback **bg** (via `supportedLocales` ordering — no custom callback). *Deviation: `StateProvider` is legacy in Riverpod 3.x, so a `Notifier` is used; the controller's `set()` updates state live and persists.*
+- [x] Language section in **More** → `/settings` screen (System / Български / English); selecting calls `LocaleController.set` → updates provider + persists + rebuilds live. New UI localized via `context.l10n`.
+- [x] Tests (7): SettingsService round-trip/reload/clear; switcher updates + persists; persisted locale restored on next launch; system → bg/en default resolution with bg fallback. Smoke test now installs the l10n delegates.
+- **Verify:** ✅ analyze clean; full suite green (202); switch round-trips across a simulated restart. On-device v1→v2 migration is device-verified (host tests use `onCreate`/`createAll`).
 
 ### Slice 10.3 — Enum display labels → ARB + resolver
 - [ ] ARB entries keyed by enum code; presentation-layer resolver (e.g. `localizedLabel(context, codedEnum)`). `domain/enums.dart` keeps `code` (storage/search/export/backup) — UI stops using `enum.label`.
