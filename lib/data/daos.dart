@@ -276,6 +276,8 @@ class DailyLogsDao extends DatabaseAccessor<AppDatabase>
 
   Future<List<DailyLog>> inRange(String from, String to) =>
       (select(dailyLogs)..where((t) => t.date.isBetweenValues(from, to))).get();
+  Stream<List<DailyLog>> watchAll() =>
+      (select(dailyLogs)..orderBy([(t) => _desc(t.date)])).watch();
   Stream<List<DailyLog>> watchInRange(String from, String to) =>
       (select(dailyLogs)
             ..where((t) => t.date.isBetweenValues(from, to))
@@ -398,6 +400,8 @@ class AttachmentsDao extends DatabaseAccessor<AppDatabase>
       into(attachments).insertOnConflictUpdate(c);
   Future<void> deleteById(String id) =>
       (delete(attachments)..where((t) => t.id.equals(id))).go();
+  Stream<List<Attachment>> watchByType(AttachmentEntity type) =>
+      (select(attachments)..where((t) => t.entityType.equalsValue(type))).watch();
   Future<List<Attachment>> forEntity(AttachmentEntity type, String entityId) =>
       (select(attachments)
             ..where((t) =>

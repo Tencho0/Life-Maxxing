@@ -22,6 +22,7 @@ import '../presentation/finance/finance_screen.dart';
 import '../presentation/food/food_screen.dart';
 import '../presentation/health/health_screen.dart';
 import '../presentation/home/home_screen.dart';
+import '../presentation/memories/memory_screen.dart';
 import '../presentation/stats/stats_screen.dart';
 import '../presentation/steps/steps_screen.dart';
 import '../presentation/trips/trip_detail_screen.dart';
@@ -38,8 +39,7 @@ final appRouter = GoRouter(
         // Tab roots (no back button).
         GoRoute(path: '/', builder: (c, s) => const HomeScreen()),
         GoRoute(path: '/stats', builder: (c, s) => const StatsScreen()),
-        GoRoute(
-            path: '/memories', builder: (c, s) => const _Placeholder('Спомени')),
+        GoRoute(path: '/memories', builder: (c, s) => const MemoriesScreen()),
         GoRoute(path: '/more', builder: (c, s) => const _MoreScreen()),
         // Module / detail routes (pushed → show back). Real screens land here
         // as their feature slices complete; the rest stay placeholders.
