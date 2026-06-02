@@ -13,6 +13,7 @@ import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/field.dart';
 import '../../core/widgets/lm_row.dart';
 import '../../core/widgets/screen_body.dart';
+import '../../core/format/dates.dart';
 import '../../domain/search_hit.dart';
 import '../daily/daily_providers.dart';
 import 'search_providers.dart';
@@ -75,7 +76,7 @@ class SearchScreen extends ConsumerWidget {
                       title: h.title,
                       subtitle: h.date.isEmpty
                           ? h.subtitle
-                          : '${h.subtitle} · ${h.date}',
+                          : '${h.subtitle} · ${dmy(h.date)}',
                       onTap: () => _navigate(context, ref, h),
                     ),
                   ),

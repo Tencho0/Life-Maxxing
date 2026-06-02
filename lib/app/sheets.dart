@@ -166,7 +166,10 @@ class _SheetShell extends StatelessWidget {
                       ],
                     ),
                   ),
-                  GestureDetector(
+                  Semantics(
+                    button: true,
+                    label: 'Затвори',
+                    child: GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () => Navigator.of(context).pop(),
                     child: Container(
@@ -180,6 +183,7 @@ class _SheetShell extends StatelessWidget {
                       child: const LmIcon(LmIcons.close,
                           size: 18, color: AppColors.textDim),
                     ),
+                  ),
                   ),
                 ],
               ),

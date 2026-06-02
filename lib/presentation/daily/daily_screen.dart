@@ -18,6 +18,7 @@ import '../../core/widgets/eyebrow.dart';
 import '../../core/widgets/lm_button.dart';
 import '../../core/widgets/pill.dart';
 import '../../core/widgets/screen_body.dart';
+import '../../core/format/dates.dart';
 import '../../data/database.dart';
 import '../common/photo_field.dart';
 import 'daily_forms.dart';
@@ -56,7 +57,7 @@ class DailyScreen extends ConsumerWidget {
       children: [
         AppTopBar(
           title: 'Дневен отчет',
-          subtitle: date,
+          subtitle: dmy(date),
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
           trailing: _AddButton(onTap: open),

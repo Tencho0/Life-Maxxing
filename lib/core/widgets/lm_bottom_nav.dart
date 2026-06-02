@@ -79,7 +79,12 @@ class _Slot extends StatelessWidget {
   Widget build(BuildContext context) {
     final active = current == item.route;
     final color = active ? AppColors.accent : AppColors.textFaint;
-    return GestureDetector(
+    return Semantics(
+      button: true,
+      selected: active,
+      label: item.label,
+      excludeSemantics: true,
+      child: GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => onTab(item.route),
       child: SizedBox(
@@ -95,6 +100,7 @@ class _Slot extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }
@@ -104,7 +110,10 @@ class _Fab extends StatelessWidget {
   final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Semantics(
+      button: true,
+      label: 'Бързо логване',
+      child: GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Container(
@@ -124,6 +133,7 @@ class _Fab extends StatelessWidget {
         ),
         child: const LmIcon(LmIcons.plus, size: 26, color: AppColors.bg, strokeWidth: 2.4),
       ),
+    ),
     );
   }
 }

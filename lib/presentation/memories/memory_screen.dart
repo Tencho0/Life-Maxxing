@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import '../../app/providers.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
+import '../../core/format/dates.dart';
 import '../../core/icons/lm_icons.dart';
 import '../../core/widgets/app_top_bar.dart';
 import '../../core/widgets/empty_state.dart';
@@ -185,7 +186,7 @@ class _DayTile extends StatelessWidget {
                   color: Colors.black.withValues(alpha: 0.55),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Text(day.date.substring(5), // MM-dd
+                child: Text(dm(day.date), // dd.MM
                     style: AppText.mono12.copyWith(fontSize: 10, color: AppColors.text)),
               ),
             ),

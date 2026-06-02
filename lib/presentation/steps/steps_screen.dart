@@ -19,6 +19,7 @@ import '../../core/widgets/lm_skeleton.dart';
 import '../../core/widgets/period_chips.dart';
 import '../../core/widgets/screen_body.dart';
 import '../../core/widgets/section_title.dart';
+import '../../core/format/dates.dart';
 import '../../data/database.dart';
 import '../../domain/enums.dart';
 import '../../domain/period.dart';
@@ -141,7 +142,7 @@ class StepsScreen extends ConsumerWidget {
             icon: LmIcons.steps,
             iconColor: AppColors.purple,
             title: '${groupedInt(e.count)} крачки',
-            subtitle: '${e.date} · ${stepsProvenance(e.source)}',
+            subtitle: '${dmy(e.date)} · ${stepsProvenance(e.source)}',
             onTap: () => showStepsSheet(context, existing: e),
           ),
         ),

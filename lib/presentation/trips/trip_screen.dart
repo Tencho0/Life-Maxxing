@@ -17,6 +17,7 @@ import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/eyebrow.dart';
 import '../../core/widgets/screen_body.dart';
 import '../../core/widgets/segmented.dart';
+import '../../core/format/dates.dart';
 import '../../data/database.dart';
 import '../../domain/summaries.dart';
 import '../../services/attachment_service.dart';
@@ -168,7 +169,7 @@ class _TripCard extends ConsumerWidget {
                             overflow: TextOverflow.ellipsis,
                             style: AppText.bodyStrong),
                         const SizedBox(height: 2),
-                        Text('${trip.destination} · ${trip.fromDate}',
+                        Text('${trip.destination} · ${dmy(trip.fromDate)}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: AppText.bodyDim.copyWith(fontSize: 12)),

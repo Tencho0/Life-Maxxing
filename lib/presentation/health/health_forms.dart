@@ -17,6 +17,7 @@ import '../../core/widgets/field.dart';
 import '../../core/widgets/lm_button.dart';
 import '../../core/widgets/lm_toast.dart';
 import '../../core/widgets/segmented.dart';
+import '../../core/format/dates.dart';
 import '../../data/database.dart';
 import '../../domain/enums.dart';
 import '../common/photo_field.dart';
@@ -698,7 +699,7 @@ class _DateField extends StatelessWidget {
       label: 'Дата',
       required: true,
       child: _DateBox(
-        text: _ymd(date),
+        text: dmyDate(date),
         onTap: () async {
           final picked = await showDatePicker(
             context: context,
@@ -732,7 +733,7 @@ class _OptionalDateField extends StatelessWidget {
         children: [
           Expanded(
             child: _DateBox(
-              text: date != null ? _ymd(date!) : '—',
+              text: date != null ? dmyDate(date!) : '—',
               onTap: () async {
                 final picked = await showDatePicker(
                   context: context,

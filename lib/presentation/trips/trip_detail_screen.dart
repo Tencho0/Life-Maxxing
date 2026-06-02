@@ -19,6 +19,7 @@ import '../../core/widgets/lm_button.dart';
 import '../../core/widgets/lm_skeleton.dart';
 import '../../core/widgets/pill.dart';
 import '../../core/widgets/screen_body.dart';
+import '../../core/format/dates.dart';
 import '../../data/database.dart';
 import '../../domain/enums.dart';
 import '../../services/attachment_service.dart';
@@ -73,7 +74,7 @@ class TripDetailScreen extends ConsumerWidget {
                   child: _Cover(svc: svc, cover: cover.first),
                 ),
               const SizedBox(height: 12),
-              Text('${trip.destination} · ${trip.fromDate} → ${trip.toDate}',
+              Text('${trip.destination} · ${dmy(trip.fromDate)} → ${dmy(trip.toDate)}',
                   style: AppText.bodyDim.copyWith(fontSize: 13)),
               const SizedBox(height: 14),
               _RatingsCard(trip: trip),

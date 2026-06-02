@@ -18,6 +18,7 @@ import '../../core/widgets/lm_skeleton.dart';
 import '../../core/widgets/screen_body.dart';
 import '../../core/widgets/section_title.dart';
 import '../../core/widgets/period_chips.dart';
+import '../../core/format/dates.dart';
 import '../../data/database.dart';
 import '../../domain/enums.dart';
 import '../../domain/period.dart';
@@ -159,7 +160,7 @@ class _FinanceScreenState extends ConsumerState<FinanceScreen> {
             icon: LmIcons.income,
             iconColor: AppColors.green,
             title: i.source,
-            subtitle: '${i.category.label} · ${i.date}',
+            subtitle: '${i.category.label} · ${dmy(i.date)}',
             onTap: () => showIncomeSheet(context, existing: i),
             trailing: Text(euroSigned(i.amountCents, negative: false),
                 style: AppText.stat.copyWith(fontSize: 15, color: AppColors.green)),

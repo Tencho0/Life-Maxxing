@@ -22,6 +22,7 @@ import '../../data/database.dart';
 import '../../domain/enums.dart';
 import '../../domain/period.dart';
 import '../../domain/summaries.dart';
+import '../../core/format/dates.dart';
 import '../finance/finance_format.dart' show euro2;
 import 'health_format.dart';
 import 'health_forms.dart';
@@ -143,7 +144,7 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
               iconColor: AppColors.pink,
               title: '${b.systolic}/${b.diastolic}',
               subtitle:
-                  '${b.date} ${b.time} · пулс ${b.pulse}${b.note != null ? ' · ${b.note}' : ''}',
+                  '${dmy(b.date)} ${b.time} · пулс ${b.pulse}${b.note != null ? ' · ${b.note}' : ''}',
               onTap: () => showBpSheet(context, existing: b),
             ),
         ]);
@@ -184,7 +185,7 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
                   ? '${e.type.label} · ${e.subtype!.label}'
                   : e.type.label,
               subtitle:
-                  '${e.date}${e.clinic != null ? ' · ${e.clinic}' : ''}',
+                  '${dmy(e.date)}${e.clinic != null ? ' · ${e.clinic}' : ''}',
               onTap: () => showEventSheet(context, existing: e),
               trailing: e.priceCents != null
                   ? Text(euro2(e.priceCents!),
@@ -206,7 +207,7 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
               icon: LmIcons.labs,
               iconColor: AppColors.purple,
               title: l.lab,
-              subtitle: '${l.date} · ${l.reason}',
+              subtitle: '${dmy(l.date)} · ${l.reason}',
               onTap: () => showLabSheet(context, existing: l),
             ),
         ]);
@@ -274,7 +275,7 @@ class _VitalsCard extends StatelessWidget {
           ),
           if (nextDental != null) ...[
             const SizedBox(height: 12),
-            Text('Следващ зъболекар: $nextDental',
+            Text('Следващ зъболекар: ${dmy(nextDental!)}',
                 style: AppText.bodyDim.copyWith(fontSize: 12.5)),
           ],
         ],

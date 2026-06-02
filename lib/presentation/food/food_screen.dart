@@ -20,6 +20,7 @@ import '../../core/widgets/lm_skeleton.dart';
 import '../../core/widgets/period_chips.dart';
 import '../../core/widgets/screen_body.dart';
 import '../../core/widgets/section_title.dart';
+import '../../core/format/dates.dart';
 import '../../data/database.dart';
 import '../../domain/enums.dart';
 import '../../domain/period.dart';
@@ -140,7 +141,7 @@ class FoodScreen extends ConsumerWidget {
             iconColor: mealTypeColor(m.type),
             title: m.name,
             subtitle:
-                '${m.type.label}${m.time != null ? ' · ${m.time}' : ''} · ${m.date}',
+                '${m.type.label}${m.time != null ? ' · ${m.time}' : ''} · ${dmy(m.date)}',
             onTap: () => showFoodSheet(context, existing: m),
             trailing: Text(
               m.calories != null ? kcal(m.calories!) : '—',

@@ -17,6 +17,7 @@ import '../../core/widgets/lm_button.dart';
 import '../../core/widgets/lm_skeleton.dart';
 import '../../core/widgets/pill.dart';
 import '../../core/widgets/screen_body.dart';
+import '../../core/format/dates.dart';
 import '../../data/database.dart';
 import '../../domain/enums.dart';
 import '../../services/attachment_service.dart';
@@ -194,7 +195,7 @@ class _ExperienceCard extends StatelessWidget {
             children: [
               Expanded(child: _stat('${exp.feelingRating}/10', 'усещане')),
               Expanded(child: _stat(exp.worthIt ? 'Да' : 'Не', 'струваше ли си')),
-              Expanded(child: _stat(exp.completedDate, 'дата')),
+              Expanded(child: _stat(dmy(exp.completedDate), 'дата')),
             ],
           ),
           if (exp.reflection != null && exp.reflection!.isNotEmpty) ...[

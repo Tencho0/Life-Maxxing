@@ -18,6 +18,7 @@ import '../../core/widgets/field.dart';
 import '../../core/widgets/lm_button.dart';
 import '../../core/widgets/lm_toast.dart';
 import '../../core/widgets/segmented.dart';
+import '../../core/format/dates.dart';
 import '../../data/database.dart';
 import '../../domain/enums.dart';
 import '../../services/attachment_service.dart';
@@ -323,7 +324,7 @@ class _DateField extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppRadii.input),
             border: Border.all(color: AppColors.border),
           ),
-          child: Text(_ymd(date), style: AppText.body.copyWith(fontSize: 15)),
+          child: Text(dmyDate(date), style: AppText.body.copyWith(fontSize: 15)),
         ),
       ),
     );
