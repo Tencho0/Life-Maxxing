@@ -12,6 +12,7 @@ import '../core/widgets/app_top_bar.dart';
 import '../core/widgets/lm_bottom_nav.dart';
 import '../dev/dev_home.dart';
 import '../presentation/activities/activity_screen.dart';
+import '../presentation/backup/backup_screen.dart';
 import '../presentation/bucket/bucket_detail_screen.dart';
 import '../presentation/bucket/bucket_screen.dart';
 import '../presentation/daily/daily_screen.dart';
@@ -71,6 +72,7 @@ Widget _moduleScreen((String, String) m) => switch (m.$1) {
       '/trips' => const TripScreen(),
       '/search' => const SearchScreen(),
       '/export' => const ExportScreen(),
+      '/backup' => const BackupScreen(),
       _ => _Placeholder(m.$2, back: true),
     };
 

@@ -53,14 +53,14 @@ void main() {
     await tester.tapAt(const Offset(10, 10)); // dismiss via scrim
     await tester.pumpAndSettle();
 
-    // More → push a still-placeholder module → back returns to More.
+    // More → push a real module screen → back returns to More.
     await tester.tap(find.text('Още'));
     await tester.pumpAndSettle();
     expect(find.text('Всички модули'), findsOneWidget);
 
     await tester.tap(find.text('Backup & Restore'));
     await tester.pumpAndSettle();
-    expect(find.text('Backup & Restore — предстои (Phase 7)'), findsOneWidget);
+    expect(find.text('КАКВО СЕ ВКЛЮЧВА'), findsOneWidget); // backup screen body
 
     await tester.tap(
       find.byWidgetPredicate((w) => w is LmIcon && w.icon == LmIcons.chevL),
