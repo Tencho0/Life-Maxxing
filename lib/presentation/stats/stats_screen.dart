@@ -9,6 +9,7 @@ import '../../core/charts/income_expense_bars.dart';
 import '../../core/charts/lm_bar_chart.dart';
 import '../../core/charts/sparkline.dart';
 import '../../core/l10n/enum_labels.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -63,7 +64,7 @@ class StatsScreen extends ConsumerWidget {
     return Column(
       children: [
         AppTopBar(
-          title: 'Графики',
+          title: context.l10n.statsTitle,
           subtitle: localizedLabel(context, period),
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
@@ -78,7 +79,7 @@ class StatsScreen extends ConsumerWidget {
                 onChanged: (label) => _onPeriod(context, ref, label),
               ),
               _ChartCard(
-                eyebrow: 'Настроение',
+                eyebrow: context.l10n.statsMood,
                 color: AppColors.accent,
                 onTap: () => context.push('/daily'),
                 child: LmBarChart(
@@ -87,7 +88,7 @@ class StatsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 12),
               _ChartCard(
-                eyebrow: 'Приходи срещу разходи',
+                eyebrow: context.l10n.statsIncomeVsExpense,
                 onTap: () => context.push('/finance'),
                 child: IncomeExpenseBars(
                   income: _align(range, (d) => (incBy[d] ?? 0) / 100),
@@ -96,7 +97,7 @@ class StatsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 12),
               _ChartCard(
-                eyebrow: 'Крачки',
+                eyebrow: context.l10n.statsSteps,
                 color: AppColors.purple,
                 onTap: () => context.push('/steps'),
                 child: LmBarChart(
@@ -105,11 +106,11 @@ class StatsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 12),
               _ChartCard(
-                eyebrow: 'Кръвно',
+                eyebrow: context.l10n.statsBloodPressure,
                 color: AppColors.pink,
                 onTap: () => context.push('/health'),
                 child: chrono.length < 2
-                    ? Text('Малко данни за графика', style: AppText.bodyDim)
+                    ? Text(context.l10n.statsNotEnoughData, style: AppText.bodyDim)
                     : Column(
                         children: [
                           Sparkline(

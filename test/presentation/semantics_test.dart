@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:lifemaxxing/core/widgets/lm_bottom_nav.dart';
+import '../support/test_env.dart';
 
 void main() {
   testWidgets('bottom nav exposes labelled button semantics', (tester) async {
     final handle = tester.ensureSemantics();
 
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(localizedApp(
       home: Scaffold(
         bottomNavigationBar: LmBottomNav(
           currentLocation: '/',

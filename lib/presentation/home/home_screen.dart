@@ -148,7 +148,7 @@ class _QuickTiles extends ConsumerWidget {
                     child: LmIcon(q.icon, size: 21, color: q.color),
                   ),
                   const SizedBox(height: 12),
-                  Text(q.label, style: AppText.bodyStrong),
+                  Text(q.label(context), style: AppText.bodyStrong),
                   Text('добави +', style: AppText.monoFaint.copyWith(fontSize: 11)),
                 ],
               ),

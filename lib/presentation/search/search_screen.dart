@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/widgets/app_top_bar.dart';
 import '../../core/widgets/empty_state.dart';
@@ -43,7 +44,7 @@ class SearchScreen extends ConsumerWidget {
     return Column(
       children: [
         AppTopBar(
-          title: 'Търсене',
+          title: context.l10n.searchTitle,
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
         ),
@@ -51,20 +52,20 @@ class SearchScreen extends ConsumerWidget {
           child: ScreenBody(
             children: [
               LmInput(
-                hintText: 'Търси във всички модули…',
+                hintText: context.l10n.searchHint,
                 onChanged: (v) =>
                     ref.read(searchQueryProvider.notifier).state = v,
               ),
               const SizedBox(height: 12),
               if (query.trim().isEmpty)
-                const LmEmpty(
+                LmEmpty(
                   icon: LmIcons.search,
-                  message: 'Въведи дума за търсене из всички модули',
+                  message: context.l10n.searchEmptyPrompt,
                 )
               else if (results.isEmpty)
-                const LmEmpty(
+                LmEmpty(
                   icon: LmIcons.search,
-                  message: 'Няма резултати',
+                  message: context.l10n.searchNoResults,
                 )
               else
                 for (final h in results)

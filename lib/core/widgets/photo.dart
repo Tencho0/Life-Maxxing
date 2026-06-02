@@ -7,6 +7,7 @@ import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 
 import 'package:lifemaxxing/core/icons/lm_icons.dart';
+import 'package:lifemaxxing/core/l10n/l10n_ext.dart';
 import 'package:lifemaxxing/core/theme/tokens.dart';
 import 'package:lifemaxxing/core/theme/typography.dart';
 
@@ -19,13 +20,14 @@ import 'package:lifemaxxing/core/theme/typography.dart';
 class PhotoAdd extends StatelessWidget {
   const PhotoAdd({
     super.key,
-    this.label = 'Добави снимка',
+    this.label,
     this.multi = false,
     this.onTap,
   });
 
-  /// The primary call-to-action text.
-  final String label;
+  /// The primary call-to-action text. Falls back to a localized
+  /// "Add photo" string when null.
+  final String? label;
 
   /// When true, shows a "може няколко" caption hinting multiple photos.
   final bool multi;
@@ -57,7 +59,7 @@ class PhotoAdd extends StatelessWidget {
               const LmIcon(LmIcons.camera, size: 24, color: AppColors.textFaint),
               const SizedBox(height: 8),
               Text(
-                label,
+                label ?? context.l10n.commonAddPhoto,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontFamily: AppText.sans,
@@ -67,9 +69,9 @@ class PhotoAdd extends StatelessWidget {
               ),
               if (multi) ...[
                 const SizedBox(height: 8),
-                const Text(
-                  'може няколко',
-                  style: TextStyle(
+                Text(
+                  context.l10n.commonPhotoMultiHint,
+                  style: const TextStyle(
                     fontFamily: AppText.mono,
                     fontSize: 10.5,
                     color: AppColors.textFaint,

@@ -2131,6 +2131,684 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Deleted'**
   String get tripDeletedToast;
+
+  /// No description provided for @statsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Graphs'**
+  String get statsTitle;
+
+  /// No description provided for @statsMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood'**
+  String get statsMood;
+
+  /// No description provided for @statsIncomeVsExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Income vs expenses'**
+  String get statsIncomeVsExpense;
+
+  /// No description provided for @statsSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get statsSteps;
+
+  /// No description provided for @statsBloodPressure.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood pressure'**
+  String get statsBloodPressure;
+
+  /// No description provided for @statsNotEnoughData.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data for the chart'**
+  String get statsNotEnoughData;
+
+  /// No description provided for @memoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Memories'**
+  String get memoryTitle;
+
+  /// No description provided for @memoryTrips.
+  ///
+  /// In en, this message translates to:
+  /// **'Trips'**
+  String get memoryTrips;
+
+  /// No description provided for @memoryNoTrips.
+  ///
+  /// In en, this message translates to:
+  /// **'No trips'**
+  String get memoryNoTrips;
+
+  /// No description provided for @memoryVisualDiary.
+  ///
+  /// In en, this message translates to:
+  /// **'Visual diary'**
+  String get memoryVisualDiary;
+
+  /// No description provided for @memoryEmptyDiary.
+  ///
+  /// In en, this message translates to:
+  /// **'No photos in the diary yet.\nAdd a photo to a daily log for it to appear here.'**
+  String get memoryEmptyDiary;
+
+  /// No description provided for @moreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All modules'**
+  String get moreTitle;
+
+  /// No description provided for @moreGroupLogging.
+  ///
+  /// In en, this message translates to:
+  /// **'Logging'**
+  String get moreGroupLogging;
+
+  /// No description provided for @moreGroupMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'Money'**
+  String get moreGroupMoney;
+
+  /// No description provided for @moreGroupHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get moreGroupHealth;
+
+  /// No description provided for @moreGroupLife.
+  ///
+  /// In en, this message translates to:
+  /// **'Life'**
+  String get moreGroupLife;
+
+  /// No description provided for @moreGroupData.
+  ///
+  /// In en, this message translates to:
+  /// **'Data'**
+  String get moreGroupData;
+
+  /// No description provided for @moreGroupDev.
+  ///
+  /// In en, this message translates to:
+  /// **'Dev'**
+  String get moreGroupDev;
+
+  /// No description provided for @moreModuleFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get moreModuleFood;
+
+  /// No description provided for @moreModuleActivities.
+  ///
+  /// In en, this message translates to:
+  /// **'Activities'**
+  String get moreModuleActivities;
+
+  /// No description provided for @moreModuleSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get moreModuleSteps;
+
+  /// No description provided for @moreModuleDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily log'**
+  String get moreModuleDaily;
+
+  /// No description provided for @moreModuleFinance.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance'**
+  String get moreModuleFinance;
+
+  /// No description provided for @moreModuleHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get moreModuleHealth;
+
+  /// No description provided for @moreModuleBucket.
+  ///
+  /// In en, this message translates to:
+  /// **'Bucket List'**
+  String get moreModuleBucket;
+
+  /// No description provided for @moreModuleTrips.
+  ///
+  /// In en, this message translates to:
+  /// **'Trips'**
+  String get moreModuleTrips;
+
+  /// No description provided for @moreModuleSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get moreModuleSearch;
+
+  /// No description provided for @moreModuleExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export for AI'**
+  String get moreModuleExport;
+
+  /// No description provided for @moreModuleBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & Restore'**
+  String get moreModuleBackup;
+
+  /// No description provided for @moreDevDesignSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Dev: design system'**
+  String get moreDevDesignSystem;
+
+  /// No description provided for @backupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & Restore'**
+  String get backupTitle;
+
+  /// No description provided for @backupSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Full backup (ZIP)'**
+  String get backupSubtitle;
+
+  /// No description provided for @backupIncludesEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s included'**
+  String get backupIncludesEyebrow;
+
+  /// No description provided for @backupIncludeLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Food, activities, steps'**
+  String get backupIncludeLogs;
+
+  /// No description provided for @backupIncludeMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses and income'**
+  String get backupIncludeMoney;
+
+  /// No description provided for @backupIncludeHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood pressure, pulse, medications, events, lab tests'**
+  String get backupIncludeHealth;
+
+  /// No description provided for @backupIncludeDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Quick Logs'**
+  String get backupIncludeDaily;
+
+  /// No description provided for @backupIncludeBucket.
+  ///
+  /// In en, this message translates to:
+  /// **'Bucket List + experiences'**
+  String get backupIncludeBucket;
+
+  /// No description provided for @backupIncludeTrips.
+  ///
+  /// In en, this message translates to:
+  /// **'Trips'**
+  String get backupIncludeTrips;
+
+  /// No description provided for @backupIncludeAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'All photos and attachments'**
+  String get backupIncludeAttachments;
+
+  /// No description provided for @backupNoneThisSession.
+  ///
+  /// In en, this message translates to:
+  /// **'No backup has been created in this session yet.'**
+  String get backupNoneThisSession;
+
+  /// No description provided for @backupLast.
+  ///
+  /// In en, this message translates to:
+  /// **'Last backup: {time}'**
+  String backupLast(String time);
+
+  /// No description provided for @backupPleaseWait.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait…'**
+  String get backupPleaseWait;
+
+  /// No description provided for @backupCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create backup'**
+  String get backupCreate;
+
+  /// No description provided for @backupRestoreEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get backupRestoreEyebrow;
+
+  /// No description provided for @backupRestoreHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a ZIP backup file. Restore replaces all current data — the operation is \"all or nothing\".'**
+  String get backupRestoreHint;
+
+  /// No description provided for @backupPickFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick backup file'**
+  String get backupPickFile;
+
+  /// No description provided for @backupRestoreAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from backup'**
+  String get backupRestoreAction;
+
+  /// No description provided for @backupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup failed: {error}'**
+  String backupFailed(String error);
+
+  /// No description provided for @backupCannotRead.
+  ///
+  /// In en, this message translates to:
+  /// **'The file cannot be read'**
+  String get backupCannotRead;
+
+  /// No description provided for @backupPickError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error while picking: {error}'**
+  String backupPickError(String error);
+
+  /// No description provided for @backupRestored.
+  ///
+  /// In en, this message translates to:
+  /// **'Data has been restored'**
+  String get backupRestored;
+
+  /// No description provided for @backupRestoreFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore failed — your data is intact'**
+  String get backupRestoreFailed;
+
+  /// No description provided for @backupReplaceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace data'**
+  String get backupReplaceTitle;
+
+  /// No description provided for @backupReplaceBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The app already has data. Restore will replace the current data with the data from the backup file.'**
+  String get backupReplaceBody;
+
+  /// No description provided for @backupReplaceConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace and restore'**
+  String get backupReplaceConfirm;
+
+  /// No description provided for @backupValid.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid backup'**
+  String get backupValid;
+
+  /// No description provided for @backupInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid backup'**
+  String get backupInvalid;
+
+  /// No description provided for @backupSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{records} records · {attachments} photos'**
+  String backupSummary(int records, int attachments);
+
+  /// No description provided for @searchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchTitle;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search across all modules…'**
+  String get searchHint;
+
+  /// No description provided for @searchEmptyPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a word to search across all modules'**
+  String get searchEmptyPrompt;
+
+  /// No description provided for @searchNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results'**
+  String get searchNoResults;
+
+  /// No description provided for @quickSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick log'**
+  String get quickSheetTitle;
+
+  /// No description provided for @quickSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'choose what to add'**
+  String get quickSheetSubtitle;
+
+  /// No description provided for @quickActionFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get quickActionFood;
+
+  /// No description provided for @quickActionExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get quickActionExpense;
+
+  /// No description provided for @quickActionBloodPressure.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood pressure'**
+  String get quickActionBloodPressure;
+
+  /// No description provided for @quickActionDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Journal'**
+  String get quickActionDaily;
+
+  /// No description provided for @quickActionActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get quickActionActivity;
+
+  /// No description provided for @quickActionSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get quickActionSteps;
+
+  /// No description provided for @quickActionMedication.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplement'**
+  String get quickActionMedication;
+
+  /// No description provided for @sheetTitleFood.
+  ///
+  /// In en, this message translates to:
+  /// **'New meal'**
+  String get sheetTitleFood;
+
+  /// No description provided for @sheetTitleExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'New expense'**
+  String get sheetTitleExpense;
+
+  /// No description provided for @sheetTitleIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'New income'**
+  String get sheetTitleIncome;
+
+  /// No description provided for @sheetTitleBloodPressure.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood pressure & pulse'**
+  String get sheetTitleBloodPressure;
+
+  /// No description provided for @sheetTitleDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily log'**
+  String get sheetTitleDaily;
+
+  /// No description provided for @sheetTitleActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'New activity'**
+  String get sheetTitleActivity;
+
+  /// No description provided for @sheetTitleSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get sheetTitleSteps;
+
+  /// No description provided for @sheetTitleMedication.
+  ///
+  /// In en, this message translates to:
+  /// **'Medication / supplement'**
+  String get sheetTitleMedication;
+
+  /// No description provided for @sheetTitleBucket.
+  ///
+  /// In en, this message translates to:
+  /// **'New wish'**
+  String get sheetTitleBucket;
+
+  /// No description provided for @sheetTitleTrip.
+  ///
+  /// In en, this message translates to:
+  /// **'New trip'**
+  String get sheetTitleTrip;
+
+  /// No description provided for @sheetTitleDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'New record'**
+  String get sheetTitleDefault;
+
+  /// No description provided for @sheetFormPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'The “{type}” form is coming (Phase 7).'**
+  String sheetFormPlaceholder(String type);
+
+  /// No description provided for @exportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export for AI'**
+  String get exportTitle;
+
+  /// No description provided for @exportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'JSON / Markdown for analysis'**
+  String get exportSubtitle;
+
+  /// No description provided for @exportScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Scope'**
+  String get exportScope;
+
+  /// No description provided for @exportScopeFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything'**
+  String get exportScopeFull;
+
+  /// No description provided for @exportScopePeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get exportScopePeriod;
+
+  /// No description provided for @exportScopeModule.
+  ///
+  /// In en, this message translates to:
+  /// **'Module'**
+  String get exportScopeModule;
+
+  /// No description provided for @exportFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Format'**
+  String get exportFormat;
+
+  /// No description provided for @exportPeriodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get exportPeriodLabel;
+
+  /// No description provided for @exportModule.
+  ///
+  /// In en, this message translates to:
+  /// **'Module'**
+  String get exportModule;
+
+  /// No description provided for @exportCountRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Records'**
+  String get exportCountRecords;
+
+  /// No description provided for @exportCountPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get exportCountPhotos;
+
+  /// No description provided for @exportCountSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Size'**
+  String get exportCountSize;
+
+  /// No description provided for @exportShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get exportShare;
+
+  /// No description provided for @exportCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get exportCopy;
+
+  /// No description provided for @exportShareUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharing is not available'**
+  String get exportShareUnavailable;
+
+  /// No description provided for @exportCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to clipboard'**
+  String get exportCopied;
+
+  /// No description provided for @exportPreparing.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing…'**
+  String get exportPreparing;
+
+  /// No description provided for @exportNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data for this scope'**
+  String get exportNoData;
+
+  /// No description provided for @exportError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String exportError(String error);
+
+  /// No description provided for @exportModuleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, food{Food} activities{Activities} expenses{Expenses} income{Income} health_events{Health events} lab_tests{Lab tests} blood_pressure{Blood pressure & pulse} medications{Medications & supplements} daily_logs{Daily Quick Logs} steps{Steps} bucket_list{Bucket List} trips{Trips} other{{code}}}'**
+  String exportModuleLabel(String code);
+
+  /// No description provided for @exportFormatLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{code, select, json{JSON} markdown{Markdown} other{{code}}}'**
+  String exportFormatLabel(String code);
+
+  /// No description provided for @navHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// No description provided for @navStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Charts'**
+  String get navStats;
+
+  /// No description provided for @navMemories.
+  ///
+  /// In en, this message translates to:
+  /// **'Memories'**
+  String get navMemories;
+
+  /// No description provided for @navMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get navMore;
+
+  /// No description provided for @navQuickLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick log'**
+  String get navQuickLog;
+
+  /// No description provided for @commonAddPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Add photo'**
+  String get commonAddPhoto;
+
+  /// No description provided for @commonPhotoMultiHint.
+  ///
+  /// In en, this message translates to:
+  /// **'you can add several'**
+  String get commonPhotoMultiHint;
+
+  /// No description provided for @commonLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while loading'**
+  String get commonLoadError;
 }
 
 class _AppLocalizationsDelegate

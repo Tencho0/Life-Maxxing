@@ -1201,4 +1201,384 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get tripDeletedToast => 'Изтрито';
+
+  @override
+  String get statsTitle => 'Графики';
+
+  @override
+  String get statsMood => 'Настроение';
+
+  @override
+  String get statsIncomeVsExpense => 'Приходи срещу разходи';
+
+  @override
+  String get statsSteps => 'Крачки';
+
+  @override
+  String get statsBloodPressure => 'Кръвно';
+
+  @override
+  String get statsNotEnoughData => 'Малко данни за графика';
+
+  @override
+  String get memoryTitle => 'Спомени';
+
+  @override
+  String get memoryTrips => 'Пътувания';
+
+  @override
+  String get memoryNoTrips => 'Няма пътувания';
+
+  @override
+  String get memoryVisualDiary => 'Визуален дневник';
+
+  @override
+  String get memoryEmptyDiary =>
+      'Все още няма снимки в дневника.\nДобави снимка към дневен отчет, за да се появи тук.';
+
+  @override
+  String get moreTitle => 'Всички модули';
+
+  @override
+  String get moreGroupLogging => 'Логване';
+
+  @override
+  String get moreGroupMoney => 'Пари';
+
+  @override
+  String get moreGroupHealth => 'Здраве';
+
+  @override
+  String get moreGroupLife => 'Живот';
+
+  @override
+  String get moreGroupData => 'Данни';
+
+  @override
+  String get moreGroupDev => 'Dev';
+
+  @override
+  String get moreModuleFood => 'Храна';
+
+  @override
+  String get moreModuleActivities => 'Активности';
+
+  @override
+  String get moreModuleSteps => 'Крачки';
+
+  @override
+  String get moreModuleDaily => 'Дневен отчет';
+
+  @override
+  String get moreModuleFinance => 'Финанси';
+
+  @override
+  String get moreModuleHealth => 'Здраве';
+
+  @override
+  String get moreModuleBucket => 'Bucket List';
+
+  @override
+  String get moreModuleTrips => 'Пътувания';
+
+  @override
+  String get moreModuleSearch => 'Търсене';
+
+  @override
+  String get moreModuleExport => 'Експорт за AI';
+
+  @override
+  String get moreModuleBackup => 'Backup & Restore';
+
+  @override
+  String get moreDevDesignSystem => 'Dev: дизайн система';
+
+  @override
+  String get backupTitle => 'Backup & Restore';
+
+  @override
+  String get backupSubtitle => 'Пълно архивиране (ZIP)';
+
+  @override
+  String get backupIncludesEyebrow => 'Какво се включва';
+
+  @override
+  String get backupIncludeLogs => 'Храна, активности, крачки';
+
+  @override
+  String get backupIncludeMoney => 'Разходи и приходи';
+
+  @override
+  String get backupIncludeHealth =>
+      'Кръвно, пулс, медикаменти, събития, изследвания';
+
+  @override
+  String get backupIncludeDaily => 'Daily Quick Logs';
+
+  @override
+  String get backupIncludeBucket => 'Bucket List + преживявания';
+
+  @override
+  String get backupIncludeTrips => 'Пътувания';
+
+  @override
+  String get backupIncludeAttachments => 'Всички снимки и прикачени файлове';
+
+  @override
+  String get backupNoneThisSession =>
+      'Все още няма създаден backup в тази сесия.';
+
+  @override
+  String backupLast(String time) {
+    return 'Последен backup: $time';
+  }
+
+  @override
+  String get backupPleaseWait => 'Моля изчакайте…';
+
+  @override
+  String get backupCreate => 'Създай backup';
+
+  @override
+  String get backupRestoreEyebrow => 'Възстановяване';
+
+  @override
+  String get backupRestoreHint =>
+      'Избери ZIP backup файл. Restore заменя всички текущи данни — операцията е „всичко или нищо“.';
+
+  @override
+  String get backupPickFile => 'Избери backup файл';
+
+  @override
+  String get backupRestoreAction => 'Възстанови от backup';
+
+  @override
+  String backupFailed(String error) {
+    return 'Backup-ът пропадна: $error';
+  }
+
+  @override
+  String get backupCannotRead => 'Не може да се прочете файлът';
+
+  @override
+  String backupPickError(String error) {
+    return 'Грешка при избор: $error';
+  }
+
+  @override
+  String get backupRestored => 'Данните са възстановени';
+
+  @override
+  String get backupRestoreFailed => 'Restore пропадна — данните са непокътнати';
+
+  @override
+  String get backupReplaceTitle => 'Замяна на данните';
+
+  @override
+  String get backupReplaceBody =>
+      'В приложението вече има данни. Restore ще замени текущите данни с тези от backup файла.';
+
+  @override
+  String get backupReplaceConfirm => 'Замени и възстанови';
+
+  @override
+  String get backupValid => 'Валиден backup';
+
+  @override
+  String get backupInvalid => 'Невалиден backup';
+
+  @override
+  String backupSummary(int records, int attachments) {
+    return '$records записа · $attachments снимки';
+  }
+
+  @override
+  String get searchTitle => 'Търсене';
+
+  @override
+  String get searchHint => 'Търси във всички модули…';
+
+  @override
+  String get searchEmptyPrompt => 'Въведи дума за търсене из всички модули';
+
+  @override
+  String get searchNoResults => 'Няма резултати';
+
+  @override
+  String get quickSheetTitle => 'Бързо логване';
+
+  @override
+  String get quickSheetSubtitle => 'избери какво да добавиш';
+
+  @override
+  String get quickActionFood => 'Храна';
+
+  @override
+  String get quickActionExpense => 'Разход';
+
+  @override
+  String get quickActionBloodPressure => 'Кръвно';
+
+  @override
+  String get quickActionDaily => 'Дневник';
+
+  @override
+  String get quickActionActivity => 'Активност';
+
+  @override
+  String get quickActionSteps => 'Крачки';
+
+  @override
+  String get quickActionMedication => 'Добавка';
+
+  @override
+  String get sheetTitleFood => 'Ново хранене';
+
+  @override
+  String get sheetTitleExpense => 'Нов разход';
+
+  @override
+  String get sheetTitleIncome => 'Нов приход';
+
+  @override
+  String get sheetTitleBloodPressure => 'Кръвно и пулс';
+
+  @override
+  String get sheetTitleDaily => 'Дневен отчет';
+
+  @override
+  String get sheetTitleActivity => 'Нова активност';
+
+  @override
+  String get sheetTitleSteps => 'Крачки';
+
+  @override
+  String get sheetTitleMedication => 'Медикамент / добавка';
+
+  @override
+  String get sheetTitleBucket => 'Ново желание';
+
+  @override
+  String get sheetTitleTrip => 'Ново пътуване';
+
+  @override
+  String get sheetTitleDefault => 'Нов запис';
+
+  @override
+  String sheetFormPlaceholder(String type) {
+    return 'Формата „$type“ предстои (Phase 7).';
+  }
+
+  @override
+  String get exportTitle => 'Експорт за AI';
+
+  @override
+  String get exportSubtitle => 'JSON / Markdown за анализ';
+
+  @override
+  String get exportScope => 'Обхват';
+
+  @override
+  String get exportScopeFull => 'Всичко';
+
+  @override
+  String get exportScopePeriod => 'Период';
+
+  @override
+  String get exportScopeModule => 'Модул';
+
+  @override
+  String get exportFormat => 'Формат';
+
+  @override
+  String get exportPeriodLabel => 'Период';
+
+  @override
+  String get exportModule => 'Модул';
+
+  @override
+  String get exportCountRecords => 'Записи';
+
+  @override
+  String get exportCountPhotos => 'Снимки';
+
+  @override
+  String get exportCountSize => 'Размер';
+
+  @override
+  String get exportShare => 'Сподели';
+
+  @override
+  String get exportCopy => 'Копирай';
+
+  @override
+  String get exportShareUnavailable => 'Споделянето не е налично';
+
+  @override
+  String get exportCopied => 'Копирано в клипборда';
+
+  @override
+  String get exportPreparing => 'Подготвяне…';
+
+  @override
+  String get exportNoData => 'Няма данни за този обхват';
+
+  @override
+  String exportError(String error) {
+    return 'Грешка: $error';
+  }
+
+  @override
+  String exportModuleLabel(String code) {
+    String _temp0 = intl.Intl.selectLogic(code, {
+      'food': 'Храна',
+      'activities': 'Активности',
+      'expenses': 'Разходи',
+      'income': 'Приходи',
+      'health_events': 'Здравни събития',
+      'lab_tests': 'Изследвания',
+      'blood_pressure': 'Кръвно и пулс',
+      'medications': 'Медикаменти и добавки',
+      'daily_logs': 'Daily Quick Logs',
+      'steps': 'Крачки',
+      'bucket_list': 'Bucket List',
+      'trips': 'Пътувания',
+      'other': '$code',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String exportFormatLabel(String code) {
+    String _temp0 = intl.Intl.selectLogic(code, {
+      'json': 'JSON',
+      'markdown': 'Markdown',
+      'other': '$code',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get navHome => 'Начало';
+
+  @override
+  String get navStats => 'Графики';
+
+  @override
+  String get navMemories => 'Спомени';
+
+  @override
+  String get navMore => 'Още';
+
+  @override
+  String get navQuickLog => 'Бързо логване';
+
+  @override
+  String get commonAddPhoto => 'Добави снимка';
+
+  @override
+  String get commonPhotoMultiHint => 'може няколко';
+
+  @override
+  String get commonLoadError => 'Нещо се обърка при зареждането';
 }

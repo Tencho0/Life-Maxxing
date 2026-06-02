@@ -12,6 +12,7 @@ import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/format/dates.dart';
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/widgets/app_top_bar.dart';
 import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/eyebrow.dart';
@@ -35,17 +36,17 @@ class MemoriesScreen extends ConsumerWidget {
     return Column(
       children: [
         AppTopBar(
-          title: 'Спомени',
+          title: context.l10n.memoryTitle,
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
         ),
         Expanded(
           child: ScreenBody(
             children: [
-              const Eyebrow('Пътувания'),
+              Eyebrow(context.l10n.memoryTrips),
               const SizedBox(height: 10),
               if (trips.isEmpty)
-                Text('Няма пътувания', style: AppText.bodyDim)
+                Text(context.l10n.memoryNoTrips, style: AppText.bodyDim)
               else
                 SizedBox(
                   height: 130,
@@ -54,12 +55,11 @@ class MemoriesScreen extends ConsumerWidget {
                     children: [for (final t in trips) _TripRailCard(trip: t)],
                   ),
                 ),
-              const SectionTitle('Визуален дневник'),
+              SectionTitle(context.l10n.memoryVisualDiary),
               if (days.isEmpty)
-                const LmEmpty(
+                LmEmpty(
                   icon: LmIcons.camera,
-                  message: 'Все още няма снимки в дневника.\n'
-                      'Добави снимка към дневен отчет, за да се появи тук.',
+                  message: context.l10n.memoryEmptyDiary,
                 )
               else
                 GridView.count(

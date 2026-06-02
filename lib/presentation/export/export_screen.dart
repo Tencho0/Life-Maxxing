@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../core/l10n/enum_labels.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -28,11 +29,16 @@ import '../../domain/period.dart';
 import '../../services/export_service.dart';
 import 'export_providers.dart';
 
-const _scopeLabels = <ExportScopeType, String>{
-  ExportScopeType.full: 'Всичко',
-  ExportScopeType.period: 'Период',
-  ExportScopeType.module: 'Модул',
-};
+String _scopeLabel(BuildContext context, ExportScopeType scope) {
+  switch (scope) {
+    case ExportScopeType.full:
+      return context.l10n.exportScopeFull;
+    case ExportScopeType.period:
+      return context.l10n.exportScopePeriod;
+    case ExportScopeType.module:
+      return context.l10n.exportScopeModule;
+  }
+}
 
 /// First ~2400 chars of the export, so a huge export doesn't blow up the view.
 const _previewLimit = 2400;
@@ -51,8 +57,8 @@ class ExportScreen extends ConsumerWidget {
     return Column(
       children: [
         AppTopBar(
-          title: 'Експорт за AI',
-          subtitle: 'JSON / Markdown за анализ',
+          title: context.l10n.exportTitle,
+          subtitle: context.l10n.exportSubtitle,
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
         ),
@@ -60,28 +66,32 @@ class ExportScreen extends ConsumerWidget {
           child: ScreenBody(
             children: [
               Field(
-                label: 'Обхват',
+                label: context.l10n.exportScope,
                 child: Segmented(
-                  options: _scopeLabels.values.toList(),
-                  value: _scopeLabels[scope]!,
+                  options: ExportScopeType.values
+                      .map((s) => _scopeLabel(context, s))
+                      .toList(),
+                  value: _scopeLabel(context, scope),
                   onChanged: (label) {
-                    ref.read(exportScopeProvider.notifier).state = _scopeLabels
-                        .entries
-                        .firstWhere((e) => e.value == label)
-                        .key;
+                    ref.read(exportScopeProvider.notifier).state =
+                        ExportScopeType.values.firstWhere(
+                            (s) => _scopeLabel(context, s) == label);
                   },
                 ),
               ),
               if (scope == ExportScopeType.period) _PeriodSelector(),
               if (scope == ExportScopeType.module) _ModuleSelector(),
               Field(
-                label: 'Формат',
+                label: context.l10n.exportFormat,
                 child: Segmented(
-                  options: const ['Markdown', 'JSON'],
-                  value: format == ExportFormat.json ? 'JSON' : 'Markdown',
+                  options: ExportFormat.values
+                      .map((f) => context.l10n.exportFormatLabel(f.code))
+                      .toList(),
+                  value: context.l10n.exportFormatLabel(format.code),
                   onChanged: (label) =>
                       ref.read(exportFormatProvider.notifier).state =
-                          label == 'JSON' ? ExportFormat.json : ExportFormat.markdown,
+                          ExportFormat.values.firstWhere((f) =>
+                              context.l10n.exportFormatLabel(f.code) == label),
                 ),
               ),
               _CountsCard(dataAsync: dataAsync, text: text),
@@ -92,7 +102,7 @@ class ExportScreen extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: LmButton(
-                      'Сподели',
+                      context.l10n.exportShare,
                       icon: LmIcons.export,
                       onTap: text == null
                           ? null
@@ -102,7 +112,7 @@ class ExportScreen extends ConsumerWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: LmButton(
-                      'Копирай',
+                      context.l10n.exportCopy,
                       variant: LmButtonVariant.ghost,
                       icon: LmIcons.check,
                       onTap: text == null ? null : () => _copy(context, text),
@@ -124,13 +134,15 @@ class ExportScreen extends ConsumerWidget {
       await SharePlus.instance.share(
           ShareParams(text: text, subject: 'lifemaxxing-export.$fmt'));
     } catch (_) {
-      if (context.mounted) showLmToast(context, 'Споделянето не е налично');
+      if (context.mounted) {
+        showLmToast(context, context.l10n.exportShareUnavailable);
+      }
     }
   }
 
   Future<void> _copy(BuildContext context, String text) async {
     await Clipboard.setData(ClipboardData(text: text));
-    if (context.mounted) showLmToast(context, 'Копирано в клипборда');
+    if (context.mounted) showLmToast(context, context.l10n.exportCopied);
   }
 }
 
@@ -139,7 +151,7 @@ class _PeriodSelector extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final period = ref.watch(exportPeriodProvider);
     return Field(
-      label: 'Период',
+      label: context.l10n.exportPeriodLabel,
       child: PeriodChips(
         value: periodChipLabel(context, period),
         options:
@@ -176,13 +188,16 @@ class _ModuleSelector extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final module = ref.watch(exportModuleProvider);
     return Field(
-      label: 'Модул',
+      label: context.l10n.exportModule,
       child: Segmented(
         columns: 2,
-        options: ExportModule.values.map((m) => m.label).toList(),
-        value: module.label,
+        options: ExportModule.values
+            .map((m) => context.l10n.exportModuleLabel(m.code))
+            .toList(),
+        value: context.l10n.exportModuleLabel(module.code),
         onChanged: (label) => ref.read(exportModuleProvider.notifier).state =
-            ExportModule.values.firstWhere((m) => m.label == label),
+            ExportModule.values.firstWhere(
+                (m) => context.l10n.exportModuleLabel(m.code) == label),
       ),
     );
   }
@@ -201,10 +216,14 @@ class _CountsCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Stat(label: 'Записи', value: '${data?.recordCount ?? '—'}'),
-          Stat(label: 'Снимки', value: '${data?.photoCount ?? '—'}'),
           Stat(
-            label: 'Размер',
+              label: context.l10n.exportCountRecords,
+              value: '${data?.recordCount ?? '—'}'),
+          Stat(
+              label: context.l10n.exportCountPhotos,
+              value: '${data?.photoCount ?? '—'}'),
+          Stat(
+            label: context.l10n.exportCountSize,
             value: data == null ? '—' : sizeKb.toStringAsFixed(1),
             unit: ' KB',
           ),
@@ -222,11 +241,12 @@ class _PreviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return LmCard(
       child: textAsync.when(
-        loading: () => Text('Подготвяне…', style: AppText.bodyDim),
-        error: (e, _) => Text('Грешка: $e', style: AppText.bodyDim),
+        loading: () => Text(context.l10n.exportPreparing, style: AppText.bodyDim),
+        error: (e, _) =>
+            Text(context.l10n.exportError('$e'), style: AppText.bodyDim),
         data: (text) {
           if (text.isEmpty) {
-            return Text('Няма данни за този обхват', style: AppText.bodyDim);
+            return Text(context.l10n.exportNoData, style: AppText.bodyDim);
           }
           final preview = text.length > _previewLimit
               ? '${text.substring(0, _previewLimit)}\n…'

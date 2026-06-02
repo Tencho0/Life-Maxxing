@@ -73,7 +73,7 @@ void main() {
 
     await tester.pumpWidget(ProviderScope(
       overrides: [databaseProvider.overrideWithValue(db)],
-      child: const MaterialApp(home: Scaffold(body: SearchScreen())),
+      child: localizedApp(home: Scaffold(body: SearchScreen())),
     ));
     await tester.pumpAndSettle();
 

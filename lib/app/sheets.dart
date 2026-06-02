@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/l10n/l10n_ext.dart';
 import '../core/theme/tokens.dart';
 import '../core/theme/typography.dart';
 import '../core/icons/lm_icons.dart';
@@ -19,22 +20,37 @@ import '../presentation/steps/steps_forms.dart';
 import '../presentation/steps/steps_providers.dart' show stepsDaoProvider;
 
 /// One quick-log action (spec §5.2). The first four are the mandatory ones.
+/// The label is resolved from localizations at build time via [label].
 class QuickAction {
-  const QuickAction(this.id, this.label, this.icon, this.color);
+  const QuickAction(this.id, this.icon, this.color);
   final String id;
-  final String label;
   final LmIcons icon;
   final Color color;
+
+  /// Localized display label, resolved per [id].
+  String label(BuildContext context) {
+    final l10n = context.l10n;
+    return switch (id) {
+      'food' => l10n.quickActionFood,
+      'expense' => l10n.quickActionExpense,
+      'bp' => l10n.quickActionBloodPressure,
+      'daily' => l10n.quickActionDaily,
+      'activity' => l10n.quickActionActivity,
+      'steps' => l10n.quickActionSteps,
+      'med' => l10n.quickActionMedication,
+      _ => id,
+    };
+  }
 }
 
 const kQuickActions = [
-  QuickAction('food', 'Храна', LmIcons.food, AppColors.amber),
-  QuickAction('expense', 'Разход', LmIcons.expense, AppColors.red),
-  QuickAction('bp', 'Кръвно', LmIcons.pulse, AppColors.pink),
-  QuickAction('daily', 'Дневник', LmIcons.sun, AppColors.accent),
-  QuickAction('activity', 'Активност', LmIcons.run, AppColors.green),
-  QuickAction('steps', 'Крачки', LmIcons.steps, AppColors.purple),
-  QuickAction('med', 'Добавка', LmIcons.pill, AppColors.accent),
+  QuickAction('food', LmIcons.food, AppColors.amber),
+  QuickAction('expense', LmIcons.expense, AppColors.red),
+  QuickAction('bp', LmIcons.pulse, AppColors.pink),
+  QuickAction('daily', LmIcons.sun, AppColors.accent),
+  QuickAction('activity', LmIcons.run, AppColors.green),
+  QuickAction('steps', LmIcons.steps, AppColors.purple),
+  QuickAction('med', LmIcons.pill, AppColors.accent),
 ];
 
 /// Shows a styled bottom sheet (rounded top, drag handle, header with close,
@@ -60,8 +76,8 @@ Future<T?> showLmSheet<T>(
 void openQuickSheet(BuildContext context) {
   showLmSheet(
     context,
-    title: 'Бързо логване',
-    subtitle: 'избери какво да добавиш',
+    title: context.l10n.quickSheetTitle,
+    subtitle: context.l10n.quickSheetSubtitle,
     child: _QuickGrid(),
   );
 }
@@ -92,24 +108,25 @@ void openFormSheet(BuildContext context, String type) {
       showIncomeSheet(context);
       return;
   }
-  const titles = {
-    'food': 'Ново хранене',
-    'expense': 'Нов разход',
-    'income': 'Нов приход',
-    'bp': 'Кръвно и пулс',
-    'daily': 'Дневен отчет',
-    'activity': 'Нова активност',
-    'steps': 'Крачки',
-    'med': 'Медикамент / добавка',
-    'bucket': 'Ново желание',
-    'trip': 'Ново пътуване',
+  final l10n = context.l10n;
+  final titles = {
+    'food': l10n.sheetTitleFood,
+    'expense': l10n.sheetTitleExpense,
+    'income': l10n.sheetTitleIncome,
+    'bp': l10n.sheetTitleBloodPressure,
+    'daily': l10n.sheetTitleDaily,
+    'activity': l10n.sheetTitleActivity,
+    'steps': l10n.sheetTitleSteps,
+    'med': l10n.sheetTitleMedication,
+    'bucket': l10n.sheetTitleBucket,
+    'trip': l10n.sheetTitleTrip,
   };
   showLmSheet(
     context,
-    title: titles[type] ?? 'Нов запис',
+    title: titles[type] ?? l10n.sheetTitleDefault,
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 28),
-      child: Text('Формата „$type“ предстои (Phase 7).',
+      child: Text(l10n.sheetFormPlaceholder(type),
           style: AppText.bodyDim, textAlign: TextAlign.center),
     ),
   );
@@ -168,7 +185,7 @@ class _SheetShell extends StatelessWidget {
                   ),
                   Semantics(
                     button: true,
-                    label: 'Затвори',
+                    label: context.l10n.actionClose,
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () => Navigator.of(context).pop(),
@@ -268,7 +285,7 @@ class _QuickGrid extends ConsumerWidget {
                   ),
                   const SizedBox(width: 12),
                   Expanded(
-                    child: Text(q.label,
+                    child: Text(q.label(context),
                         style: AppText.bodyStrong, overflow: TextOverflow.ellipsis),
                   ),
                 ],

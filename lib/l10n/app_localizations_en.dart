@@ -1200,4 +1200,384 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tripDeletedToast => 'Deleted';
+
+  @override
+  String get statsTitle => 'Graphs';
+
+  @override
+  String get statsMood => 'Mood';
+
+  @override
+  String get statsIncomeVsExpense => 'Income vs expenses';
+
+  @override
+  String get statsSteps => 'Steps';
+
+  @override
+  String get statsBloodPressure => 'Blood pressure';
+
+  @override
+  String get statsNotEnoughData => 'Not enough data for the chart';
+
+  @override
+  String get memoryTitle => 'Memories';
+
+  @override
+  String get memoryTrips => 'Trips';
+
+  @override
+  String get memoryNoTrips => 'No trips';
+
+  @override
+  String get memoryVisualDiary => 'Visual diary';
+
+  @override
+  String get memoryEmptyDiary =>
+      'No photos in the diary yet.\nAdd a photo to a daily log for it to appear here.';
+
+  @override
+  String get moreTitle => 'All modules';
+
+  @override
+  String get moreGroupLogging => 'Logging';
+
+  @override
+  String get moreGroupMoney => 'Money';
+
+  @override
+  String get moreGroupHealth => 'Health';
+
+  @override
+  String get moreGroupLife => 'Life';
+
+  @override
+  String get moreGroupData => 'Data';
+
+  @override
+  String get moreGroupDev => 'Dev';
+
+  @override
+  String get moreModuleFood => 'Food';
+
+  @override
+  String get moreModuleActivities => 'Activities';
+
+  @override
+  String get moreModuleSteps => 'Steps';
+
+  @override
+  String get moreModuleDaily => 'Daily log';
+
+  @override
+  String get moreModuleFinance => 'Finance';
+
+  @override
+  String get moreModuleHealth => 'Health';
+
+  @override
+  String get moreModuleBucket => 'Bucket List';
+
+  @override
+  String get moreModuleTrips => 'Trips';
+
+  @override
+  String get moreModuleSearch => 'Search';
+
+  @override
+  String get moreModuleExport => 'Export for AI';
+
+  @override
+  String get moreModuleBackup => 'Backup & Restore';
+
+  @override
+  String get moreDevDesignSystem => 'Dev: design system';
+
+  @override
+  String get backupTitle => 'Backup & Restore';
+
+  @override
+  String get backupSubtitle => 'Full backup (ZIP)';
+
+  @override
+  String get backupIncludesEyebrow => 'What\'s included';
+
+  @override
+  String get backupIncludeLogs => 'Food, activities, steps';
+
+  @override
+  String get backupIncludeMoney => 'Expenses and income';
+
+  @override
+  String get backupIncludeHealth =>
+      'Blood pressure, pulse, medications, events, lab tests';
+
+  @override
+  String get backupIncludeDaily => 'Daily Quick Logs';
+
+  @override
+  String get backupIncludeBucket => 'Bucket List + experiences';
+
+  @override
+  String get backupIncludeTrips => 'Trips';
+
+  @override
+  String get backupIncludeAttachments => 'All photos and attachments';
+
+  @override
+  String get backupNoneThisSession =>
+      'No backup has been created in this session yet.';
+
+  @override
+  String backupLast(String time) {
+    return 'Last backup: $time';
+  }
+
+  @override
+  String get backupPleaseWait => 'Please wait…';
+
+  @override
+  String get backupCreate => 'Create backup';
+
+  @override
+  String get backupRestoreEyebrow => 'Restore';
+
+  @override
+  String get backupRestoreHint =>
+      'Pick a ZIP backup file. Restore replaces all current data — the operation is \"all or nothing\".';
+
+  @override
+  String get backupPickFile => 'Pick backup file';
+
+  @override
+  String get backupRestoreAction => 'Restore from backup';
+
+  @override
+  String backupFailed(String error) {
+    return 'Backup failed: $error';
+  }
+
+  @override
+  String get backupCannotRead => 'The file cannot be read';
+
+  @override
+  String backupPickError(String error) {
+    return 'Error while picking: $error';
+  }
+
+  @override
+  String get backupRestored => 'Data has been restored';
+
+  @override
+  String get backupRestoreFailed => 'Restore failed — your data is intact';
+
+  @override
+  String get backupReplaceTitle => 'Replace data';
+
+  @override
+  String get backupReplaceBody =>
+      'The app already has data. Restore will replace the current data with the data from the backup file.';
+
+  @override
+  String get backupReplaceConfirm => 'Replace and restore';
+
+  @override
+  String get backupValid => 'Valid backup';
+
+  @override
+  String get backupInvalid => 'Invalid backup';
+
+  @override
+  String backupSummary(int records, int attachments) {
+    return '$records records · $attachments photos';
+  }
+
+  @override
+  String get searchTitle => 'Search';
+
+  @override
+  String get searchHint => 'Search across all modules…';
+
+  @override
+  String get searchEmptyPrompt => 'Enter a word to search across all modules';
+
+  @override
+  String get searchNoResults => 'No results';
+
+  @override
+  String get quickSheetTitle => 'Quick log';
+
+  @override
+  String get quickSheetSubtitle => 'choose what to add';
+
+  @override
+  String get quickActionFood => 'Food';
+
+  @override
+  String get quickActionExpense => 'Expense';
+
+  @override
+  String get quickActionBloodPressure => 'Blood pressure';
+
+  @override
+  String get quickActionDaily => 'Journal';
+
+  @override
+  String get quickActionActivity => 'Activity';
+
+  @override
+  String get quickActionSteps => 'Steps';
+
+  @override
+  String get quickActionMedication => 'Supplement';
+
+  @override
+  String get sheetTitleFood => 'New meal';
+
+  @override
+  String get sheetTitleExpense => 'New expense';
+
+  @override
+  String get sheetTitleIncome => 'New income';
+
+  @override
+  String get sheetTitleBloodPressure => 'Blood pressure & pulse';
+
+  @override
+  String get sheetTitleDaily => 'Daily log';
+
+  @override
+  String get sheetTitleActivity => 'New activity';
+
+  @override
+  String get sheetTitleSteps => 'Steps';
+
+  @override
+  String get sheetTitleMedication => 'Medication / supplement';
+
+  @override
+  String get sheetTitleBucket => 'New wish';
+
+  @override
+  String get sheetTitleTrip => 'New trip';
+
+  @override
+  String get sheetTitleDefault => 'New record';
+
+  @override
+  String sheetFormPlaceholder(String type) {
+    return 'The “$type” form is coming (Phase 7).';
+  }
+
+  @override
+  String get exportTitle => 'Export for AI';
+
+  @override
+  String get exportSubtitle => 'JSON / Markdown for analysis';
+
+  @override
+  String get exportScope => 'Scope';
+
+  @override
+  String get exportScopeFull => 'Everything';
+
+  @override
+  String get exportScopePeriod => 'Period';
+
+  @override
+  String get exportScopeModule => 'Module';
+
+  @override
+  String get exportFormat => 'Format';
+
+  @override
+  String get exportPeriodLabel => 'Period';
+
+  @override
+  String get exportModule => 'Module';
+
+  @override
+  String get exportCountRecords => 'Records';
+
+  @override
+  String get exportCountPhotos => 'Photos';
+
+  @override
+  String get exportCountSize => 'Size';
+
+  @override
+  String get exportShare => 'Share';
+
+  @override
+  String get exportCopy => 'Copy';
+
+  @override
+  String get exportShareUnavailable => 'Sharing is not available';
+
+  @override
+  String get exportCopied => 'Copied to clipboard';
+
+  @override
+  String get exportPreparing => 'Preparing…';
+
+  @override
+  String get exportNoData => 'No data for this scope';
+
+  @override
+  String exportError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String exportModuleLabel(String code) {
+    String _temp0 = intl.Intl.selectLogic(code, {
+      'food': 'Food',
+      'activities': 'Activities',
+      'expenses': 'Expenses',
+      'income': 'Income',
+      'health_events': 'Health events',
+      'lab_tests': 'Lab tests',
+      'blood_pressure': 'Blood pressure & pulse',
+      'medications': 'Medications & supplements',
+      'daily_logs': 'Daily Quick Logs',
+      'steps': 'Steps',
+      'bucket_list': 'Bucket List',
+      'trips': 'Trips',
+      'other': '$code',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String exportFormatLabel(String code) {
+    String _temp0 = intl.Intl.selectLogic(code, {
+      'json': 'JSON',
+      'markdown': 'Markdown',
+      'other': '$code',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navStats => 'Charts';
+
+  @override
+  String get navMemories => 'Memories';
+
+  @override
+  String get navMore => 'More';
+
+  @override
+  String get navQuickLog => 'Quick log';
+
+  @override
+  String get commonAddPhoto => 'Add photo';
+
+  @override
+  String get commonPhotoMultiHint => 'you can add several';
+
+  @override
+  String get commonLoadError => 'Something went wrong while loading';
 }

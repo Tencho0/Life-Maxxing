@@ -5,6 +5,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
+import '../l10n/l10n_ext.dart';
 import '../theme/tokens.dart';
 import '../theme/typography.dart';
 import '../icons/lm_icons.dart';
@@ -15,13 +16,6 @@ class LmNavItem {
   final LmIcons icon;
   final String label;
 }
-
-const kNavItems = [
-  LmNavItem('/', LmIcons.home, 'Начало'),
-  LmNavItem('/stats', LmIcons.chart, 'Графики'),
-  LmNavItem('/memories', LmIcons.camera, 'Спомени'),
-  LmNavItem('/more', LmIcons.dots, 'Още'),
-];
 
 class LmBottomNav extends StatelessWidget {
   const LmBottomNav({
@@ -37,9 +31,16 @@ class LmBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     // home, stats, [FAB], memories, more
-    final left = kNavItems.take(2).toList();
-    final right = kNavItems.skip(2).toList();
+    final navItems = [
+      LmNavItem('/', LmIcons.home, l.navHome),
+      LmNavItem('/stats', LmIcons.chart, l.navStats),
+      LmNavItem('/memories', LmIcons.camera, l.navMemories),
+      LmNavItem('/more', LmIcons.dots, l.navMore),
+    ];
+    final left = navItems.take(2).toList();
+    final right = navItems.skip(2).toList();
 
     return ClipRect(
       child: BackdropFilter(
@@ -112,7 +113,7 @@ class _Fab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: 'Бързо логване',
+      label: context.l10n.navQuickLog,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,

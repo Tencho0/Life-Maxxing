@@ -7,6 +7,7 @@ import 'package:lifemaxxing/dev/catalog.dart';
 import 'package:lifemaxxing/core/charts/sparkline.dart';
 import 'package:lifemaxxing/core/charts/seg_ring.dart';
 import 'package:lifemaxxing/core/charts/mood_gauge.dart';
+import '../support/test_env.dart';
 
 void main() {
   testWidgets('ComponentCatalog builds with no exceptions', (tester) async {
@@ -16,7 +17,7 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(
-      const MaterialApp(home: Scaffold(body: ComponentCatalog())),
+      localizedApp(home: Scaffold(body: ComponentCatalog())),
     );
     await tester.pumpAndSettle();
 

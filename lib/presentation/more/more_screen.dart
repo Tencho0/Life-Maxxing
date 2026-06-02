@@ -12,34 +12,38 @@ import '../../core/widgets/eyebrow.dart';
 import '../../core/widgets/lm_row.dart';
 import '../../core/widgets/screen_body.dart';
 
+// A module row. `label` is resolved from `context.l10n` at render time; the
+// stored values here are stable identifiers, not user-facing strings.
 class _Mod {
   const _Mod(this.route, this.label, this.icon);
   final String route;
-  final String label;
+  final String Function(BuildContext) label;
   final LmIcons icon;
 }
 
-const _groups = <(String, List<_Mod>)>[
-  ('Логване', [
-    _Mod('/food', 'Храна', LmIcons.food),
-    _Mod('/activities', 'Активности', LmIcons.run),
-    _Mod('/steps', 'Крачки', LmIcons.steps),
-    _Mod('/daily', 'Дневен отчет', LmIcons.sun),
+// Groups are (eyebrow-resolver, modules). Both eyebrow and module labels are
+// resolved via context.l10n in build() so all user-facing text is localized.
+final _groups = <(String Function(BuildContext), List<_Mod>)>[
+  ((c) => c.l10n.moreGroupLogging, [
+    _Mod('/food', (c) => c.l10n.moreModuleFood, LmIcons.food),
+    _Mod('/activities', (c) => c.l10n.moreModuleActivities, LmIcons.run),
+    _Mod('/steps', (c) => c.l10n.moreModuleSteps, LmIcons.steps),
+    _Mod('/daily', (c) => c.l10n.moreModuleDaily, LmIcons.sun),
   ]),
-  ('Пари', [
-    _Mod('/finance', 'Финанси', LmIcons.expense),
+  ((c) => c.l10n.moreGroupMoney, [
+    _Mod('/finance', (c) => c.l10n.moreModuleFinance, LmIcons.expense),
   ]),
-  ('Здраве', [
-    _Mod('/health', 'Здраве', LmIcons.pulse),
+  ((c) => c.l10n.moreGroupHealth, [
+    _Mod('/health', (c) => c.l10n.moreModuleHealth, LmIcons.pulse),
   ]),
-  ('Живот', [
-    _Mod('/bucket', 'Bucket List', LmIcons.flag),
-    _Mod('/trips', 'Пътувания', LmIcons.trip),
+  ((c) => c.l10n.moreGroupLife, [
+    _Mod('/bucket', (c) => c.l10n.moreModuleBucket, LmIcons.flag),
+    _Mod('/trips', (c) => c.l10n.moreModuleTrips, LmIcons.trip),
   ]),
-  ('Данни', [
-    _Mod('/search', 'Търсене', LmIcons.search),
-    _Mod('/export', 'Експорт за AI', LmIcons.export),
-    _Mod('/backup', 'Backup & Restore', LmIcons.bolt),
+  ((c) => c.l10n.moreGroupData, [
+    _Mod('/search', (c) => c.l10n.moreModuleSearch, LmIcons.search),
+    _Mod('/export', (c) => c.l10n.moreModuleExport, LmIcons.export),
+    _Mod('/backup', (c) => c.l10n.moreModuleBackup, LmIcons.bolt),
   ]),
 ];
 
@@ -50,14 +54,14 @@ class MoreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const AppTopBar(title: 'Всички модули'),
+        AppTopBar(title: context.l10n.moreTitle),
         Expanded(
           child: ScreenBody(
             children: [
               for (final group in _groups) ...[
                 Padding(
                   padding: const EdgeInsets.only(top: 6, bottom: 8),
-                  child: Eyebrow(group.$1),
+                  child: Eyebrow(group.$1(context)),
                 ),
                 for (final m in group.$2)
                   Padding(
@@ -65,7 +69,7 @@ class MoreScreen extends StatelessWidget {
                     child: LmRow(
                       icon: m.icon,
                       iconColor: AppColors.accent,
-                      title: m.label,
+                      title: m.label(context),
                       onTap: () => context.push(m.route),
                       trailing: const LmIcon(LmIcons.chevR,
                           size: 17, color: AppColors.textFaint),
@@ -87,14 +91,14 @@ class MoreScreen extends StatelessWidget {
                       size: 17, color: AppColors.textFaint),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 6, bottom: 8),
-                child: Eyebrow('Dev'),
+              Padding(
+                padding: const EdgeInsets.only(top: 6, bottom: 8),
+                child: Eyebrow(context.l10n.moreGroupDev),
               ),
               LmRow(
                 icon: LmIcons.bolt,
                 iconColor: AppColors.purple,
-                title: 'Dev: дизайн система',
+                title: context.l10n.moreDevDesignSystem,
                 onTap: () => context.push('/dev'),
                 trailing: const LmIcon(LmIcons.chevR,
                     size: 17, color: AppColors.textFaint),

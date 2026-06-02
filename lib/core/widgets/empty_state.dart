@@ -5,6 +5,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../icons/lm_icons.dart';
+import '../l10n/l10n_ext.dart';
 import '../theme/tokens.dart';
 import '../theme/typography.dart';
 import 'lm_button.dart';
@@ -56,8 +57,11 @@ class LmEmpty extends StatelessWidget {
 
 /// A compact inline error placeholder for a failed stream/future.
 class LmInlineError extends StatelessWidget {
-  const LmInlineError({super.key, this.message = 'Нещо се обърка при зареждането'});
-  final String message;
+  const LmInlineError({super.key, this.message});
+
+  /// Error text. Falls back to a localized "something went wrong" message
+  /// when null.
+  final String? message;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +72,11 @@ class LmInlineError extends StatelessWidget {
         children: [
           const LmIcon(LmIcons.close, size: 24, color: AppColors.red),
           const SizedBox(height: 12),
-          Text(message, textAlign: TextAlign.center, style: AppText.bodyDim),
+          Text(
+            message ?? context.l10n.commonLoadError,
+            textAlign: TextAlign.center,
+            style: AppText.bodyDim,
+          ),
         ],
       ),
     );

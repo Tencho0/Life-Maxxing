@@ -26,7 +26,7 @@ void main() {
 
     await tester.pumpWidget(ProviderScope(
       overrides: [databaseProvider.overrideWithValue(db)],
-      child: const MaterialApp(home: Scaffold(body: BackupScreen())),
+      child: localizedApp(home: Scaffold(body: BackupScreen())),
     ));
     await tester.pump();
 

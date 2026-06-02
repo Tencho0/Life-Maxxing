@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../core/icons/lm_icons.dart';
+import '../../core/l10n/l10n_ext.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/app_top_bar.dart';
@@ -21,16 +22,6 @@ import '../../core/widgets/lm_toast.dart';
 import '../../core/widgets/screen_body.dart';
 import '../../services/backup_service.dart';
 import 'backup_providers.dart';
-
-const _includes = <String>[
-  'Храна, активности, крачки',
-  'Разходи и приходи',
-  'Кръвно, пулс, медикаменти, събития, изследвания',
-  'Daily Quick Logs',
-  'Bucket List + преживявания',
-  'Пътувания',
-  'Всички снимки и прикачени файлове',
-];
 
 class BackupScreen extends ConsumerStatefulWidget {
   const BackupScreen({super.key});
@@ -48,11 +39,21 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
   @override
   Widget build(BuildContext context) {
     final last = ref.watch(lastBackupProvider);
+    final l10n = context.l10n;
+    final includes = <String>[
+      l10n.backupIncludeLogs,
+      l10n.backupIncludeMoney,
+      l10n.backupIncludeHealth,
+      l10n.backupIncludeDaily,
+      l10n.backupIncludeBucket,
+      l10n.backupIncludeTrips,
+      l10n.backupIncludeAttachments,
+    ];
     return Column(
       children: [
         AppTopBar(
-          title: 'Backup & Restore',
-          subtitle: 'Пълно архивиране (ZIP)',
+          title: l10n.backupTitle,
+          subtitle: l10n.backupSubtitle,
           showBack: Navigator.of(context).canPop(),
           onBack: () => Navigator.of(context).maybePop(),
         ),
@@ -63,9 +64,9 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Eyebrow('Какво се включва'),
+                    Eyebrow(l10n.backupIncludesEyebrow),
                     const SizedBox(height: 12),
-                    for (final item in _includes)
+                    for (final item in includes)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: Row(
@@ -81,13 +82,13 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
                     const SizedBox(height: 4),
                     Text(
                       last == null
-                          ? 'Все още няма създаден backup в тази сесия.'
-                          : 'Последен backup: ${_fmt(last)}',
+                          ? l10n.backupNoneThisSession
+                          : l10n.backupLast(_fmt(last)),
                       style: AppText.bodyDim,
                     ),
                     const SizedBox(height: 14),
                     LmButton(
-                      _busy ? 'Моля изчакайте…' : 'Създай backup',
+                      _busy ? l10n.backupPleaseWait : l10n.backupCreate,
                       icon: LmIcons.export,
                       full: true,
                       onTap: _busy ? null : _createBackup,
@@ -100,16 +101,15 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Eyebrow('Възстановяване'),
+                    Eyebrow(l10n.backupRestoreEyebrow),
                     const SizedBox(height: 10),
                     Text(
-                      'Избери ZIP backup файл. Restore заменя всички текущи '
-                      'данни — операцията е „всичко или нищо“.',
+                      l10n.backupRestoreHint,
                       style: AppText.bodyDim,
                     ),
                     const SizedBox(height: 14),
                     LmButton(
-                      'Избери backup файл',
+                      l10n.backupPickFile,
                       variant: LmButtonVariant.ghost,
                       icon: LmIcons.search,
                       full: true,
@@ -121,7 +121,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
                           validation: _validation!, fileName: _pickedName),
                       const SizedBox(height: 12),
                       LmButton(
-                        'Възстанови от backup',
+                        l10n.backupRestoreAction,
                         variant: LmButtonVariant.danger,
                         icon: LmIcons.bolt,
                         full: true,
@@ -151,7 +151,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
         subject: file.uri.pathSegments.last,
       ));
     } catch (e) {
-      if (mounted) showLmToast(context, 'Backup-ът пропадна: $e');
+      if (mounted) showLmToast(context, context.l10n.backupFailed('$e'));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -168,7 +168,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
       final picked = result.files.single;
       final bytes = picked.bytes;
       if (bytes == null) {
-        if (mounted) showLmToast(context, 'Не може да се прочете файлът');
+        if (mounted) showLmToast(context, context.l10n.backupCannotRead);
         return;
       }
       final svc = ref.read(backupServiceProvider);
@@ -179,7 +179,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
         _pickedName = picked.name;
       });
     } catch (e) {
-      if (mounted) showLmToast(context, 'Грешка при избор: $e');
+      if (mounted) showLmToast(context, context.l10n.backupPickError('$e'));
     }
   }
 
@@ -197,7 +197,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
     try {
       await svc.restore(bytes);
       if (mounted) {
-        showLmToast(context, 'Данните са възстановени');
+        showLmToast(context, context.l10n.backupRestored);
         setState(() {
           _validation = null;
           _pendingBytes = null;
@@ -205,7 +205,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
         });
       }
     } catch (e) {
-      if (mounted) showLmToast(context, 'Restore пропадна — данните са непокътнати');
+      if (mounted) showLmToast(context, context.l10n.backupRestoreFailed);
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -215,20 +215,17 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
         context: context,
         builder: (ctx) => AlertDialog(
           backgroundColor: AppColors.card,
-          title: const Text('Замяна на данните'),
-          content: const Text(
-            'В приложението вече има данни. Restore ще замени текущите данни '
-            'с тези от backup файла.',
-          ),
+          title: Text(ctx.l10n.backupReplaceTitle),
+          content: Text(ctx.l10n.backupReplaceBody),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(ctx).pop(false),
-              child: const Text('Отказ'),
+              child: Text(ctx.l10n.actionCancel),
             ),
             TextButton(
               onPressed: () => Navigator.of(ctx).pop(true),
-              child: const Text('Замени и възстанови',
-                  style: TextStyle(color: AppColors.red)),
+              child: Text(ctx.l10n.backupReplaceConfirm,
+                  style: const TextStyle(color: AppColors.red)),
             ),
           ],
         ),
@@ -265,7 +262,9 @@ class _ValidationChecklist extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  validation.ok ? 'Валиден backup' : 'Невалиден backup',
+                  validation.ok
+                      ? context.l10n.backupValid
+                      : context.l10n.backupInvalid,
                   style: AppText.body.copyWith(fontWeight: FontWeight.w600),
                 ),
               ),
@@ -278,8 +277,13 @@ class _ValidationChecklist extends StatelessWidget {
           if (validation.ok) ...[
             const SizedBox(height: 8),
             Text(
-              '${validation.recordCount} записа · ${validation.attachmentCount} снимки'
-              '${validation.createdAt != null ? ' · ${validation.createdAt!.toLocal().toString().split('.').first}' : ''}',
+              context.l10n.backupSummary(
+                    validation.recordCount,
+                    validation.attachmentCount,
+                  ) +
+                  (validation.createdAt != null
+                      ? ' · ${validation.createdAt!.toLocal().toString().split('.').first}'
+                      : ''),
               style: AppText.bodyDim,
             ),
           ] else
