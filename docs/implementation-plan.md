@@ -284,10 +284,11 @@
 
 ## Phase 9 — Polish & hardening
 
-### Slice 9.1 — Empty states & loading
-- [ ] Per-module empty states (no records / no photos / no search results) in the design's voice.
-- [ ] Stream loading/error states (no raw spinners where a skeleton fits).
-- **Verify:** fresh install (no seed) shows graceful empties everywhere.
+### Slice 9.1 — Empty states & loading ✅ (commit 0249d0a)
+- [x] Shared `LmEmpty` (faint icon tile + Bulgarian message + optional CTA) wired into every list module: food, finance (expenses/income), activities, steps, health (4 tabs), bucket, trips (repeat-filter aware), memories (visual diary), search (empty-query + no-results). Daily's report empty + Home's in-card timeline empty already graceful.
+- [x] `LmSkeleton`/`LmListSkeleton` replace all 7 raw `CircularProgressIndicator`s (food/finance/activities/steps/health summary areas + trip/bucket detail).
+- [x] Tests (9): every list module renders its empty copy on a fresh (unseeded) DB.
+- **Verify:** ✅ analyze clean; full suite green (188). Fresh install shows graceful empties everywhere; no raw spinners remain.
 
 ### Slice 9.2 — Motion, formatting, polish
 - [ ] Sheet slide-up + fade transitions; ring/chart easing.
