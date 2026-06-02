@@ -24,9 +24,9 @@
 - [x] Add all dependencies from technical-spec §10 to `pubspec.yaml` (not wired yet).
 - **Verify:** ✅ `flutter analyze` clean. (Boot verified via gallery + widget test rather than the counter app.)
 
-### Slice 0.2 — CI-lite check script (optional but recommended)
-- [ ] A `make`/script target: `flutter analyze && flutter test && dart run build_runner build`.
-- **Verify:** script runs green on the empty project.
+### Slice 0.2 — CI-lite check script (optional but recommended) ✅
+- [x] `tool/check.sh` + `tool/check.ps1`: `flutter analyze && flutter test && dart run build_runner build` (cross-platform; added in the Phase 9.3 wrap-up).
+- **Verify:** ✅ analyze + suite are green (193 tests).
 
 ---
 
@@ -297,27 +297,36 @@
 - [x] Tests (5): dates formatter; bottom-nav button semantics.
 - **Verify:** ✅ analyze clean; full suite green (193). Dates display `dd.MM.yyyy`; same string length as before → no new overflow. Prototype visual pass + 412-wide overflow check are device-verified (parallel session).
 
-### Slice 9.3 — Final QA pass
-- [ ] Walk every spec §30 acceptance criterion; tick each.
-- [ ] Full `flutter analyze` + `flutter test` green; manual smoke of all flows.
-- [ ] Update this file: all slices checked; note any deliberate deferrals.
-- **Verify:** acceptance checklist (§30) fully satisfied.
+### Slice 9.3 — Final QA pass ✅ (commit a7b9232)
+- [x] Walked every spec §30 acceptance criterion against the shipped code (goal-backward); all 14 satisfied — see the checklist below.
+- [x] Full `flutter analyze` clean + `flutter test` green (193 tests). Interactive smoke of all flows is device-verified (parallel emulator session); host tests skip the Android build.
+- [x] Plan finalized — all slices checked; deferrals noted below.
+- **Verify:** ✅ acceptance checklist (§30) fully satisfied.
+
+> **Phase 9 complete** — empty states + loading skeletons, dd.MM.yyyy date formatting, a11y semantics, and the final §30 QA pass. `flutter analyze` clean; full suite green (193).
+
+#### Deliberate deferrals / out-of-scope (V1)
+- **Date-picker localization:** display dates are bg `dd.MM.yyyy`, but the native `showDatePicker` dialog is still English — adding `flutter_localizations` + `locale: bg` is deferred (a dependency change, not yet approved).
+- **Last-backup time is session-only** (V1 has no settings store).
+- **CSV export + PDF attachments** deferred per approved scope (§25.7 / export scope).
+- **No app lock; no iOS build config** (locked decisions §4).
+- **Device-only verification:** photo file IO, the share sheet, file-picker, the APK build (file_picker 11 + share_plus 12), and the visual/no-overflow pass on a 412-wide device are verified outside `flutter test` (parallel session) — green host tests do not prove the APK builds.
 
 ---
 
 ## Acceptance criteria coverage (spec §30) — final gate
 
-- [ ] §30.1 Quick logging (food/expense/BP/daily; saved to real modules)
-- [ ] §30.2 Food (CRUD, macros, daily totals, period summaries/charts)
-- [ ] §30.3 Activities (CRUD, types incl. Друго, fields, filters, summaries)
-- [ ] §30.4 Money (expenses/income, daily+monthly totals, categories, no expense photos, charts)
-- [ ] §30.5 Health events (add, dental visit, next-recommended date)
-- [ ] §30.6 Lab tests (date/lab/reason, free-text results, multiple photos)
-- [ ] §30.7 BP/pulse (CRUD, multiple/day, period views, charts, export)
-- [ ] §30.8 Meds (CRUD, optional dose, by date, export)
-- [ ] §30.9 Daily Quick Log (one/day, all fields, summaries/charts)
-- [ ] §30.10 Steps (entry, Daily↔Steps sync, edit only in module, charts)
-- [ ] §30.11 Bucket List (CRUD, detail, complete flow, experience, edit, summaries)
-- [ ] §30.12 Trips (CRUD, cover+gallery, ratings, repeat, comment, search, summaries, exports)
-- [ ] §30.13 AI export (Full/Period/Module, JSON+Markdown, raw+summary, ChatGPT-ready MD)
-- [ ] §30.14 Backup & Restore (ZIP w/ manifest+data+attachments, restore links, invalid rejected, non-empty warning, all-or-nothing)
+- [x] §30.1 Quick logging (food/expense/BP/daily; saved to real modules)
+- [x] §30.2 Food (CRUD, macros, daily totals, period summaries/charts)
+- [x] §30.3 Activities (CRUD, types incl. Друго, fields, filters, summaries)
+- [x] §30.4 Money (expenses/income, daily+monthly totals, categories, no expense photos, charts)
+- [x] §30.5 Health events (add, dental visit, next-recommended date)
+- [x] §30.6 Lab tests (date/lab/reason, free-text results, multiple photos)
+- [x] §30.7 BP/pulse (CRUD, multiple/day, period views, charts, export)
+- [x] §30.8 Meds (CRUD, optional dose, by date, export)
+- [x] §30.9 Daily Quick Log (one/day, all fields, summaries/charts)
+- [x] §30.10 Steps (entry, Daily↔Steps sync, edit only in module, charts)
+- [x] §30.11 Bucket List (CRUD, detail, complete flow, experience, edit, summaries)
+- [x] §30.12 Trips (CRUD, cover+gallery, ratings, repeat, comment, search, summaries, exports)
+- [x] §30.13 AI export (Full/Period/Module, JSON+Markdown, raw+summary, ChatGPT-ready MD)
+- [x] §30.14 Backup & Restore (ZIP w/ manifest+data+attachments, restore links, invalid rejected, non-empty warning, all-or-nothing)
