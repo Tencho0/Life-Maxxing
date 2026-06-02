@@ -337,13 +337,13 @@
 
 > Make every user-facing string localizable and add a runtime System / Български / English switcher that persists across launches. **Storage stays language-independent** — enum `code`s, `yyyy-MM-dd` dates, EUR cents, `*Lower` search columns, and AI-export JSON keys/codes never change. Localization is **display-only**. Mechanism: Flutter's official `gen-l10n` (ARB → generated `AppLocalizations`). Persistence: a drift-backed key-value `settings` table (no new dependency). One slice per commit, in order; pause for review at boundaries.
 
-### Slice 10.1 — i18n infrastructure (pipeline proof)
-- [ ] Add `flutter_localizations` (SDK) to `pubspec.yaml`; set `flutter: generate: true`. `intl ^0.20.2` already present.
-- [ ] `l10n.yaml` (arb-dir `lib/l10n`, template `app_en.arb`, output `AppLocalizations`, non-nullable getter); seed `lib/l10n/app_en.arb` + `app_bg.arb` with ~10 strings (app title, common actions, language-switcher labels) to prove the pipeline.
-- [ ] `lib/core/l10n/l10n_ext.dart` — `context.l10n` extension. Generated `app_localizations*.dart` committed (like drift `*.g.dart`).
-- [ ] Wire `MaterialApp.router` in `app/app.dart`: `localizationsDelegates: AppLocalizations.localizationsDelegates`, `supportedLocales: AppLocalizations.supportedLocales` (`[bg, en]`), `locale:` hook (provider lands in 10.2). `initializeDateFormatting` for both locales at startup.
-- [ ] Test: pump a widget under each locale with the delegates installed; assert seeded strings resolve per-locale; assert `supportedLocales == [bg, en]`.
-- **Verify:** `flutter analyze` clean; `flutter gen-l10n` reports no missing translations; test green.
+### Slice 10.1 — i18n infrastructure (pipeline proof) ✅ (commit 4e2075e)
+- [x] Add `flutter_localizations` (SDK) to `pubspec.yaml`; set `flutter: generate: true`. `intl ^0.20.2` already present.
+- [x] `l10n.yaml` (arb-dir `lib/l10n`, template `app_en.arb`, output `AppLocalizations`, non-nullable getter); seed `lib/l10n/app_en.arb` + `app_bg.arb` with ~10 strings (app title, common actions, language-switcher labels) to prove the pipeline.
+- [x] `lib/core/l10n/l10n_ext.dart` — `context.l10n` extension. Generated `app_localizations*.dart` committed (like drift `*.g.dart`).
+- [x] Wire `MaterialApp.router` in `app/app.dart`: `localizationsDelegates: AppLocalizations.localizationsDelegates`, `supportedLocales: AppLocalizations.supportedLocales` (`[bg, en]`), `onGenerateTitle`; `locale:` hook lands in 10.2. `initializeDateFormatting` for both locales at startup. `LifeMaxxingApp` accepts test `overrides`.
+- [x] Test (2): per-locale string resolution via `context.l10n`; delegate + `supportedLocales == [bg, en]` wiring (`test/l10n`).
+- **Verify:** ✅ `flutter analyze` clean; `flutter gen-l10n` no missing translations; full suite green (195). Note: `Override` type imported from `package:flutter_riverpod/misc.dart` (not exported by the main barrel in 3.x); DB-backed wiring test uses the `settleData` + unmount-flush cadence to avoid a pending drift-stream timer.
 
 ### Slice 10.2 — Settings store + locale provider + switcher UI
 - [ ] Drift `settings` KV table (`key` PK, `value` TEXT) + `SettingsDao`; `SettingsService` (get/set locale code). build_runner regen.
