@@ -38,10 +38,11 @@ void main() {
     expect(find.textContaining('Мартин'), findsOneWidget);
     expect(find.text('Още'), findsWidgets);
 
-    // Switch to the Графики tab.
+    // Switch to the Графики tab (now the DB-backed Stats screen).
     await tester.tap(find.text('Графики'));
-    await tester.pumpAndSettle();
-    expect(find.text('Графики — предстои (Phase 7)'), findsOneWidget);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300)); // stats streams
+    expect(find.text('30 дни'), findsWidgets); // a period chip on Stats
 
     // FAB opens the quick-log chooser.
     await tester.tap(
