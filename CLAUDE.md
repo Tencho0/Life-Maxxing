@@ -13,6 +13,7 @@ LifeMaxxing V1 is a **personal, single-user, offline-first** mobile app for logg
   - Original design URL: `https://api.anthropic.com/v1/design/h/cWrAm9wkEll9SSCXVyhJfA?open_file=index.html`
 - **Engineering contract** → [`docs/technical-spec.md`](docs/technical-spec.md) (architecture, schema, services, decisions).
 - **Build order & progress** → [`docs/implementation-plan.md`](docs/implementation-plan.md). **Keep it updated** — check off items as slices land; note deviations inline.
+- **Promo videos (TikTok/Reels)** → [`promo/VIDEOS.md`](promo/VIDEOS.md) — video history, the build recipe, and the idea backlog. For "make the next promo video": read it, suggest topics, build following the recipe, then log the new video there.
 
 When the design and the functional spec disagree on **data/behavior**, the spec wins; the design wins on **visuals**. (The known divergences are already resolved in the technical spec.)
 

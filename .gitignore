@@ -50,3 +50,15 @@ app.*.map.json
 # frames/screenshots. Scripts, source photos, VO, and final renders are kept.
 /promo/tools/
 /promo/work/
+/promo/v2/work/
+/promo/v3/work/
+/promo/v2/seq/
+/promo/v2/seq_log/
+/promo/v2/seq_charts/
+/promo/v2/morning/
+/promo/v3/broll/
+
+# Promo scratch (failed recordings / prototype frames)
+/promo/v2/rec/
+/promo/v3/proto_frame.png
+/promo/v3/work_proto.mp4
