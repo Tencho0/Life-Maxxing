@@ -32,14 +32,17 @@ When asked to make the next promo video:
 | 1 | **Track Your Entire Life** | Data-dopamine *breadth* — "you can track ALL of this" | Full-screen app stills, fast cuts, zoom-punch, charts climax | 15s | ✅ done | `promo/out/lifemaxxing_promo_v1_final.mp4` |
 | 2 | **A Day in My Life** | *Narrative* — wake → log the whole day → it all adds up | Device-mockup (phone frame, **no hand**) on dark gradient; in-phone app motion (capture-sequence) | 20s | ✅ done | `promo/v2/out/v2_final.mp4` |
 | 3 | **30 Days Taught Me** ⭐ | *Insight/outcome* — what the data revealed (4 real stats) | **Phone-mock floating over themed, blurred B-roll** + synced captions | 16s | ✅ done (best so far) | `promo/v3/out/v3_final.mp4` |
+| 4 | **Let Your Favorite AI Analyze Your Life** | *AI/utility, dramatic* — export → ChatGPT/Claude/Gemini → **exposed my mistakes → fixes** (ties to the real "Export for AI" feature) | Phone-mock (hook + export) + **AI logo-chip row** + red **"3 MISTAKES FOUND"** reveal → green **"HOW TO FIX IT"** payoff | 19s | ✅ done | `promo/v4/out/v4_final.mp4` |
 
-**#3 is the current "winning formula"** — the phone-mock-over-blurred-B-roll look. Default to
-it unless the chosen angle calls for something else.
+**#3's phone-mock-over-blurred-B-roll is the "winning formula"** — default to it unless the
+angle calls for something else (e.g. #4's full-frame AI card). #4 proved a non-app "explainer"
+beat (logo row, AI card) mixes cleanly with phone-mock beats.
 
 Per-video build scripts (reusable, edit + re-run):
 - **#1:** `promo/render.sh` · `promo/mux_vo.sh` · `promo/make_music.py`
 - **#2:** `promo/v2/render_v2.sh` · `promo/v2/mux_v2.sh` · `promo/v2/make_music_v2.py`
 - **#3:** `promo/v3/render_v3.sh` · `promo/v3/mux_v3.sh` (reuses #2's phone frame + music)
+- **#4:** `promo/v4/render_v4.sh` · `promo/v4/mux_v4.sh` (reuses #2's phone frame + music_v2)
 
 ---
 
@@ -106,6 +109,16 @@ Keep the **brand guardrails** (§4): phone-mock identity, accent colors, icon, g
   health/pink `0xFF9EC4`, neutral white `0xFFFFFF`.
 - **Overlay font:** `C:/Windows/Fonts/arialbd.ttf` (Arial Bold).
 
+### Brand logos (e.g. AI chatbots — video #4)
+- **Source:** Wikimedia Commons rasterizes SVGs to PNG via the width param —
+  `curl -L "https://commons.wikimedia.org/wiki/Special:FilePath/<File.svg>?width=400" -o logo.png`
+  (e.g. `ChatGPT-Logo.svg`, `Claude_AI_logo.svg`, `Google_Gemini_logo.svg`).
+- Many logos are dark/mono → **invisible on dark bg**. Put each on a **white rounded chip**
+  (PIL) so they all read. Space chips so they don't overlap (e.g. x=60/390/720 for 300px chips).
+- **⚠️ Trademark:** third-party logos in a promo are *nominative use* ("works with"). Fine for
+  organic/personal posts; for paid/scaled ads, review each brand's logo guidelines or use
+  neutral "AI" iconography instead.
+
 ### Phone mockup (no hand)
 - `promo/v2/work/phone_body.png` (660×1304 rounded bezel) + `promo/v2/work/screen_mask.png`
   (620×1264 rounded mask). Regenerate via PIL if needed (`rounded_rectangle`).
@@ -159,4 +172,4 @@ days. (These are the demo "Martin" persona — swap for real user numbers before
 
 ---
 
-*Last updated after video #3. Keep this file current — it's how the next session picks up.*
+*Last updated after video #4. Keep this file current — it's how the next session picks up.*

@@ -62,3 +62,7 @@ app.*.map.json
 /promo/v2/rec/
 /promo/v3/proto_frame.png
 /promo/v3/work_proto.mp4
+
+# Promo video #4 intermediates
+/promo/v4/work/
+/promo/v4/logos/
