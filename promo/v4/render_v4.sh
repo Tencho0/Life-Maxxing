@@ -34,7 +34,7 @@ echo "== s3 AI logo row =="
 [3:v]scale=300:-1,format=rgba,fade=t=in:st=0.60:d=0.3:alpha=1[c3];\
 [0:v]drawtext=fontfile='${FONT}':text='YOUR FAVORITE AI':fontcolor=white:fontsize=58:x=(w-text_w)/2:y=h*0.22[bg];\
 [bg][c1]overlay=x=60:y=(H-h)/2:shortest=1[o1];[o1][c2]overlay=x=390:y=(H-h)/2[o2];[o2][c3]overlay=x=720:y=(H-h)/2,format=yuv420p[v]" \
- -map "[v]" -t 2.9 "$W/s3.mp4" -loglevel error
+ -map "[v]" -t 3.9 "$W/s3.mp4" -loglevel error
 
 echo "== s4 MISTAKES (red reveal) =="
 "$FF" -y -loop 1 -i "$W/grad_red.png" \
@@ -43,7 +43,7 @@ drawtext=fontfile='${FONT}':text='3 MISTAKES FOUND':fontcolor=0xFF7A6B:fontsize=
 drawtext=fontfile='${FONT}':text='Money wasted on food':fontcolor=0xFF7A6B:fontsize=54:x=(w-text_w)/2:y=h*0.42:alpha='if(lt(t,2.6),0,min((t-2.6)/0.3,1))',\
 drawtext=fontfile='${FONT}':text='Skipping workouts kills your mood':fontcolor=0xFF7A6B:fontsize=48:x=(w-text_w)/2:y=h*0.54:alpha='if(lt(t,3.4),0,min((t-3.4)/0.3,1))',\
 drawtext=fontfile='${FONT}':text='Salt is spiking your blood pressure':fontcolor=0xFF7A6B:fontsize=46:x=(w-text_w)/2:y=h*0.66:alpha='if(lt(t,4.4),0,min((t-4.4)/0.3,1))',\
-format=yuv420p[v]" -map "[v]" -t 6.5 "$W/s4.mp4" -loglevel error
+format=yuv420p[v]" -map "[v]" -t 8.0 "$W/s4.mp4" -loglevel error
 
 echo "== s5 FIX (green payoff) =="
 "$FF" -y -loop 1 -i "$GRAD" \
