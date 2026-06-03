@@ -66,3 +66,9 @@ app.*.map.json
 # Promo video #4 intermediates
 /promo/v4/work/
 /promo/v4/logos/
+
+# Promo video #5 intermediates (segments, B-roll, contact sheets; VO + final kept)
+/promo/v5/work/
+
+# Local agent state (Claude Code harness)
+.claude/
