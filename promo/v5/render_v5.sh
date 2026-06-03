@@ -47,8 +47,13 @@ make_phone(){ local app="$1" dur="$2" cap="$3" col="$4" o="$5"; local N=$(awk "B
 drawtext=fontfile='${FONT}':text='${cap}':fontcolor=${col}:fontsize=56:x=(w-text_w)/2:y=h*0.085:box=1:boxcolor=black@0.45:boxborderw=24:alpha='if(lt(t,0.25),t/0.25,if(lt(t,${dur}-0.3),1,(${dur}-t)/0.3))',format=yuv420p[v]" \
    -map "[v]" -t "$dur" "$o" -loglevel error; }
 
-echo "== s01 desk intro =="
-make_desk "$W/desk1.mp4" 5.0 'I built an app to track my entire life' 0xFFFFFF "$W/s01.mp4"
+echo "== s01 hook opener (energetic: cinematic keyboard, fast push-in) =="
+HN=$(awk "BEGIN{print 5.0*30-1}")
+"$FF" -y -i "$W/hook.mp4" -filter_complex "\
+[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,gblur=sigma=4,eq=brightness=-0.04:saturation=1.15:contrast=1.08,vignette=PI/6[bg];\
+[bg]zoompan=z='1.05+0.13*on/${HN}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:fps=30:s=1080x1920,\
+drawtext=fontfile='${FONT}':text='I built an app to track my entire life':fontcolor=0xFFFFFF:fontsize=60:x=(w-text_w)/2:y=h*0.78:box=1:boxcolor=black@0.5:boxborderw=26:alpha='if(lt(t,0.2),t/0.2,if(lt(t,4.7),1,(5.0-t)/0.3))',format=yuv420p[v]" \
+ -map "[v]" -t 5.0 "$W/s01.mp4" -loglevel error
 
 echo "== s02-s11 full-frame module tour =="
 make_full promo/work/home.png       4.8 'One app. Everything. Offline.' 0xFFFFFF "$W/s02.mp4"
@@ -84,7 +89,7 @@ echo "== s15 endcard (brand + CTA) =="
 drawtext=fontfile='${FONT}':text='Track your whole life':fontcolor=0x99A0AE:fontsize=40:x=(w-text_w)/2:y=H/2+10,\
 drawbox=x=220:y=1080:w=640:h=140:color=0x5FD08A@1:t=fill,\
 drawtext=fontfile='${FONT}':text='DOWNLOAD NOW':fontcolor=0x0C0D11:fontsize=58:x=(w-text_w)/2:y=1115,\
-fade=t=in:st=0:d=0.3,format=yuv420p[v]" -map "[v]" -frames:v 195 "$W/s15.mp4" -loglevel error
+fade=t=in:st=0:d=0.3,format=yuv420p[v]" -map "[v]" -frames:v 75 "$W/s15.mp4" -loglevel error
 
 echo "== concat =="
 L="$W/list_v5.txt"; : > "$L"

@@ -33,7 +33,7 @@ When asked to make the next promo video:
 | 2 | **A Day in My Life** | *Narrative* — wake → log the whole day → it all adds up | Device-mockup (phone frame, **no hand**) on dark gradient; in-phone app motion (capture-sequence) | 20s | ✅ done | `promo/v2/out/v2_final.mp4` |
 | 3 | **30 Days Taught Me** ⭐ | *Insight/outcome* — what the data revealed (4 real stats) | **Phone-mock floating over themed, blurred B-roll** + synced captions | 16s | ✅ done (best so far) | `promo/v3/out/v3_final.mp4` |
 | 4 | **Let Your Favorite AI Analyze Your Life** | *AI/utility, dramatic* — export → ChatGPT/Claude/Gemini → **exposed my mistakes → fixes** (ties to the real "Export for AI" feature) | Phone-mock (hook + export) + **AI logo-chip row** + red **"3 MISTAKES FOUND"** reveal → green **"HOW TO FIX IT"** payoff | 19s | ✅ done | `promo/v4/out/v4_final.mp4` |
-| 5 | **I Built an App to Track My Entire Life** | *Builder story / explainer* — first-person founder tour of the whole app (all 9 modules) → AI export → CTA. First long-form explainer in the series. | **Desk B-roll bookends** (graded "coding at the desk") + **full-frame module tour** (`make_full`) + phone-mock AI payoff (#4 reuse) | 55s | ✅ done | `promo/v5/out/v5_final.mp4` |
+| 5 | **I Built an App to Track My Entire Life** | *Builder story / explainer* — first-person founder tour of the whole app (all 9 modules) → AI export → CTA. First long-form explainer in the series. | **Cinematic keyboard hook** open + **full-frame module tour** (`make_full`) + phone-mock AI payoff (#4 reuse) + desk-B-roll outro & CTA | 51s | ✅ done | `promo/v5/out/v5_final.mp4` |
 
 **#3's phone-mock-over-blurred-B-roll is the "winning formula"** — default to it unless the
 angle calls for something else (e.g. #4's full-frame AI card). #4 proved a non-app "explainer"
@@ -178,10 +178,18 @@ days. (These are the demo "Martin" persona — swap for real user numbers before
 - **Builder-story angle:** landed well — first-person VO ("I log what I eat…", "I built it for me")
   turns a 9-module sweep into a *tour* rather than a feature list. The breadth coverage (all 9
   even beats) reads as "look how much one app holds," exactly the goal.
-- **Desk B-roll bookends (format C):** the stock-y risk was real but **gradeable** — dark grade
-  (`brightness=-0.15:saturation=0.7`) + light `gblur=sigma=8` + `vignette` + a 9:16 crop that
-  tightens onto the hands made cheap Pixabay `_tiny` clips read as intimate "building" shots, not
-  wide stock footage. The grade-test-one-frame gate (before building beats) is worth keeping.
+- **B-roll bookends (format C):** the stock-y risk was real but **gradeable** — dark grade
+  (`brightness=-0.15:saturation=0.7`) + light `gblur` + `vignette` + a 9:16 crop that tightens
+  onto the subject made cheap Pixabay `_tiny` clips read as intimate "building" shots, not wide
+  stock footage. The grade-test-one-frame gate (before building beats) is worth keeping.
+- **Opener matters most for retention:** the first cut used a calm hands-on-laptop shot as the
+  open — too low-energy, easy to scroll past. Swapped it for a **cinematic dark-keyboard macro**
+  (shallow DOF) with a *faster, stronger* push-in (`zoompan z 1.05→1.18` vs the calm 1.04) and a
+  brighter grade (`brightness=-0.04:contrast=1.08`). Lesson: spend the extra sourcing pass on the
+  first 2 seconds — production value + motion there is what stops the scroll. The desk shot still
+  works for the **outro** (low stakes by then).
+- **Trim dead air at the end:** the 6.5s endcard was 4s too long; cut to **2.5s** (the VO outro
+  finishes inside the desk-outro beat, so the CTA only needs to *hold*, not wait). Final 51s.
 - **`make_full` (full-frame app over a blurred fill of itself):** clean way to show tall phone
   screenshots (1280×2856) full-frame without losing content — sharp screen fit-to-height, blurred
   pillarbox fills the 9:16 sides. Reusable for any breadth/tour video.
