@@ -11,6 +11,11 @@
 
   "settingsTitle": "Настройки",
   "settingsLanguage": "Език",
+  "settingsName": "Име",
+  "welcomeTitle": "Добре дошъл!",
+  "welcomePrompt": "Как да те наричам?",
+  "welcomeNameHint": "Име",
+  "welcomeContinue": "Продължи",
   "languageSystem": "Системен",
   "languageBulgarian": "Български",
   "languageEnglish": "English",

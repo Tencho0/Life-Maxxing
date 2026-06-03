@@ -37,4 +37,30 @@ void main() {
     await settings.setLocale(null);
     expect(await settings.getLocale(), isNull);
   });
+
+  test('user name defaults to null when unset', () async {
+    expect(await settings.getUserName(), isNull);
+  });
+
+  test('set then get round-trips the user name', () async {
+    await settings.setUserName('Мартин');
+    expect(await settings.getUserName(), 'Мартин');
+  });
+
+  test('user name is trimmed on save', () async {
+    await settings.setUserName('  Мартин  ');
+    expect(await settings.getUserName(), 'Мартин');
+  });
+
+  test('a blank name clears the stored value (null, not empty)', () async {
+    await settings.setUserName('Мартин');
+    await settings.setUserName('   ');
+    expect(await settings.getUserName(), isNull);
+  });
+
+  test('user name persists across a fresh service on the same db', () async {
+    await settings.setUserName('Иван');
+    final reloaded = SettingsService(db.settingsDao);
+    expect(await reloaded.getUserName(), 'Иван');
+  });
 }

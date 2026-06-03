@@ -36,6 +36,21 @@ class AppLocalizationsBg extends AppLocalizations {
   String get settingsLanguage => 'Език';
 
   @override
+  String get settingsName => 'Име';
+
+  @override
+  String get welcomeTitle => 'Добре дошъл!';
+
+  @override
+  String get welcomePrompt => 'Как да те наричам?';
+
+  @override
+  String get welcomeNameHint => 'Име';
+
+  @override
+  String get welcomeContinue => 'Продължи';
+
+  @override
   String get languageSystem => 'Системен';
 
   @override

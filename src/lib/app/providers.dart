@@ -50,6 +50,33 @@ class LocaleController extends Notifier<Locale?> {
   }
 }
 
+/// The user display name loaded from settings at startup. `main()` overrides
+/// this with the persisted value (read before the first frame); it seeds
+/// [userNameProvider]'s initial state. Defaults to `null` (no name yet) in
+/// tests/cold start, which drives the first-launch welcome screen.
+final initialUserNameProvider = Provider<String?>((ref) => null);
+
+/// The active user display name shown in the home greeting. `null` = no name
+/// set yet → the app shell shows the welcome screen instead of the router.
+/// [WelcomeScreen] and Settings call [UserNameController.set], which updates
+/// state live and persists.
+final userNameProvider =
+    NotifierProvider<UserNameController, String?>(UserNameController.new);
+
+class UserNameController extends Notifier<String?> {
+  @override
+  String? build() => ref.read(initialUserNameProvider);
+
+  /// Updates the active name live and persists it (trimmed). A blank name is
+  /// ignored — the greeting always has a real name once onboarding completes.
+  Future<void> set(String name) async {
+    final trimmed = name.trim();
+    if (trimmed.isEmpty) return;
+    state = trimmed;
+    await ref.read(settingsServiceProvider).setUserName(trimmed);
+  }
+}
+
 /// The single write path for photo attachments (image pipeline + cardinality +
 /// delete-cascades-files). Used by every photo-bearing feature slice.
 final attachmentServiceProvider = Provider<AttachmentService>((ref) {

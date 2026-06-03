@@ -152,6 +152,36 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get settingsLanguage;
 
+  /// Label for the editable user-name row in Settings (used in the home greeting).
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get settingsName;
+
+  /// First-launch welcome screen heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome!'**
+  String get welcomeTitle;
+
+  /// First-launch prompt asking for the user's name.
+  ///
+  /// In en, this message translates to:
+  /// **'What should we call you?'**
+  String get welcomePrompt;
+
+  /// Placeholder text in the first-launch name input.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get welcomeNameHint;
+
+  /// Button that confirms the entered name and enters the app.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get welcomeContinue;
+
   /// Language option: follow the system locale.
   ///
   /// In en, this message translates to:

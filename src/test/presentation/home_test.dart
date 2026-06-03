@@ -140,7 +140,10 @@ void main() {
     await seedDatabase(db);
 
     await tester.pumpWidget(ProviderScope(
-      overrides: [databaseProvider.overrideWithValue(db)],
+      overrides: [
+        databaseProvider.overrideWithValue(db),
+        initialUserNameProvider.overrideWithValue('Martin'),
+      ],
       child: localizedApp(home: Scaffold(body: HomeScreen())),
     ));
     await tester.pump();
