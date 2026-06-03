@@ -34,6 +34,10 @@ UI (widgets/screens)  ──reads──▶  Riverpod providers  ──query/stre
 
 ### 1.3 Proposed folder layout
 
+> The Flutter app lives in **`src/`** (the project root — run all `flutter`/`dart`
+> commands from there). `promo/`, `docs/`, and `design/` are siblings of `src/`
+> at the repo root. The tree below is relative to `src/`.
+
 ```
 lib/
   main.dart

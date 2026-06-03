@@ -46,21 +46,21 @@ App id: `com.lifemaxxing.app`. Platforms: **Android only** for now (add iOS late
 
 ## 5. Code layout & conventions
 
-Folder structure is defined in `docs/technical-spec.md §1.3`. In short:
+The Flutter app lives in **`src/`** (run `flutter`/`dart` from there); `promo/`, `docs/`, and `design/` sit beside `src/` at the repo root. Folder structure is defined in `docs/technical-spec.md §1.3`. In short:
 
-- `lib/core/` — design system: `theme/` (tokens, typography, theme, mood_color), `widgets/` (shared UI), `icons/`, `charts/`.
-- `lib/domain/` — plain Dart (enums, `Period`, summary DTOs). **No Flutter imports.**
-- `lib/data/` — drift `database.dart`, `tables/`, `daos/`, `converters.dart`.
-- `lib/services/` — `attachment_service.dart`, `backup_service.dart`, `export_service.dart`.
-- `lib/presentation/<feature>/` — feature-first: screen + providers + form sheet per module.
-- `lib/app/` — `app.dart`, `router.dart`, `sheets.dart`.
+- `src/lib/core/` — design system: `theme/` (tokens, typography, theme, mood_color), `widgets/` (shared UI), `icons/`, `charts/`.
+- `src/lib/domain/` — plain Dart (enums, `Period`, summary DTOs). **No Flutter imports.**
+- `src/lib/data/` — drift `database.dart`, `tables/`, `daos/`, `converters.dart`.
+- `src/lib/services/` — `attachment_service.dart`, `backup_service.dart`, `export_service.dart`.
+- `src/lib/presentation/<feature>/` — feature-first: screen + providers + form sheet per module.
+- `src/lib/app/` — `app.dart`, `router.dart`, `sheets.dart`.
 
 Conventions:
 - **Bulgarian** for all user-facing strings; **English** for identifiers, comments, file names.
 - Shared design-system widgets are prefixed `Lm` (`LmCard`, `LmButton`, `LmRow`, …) per the technical spec's component map.
-- Enums stored as **stable lowercase text codes**; Bulgarian display labels live in `domain/enums.dart`, decoupled from storage.
+- Enums stored as **stable lowercase text codes**; Bulgarian display labels live in `src/lib/domain/enums.dart`, decoupled from storage.
 - drift generates `*.g.dart` via build_runner — run codegen after touching tables/DAOs; generated files are committed.
-- Keep widgets `const` where possible; respect `flutter_lints` (`analysis_options.yaml`).
+- Keep widgets `const` where possible; respect `flutter_lints` (`src/analysis_options.yaml`).
 - Match the surrounding code's style, comment density, and naming.
 
 ## 6. Workflow rules
@@ -74,11 +74,13 @@ Conventions:
 ### Test conventions
 
 - **Run tests single-threaded — never two `flutter test` runs at once.** `flutter test` builds native code assets (`sqlite3.dll`); overlapping runs race and crash with `PathExistsException`, leaving a locked `flutter_tester` process holding the dll. Run one at a time (background a single run and wait on it). If a run is interrupted: kill stray `dart`/`flutter_tester` processes, then delete `build/native_assets`, before retrying.
-- **Deterministic env:** widget tests call `useDeterministicTestEnv()` (`test/support/test_env.dart`) in `setUp`. It zeroes the toast auto-dismiss timer (`lmToastDuration`) and fl_chart animation duration (`lmChartAnimationDuration`) so `pumpAndSettle` terminates and a save that fires a toast leaves no pending `Timer` at teardown.
+- **Deterministic env:** widget tests call `useDeterministicTestEnv()` (`src/test/support/test_env.dart`) in `setUp`. It zeroes the toast auto-dismiss timer (`lmToastDuration`) and fl_chart animation duration (`lmChartAnimationDuration`) so `pumpAndSettle` terminates and a save that fires a toast leaves no pending `Timer` at teardown.
 - **Async-data screens:** use `await settleData(tester)` (real-async flush via `runAsync`, then `pumpAndSettle`) — a bare `pumpAndSettle` never settles against a loading spinner, and awaiting a provider `.future` inside `testWidgets` hangs (FakeAsync won't advance the drift stream's timers). This is the standard for every feature screen.
 - Forms taller than the default 600px test surface: set `tester.view.physicalSize` tall so off-screen buttons are tappable. Remember `Eyebrow`/`SectionTitle` render their text **uppercased** — assert the uppercased string.
 
 ## 7. Common commands
+
+Run all of these from `src/` (the Flutter project root):
 
 ```bash
 flutter pub get

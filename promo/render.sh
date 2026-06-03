@@ -53,7 +53,7 @@ render_beat seg_10 dailylog   15 180 settle "EVERY DAY"        0xF5C36B 60 0
 render_beat seg_11 charts     60 210 out    "ALL IN ONE APP"   0xFFFFFF 64 0
 
 echo "== brand card =="
-"$FF" -y -f lavfi -i color=c=0x0C0D11:s=1080x1920:r=30 -loop 1 -i assets/branding/icon-1024.png \
+"$FF" -y -f lavfi -i color=c=0x0C0D11:s=1080x1920:r=30 -loop 1 -i src/assets/branding/icon-1024.png \
   -filter_complex "[1:v]scale=440:440,setsar=1[ic];[0:v][ic]overlay=(W-w)/2:(H-h)/2-150[bg];\
 [bg]drawtext=fontfile='${FONT}':text='LifeMaxxing':fontcolor=white:fontsize=96:x=(w-text_w)/2:y=H/2+170,\
 drawtext=fontfile='${FONT}':text='Track your entire life':fontcolor=0x99A0AE:fontsize=44:x=(w-text_w)/2:y=H/2+300,\
@@ -62,7 +62,7 @@ fade=t=in:st=0:d=0.4,format=yuv420p[v]" \
 echo "  rendered seg_12 (brand)"
 
 echo "== cta card =="
-"$FF" -y -f lavfi -i color=c=0x0C0D11:s=1080x1920:r=30 -loop 1 -i assets/branding/icon-1024.png \
+"$FF" -y -f lavfi -i color=c=0x0C0D11:s=1080x1920:r=30 -loop 1 -i src/assets/branding/icon-1024.png \
   -filter_complex "[1:v]scale=240:240,setsar=1[ic];[0:v][ic]overlay=(W-w)/2:H/2-380[bg];\
 [bg]drawtext=fontfile='${FONT}':text='LifeMaxxing':fontcolor=white:fontsize=66:x=(w-text_w)/2:y=H/2-90,\
 drawbox=x=220:y=1020:w=640:h=140:color=0x5FD08A@1:t=fill,\
