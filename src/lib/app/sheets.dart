@@ -101,6 +101,9 @@ void openFormSheet(BuildContext context, String type) {
     case 'med':
       showMedSheet(context);
       return;
+    case 'weight':
+      showWeightSheet(context);
+      return;
     case 'expense':
       showExpenseSheet(context);
       return;
@@ -118,6 +121,7 @@ void openFormSheet(BuildContext context, String type) {
     'activity': l10n.sheetTitleActivity,
     'steps': l10n.sheetTitleSteps,
     'med': l10n.sheetTitleMedication,
+    'weight': l10n.weightSheetTitle,
     'bucket': l10n.sheetTitleBucket,
     'trip': l10n.sheetTitleTrip,
   };

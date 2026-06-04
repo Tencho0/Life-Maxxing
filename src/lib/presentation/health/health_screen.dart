@@ -35,6 +35,7 @@ List<String> _tabLabels(BuildContext context) => [
       context.l10n.healthTabMeds,
       context.l10n.healthTabEvents,
       context.l10n.healthTabLabs,
+      context.l10n.weightTabLabel,
     ];
 
 class HealthScreen extends ConsumerStatefulWidget {
@@ -53,6 +54,9 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
     final meds = ref.watch(medsInRangeProvider).asData?.value ?? const [];
     final events = ref.watch(eventsProvider).asData?.value ?? const [];
     final labs = ref.watch(labsProvider).asData?.value ?? const [];
+    final weight = ref.watch(weightInRangeProvider).asData?.value ?? const [];
+    final weightSummary =
+        ref.watch(weightSummaryProvider).asData?.value;
     final period = ref.watch(healthPeriodProvider);
 
     return Column(
@@ -85,10 +89,14 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
                     const SizedBox(height: 12),
                     _BpChartCard(bp: bp),
                     const SizedBox(height: 12),
+                    if (weightSummary != null && weightSummary.count > 0) ...[
+                      _WeightCard(summary: weightSummary, weight: weight),
+                      const SizedBox(height: 12),
+                    ],
                     _Tabs(
                         value: _tab, onChanged: (i) => setState(() => _tab = i)),
                     const SizedBox(height: 12),
-                    ..._tabBody(bp, meds, events, labs),
+                    ..._tabBody(bp, meds, events, labs, weight),
                     const SizedBox(height: 8),
                   ],
                 ),
@@ -110,6 +118,8 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
         showEventSheet(context);
       case 3:
         showLabSheet(context);
+      case 4:
+        showWeightSheet(context);
     }
   }
 
@@ -134,7 +144,7 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
   }
 
   List<Widget> _tabBody(List<BloodPressureLog> bp, List<MedicationLog> meds,
-      List<HealthEvent> events, List<LabTest> labs) {
+      List<HealthEvent> events, List<LabTest> labs, List<WeightLog> weight) {
     switch (_tab) {
       case 0:
         return _rows(
@@ -200,7 +210,7 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
                   : null,
             ),
         ]);
-      default:
+      case 3:
         return _rows(
             labs.isEmpty,
             LmEmpty(
@@ -216,6 +226,25 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
               title: l.lab,
               subtitle: '${dmy(l.date)} · ${l.reason}',
               onTap: () => showLabSheet(context, existing: l),
+            ),
+        ]);
+      default:
+        // Weight — newest first in the list (watchInRange is ascending).
+        return _rows(
+            weight.isEmpty,
+            LmEmpty(
+                icon: LmIcons.pulse,
+                message: context.l10n.weightEmpty,
+                actionLabel: context.l10n.weightSheetTitle,
+                onAction: () => showWeightSheet(context)),
+            [
+          for (final w in weight.reversed)
+            LmRow(
+              icon: LmIcons.pulse,
+              iconColor: AppColors.green,
+              title: formatKg(w.weightGrams),
+              subtitle: '${dmy(w.date)}${w.note != null ? ' · ${w.note}' : ''}',
+              onTap: () => showWeightSheet(context, existing: w),
             ),
         ]);
     }
@@ -345,6 +374,71 @@ class _BpChartCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class _WeightCard extends StatelessWidget {
+  const _WeightCard({required this.summary, required this.weight});
+  final WeightSummary summary;
+  final List<WeightLog> weight; // ascending by date
+
+  @override
+  Widget build(BuildContext context) {
+    final series = [for (final w in weight) w.weightGrams / 1000.0];
+    final gain = summary.changeGrams > 0;
+    return LmCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Eyebrow(context.l10n.weightTabLabel, color: AppColors.green),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(
+                  child: _WeightStat(
+                      value: formatKg(summary.latestGrams),
+                      label: context.l10n.weightStatLatest)),
+              Expanded(
+                child: _WeightStat(
+                  value: formatKgDelta(summary.changeGrams),
+                  label: context.l10n.weightStatChange,
+                  // Loss is the "good" direction for a cut → green; gain amber.
+                  color: summary.changeGrams == 0
+                      ? null
+                      : (gain ? AppColors.amber : AppColors.green),
+                ),
+              ),
+            ],
+          ),
+          if (series.length >= 2) ...[
+            const SizedBox(height: 12),
+            Sparkline(data: series, color: AppColors.green, height: 44),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _WeightStat extends StatelessWidget {
+  const _WeightStat({required this.value, required this.label, this.color});
+  final String value;
+  final String label;
+  final Color? color;
+  @override
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(value,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppText.stat.copyWith(
+                  fontSize: 18, color: color ?? AppColors.text)),
+          Text(label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppText.bodyDim.copyWith(fontSize: 11)),
+        ],
+      );
 }
 
 class _Legend extends StatelessWidget {

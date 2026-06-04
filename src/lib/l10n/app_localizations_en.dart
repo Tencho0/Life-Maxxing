@@ -668,6 +668,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get healthTitle => 'Health';
 
   @override
+  String get weightTabLabel => 'Weight';
+
+  @override
+  String get weightSheetTitle => 'Weight';
+
+  @override
+  String get weightSheetEditTitle => 'Edit weight';
+
+  @override
+  String get weightFieldLabel => 'Weight (kg)';
+
+  @override
+  String get weightInvalid => 'Enter a valid weight.';
+
+  @override
+  String get weightStatLatest => 'Latest';
+
+  @override
+  String get weightStatChange => 'Change';
+
+  @override
+  String get weightEmpty => 'No weight entries for this period yet.';
+
+  @override
   String get healthTabBp => 'Blood pressure';
 
   @override

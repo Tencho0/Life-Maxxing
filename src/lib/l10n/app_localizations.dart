@@ -1094,6 +1094,54 @@ abstract class AppLocalizations {
   /// **'Health'**
   String get healthTitle;
 
+  /// Health-screen history tab for weight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight'**
+  String get weightTabLabel;
+
+  /// Title of the weight entry sheet (new).
+  ///
+  /// In en, this message translates to:
+  /// **'Weight'**
+  String get weightSheetTitle;
+
+  /// Title of the weight entry sheet (editing).
+  ///
+  /// In en, this message translates to:
+  /// **'Edit weight'**
+  String get weightSheetEditTitle;
+
+  /// Label for the kg weight input.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight (kg)'**
+  String get weightFieldLabel;
+
+  /// Validation error for a missing/invalid weight.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid weight.'**
+  String get weightInvalid;
+
+  /// Vitals-header label for the most recent weight.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest'**
+  String get weightStatLatest;
+
+  /// Vitals-header label for the period weight change.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get weightStatChange;
+
+  /// Empty state for the weight tab.
+  ///
+  /// In en, this message translates to:
+  /// **'No weight entries for this period yet.'**
+  String get weightEmpty;
+
   /// No description provided for @healthTabBp.
   ///
   /// In en, this message translates to:

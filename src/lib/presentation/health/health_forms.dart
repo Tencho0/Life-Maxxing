@@ -72,6 +72,16 @@ void showLabSheet(BuildContext context, {LabTest? existing}) =>
         subtitle: context.l10n.healthLabSheetSubtitle,
         child: _LabForm(existing: existing));
 
+/// Weight entry sheet — one per day (UNIQUE(date), edit-on-existing). [date]
+/// defaults to today; if an entry already exists for the chosen date the save
+/// edits it (reuses its id) rather than creating a duplicate.
+void showWeightSheet(BuildContext context, {String? date, WeightLog? existing}) =>
+    showLmSheet(context,
+        title: existing == null
+            ? context.l10n.weightSheetTitle
+            : context.l10n.weightSheetEditTitle,
+        child: _WeightForm(date: date, existing: existing));
+
 // ── Blood pressure ──────────────────────────────────────────────────
 class _BpForm extends ConsumerStatefulWidget {
   const _BpForm({this.existing});
@@ -690,6 +700,120 @@ class _LabFormState extends ConsumerState<_LabForm>
             onAdd: addPhotos,
             onRemove: removePhoto,
           ),
+        ),
+        if (_error != null) _ErrorText(_error!),
+        const SizedBox(height: 4),
+        LmButton(context.l10n.actionSave,
+            full: true, icon: LmIcons.check, onTap: _save),
+        if (widget.existing != null) ...[
+          const SizedBox(height: 10),
+          LmButton(context.l10n.actionDelete,
+              full: true,
+              variant: LmButtonVariant.danger,
+              icon: LmIcons.trash,
+              onTap: _delete),
+        ],
+      ],
+    );
+  }
+}
+
+// ── Weight (one per day) ────────────────────────────────────────────
+class _WeightForm extends ConsumerStatefulWidget {
+  const _WeightForm({this.date, this.existing});
+  final String? date;
+  final WeightLog? existing;
+  @override
+  ConsumerState<_WeightForm> createState() => _WeightFormState();
+}
+
+class _WeightFormState extends ConsumerState<_WeightForm> {
+  late final TextEditingController _kg;
+  late final TextEditingController _note;
+  late DateTime _date;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    final e = widget.existing;
+    _kg = TextEditingController(
+        text: e != null ? (e.weightGrams / 1000).toStringAsFixed(1) : '');
+    _note = TextEditingController(text: e?.note ?? '');
+    _date = e != null
+        ? _parseYmd(e.date)
+        : (widget.date != null ? _parseYmd(widget.date!) : DateTime.now());
+  }
+
+  @override
+  void dispose() {
+    _kg.dispose();
+    _note.dispose();
+    super.dispose();
+  }
+
+  /// Parsed kilograms → integer grams; null when blank or non-positive.
+  int? _grams() {
+    final cleaned = _kg.text.trim().replaceAll(',', '.');
+    if (cleaned.isEmpty) return null;
+    final v = double.tryParse(cleaned);
+    if (v == null || v <= 0) return null;
+    return (v * 1000).round();
+  }
+
+  Future<void> _save() async {
+    final grams = _grams();
+    if (grams == null) {
+      setState(() => _error = context.l10n.weightInvalid);
+      return;
+    }
+    final dateStr = ymd(_date);
+    final dao = ref.read(weightDaoProvider);
+    // One-per-day: reuse the row already on this date (by date) so editing the
+    // same date updates rather than violating UNIQUE(date).
+    final current = widget.existing ?? await dao.getByDate(dateStr);
+    final nowUtc = DateTime.now().toUtc();
+    await dao.save(WeightLogsCompanion(
+      id: Value(current?.id ?? const Uuid().v4()),
+      date: Value(dateStr),
+      weightGrams: Value(grams),
+      note: Value(_note.text.trim().isEmpty ? null : _note.text.trim()),
+      createdAt: Value(current?.createdAt ?? nowUtc),
+      updatedAt: Value(nowUtc),
+    ));
+    if (mounted) {
+      Navigator.pop(context);
+      showLmToast(context, context.l10n.healthSaved);
+    }
+  }
+
+  Future<void> _delete() async {
+    await ref.read(weightDaoProvider).deleteById(widget.existing!.id);
+    if (mounted) {
+      Navigator.pop(context);
+      showLmToast(context, context.l10n.healthDeleted);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _DateField(date: _date, onPick: (d) => setState(() => _date = d)),
+        Field(
+          label: context.l10n.weightFieldLabel,
+          required: true,
+          child: LmInput(
+            controller: _kg,
+            hintText: '82.5',
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          ),
+        ),
+        Field(
+          label: context.l10n.healthNote,
+          child: LmInput(
+              controller: _note, hintText: context.l10n.healthOptional),
         ),
         if (_error != null) _ErrorText(_error!),
         const SizedBox(height: 4),

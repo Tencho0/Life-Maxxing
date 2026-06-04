@@ -668,6 +668,30 @@ class AppLocalizationsBg extends AppLocalizations {
   String get healthTitle => 'Здраве';
 
   @override
+  String get weightTabLabel => 'Тегло';
+
+  @override
+  String get weightSheetTitle => 'Тегло';
+
+  @override
+  String get weightSheetEditTitle => 'Редакция на тегло';
+
+  @override
+  String get weightFieldLabel => 'Тегло (кг)';
+
+  @override
+  String get weightInvalid => 'Въведи валидно тегло.';
+
+  @override
+  String get weightStatLatest => 'Последно';
+
+  @override
+  String get weightStatChange => 'Промяна';
+
+  @override
+  String get weightEmpty => 'Все още няма записи за теглото в този период.';
+
+  @override
   String get healthTabBp => 'Кръвно';
 
   @override

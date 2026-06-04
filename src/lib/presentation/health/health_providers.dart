@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/legacy.dart'; // StateProvider (Riverpod 3)
 
 import '../../app/providers.dart';
 import '../../data/database.dart';
-import '../../data/summaries.dart' show computeHealth;
+import '../../data/summaries.dart' show computeHealth, computeWeight;
 import '../../domain/enums.dart';
 import '../../domain/period.dart';
 import '../../domain/summaries.dart';
@@ -37,6 +37,23 @@ final medsInRangeProvider =
     StreamProvider.autoDispose<List<MedicationLog>>((ref) {
   final r = ref.watch(healthRangeProvider);
   return ref.watch(healthDaoProvider).watchMedsInRange(r.from, r.to);
+});
+
+final weightDaoProvider =
+    Provider((ref) => ref.watch(databaseProvider).weightDao);
+
+/// Weight entries in the active period (ascending by date) for the chart + tab.
+final weightInRangeProvider =
+    StreamProvider.autoDispose<List<WeightLog>>((ref) {
+  final r = ref.watch(healthRangeProvider);
+  return ref.watch(weightDaoProvider).watchInRange(r.from, r.to);
+});
+
+/// Weight summary (latest + change over the period) for the vitals header.
+final weightSummaryProvider =
+    Provider.autoDispose<AsyncValue<WeightSummary>>((ref) {
+  final w = ref.watch(weightInRangeProvider);
+  return w.whenData(computeWeight);
 });
 
 final eventsProvider = StreamProvider.autoDispose<List<HealthEvent>>(
