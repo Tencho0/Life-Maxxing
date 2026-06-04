@@ -53,7 +53,11 @@ class AppTopBar extends StatelessWidget {
           ),
           child: Padding(
             // padding: '12px 16px 10px' → top 12, right/left 16, bottom 10.
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
+            // Add the top safe-area inset so the title clears the status bar
+            // (the translucent bar still extends up behind it). Matches the
+            // home header's `+ MediaQuery.paddingOf(context).top`.
+            padding: EdgeInsets.fromLTRB(
+                16, 12 + MediaQuery.paddingOf(context).top, 16, 10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
