@@ -42,6 +42,7 @@ enum ExportModule implements Coded {
   medications('medications', 'Медикаменти и добавки'),
   dailyLogs('daily_logs', 'Daily Quick Logs'),
   steps('steps', 'Крачки'),
+  weight('weight', 'Тегло'),
   bucketList('bucket_list', 'Bucket List'),
   trips('trips', 'Пътувания');
 
@@ -75,6 +76,7 @@ class ExportData {
     this.medications = const [],
     this.dailyLogs = const [],
     this.steps = const [],
+    this.weight = const [],
     this.bucketItems = const [],
     this.bucketExperiences = const [],
     this.trips = const [],
@@ -93,6 +95,7 @@ class ExportData {
   final List<MedicationLog> medications;
   final List<DailyLog> dailyLogs;
   final List<StepEntry> steps;
+  final List<WeightLog> weight;
   final List<BucketItem> bucketItems;
   final List<BucketExperience> bucketExperiences;
   final List<Trip> trips;
@@ -109,6 +112,7 @@ class ExportData {
       medications.length +
       dailyLogs.length +
       steps.length +
+      weight.length +
       bucketItems.length +
       bucketExperiences.length +
       trips.length;
@@ -142,6 +146,7 @@ class ExportService {
     final meds = await _db.select(_db.medicationLogs).get();
     final dailyLogs = await _db.select(_db.dailyLogs).get();
     final steps = await _db.select(_db.steps).get();
+    final weight = await _db.select(_db.weightLogs).get();
     final items = await _db.select(_db.bucketItems).get();
     final experiences = await _db.select(_db.bucketExperiences).get();
     final trips = await _db.select(_db.trips).get();
@@ -153,7 +158,8 @@ class ExportService {
         meals: meals, activities: activities, expenses: expenses,
         income: income, healthEvents: healthEvents, labTests: labTests,
         bloodPressure: bp, medications: meds, dailyLogs: dailyLogs,
-        steps: steps, bucketItems: items, bucketExperiences: experiences,
+        steps: steps, weight: weight, bucketItems: items,
+        bucketExperiences: experiences,
         trips: trips, attachments: attachments,
       );
     }
@@ -191,6 +197,7 @@ class ExportService {
     final fMeds = meds.where((m) => inR(m.date)).toList();
     final fDaily = dailyLogs.where((d) => inR(d.date)).toList();
     final fSteps = steps.where((s) => inR(s.date)).toList();
+    final fWeight = weight.where((w) => inR(w.date)).toList();
 
     final included = <AttachmentEntity, Set<String>>{
       AttachmentEntity.meal: {for (final m in fMeals) m.id},
@@ -211,7 +218,8 @@ class ExportService {
       meals: fMeals, activities: fActivities, expenses: fExpenses,
       income: fIncome, healthEvents: fEvents, labTests: fLabs,
       bloodPressure: fBp, medications: fMeds, dailyLogs: fDaily,
-      steps: fSteps, bucketItems: fItems, bucketExperiences: fExperiences,
+      steps: fSteps, weight: fWeight, bucketItems: fItems,
+      bucketExperiences: fExperiences,
       trips: fTrips, attachments: fAttachments,
     );
   }
@@ -271,6 +279,10 @@ class ExportService {
         return ExportData(
             request: req, exportDate: exportDate,
             steps: await _db.select(_db.steps).get());
+      case ExportModule.weight:
+        return ExportData(
+            request: req, exportDate: exportDate,
+            weight: await _db.select(_db.weightLogs).get());
       case ExportModule.bucketList:
         final atts = await _db.select(_db.attachments).get();
         return ExportData(
@@ -309,6 +321,7 @@ class ExportService {
       'medicationSupplementLogs': [for (final m in d.medications) _med(m)],
       'dailyQuickLogs': [for (final l in d.dailyLogs) _daily(l)],
       'steps': [for (final s in d.steps) _step(s)],
+      'weightLogs': [for (final w in d.weight) _weight(w)],
       'bucketList': [for (final b in d.bucketItems) _bucketItem(b)],
       'bucketListExperiences':
           [for (final e in d.bucketExperiences) _bucketExperience(e)],
@@ -391,6 +404,11 @@ class ExportService {
         [for (final a in d.activities) _activityLine(a, l10n)]);
     section(l10n.exportMdSectionSteps,
         [for (final s in d.steps) l10n.exportMdStepsLine(s.date, s.count)]);
+    section(l10n.exportMdSectionWeight, [
+      for (final w in d.weight)
+        l10n.exportMdWeightLine(w.date, _kg(w.weightGrams),
+            w.note == null || w.note!.isEmpty ? '' : ' — ${w.note}')
+    ]);
     section(l10n.exportMdSectionMoney, [
       for (final i in d.income)
         l10n.exportMdIncomeLine(i.date, _eur(i.amountCents),
@@ -550,6 +568,12 @@ class ExportService {
         'createdAt': _iso(s.createdAt), 'updatedAt': _iso(s.updatedAt),
       };
 
+  Map<String, dynamic> _weight(WeightLog w) => {
+        'id': w.id, 'date': w.date, 'weightGrams': w.weightGrams,
+        'note': w.note,
+        'createdAt': _iso(w.createdAt), 'updatedAt': _iso(w.updatedAt),
+      };
+
   Map<String, dynamic> _bucketItem(BucketItem b) => {
         'id': b.id, 'title': b.title, 'description': b.description,
         'whyWantIt': b.whyWantIt, 'priority': b.priority.code,
@@ -620,6 +644,9 @@ class ExportService {
     final v = cents / 100;
     return v == v.roundToDouble() ? v.toInt() : v;
   }
+
+  /// Integer grams → one-decimal kilograms string (e.g. 82500 → "82.5").
+  String _kg(int grams) => (grams / 1000).toStringAsFixed(1);
 
   int _avg(Iterable<int> xs) {
     var sum = 0, n = 0;

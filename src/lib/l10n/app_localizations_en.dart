@@ -1574,6 +1574,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'medications': 'Medications & supplements',
       'daily_logs': 'Daily Quick Logs',
       'steps': 'Steps',
+      'weight': 'Weight',
       'bucket_list': 'Bucket List',
       'trips': 'Trips',
       'other': '$code',
@@ -1703,6 +1704,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportMdSectionSteps => 'Steps';
 
   @override
+  String get exportMdSectionWeight => 'Weight';
+
+  @override
   String get exportMdSectionMoney => 'Money';
 
   @override
@@ -1730,6 +1734,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String exportMdStepsLine(String date, int count) {
     return '$date: $count steps';
+  }
+
+  @override
+  String exportMdWeightLine(String date, String kg, String note) {
+    return '$date: $kg kg$note';
   }
 
   @override

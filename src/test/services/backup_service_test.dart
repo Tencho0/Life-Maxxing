@@ -85,6 +85,9 @@ void main() {
         fun: const Value(8), food: const Value(10), sights: const Value(9),
         value: const Value(7), wouldRepeat: const Value(true),
         comment: const Value('Страхотно'), createdAt: ts, updatedAt: ts));
+    await db.weightDao.save(WeightLogsCompanion.insert(
+        id: 'wt1', date: '2026-05-03', weightGrams: 82500,
+        note: const Value('сутрин'), createdAt: ts, updatedAt: ts));
     await addAttachmentWithFiles(
         id: 'att1', entity: AttachmentEntity.meal, entityId: 'meal1');
   }
@@ -135,6 +138,7 @@ void main() {
       expect(await db.tripsDao.getById('trip1'), origTrip);
       expect((await db.financeDao.getExpense('exp1'))!.amountCents, 3250);
       expect((await db.bucketDao.experienceForItem('bi1'))!.feelingRating, 9);
+      expect((await db.weightDao.getByDate('2026-05-03'))!.weightGrams, 82500);
 
       // Attachment files restored byte-for-byte.
       final full = File(p.join(docs.path, 'attachments', 'meals', 'att1.jpg'));
@@ -343,6 +347,7 @@ void main() {
       // All user data gone — rows and on-disk files.
       expect(await svc.isEmpty(), isTrue);
       expect(await db.mealsDao.getById('meal1'), isNull);
+      expect(await db.weightDao.getByDate('2026-05-03'), isNull);
       expect(await rowCount(db.attachments), 0);
       expect(await attachmentsDir.exists(), isFalse);
       // Name + language preserved (settings table untouched).

@@ -1575,6 +1575,7 @@ class AppLocalizationsBg extends AppLocalizations {
       'medications': 'Медикаменти и добавки',
       'daily_logs': 'Daily Quick Logs',
       'steps': 'Крачки',
+      'weight': 'Тегло',
       'bucket_list': 'Bucket List',
       'trips': 'Пътувания',
       'other': '$code',
@@ -1704,6 +1705,9 @@ class AppLocalizationsBg extends AppLocalizations {
   String get exportMdSectionSteps => 'Крачки';
 
   @override
+  String get exportMdSectionWeight => 'Тегло';
+
+  @override
   String get exportMdSectionMoney => 'Пари';
 
   @override
@@ -1731,6 +1735,11 @@ class AppLocalizationsBg extends AppLocalizations {
   @override
   String exportMdStepsLine(String date, int count) {
     return '$date: $count крачки';
+  }
+
+  @override
+  String exportMdWeightLine(String date, String kg, String note) {
+    return '$date: $kg кг$note';
   }
 
   @override

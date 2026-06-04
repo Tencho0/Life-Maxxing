@@ -2819,7 +2819,7 @@ abstract class AppLocalizations {
   /// No description provided for @exportModuleLabel.
   ///
   /// In en, this message translates to:
-  /// **'{code, select, food{Food} activities{Activities} expenses{Expenses} income{Income} health_events{Health events} lab_tests{Lab tests} blood_pressure{Blood pressure & pulse} medications{Medications & supplements} daily_logs{Daily Quick Logs} steps{Steps} bucket_list{Bucket List} trips{Trips} other{{code}}}'**
+  /// **'{code, select, food{Food} activities{Activities} expenses{Expenses} income{Income} health_events{Health events} lab_tests{Lab tests} blood_pressure{Blood pressure & pulse} medications{Medications & supplements} daily_logs{Daily Quick Logs} steps{Steps} weight{Weight} bucket_list{Bucket List} trips{Trips} other{{code}}}'**
   String exportModuleLabel(String code);
 
   /// No description provided for @exportFormatLabel.
@@ -3038,6 +3038,12 @@ abstract class AppLocalizations {
   /// **'Steps'**
   String get exportMdSectionSteps;
 
+  /// No description provided for @exportMdSectionWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight'**
+  String get exportMdSectionWeight;
+
   /// No description provided for @exportMdSectionMoney.
   ///
   /// In en, this message translates to:
@@ -3091,6 +3097,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{date}: {count} steps'**
   String exportMdStepsLine(String date, int count);
+
+  /// No description provided for @exportMdWeightLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}: {kg} kg{note}'**
+  String exportMdWeightLine(String date, String kg, String note);
 
   /// No description provided for @exportMdIncomeLine.
   ///

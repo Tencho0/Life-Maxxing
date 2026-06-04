@@ -223,4 +223,34 @@ void main() {
     expect(data.recordCount, 9);
     expect(data.photoCount, 0);
   });
+
+  test('weight is exported in JSON (integer grams) and Markdown (kg)', () async {
+    await db.weightDao.save(WeightLogsCompanion.insert(
+        id: 'wt1', date: '2026-05-03', weightGrams: 82500,
+        note: const Value('сутрин'), createdAt: now, updatedAt: now));
+    final data =
+        await svc.gather(const ExportRequest(scope: ExportScopeType.full));
+    expect(data.recordCount, 1); // weight counts toward the total
+
+    final json = svc.toJson(data);
+    expect(json, contains('"weightLogs"'));
+    expect(json, contains('"weightGrams": 82500'));
+
+    final md = svc.toMarkdown(data, _l10n);
+    expect(md, contains('## Тегло'));
+    expect(md, contains('82.5'));
+  });
+
+  test('weight module scope exports only weight', () async {
+    await db.weightDao.save(WeightLogsCompanion.insert(
+        id: 'wt1', date: '2026-05-03', weightGrams: 80000,
+        createdAt: now, updatedAt: now));
+    await db.mealsDao.save(MealsCompanion.insert(
+        id: 'm1', date: '2026-05-03', name: 'Салата', type: MealType.lunch,
+        createdAt: now, updatedAt: now));
+    final data = await svc.gather(const ExportRequest(
+        scope: ExportScopeType.module, module: ExportModule.weight));
+    expect(data.weight.length, 1);
+    expect(data.meals, isEmpty);
+  });
 }

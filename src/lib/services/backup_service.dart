@@ -79,7 +79,7 @@ class BackupService {
   /// their experiences).
   static const List<String> dataKeys = [
     'meals', 'activities', 'expenses', 'income', 'healthEvents', 'labTests',
-    'bloodPressureLogs', 'medicationLogs', 'dailyLogs', 'steps',
+    'bloodPressureLogs', 'medicationLogs', 'dailyLogs', 'steps', 'weightLogs',
     'bucketItems', 'bucketExperiences', 'trips', 'attachments',
   ];
 
@@ -349,6 +349,7 @@ class BackupService {
     await _db.delete(_db.labTests).go();
     await _db.delete(_db.dailyLogs).go();
     await _db.delete(_db.steps).go();
+    await _db.delete(_db.weightLogs).go();
   }
 
   Future<void> _insertAll(Map<String, dynamic> data) async {
@@ -385,6 +386,9 @@ class BackupService {
     for (final s in rows('steps')) {
       await _db.stepsDao.save(_stepCompanion(s));
     }
+    for (final w in rows('weightLogs')) {
+      await _db.weightDao.save(_weightCompanion(w));
+    }
     for (final b in rows('bucketItems')) {
       await _db.bucketDao.saveItem(_bucketItemCompanion(b));
     }
@@ -415,6 +419,7 @@ class BackupService {
     rows('medicationLogs').forEach(_medCompanion);
     rows('dailyLogs').forEach(_dailyCompanion);
     rows('steps').forEach(_stepCompanion);
+    rows('weightLogs').forEach(_weightCompanion);
     rows('bucketItems').forEach(_bucketItemCompanion);
     rows('bucketExperiences').forEach(_bucketExperienceCompanion);
     rows('trips').forEach(_tripCompanion);
@@ -450,6 +455,9 @@ class BackupService {
           for (final d in await _db.select(_db.dailyLogs).get()) _daily(d)
         ],
         'steps': [for (final s in await _db.select(_db.steps).get()) _step(s)],
+        'weightLogs': [
+          for (final w in await _db.select(_db.weightLogs).get()) _weight(w)
+        ],
         'bucketItems': [
           for (final b in await _db.select(_db.bucketItems).get()) _bucketItem(b)
         ],
@@ -524,6 +532,11 @@ class BackupService {
         'id': s.id, 'date': s.date, 'count': s.count, 'note': s.note,
         'source': s.source.code, 'createdAt': _iso(s.createdAt),
         'updatedAt': _iso(s.updatedAt),
+      };
+  Map<String, dynamic> _weight(WeightLog w) => {
+        'id': w.id, 'date': w.date, 'weightGrams': w.weightGrams,
+        'note': w.note, 'createdAt': _iso(w.createdAt),
+        'updatedAt': _iso(w.updatedAt),
       };
   Map<String, dynamic> _bucketItem(BucketItem b) => {
         'id': b.id, 'title': b.title, 'description': b.description,
@@ -644,6 +657,13 @@ class BackupService {
         source: _reqEnum(StepsSource.values, s['source']),
         note: Value(s['note']),
         createdAt: _pdt(s['createdAt']), updatedAt: _pdt(s['updatedAt']),
+      );
+  WeightLogsCompanion _weightCompanion(Map<String, dynamic> w) =>
+      WeightLogsCompanion.insert(
+        id: w['id'], date: w['date'],
+        weightGrams: (w['weightGrams'] as num).toInt(),
+        note: Value(w['note']),
+        createdAt: _pdt(w['createdAt']), updatedAt: _pdt(w['updatedAt']),
       );
   BucketItemsCompanion _bucketItemCompanion(Map<String, dynamic> b) =>
       BucketItemsCompanion.insert(

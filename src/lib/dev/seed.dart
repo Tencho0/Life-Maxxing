@@ -58,6 +58,7 @@ Future<void> clearAll(AppDatabase db) async {
   await db.delete(db.labTests).go();
   await db.delete(db.dailyLogs).go();
   await db.delete(db.steps).go();
+  await db.delete(db.weightLogs).go();
 }
 
 /// Wipes and repopulates the database with ~30 days of realistic sample data.
@@ -221,6 +222,13 @@ Future<void> seedDatabase(AppDatabase db,
     await db.stepsDao.save(StepsCompanion.insert(
       id: 'st$i', date: d, count: steps,
       source: i % 4 == 0 ? StepsSource.dailyQuickLog : StepsSource.stepsModule,
+      createdAt: now, updatedAt: now,
+    ));
+
+    // Weight — a gentle cut from ~84.0 → ~82.0 kg over 30 days, daily noise.
+    final wGrams = 84000 - ((29 - i) * 70) + (rnd.nextInt(700) - 350);
+    await db.weightDao.save(WeightLogsCompanion.insert(
+      id: 'wt$i', date: d, weightGrams: wGrams,
       createdAt: now, updatedAt: now,
     ));
 
