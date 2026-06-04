@@ -16,7 +16,9 @@ import '../../core/widgets/eyebrow.dart';
 import '../../core/widgets/field.dart';
 import '../../core/widgets/lm_button.dart';
 import '../../core/widgets/lm_row.dart';
+import '../../core/widgets/lm_toast.dart';
 import '../../core/widgets/screen_body.dart';
+import '../backup/backup_providers.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -73,11 +75,50 @@ class SettingsScreen extends ConsumerWidget {
                         : null,
                   ),
                 ),
+              Padding(
+                padding: const EdgeInsets.only(top: 6, bottom: 8),
+                child: Eyebrow(l10n.settingsDataSection),
+              ),
+              LmRow(
+                icon: LmIcons.trash,
+                iconColor: AppColors.red,
+                title: l10n.settingsClearData,
+                onTap: () => _confirmAndClear(context, ref),
+              ),
             ],
           ),
         ),
       ],
     );
+  }
+
+  /// Confirms, then wipes all records + attachment files via
+  /// [backupServiceProvider]. Name + language are preserved (the `settings`
+  /// table is untouched). Drift's reactive queries refresh every other screen.
+  Future<void> _confirmAndClear(BuildContext context, WidgetRef ref) async {
+    final l10n = context.l10n;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppColors.card,
+        title: Text(ctx.l10n.settingsClearDataTitle),
+        content: Text(ctx.l10n.settingsClearDataBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text(ctx.l10n.actionCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: Text(ctx.l10n.settingsClearDataConfirm,
+                style: const TextStyle(color: AppColors.red)),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !context.mounted) return;
+    await ref.read(backupServiceProvider).clearAllData();
+    if (context.mounted) showLmToast(context, l10n.settingsClearDataDone);
   }
 
   // System (null) matches null; otherwise compare language codes.

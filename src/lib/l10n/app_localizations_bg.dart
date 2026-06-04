@@ -39,6 +39,25 @@ class AppLocalizationsBg extends AppLocalizations {
   String get settingsName => 'Име';
 
   @override
+  String get settingsDataSection => 'Данни';
+
+  @override
+  String get settingsClearData => 'Изтрий всички данни';
+
+  @override
+  String get settingsClearDataTitle => 'Изтриване на всички данни';
+
+  @override
+  String get settingsClearDataBody =>
+      'Това ще изтрие всички записи и снимки безвъзвратно. Името и езикът се запазват.';
+
+  @override
+  String get settingsClearDataConfirm => 'Изтрий всичко';
+
+  @override
+  String get settingsClearDataDone => 'Данните са изтрити';
+
+  @override
   String get welcomeTitle => 'Добре дошъл!';
 
   @override

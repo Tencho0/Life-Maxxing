@@ -39,6 +39,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsName => 'Name';
 
   @override
+  String get settingsDataSection => 'Data';
+
+  @override
+  String get settingsClearData => 'Clear all data';
+
+  @override
+  String get settingsClearDataTitle => 'Clear all data';
+
+  @override
+  String get settingsClearDataBody =>
+      'This permanently deletes all records and photos. Your name and language are kept.';
+
+  @override
+  String get settingsClearDataConfirm => 'Delete everything';
+
+  @override
+  String get settingsClearDataDone => 'Data cleared';
+
+  @override
   String get welcomeTitle => 'Welcome!';
 
   @override

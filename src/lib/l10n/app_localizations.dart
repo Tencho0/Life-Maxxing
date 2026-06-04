@@ -158,6 +158,42 @@ abstract class AppLocalizations {
   /// **'Name'**
   String get settingsName;
 
+  /// Settings section eyebrow above the clear-all-data row.
+  ///
+  /// In en, this message translates to:
+  /// **'Data'**
+  String get settingsDataSection;
+
+  /// Settings row that wipes all logged data (name + language are kept).
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all data'**
+  String get settingsClearData;
+
+  /// Title of the destructive clear-all-data confirm dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all data'**
+  String get settingsClearDataTitle;
+
+  /// Body of the clear-all-data confirm dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'This permanently deletes all records and photos. Your name and language are kept.'**
+  String get settingsClearDataBody;
+
+  /// Red confirm button in the clear-all-data dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete everything'**
+  String get settingsClearDataConfirm;
+
+  /// Toast shown after all data has been cleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Data cleared'**
+  String get settingsClearDataDone;
+
   /// First-launch welcome screen heading.
   ///
   /// In en, this message translates to:

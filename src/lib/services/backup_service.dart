@@ -313,6 +313,24 @@ class BackupService {
     return true;
   }
 
+  /// User-facing "clear all data" (Settings): permanently wipe every record and
+  /// every attachment file, returning the app to an empty state. The `settings`
+  /// table (display name + locale) is deliberately preserved — those are device
+  /// preferences, not user data, so onboarding is not re-triggered.
+  ///
+  /// Order matters: delete the rows in a single transaction first (atomic), then
+  /// remove the on-disk `attachments/` dir. If file removal fails after the
+  /// commit, the DB is already clean and the leftover files orphan harmlessly
+  /// (no row references them) — the reverse order could leave rows pointing at
+  /// missing images. Required by the "deleting a record deletes its files"
+  /// locked decision (§4).
+  Future<void> clearAllData() async {
+    await _db.transaction(_deleteAll);
+    final base = await _docsDir();
+    final live = Directory(p.join(base.path, _attachmentsDir));
+    if (await live.exists()) await live.delete(recursive: true);
+  }
+
   // ── DB writes ────────────────────────────────────────────────────────
 
   Future<void> _deleteAll() async {

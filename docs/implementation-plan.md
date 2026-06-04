@@ -397,3 +397,7 @@
 ## Onboarding
 
 - [x] First-launch name onboarding (see docs/superpowers/specs/2026-06-03-first-launch-name-design.md). Replaces the hardcoded home greeting name with a user-entered one. `SettingsService` get/set `userName` (drift `settings` KV, key `userName`; device preference, excluded from backup like `locale`); `userNameProvider`/`UserNameController` + `initialUserNameProvider` mirror the locale flow; `main()` reads the saved name before first frame. `_Root` gates the app behind a full-screen `WelcomeScreen` (name **required** — Continue inert until non-empty) whenever the name is unset; submitting flips the provider into the app. Home greeting + Settings (editable "Име" row → dialog) read `userNameProvider`. Tests: SettingsService name round-trip/trim/clear/reload, welcome screen (prompt, inert-when-empty, submit persists), settings name edit, home greeting via provider override.
+
+## Utilities
+
+- [x] Clear all data (Settings → "Изтрий всички данни", see docs/superpowers/specs/2026-06-04-clear-all-data-design.md). User-facing wipe for testing/reset. `BackupService.clearAllData()` deletes every record in one transaction (reuses the existing `_deleteAll`) then recursively removes the on-disk `attachments/` dir — the `settings` table (name + locale) is preserved, so onboarding isn't re-triggered. Settings screen adds a "Данни" section with a red trash `LmRow` → confirm `AlertDialog` (mirrors backup's replace-all dialog) → toast. Tests: service wipe keeps settings + removes files (+ empty-app no-op); widget confirm-clears / cancel-keeps.

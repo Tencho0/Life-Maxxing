@@ -43,6 +43,30 @@
   "@settingsName": {
     "description": "Label for the editable user-name row in Settings (used in the home greeting)."
   },
+  "settingsDataSection": "Data",
+  "@settingsDataSection": {
+    "description": "Settings section eyebrow above the clear-all-data row."
+  },
+  "settingsClearData": "Clear all data",
+  "@settingsClearData": {
+    "description": "Settings row that wipes all logged data (name + language are kept)."
+  },
+  "settingsClearDataTitle": "Clear all data",
+  "@settingsClearDataTitle": {
+    "description": "Title of the destructive clear-all-data confirm dialog."
+  },
+  "settingsClearDataBody": "This permanently deletes all records and photos. Your name and language are kept.",
+  "@settingsClearDataBody": {
+    "description": "Body of the clear-all-data confirm dialog."
+  },
+  "settingsClearDataConfirm": "Delete everything",
+  "@settingsClearDataConfirm": {
+    "description": "Red confirm button in the clear-all-data dialog."
+  },
+  "settingsClearDataDone": "Data cleared",
+  "@settingsClearDataDone": {
+    "description": "Toast shown after all data has been cleared."
+  },
   "welcomeTitle": "Welcome!",
   "@welcomeTitle": {
     "description": "First-launch welcome screen heading."

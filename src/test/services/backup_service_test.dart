@@ -7,6 +7,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui' show Locale;
 
 import 'package:archive/archive.dart';
 import 'package:drift/drift.dart' show Value;
@@ -15,6 +16,7 @@ import 'package:lifemaxxing/data/database.dart';
 import 'package:lifemaxxing/dev/seed.dart';
 import 'package:lifemaxxing/domain/enums.dart';
 import 'package:lifemaxxing/services/backup_service.dart';
+import 'package:lifemaxxing/services/settings_service.dart';
 import 'package:path/path.dart' as p;
 
 void main() {
@@ -323,6 +325,36 @@ void main() {
     await seedSmall();
     expect(await svc.isEmpty(), isFalse);
     expect(await rowCount(db.meals), 1); // sanity on the count helper
+  });
+
+  group('clearAllData (user-facing wipe)', () {
+    test('wipes every record and attachment file but keeps settings', () async {
+      await seedSmall();
+      // Device preferences (name + locale) must survive the wipe.
+      final settings = SettingsService(db.settingsDao);
+      await settings.setUserName('Тенчо');
+      await settings.setLocale(const Locale('bg'));
+      expect(await svc.isEmpty(), isFalse);
+      final attachmentsDir = Directory(p.join(docs.path, 'attachments'));
+      expect(await attachmentsDir.exists(), isTrue);
+
+      await svc.clearAllData();
+
+      // All user data gone — rows and on-disk files.
+      expect(await svc.isEmpty(), isTrue);
+      expect(await db.mealsDao.getById('meal1'), isNull);
+      expect(await rowCount(db.attachments), 0);
+      expect(await attachmentsDir.exists(), isFalse);
+      // Name + language preserved (settings table untouched).
+      expect(await settings.getUserName(), 'Тенчо');
+      expect(await settings.getLocale(), const Locale('bg'));
+    });
+
+    test('is safe to call on an already-empty app', () async {
+      expect(await svc.isEmpty(), isTrue);
+      await svc.clearAllData();
+      expect(await svc.isEmpty(), isTrue);
+    });
   });
 }
 
