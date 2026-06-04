@@ -159,7 +159,7 @@ void main() {
 
     final db = AppDatabase.memory();
     addTearDown(db.close);
-    await seedDatabase(db); // anchored to now → recent days have meals
+    await seedDatabase(db, withPhotos: false); // anchored to now → recent days have meals
 
     await tester.pumpWidget(ProviderScope(
       overrides: [databaseProvider.overrideWithValue(db)],

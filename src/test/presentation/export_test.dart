@@ -22,7 +22,7 @@ void main() {
 
     final db = AppDatabase.memory();
     addTearDown(db.close);
-    await seedDatabase(db, today: DateTime(2026, 6, 1));
+    await seedDatabase(db, today: DateTime(2026, 6, 1), withPhotos: false);
 
     await tester.pumpWidget(ProviderScope(
       overrides: [databaseProvider.overrideWithValue(db)],

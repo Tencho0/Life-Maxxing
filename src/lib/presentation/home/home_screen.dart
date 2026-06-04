@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../app/providers.dart';
 import '../../app/sheets.dart';
 import '../../core/charts/sparkline.dart';
 import '../../core/icons/lm_icons.dart';
@@ -19,8 +20,6 @@ import '../../core/widgets/screen_body.dart';
 import '../../core/widgets/section_title.dart';
 import 'home_data.dart';
 import 'home_providers.dart';
-
-const _name = 'Martin';
 
 String _greeting(BuildContext c, int hour) => hour < 12
     ? c.l10n.homeGreetMorning
@@ -38,6 +37,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final now = DateTime.now();
+    final name = ref.watch(userNameProvider) ?? '';
     final week = ref.watch(homeWeekProvider).asData?.value;
     final data = ref.watch(homeTimelineProvider).asData?.value;
     final timeline = data == null
@@ -53,7 +53,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Column(
       children: [
-        _HomeHead(now: now),
+        _HomeHead(now: now, name: name),
         Expanded(
           child: ScreenBody(
             children: [
@@ -78,8 +78,9 @@ class HomeScreen extends ConsumerWidget {
 }
 
 class _HomeHead extends StatelessWidget {
-  const _HomeHead({required this.now});
+  const _HomeHead({required this.now, required this.name});
   final DateTime now;
+  final String name;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -95,7 +96,7 @@ class _HomeHead extends StatelessWidget {
                 Text(_longDate(context, now),
                     style: AppText.monoFaint.copyWith(fontSize: 12.5)),
                 const SizedBox(height: 3),
-                Text('${_greeting(context, now.hour)}, $_name',
+                Text('${_greeting(context, now.hour)}, $name',
                     style: AppText.statLg.copyWith(fontSize: 23)),
               ],
             ),

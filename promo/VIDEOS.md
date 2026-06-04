@@ -33,6 +33,7 @@ When asked to make the next promo video:
 | 2 | **A Day in My Life** | *Narrative* — wake → log the whole day → it all adds up | Device-mockup (phone frame, **no hand**) on dark gradient; in-phone app motion (capture-sequence) | 20s | ✅ done | `promo/v2/out/v2_final.mp4` |
 | 3 | **30 Days Taught Me** ⭐ | *Insight/outcome* — what the data revealed (4 real stats) | **Phone-mock floating over themed, blurred B-roll** + synced captions | 16s | ✅ done (best so far) | `promo/v3/out/v3_final.mp4` |
 | 4 | **Let Your Favorite AI Analyze Your Life** | *AI/utility, dramatic* — export → ChatGPT/Claude/Gemini → **exposed my mistakes → fixes** (ties to the real "Export for AI" feature) | Phone-mock (hook + export) + **AI logo-chip row** + red **"3 MISTAKES FOUND"** reveal → green **"HOW TO FIX IT"** payoff | 19s | ✅ done | `promo/v4/out/v4_final.mp4` |
+| 5 | **I Built an App to Track My Entire Life** | *Builder story / explainer* — first-person founder tour of the whole app (all 9 modules) → AI export → CTA. First long-form explainer in the series. | **Cinematic keyboard hook** open + **full-frame module tour** (`make_full`) + phone-mock AI payoff (#4 reuse) + desk-B-roll outro & CTA | 51s | ✅ done | `promo/v5/out/v5_final.mp4` |
 
 **#3's phone-mock-over-blurred-B-roll is the "winning formula"** — default to it unless the
 angle calls for something else (e.g. #4's full-frame AI card). #4 proved a non-app "explainer"
@@ -43,6 +44,7 @@ Per-video build scripts (reusable, edit + re-run):
 - **#2:** `promo/v2/render_v2.sh` · `promo/v2/mux_v2.sh` · `promo/v2/make_music_v2.py`
 - **#3:** `promo/v3/render_v3.sh` · `promo/v3/mux_v3.sh` (reuses #2's phone frame + music)
 - **#4:** `promo/v4/render_v4.sh` · `promo/v4/mux_v4.sh` (reuses #2's phone frame + music_v2)
+- **#5:** `promo/v5/render_v5.sh` · `promo/v5/mux_v5.sh` (new full-frame `make_full` + desk-bookend `make_desk` beat builders; narration in `promo/v5/vo_lines.txt`; reuses #2 phone frame/music + #4 AI chips). Spec/plan in `docs/superpowers/`.
 
 ---
 
@@ -53,7 +55,7 @@ Angles **not yet used** — each is a distinct hook type:
 | Idea | Hook type | One-liner |
 |------|-----------|-----------|
 | **I deleted 7 apps** | Pain → relief | Cluttered phone of tracking apps collapses into one. Strongest scroll-stopper. (Need a mocked "messy phone" opener.) |
-| **Builder story** | Personal/founder | "I built an app to track my whole life." Taps #buildinpublic; over-performs early. |
+| ~~**Builder story**~~ | Personal/founder | ✅ **Used in #5** (builder explainer). "I built an app to track my whole life." |
 | **Feature spotlight** | Depth | Deep-dive ONE module end-to-end (log → chart → insight). High-intent for that use case. |
 | **Private & offline** | Trust/values | "Your data is being sold — mine never leaves my phone." Topical. |
 | **Oddly satisfying** | Aesthetic/ASMR | Logging taps + charts filling on a beat. No narrative, very re-watchable. |
@@ -172,4 +174,31 @@ days. (These are the demo "Martin" persona — swap for real user numbers before
 
 ---
 
-*Last updated after video #4. Keep this file current — it's how the next session picks up.*
+### What worked / try next (after #5)
+- **Builder-story angle:** landed well — first-person VO ("I log what I eat…", "I built it for me")
+  turns a 9-module sweep into a *tour* rather than a feature list. The breadth coverage (all 9
+  even beats) reads as "look how much one app holds," exactly the goal.
+- **B-roll bookends (format C):** the stock-y risk was real but **gradeable** — dark grade
+  (`brightness=-0.15:saturation=0.7`) + light `gblur` + `vignette` + a 9:16 crop that tightens
+  onto the subject made cheap Pixabay `_tiny` clips read as intimate "building" shots, not wide
+  stock footage. The grade-test-one-frame gate (before building beats) is worth keeping.
+- **Opener matters most for retention:** the first cut used a calm hands-on-laptop shot as the
+  open — too low-energy, easy to scroll past. Swapped it for a **cinematic dark-keyboard macro**
+  (shallow DOF) with a *faster, stronger* push-in (`zoompan z 1.05→1.18` vs the calm 1.04) and a
+  brighter grade (`brightness=-0.04:contrast=1.08`). Lesson: spend the extra sourcing pass on the
+  first 2 seconds — production value + motion there is what stops the scroll. The desk shot still
+  works for the **outro** (low stakes by then).
+- **Trim dead air at the end:** the 6.5s endcard was 4s too long; cut to **2.5s** (the VO outro
+  finishes inside the desk-outro beat, so the CTA only needs to *hold*, not wait). Final 51s.
+- **`make_full` (full-frame app over a blurred fill of itself):** clean way to show tall phone
+  screenshots (1280×2856) full-frame without losing content — sharp screen fit-to-height, blurred
+  pillarbox fills the 9:16 sides. Reusable for any breadth/tour video.
+- **Pick the screen that proves the caption:** the money beat used `current.png` (Finance screen
+  whose donut literally reads *Food 47%*), not the generic `charts.png` — caption and pixels agree.
+  Lesson: match stat captions to a screen that *shows* the stat.
+- **55s held fine** for an explainer; bitrate 1.24 Mbps (much healthier than #4's 0.43).
+- **Try next:** the **pain hook ("deleted 7 apps")** is still the strongest untested angle; a
+  Bulgarian-localized cut of this explainer; or a real founder voice (vs TTS) now that the
+  builder format is proven.
+
+*Last updated after video #5. Keep this file current — it's how the next session picks up.*

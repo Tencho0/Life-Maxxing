@@ -36,6 +36,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLanguage => 'Language';
 
   @override
+  String get settingsName => 'Name';
+
+  @override
+  String get welcomeTitle => 'Welcome!';
+
+  @override
+  String get welcomePrompt => 'What should we call you?';
+
+  @override
+  String get welcomeNameHint => 'Name';
+
+  @override
+  String get welcomeContinue => 'Continue';
+
+  @override
   String get languageSystem => 'System';
 
   @override

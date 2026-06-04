@@ -61,7 +61,7 @@ void main() {
 
     final db = AppDatabase.memory();
     addTearDown(db.close);
-    await seedDatabase(db); // trips present; no daily photos
+    await seedDatabase(db, withPhotos: false); // trips present; no daily photos
 
     await tester.pumpWidget(ProviderScope(
       overrides: [databaseProvider.overrideWithValue(db)],

@@ -28,7 +28,10 @@ void main() {
     addTearDown(db.close);
 
     await tester.pumpWidget(ProviderScope(
-      overrides: [databaseProvider.overrideWithValue(db)],
+      overrides: [
+        databaseProvider.overrideWithValue(db),
+        initialUserNameProvider.overrideWithValue('Martin'), // greeting name
+      ],
       child: MaterialApp.router(
         theme: AppTheme.dark,
         locale: const Locale('bg'),

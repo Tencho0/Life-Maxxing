@@ -39,6 +39,26 @@
   "@settingsLanguage": {
     "description": "Label for the language picker row."
   },
+  "settingsName": "Name",
+  "@settingsName": {
+    "description": "Label for the editable user-name row in Settings (used in the home greeting)."
+  },
+  "welcomeTitle": "Welcome!",
+  "@welcomeTitle": {
+    "description": "First-launch welcome screen heading."
+  },
+  "welcomePrompt": "What should we call you?",
+  "@welcomePrompt": {
+    "description": "First-launch prompt asking for the user's name."
+  },
+  "welcomeNameHint": "Name",
+  "@welcomeNameHint": {
+    "description": "Placeholder text in the first-launch name input."
+  },
+  "welcomeContinue": "Continue",
+  "@welcomeContinue": {
+    "description": "Button that confirms the entered name and enters the app."
+  },
   "languageSystem": "System",
   "@languageSystem": {
     "description": "Language option: follow the system locale."

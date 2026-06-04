@@ -393,3 +393,7 @@
 ## Branding
 
 - [x] App branding — "Ascent" logo: `LmLogo` widget + generated Android launcher icon (see docs/superpowers/specs/2026-06-02-app-logo-design.md).
+
+## Onboarding
+
+- [x] First-launch name onboarding (see docs/superpowers/specs/2026-06-03-first-launch-name-design.md). Replaces the hardcoded home greeting name with a user-entered one. `SettingsService` get/set `userName` (drift `settings` KV, key `userName`; device preference, excluded from backup like `locale`); `userNameProvider`/`UserNameController` + `initialUserNameProvider` mirror the locale flow; `main()` reads the saved name before first frame. `_Root` gates the app behind a full-screen `WelcomeScreen` (name **required** — Continue inert until non-empty) whenever the name is unset; submitting flips the provider into the app. Home greeting + Settings (editable "Име" row → dialog) read `userNameProvider`. Tests: SettingsService name round-trip/trim/clear/reload, welcome screen (prompt, inert-when-empty, submit persists), settings name edit, home greeting via provider override.

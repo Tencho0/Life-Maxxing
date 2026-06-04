@@ -12,14 +12,18 @@ Future<void> main() async {
   await initializeDateFormatting('bg');
   await initializeDateFormatting('en');
 
-  // Open the DB once and read the persisted locale before the first frame, so
-  // the app starts in the saved language with no flash. The same instance is
-  // shared with the provider graph via an override.
+  // Open the DB once and read the persisted locale + user name before the first
+  // frame, so the app starts in the saved language and a returning user never
+  // flashes the welcome screen. The same instance is shared with the provider
+  // graph via an override.
   final db = createAppDatabase();
-  final savedLocale = await SettingsService(db.settingsDao).getLocale();
+  final settings = SettingsService(db.settingsDao);
+  final savedLocale = await settings.getLocale();
+  final savedName = await settings.getUserName();
 
   runApp(LifeMaxxingApp(overrides: [
     databaseProvider.overrideWithValue(db),
     initialLocaleProvider.overrideWithValue(savedLocale),
+    initialUserNameProvider.overrideWithValue(savedName),
   ]));
 }

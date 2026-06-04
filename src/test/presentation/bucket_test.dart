@@ -222,7 +222,7 @@ void main() {
 
     final db = AppDatabase.memory();
     addTearDown(db.close);
-    await seedDatabase(db);
+    await seedDatabase(db, withPhotos: false);
 
     await tester.pumpWidget(ProviderScope(
       overrides: [databaseProvider.overrideWithValue(db)],
@@ -232,7 +232,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
 
     expect(find.text('Bucket List'), findsOneWidget); // top bar title
-    expect(find.text('Скок с парашут'), findsWidgets); // a seeded item
+    expect(find.text('Skydiving'), findsWidgets); // a seeded item
 
     await tester.pumpWidget(const SizedBox());
     await tester.pump(const Duration(seconds: 1));
