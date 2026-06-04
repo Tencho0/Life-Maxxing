@@ -145,6 +145,24 @@ StepsSummary computeSteps(List<StepEntry> steps) {
   );
 }
 
+/// Weight over a period. Orders by date so latest/earliest are unambiguous
+/// regardless of input order.
+WeightSummary computeWeight(List<WeightLog> logs) {
+  if (logs.isEmpty) {
+    return WeightSummary(
+        latestGrams: 0, changeGrams: 0, minGrams: 0, maxGrams: 0, count: 0);
+  }
+  final sorted = [...logs]..sort((a, b) => a.date.compareTo(b.date));
+  final grams = sorted.map((w) => w.weightGrams).toList();
+  return WeightSummary(
+    latestGrams: sorted.last.weightGrams,
+    changeGrams: sorted.last.weightGrams - sorted.first.weightGrams,
+    minGrams: grams.reduce((a, b) => a < b ? a : b),
+    maxGrams: grams.reduce((a, b) => a > b ? a : b),
+    count: sorted.length,
+  );
+}
+
 // ── Health (spec §16.2) ─────────────────────────────────────────────
 HealthSummary computeHealth(
   List<BloodPressureLog> bp,

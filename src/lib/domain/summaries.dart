@@ -111,6 +111,26 @@ class StepsSummary {
   final int daysLogged;
 }
 
+/// Body weight over a period. All masses in integer grams (shown in kg).
+class WeightSummary {
+  WeightSummary({
+    required this.latestGrams,
+    required this.changeGrams,
+    required this.minGrams,
+    required this.maxGrams,
+    required this.count,
+  });
+
+  /// Most recent entry's weight in the range (0 when none).
+  final int latestGrams;
+
+  /// latest − earliest in the range (signed; 0 when fewer than 2 entries).
+  final int changeGrams;
+  final int minGrams;
+  final int maxGrams;
+  final int count;
+}
+
 /// Health over a period (spec §16.2).
 class HealthSummary {
   HealthSummary({

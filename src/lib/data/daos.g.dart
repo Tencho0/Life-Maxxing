@@ -94,6 +94,18 @@ class StepsDaoManager {
       $$StepsTableTableManager(_db.attachedDatabase, _db.steps);
 }
 
+mixin _$WeightDaoMixin on DatabaseAccessor<AppDatabase> {
+  $WeightLogsTable get weightLogs => attachedDatabase.weightLogs;
+  WeightDaoManager get managers => WeightDaoManager(this);
+}
+
+class WeightDaoManager {
+  final _$WeightDaoMixin _db;
+  WeightDaoManager(this._db);
+  $$WeightLogsTableTableManager get weightLogs =>
+      $$WeightLogsTableTableManager(_db.attachedDatabase, _db.weightLogs);
+}
+
 mixin _$BucketDaoMixin on DatabaseAccessor<AppDatabase> {
   $BucketItemsTable get bucketItems => attachedDatabase.bucketItems;
   $BucketExperiencesTable get bucketExperiences =>

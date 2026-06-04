@@ -7342,6 +7342,417 @@ class StepsCompanion extends UpdateCompanion<StepEntry> {
   }
 }
 
+class $WeightLogsTable extends WeightLogs
+    with TableInfo<$WeightLogsTable, WeightLog> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $WeightLogsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
+  @override
+  late final GeneratedColumn<String> date = GeneratedColumn<String>(
+    'date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _weightGramsMeta = const VerificationMeta(
+    'weightGrams',
+  );
+  @override
+  late final GeneratedColumn<int> weightGrams = GeneratedColumn<int>(
+    'weight_grams',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    date,
+    weightGrams,
+    note,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'weight_logs';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<WeightLog> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('date')) {
+      context.handle(
+        _dateMeta,
+        date.isAcceptableOrUnknown(data['date']!, _dateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (data.containsKey('weight_grams')) {
+      context.handle(
+        _weightGramsMeta,
+        weightGrams.isAcceptableOrUnknown(
+          data['weight_grams']!,
+          _weightGramsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_weightGramsMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  WeightLog map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return WeightLog(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      date: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}date'],
+      )!,
+      weightGrams: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}weight_grams'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $WeightLogsTable createAlias(String alias) {
+    return $WeightLogsTable(attachedDatabase, alias);
+  }
+}
+
+class WeightLog extends DataClass implements Insertable<WeightLog> {
+  final String id;
+  final String date;
+  final int weightGrams;
+  final String? note;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const WeightLog({
+    required this.id,
+    required this.date,
+    required this.weightGrams,
+    this.note,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['date'] = Variable<String>(date);
+    map['weight_grams'] = Variable<int>(weightGrams);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  WeightLogsCompanion toCompanion(bool nullToAbsent) {
+    return WeightLogsCompanion(
+      id: Value(id),
+      date: Value(date),
+      weightGrams: Value(weightGrams),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory WeightLog.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return WeightLog(
+      id: serializer.fromJson<String>(json['id']),
+      date: serializer.fromJson<String>(json['date']),
+      weightGrams: serializer.fromJson<int>(json['weightGrams']),
+      note: serializer.fromJson<String?>(json['note']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'date': serializer.toJson<String>(date),
+      'weightGrams': serializer.toJson<int>(weightGrams),
+      'note': serializer.toJson<String?>(note),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  WeightLog copyWith({
+    String? id,
+    String? date,
+    int? weightGrams,
+    Value<String?> note = const Value.absent(),
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => WeightLog(
+    id: id ?? this.id,
+    date: date ?? this.date,
+    weightGrams: weightGrams ?? this.weightGrams,
+    note: note.present ? note.value : this.note,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  WeightLog copyWithCompanion(WeightLogsCompanion data) {
+    return WeightLog(
+      id: data.id.present ? data.id.value : this.id,
+      date: data.date.present ? data.date.value : this.date,
+      weightGrams: data.weightGrams.present
+          ? data.weightGrams.value
+          : this.weightGrams,
+      note: data.note.present ? data.note.value : this.note,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WeightLog(')
+          ..write('id: $id, ')
+          ..write('date: $date, ')
+          ..write('weightGrams: $weightGrams, ')
+          ..write('note: $note, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, date, weightGrams, note, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is WeightLog &&
+          other.id == this.id &&
+          other.date == this.date &&
+          other.weightGrams == this.weightGrams &&
+          other.note == this.note &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class WeightLogsCompanion extends UpdateCompanion<WeightLog> {
+  final Value<String> id;
+  final Value<String> date;
+  final Value<int> weightGrams;
+  final Value<String?> note;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const WeightLogsCompanion({
+    this.id = const Value.absent(),
+    this.date = const Value.absent(),
+    this.weightGrams = const Value.absent(),
+    this.note = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  WeightLogsCompanion.insert({
+    required String id,
+    required String date,
+    required int weightGrams,
+    this.note = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       date = Value(date),
+       weightGrams = Value(weightGrams),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<WeightLog> custom({
+    Expression<String>? id,
+    Expression<String>? date,
+    Expression<int>? weightGrams,
+    Expression<String>? note,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (date != null) 'date': date,
+      if (weightGrams != null) 'weight_grams': weightGrams,
+      if (note != null) 'note': note,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  WeightLogsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? date,
+    Value<int>? weightGrams,
+    Value<String?>? note,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return WeightLogsCompanion(
+      id: id ?? this.id,
+      date: date ?? this.date,
+      weightGrams: weightGrams ?? this.weightGrams,
+      note: note ?? this.note,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (date.present) {
+      map['date'] = Variable<String>(date.value);
+    }
+    if (weightGrams.present) {
+      map['weight_grams'] = Variable<int>(weightGrams.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WeightLogsCompanion(')
+          ..write('id: $id, ')
+          ..write('date: $date, ')
+          ..write('weightGrams: $weightGrams, ')
+          ..write('note: $note, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $BucketItemsTable extends BucketItems
     with TableInfo<$BucketItemsTable, BucketItem> {
   @override
@@ -10546,6 +10957,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $MedicationLogsTable medicationLogs = $MedicationLogsTable(this);
   late final $DailyLogsTable dailyLogs = $DailyLogsTable(this);
   late final $StepsTable steps = $StepsTable(this);
+  late final $WeightLogsTable weightLogs = $WeightLogsTable(this);
   late final $BucketItemsTable bucketItems = $BucketItemsTable(this);
   late final $BucketExperiencesTable bucketExperiences =
       $BucketExperiencesTable(this);
@@ -10562,6 +10974,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final HealthDao healthDao = HealthDao(this as AppDatabase);
   late final DailyLogsDao dailyLogsDao = DailyLogsDao(this as AppDatabase);
   late final StepsDao stepsDao = StepsDao(this as AppDatabase);
+  late final WeightDao weightDao = WeightDao(this as AppDatabase);
   late final BucketDao bucketDao = BucketDao(this as AppDatabase);
   late final TripsDao tripsDao = TripsDao(this as AppDatabase);
   late final AttachmentsDao attachmentsDao = AttachmentsDao(
@@ -10584,6 +10997,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     medicationLogs,
     dailyLogs,
     steps,
+    weightLogs,
     bucketItems,
     bucketExperiences,
     trips,
@@ -14061,6 +14475,224 @@ typedef $$StepsTableProcessedTableManager =
       StepEntry,
       PrefetchHooks Function()
     >;
+typedef $$WeightLogsTableCreateCompanionBuilder =
+    WeightLogsCompanion Function({
+      required String id,
+      required String date,
+      required int weightGrams,
+      Value<String?> note,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<int> rowid,
+    });
+typedef $$WeightLogsTableUpdateCompanionBuilder =
+    WeightLogsCompanion Function({
+      Value<String> id,
+      Value<String> date,
+      Value<int> weightGrams,
+      Value<String?> note,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+
+class $$WeightLogsTableFilterComposer
+    extends Composer<_$AppDatabase, $WeightLogsTable> {
+  $$WeightLogsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get weightGrams => $composableBuilder(
+    column: $table.weightGrams,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$WeightLogsTableOrderingComposer
+    extends Composer<_$AppDatabase, $WeightLogsTable> {
+  $$WeightLogsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get weightGrams => $composableBuilder(
+    column: $table.weightGrams,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$WeightLogsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $WeightLogsTable> {
+  $$WeightLogsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumn<int> get weightGrams => $composableBuilder(
+    column: $table.weightGrams,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$WeightLogsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $WeightLogsTable,
+          WeightLog,
+          $$WeightLogsTableFilterComposer,
+          $$WeightLogsTableOrderingComposer,
+          $$WeightLogsTableAnnotationComposer,
+          $$WeightLogsTableCreateCompanionBuilder,
+          $$WeightLogsTableUpdateCompanionBuilder,
+          (
+            WeightLog,
+            BaseReferences<_$AppDatabase, $WeightLogsTable, WeightLog>,
+          ),
+          WeightLog,
+          PrefetchHooks Function()
+        > {
+  $$WeightLogsTableTableManager(_$AppDatabase db, $WeightLogsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$WeightLogsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$WeightLogsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$WeightLogsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> date = const Value.absent(),
+                Value<int> weightGrams = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => WeightLogsCompanion(
+                id: id,
+                date: date,
+                weightGrams: weightGrams,
+                note: note,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String date,
+                required int weightGrams,
+                Value<String?> note = const Value.absent(),
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => WeightLogsCompanion.insert(
+                id: id,
+                date: date,
+                weightGrams: weightGrams,
+                note: note,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$WeightLogsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $WeightLogsTable,
+      WeightLog,
+      $$WeightLogsTableFilterComposer,
+      $$WeightLogsTableOrderingComposer,
+      $$WeightLogsTableAnnotationComposer,
+      $$WeightLogsTableCreateCompanionBuilder,
+      $$WeightLogsTableUpdateCompanionBuilder,
+      (WeightLog, BaseReferences<_$AppDatabase, $WeightLogsTable, WeightLog>),
+      WeightLog,
+      PrefetchHooks Function()
+    >;
 typedef $$BucketItemsTableCreateCompanionBuilder =
     BucketItemsCompanion Function({
       required String id,
@@ -15866,6 +16498,8 @@ class $AppDatabaseManager {
       $$DailyLogsTableTableManager(_db, _db.dailyLogs);
   $$StepsTableTableManager get steps =>
       $$StepsTableTableManager(_db, _db.steps);
+  $$WeightLogsTableTableManager get weightLogs =>
+      $$WeightLogsTableTableManager(_db, _db.weightLogs);
   $$BucketItemsTableTableManager get bucketItems =>
       $$BucketItemsTableTableManager(_db, _db.bucketItems);
   $$BucketExperiencesTableTableManager get bucketExperiences =>

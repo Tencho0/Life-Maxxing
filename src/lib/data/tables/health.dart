@@ -71,6 +71,25 @@ class BloodPressureLogs extends Table {
       ];
 }
 
+/// Body weight — exactly one per date (one-per-day, edit-on-existing like
+/// Steps). Stored as integer grams (no floats, mirrors EUR cents §4); shown in
+/// kilograms. Weight is logged in the Health module ("Тегло" tab).
+@DataClassName('WeightLog')
+class WeightLogs extends Table {
+  TextColumn get id => text()();
+  TextColumn get date => text().unique()(); // yyyy-MM-dd, one per day
+  IntColumn get weightGrams => integer()();
+  TextColumn get note => text().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+
+  @override
+  List<String> get customConstraints => ['CHECK (weight_grams > 0)'];
+}
+
 /// Medication / supplement intake (spec §15).
 @DataClassName('MedicationLog')
 class MedicationLogs extends Table {

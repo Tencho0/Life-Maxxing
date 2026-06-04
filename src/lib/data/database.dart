@@ -1,4 +1,4 @@
-// The drift database: schema v1, all 15 tables, FK enforcement on open.
+// The drift database: schema v3, all 16 tables, FK enforcement on open.
 // DAOs (Slice 3.3+) are registered here as they land. See technical-spec §3.
 
 import 'package:drift/drift.dart';
@@ -32,6 +32,7 @@ part 'database.g.dart';
     MedicationLogs,
     DailyLogs,
     Steps,
+    WeightLogs,
     BucketItems,
     BucketExperiences,
     Trips,
@@ -45,6 +46,7 @@ part 'database.g.dart';
     HealthDao,
     DailyLogsDao,
     StepsDao,
+    WeightDao,
     BucketDao,
     TripsDao,
     AttachmentsDao,
@@ -59,7 +61,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.memory() : super(NativeDatabase.memory());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -67,6 +69,8 @@ class AppDatabase extends _$AppDatabase {
         onUpgrade: (m, from, to) async {
           // v2 (Slice 10.2): add the key/value `settings` preferences table.
           if (from < 2) await m.createTable(settings);
+          // v3 (weight tracking): add the one-per-day weight_logs table.
+          if (from < 3) await m.createTable(weightLogs);
         },
         beforeOpen: (details) async {
           // Required for ON DELETE CASCADE (bucket_experiences) and any FK

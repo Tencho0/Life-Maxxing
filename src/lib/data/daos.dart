@@ -310,6 +310,28 @@ class StepsDao extends DatabaseAccessor<AppDatabase> with _$StepsDaoMixin {
       computeSteps(await inRange(from, to));
 }
 
+// ── Weight (one per day, edit-on-existing) ──────────────────────────
+@DriftAccessor(tables: [WeightLogs])
+class WeightDao extends DatabaseAccessor<AppDatabase> with _$WeightDaoMixin {
+  WeightDao(super.db);
+
+  Future<void> save(WeightLogsCompanion c) =>
+      into(weightLogs).insertOnConflictUpdate(c);
+  Future<void> deleteById(String id) =>
+      (delete(weightLogs)..where((t) => t.id.equals(id))).go();
+  Future<WeightLog?> getByDate(String date) =>
+      (select(weightLogs)..where((t) => t.date.equals(date))).getSingleOrNull();
+  Stream<List<WeightLog>> watchInRange(String from, String to) =>
+      (select(weightLogs)
+            ..where((t) => t.date.isBetweenValues(from, to))
+            ..orderBy([(t) => _asc(t.date)]))
+          .watch();
+  Future<List<WeightLog>> inRange(String from, String to) =>
+      (select(weightLogs)..where((t) => t.date.isBetweenValues(from, to))).get();
+  Future<WeightSummary> summary(String from, String to) async =>
+      computeWeight(await inRange(from, to));
+}
+
 // ── Bucket (items + experiences) ────────────────────────────────────
 @DriftAccessor(tables: [BucketItems, BucketExperiences])
 class BucketDao extends DatabaseAccessor<AppDatabase> with _$BucketDaoMixin {
