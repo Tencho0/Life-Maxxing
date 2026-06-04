@@ -49,7 +49,11 @@ void main() {
     addTearDown(db.close);
 
     await tester.pumpWidget(LifeMaxxingApp(
-      overrides: [databaseProvider.overrideWithValue(db)],
+      overrides: [
+        databaseProvider.overrideWithValue(db),
+        // Name set → skip the first-launch welcome gate, render the real app.
+        initialUserNameProvider.overrideWithValue('Martin'),
+      ],
     ));
     // Let Home's drift streams emit (real async) so no fake timer stays pending.
     await settleData(tester);

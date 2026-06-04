@@ -129,7 +129,7 @@ void main() {
 
     final db = AppDatabase.memory();
     addTearDown(db.close);
-    await seedDatabase(db); // anchored to now → current month has data
+    await seedDatabase(db, withPhotos: false); // anchored to now → current month has data
 
     await tester.pumpWidget(ProviderScope(
       overrides: [databaseProvider.overrideWithValue(db)],

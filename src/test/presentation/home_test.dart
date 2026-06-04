@@ -137,7 +137,7 @@ void main() {
 
     final db = AppDatabase.memory();
     addTearDown(db.close);
-    await seedDatabase(db);
+    await seedDatabase(db, withPhotos: false);
 
     await tester.pumpWidget(ProviderScope(
       overrides: [
@@ -166,7 +166,7 @@ void main() {
 
     final db = AppDatabase.memory();
     addTearDown(db.close);
-    await seedDatabase(db);
+    await seedDatabase(db, withPhotos: false);
 
     await tester.pumpWidget(ProviderScope(
       overrides: [databaseProvider.overrideWithValue(db)],

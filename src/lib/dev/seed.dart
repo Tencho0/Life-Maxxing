@@ -61,7 +61,15 @@ Future<void> clearAll(AppDatabase db) async {
 }
 
 /// Wipes and repopulates the database with ~30 days of realistic sample data.
-Future<void> seedDatabase(AppDatabase db, {DateTime? today}) async {
+/// Seeds the database with the demo "Martin" dataset.
+///
+/// [withPhotos] (default true) also seeds trip covers + visual-diary photos
+/// through the real AttachmentService pipeline (asset bundle → temp file →
+/// image compression). That path needs the Flutter binding, path_provider, and
+/// the image plugin, so unit tests asserting only the DB content pass
+/// `withPhotos: false`.
+Future<void> seedDatabase(AppDatabase db,
+    {DateTime? today, bool withPhotos = true}) async {
   final rnd = Random(42);
   final b = today ?? DateTime.now();
   final t0 = DateTime(b.year, b.month, b.day);
@@ -461,6 +469,7 @@ Future<void> seedDatabase(AppDatabase db, {DateTime? today}) async {
   // ── Photos: trip covers + visual-diary daily-log photos ────────────
   // Dev-only sample images (assets/seed_photos) run through the real
   // AttachmentService pipeline so Memories + Trips look lived-in.
+  if (!withPhotos) return;
   const tripCovers = [
     'cover_rome.jpg', 'cover_bansko.jpg', 'cover_thassos.jpg', 'cover_budapest.jpg',
   ];
