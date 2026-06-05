@@ -47,7 +47,8 @@ app.*.map.json
 .superpowers/
 
 # Promo video: never commit the bundled ffmpeg binary (~400MB) or intermediate
-# frames/screenshots. Scripts, source photos, VO, and final renders are kept.
+# frames/screenshots. Scripts, source photos, and VO are kept; final renders are NOT
+# committed (gitignored below — the cut lives on the platform + locally after finalizing).
 /promo/tools/
 /promo/work/
 /promo/v2/work/
@@ -69,6 +70,18 @@ app.*.map.json
 
 # Promo video #5 intermediates (segments, B-roll, contact sheets; VO + final kept)
 /promo/v5/work/
+
+# Promo video #6 intermediates (B-roll, dots frames, segments, candidate footage)
+/promo/v6/work/
+
+# Promo final renders — NOT committed. Keep just the final .mp4 on disk after finalizing
+# (see promo/cleanup_video.sh); post the cut to the platform for distribution.
+/promo/out/*.mp4
+/promo/v2/out/*.mp4
+/promo/v3/out/*.mp4
+/promo/v4/out/*.mp4
+/promo/v5/out/*.mp4
+/promo/v6/out/*.mp4
 
 # Local agent state (Claude Code harness)
 .claude/

@@ -22,6 +22,13 @@ When asked to make the next promo video:
    the brand guardrails in §4. Pick the best frames, source fitting B-roll, write punchy
    captions, generate the VO, add music, **verify with a contact sheet, then open it.**
 4. **Log it.** Add a new row to §1 and a short "what worked / what to try next" note.
+5. **Finalize it** (once the cut is done & perfect). Run `bash promo/cleanup_video.sh <N>` to
+   delete the build scratch (raw B-roll, candidate footage, segments, frame seqs, generated
+   music, contact sheets) and the non-final cuts, keeping **only the final `*_final.mp4`**
+   (gitignored — kept on disk, posted to the platform) **plus the committed recipe** (scripts,
+   `vo_lines.txt`, `sources.txt`, `copy.txt`, VO mp3s, source screenshots). Final renders are
+   **not** committed. The shared screenshot library (`promo/work`) and ffmpeg (`promo/tools`)
+   are never cleaned by this script.
 
 ---
 
