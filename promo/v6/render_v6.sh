@@ -42,14 +42,14 @@ echo "== s05a reveal base: phone rises with mood screen =="
 [m2]scale=620:1264:force_original_aspect_ratio=increase,crop=620:1264,setsar=1,format=rgba[av];\
 [2:v]format=gray[mk];[av][mk]alphamerge[appR];\
 [1:v][appR]overlay=20:20[mock];\
-[bg][mock]overlay=x=(W-w)/2:y='(H-h)/2 + H*(1-min(1\,t/0.6))':shortest=1,format=yuv420p[v]" \
- -map "[v]" -t 4.3 "$W/s05base.mp4" -loglevel error
+[bg][mock]overlay=x=(W-w)/2:y='(H-h)/2 + H*(1-min(1\,t/0.6))':shortest=1,fps=30,format=yuv420p[v]" \
+ -map "[v]" -r 30 -t 4.3 "$W/s05base.mp4" -loglevel error
 
 echo "== s05b reveal: overlay connect-the-dots sequence + caption =="
 "$FF" -y -i "$W/s05base.mp4" -framerate 30 -i "$W/dots/dots_%03d.png" \
  -filter_complex "[0:v][1:v]overlay=0:0:shortest=1,\
-drawtext=fontfile='${FONT}':text='Higher mood on training days':fontcolor=0x5FD08A:fontsize=52:x=(w-text_w)/2:y=h*0.085:box=1:boxcolor=black@0.5:boxborderw=22:enable='gte(t,1.6)':alpha='if(lt(t,1.6),0,if(lt(t,1.9),(t-1.6)/0.3,1))',format=yuv420p[v]" \
- -map "[v]" -t 4.3 "$W/s05.mp4" -loglevel error
+drawtext=fontfile='${FONT}':text='Higher mood on training days':fontcolor=0x5FD08A:fontsize=52:x=(w-text_w)/2:y=h*0.085:box=1:boxcolor=black@0.5:boxborderw=22:enable='gte(t,1.6)':alpha='if(lt(t,1.6),0,if(lt(t,1.9),(t-1.6)/0.3,1))',fps=30,format=yuv420p[v]" \
+ -map "[v]" -r 30 -t 4.3 "$W/s05.mp4" -loglevel error
 
 echo "== s06 endcard (brand + CTA) =="
 "$FF" -y -f lavfi -i color=c=0x0C0D11:s=1080x1920:r=30 -loop 1 -i "$ICON" \
@@ -63,6 +63,7 @@ fade=t=in:st=0:d=0.3,format=yuv420p[v]" -map "[v]" -frames:v 126 "$W/s06.mp4" -l
 echo "== concat =="
 L="$W/list_v6.txt"; : > "$L"
 for s in s01 s02 s03 s04 s05 s06; do echo "file '$s.mp4'" >> "$L"; done
-"$FF" -y -f concat -safe 0 -i "$L" -c copy "$OUT/v6_silent.mp4" -loglevel error || \
-  "$FF" -y -f concat -safe 0 -i "$L" -c:v libx264 -pix_fmt yuv420p -crf 18 "$OUT/v6_silent.mp4" -loglevel error
+# Re-encode the concat (segments mix image- and video-sourced beats); -c copy leaves
+# mismatched timebases that break downstream PTS. Re-encoding normalizes to a clean 30fps.
+"$FF" -y -f concat -safe 0 -i "$L" -r 30 -c:v libx264 -pix_fmt yuv420p -crf 18 "$OUT/v6_silent.mp4" -loglevel error
 echo "DONE -> $OUT/v6_silent.mp4"
