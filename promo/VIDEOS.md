@@ -34,6 +34,7 @@ When asked to make the next promo video:
 | 3 | **30 Days Taught Me** ⭐ | *Insight/outcome* — what the data revealed (4 real stats) | **Phone-mock floating over themed, blurred B-roll** + synced captions | 16s | ✅ done (best so far) | `promo/v3/out/v3_final.mp4` |
 | 4 | **Let Your Favorite AI Analyze Your Life** | *AI/utility, dramatic* — export → ChatGPT/Claude/Gemini → **exposed my mistakes → fixes** (ties to the real "Export for AI" feature) | Phone-mock (hook + export) + **AI logo-chip row** + red **"3 MISTAKES FOUND"** reveal → green **"HOW TO FIX IT"** payoff | 19s | ✅ done | `promo/v4/out/v4_final.mp4` |
 | 5 | **I Built an App to Track My Entire Life** | *Builder story / explainer* — first-person founder tour of the whole app (all 9 modules) → AI export → CTA. First long-form explainer in the series. | **Cinematic keyboard hook** open + **full-frame module tour** (`make_full`) + phone-mock AI payoff (#4 reuse) + desk-B-roll outro & CTA | 51s | ✅ done | `promo/v5/out/v5_final.mp4` |
+| 6 | **Connect the Dots** | *Emotional / story* — a vague feeling ("I'm happier on the days I train") becomes a measurable fact, proven because mood + workouts live in one app. Dramatizes the cross-domain moat; you+app, no AI. | **B-roll-led short film** (cool→warm→cool grade arc, no app for the first ~11s); app appears only at the reveal — phone rises with the real mood screen + an **edit-built connect-the-dots overlay** (`make_dots.py`) landing green peaks on training days → CTA | 20s | ✅ done | `promo/v6/out/v6_final.mp4` |
 
 **#3's phone-mock-over-blurred-B-roll is the "winning formula"** — default to it unless the
 angle calls for something else (e.g. #4's full-frame AI card). #4 proved a non-app "explainer"
@@ -45,6 +46,7 @@ Per-video build scripts (reusable, edit + re-run):
 - **#3:** `promo/v3/render_v3.sh` · `promo/v3/mux_v3.sh` (reuses #2's phone frame + music)
 - **#4:** `promo/v4/render_v4.sh` · `promo/v4/mux_v4.sh` (reuses #2's phone frame + music_v2)
 - **#5:** `promo/v5/render_v5.sh` · `promo/v5/mux_v5.sh` (new full-frame `make_full` + desk-bookend `make_desk` beat builders; narration in `promo/v5/vo_lines.txt`; reuses #2 phone frame/music + #4 AI chips). Spec/plan in `docs/superpowers/`.
+- **#6:** `promo/v6/render_v6.sh` · `promo/v6/mux_v6.sh` · `promo/v6/make_music_v6.py` (rise→resolve bed) · `promo/v6/make_dots.py` (connect-the-dots overlay sequence). B-roll-led `make_broll` with a cool/warm grade param; phone-rise reveal + Pillow dots overlay landed on the real trend chart. Narration `promo/v6/vo_lines.txt`; B-roll URLs in `promo/v6/sources.txt`; posting copy in `promo/v6/copy.txt`; reuses #2 phone frame. Spec/plan in `docs/superpowers/`.
 
 ---
 
@@ -201,4 +203,33 @@ days. (These are the demo "Martin" persona — swap for real user numbers before
   Bulgarian-localized cut of this explainer; or a real founder voice (vs TTS) now that the
   builder format is proven.
 
-*Last updated after video #5. Keep this file current — it's how the next session picks up.*
+### What worked / try next (after #6)
+- **B-roll-led short film (no app until the reveal):** the biggest format break in the series, and
+  it worked. Keeping the app off-screen for the first ~11s makes it a *story* that resolves into the
+  product, not an app demo — exactly the "don't look AI-generic" brief. The app as the *answer* to
+  the story (not its subject) is a reusable pattern for emotional angles.
+- **Pixabay HD without an API key:** the search page only lists `_tiny`, but swapping the suffix to
+  `_large` on the same CDN base URL returns the full-res rendition (often 1080×1920 or 4K) — no key
+  needed. Plus **`?orientation=vertical`** returns native 9:16 clips, so no landscape→portrait
+  cropping. This kills the "low-res `_tiny` only" constraint for future videos. (URLs logged in
+  `promo/v6/sources.txt`.)
+- **Source by mood, not by literal subject:** free stock is strong on *atmosphere/light* and weak on
+  *acted human emotion* — searching "happy person smiling" returns cheese. Carrying the emotion
+  through **light and texture** (rain on glass = flat; gym = energy; golden light = hope; mist =
+  doubt) + a **cool→warm→cool grade arc** read more cinematic and let the VO carry the human story.
+  Curate from a contact sheet of candidates; don't trust a single blind query.
+- **The edit-built cross-module reveal:** the app has no real "mood vs workouts" chart, so the
+  connect-the-dots viz was a Pillow PNG sequence (`make_dots.py`) overlaid on the real mood/daily-log
+  screen. Happy accident: the dots band landed right over the app's real **TREND (30 days)** chart,
+  so the green peaks sit on the actual bars — reads as the app highlighting the pattern, fully honest
+  (real data underneath, no fake UI chrome). Reusable for any "insight" reveal.
+- **fps gotcha (cost a re-render):** `-loop 1 -i image.png` with no rate defaults to **25 fps**, so
+  the image-built reveal beat mismatched the 30 fps B-roll beats; the `-c copy` concat then produced
+  non-monotonic PTS and a 1-fps contact sheet that mis-sampled (looked like beats were missing). Fix:
+  add `fps=30` + `-r 30` to image-sourced beats, and **re-encode the concat** (don't `-c copy`) so
+  timebases normalize. Bitrate a healthy 7.4 Mbps.
+- **Try next:** the **pain hook ("deleted 7 apps")** remains untested; a Bulgarian-localized cut; a
+  real founder voice; or a second "connect the dots" using a different surprising cross-domain pair
+  (e.g. spending ↔ mood, sleep ↔ BP) now that the format is proven.
+
+*Last updated after video #6. Keep this file current — it's how the next session picks up.*

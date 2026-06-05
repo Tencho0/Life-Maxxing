@@ -1,0 +1,24 @@
+VIDEO #6 — "Connect the Dots" — asset sources (for reproducibility)
+===================================================================
+
+B-ROLL (Pixabay, free commercial use, no attribution). The search page lists only
+`_tiny`; append `_large.mp4` to the base URL for the full-res 9:16 rendition. All four
+are native 1080x1920. Downloaded by render prep into promo/v6/work/b{1..4}.mp4.
+
+  b1  ordinary / cool   rain on window      https://cdn.pixabay.com/video/2021/06/25/78868-567931930_large.mp4
+  b2  movement / warm   gym floor workout   https://cdn.pixabay.com/video/2022/05/08/116336-707531374_large.mp4
+  b3  joy / warm        golden sunset       https://cdn.pixabay.com/video/2021/08/13/84881-588566509_large.mp4
+  b4  doubt / cool      misty mountain peak https://cdn.pixabay.com/video/2021/04/19/71569-538974129_large.mp4
+
+Re-fetch:
+  for u in <the four _large URLs above>; do curl -L "$u" -o promo/v6/work/bN.mp4; done
+
+APP SCREEN (reveal): promo/v6/work/mood.png — copy of promo/work/dailylog.png (seeded
+"Martin" daily report: mood gauge 8, "Yes Workout" tag, 30-day TREND). Committed.
+
+GENERATED ASSETS (regenerate from committed scripts):
+  music bed   -> python promo/v6/make_music_v6.py   (promo/v6/work/music_v6.wav)
+  dots overlay-> python promo/v6/make_dots.py        (promo/v6/work/dots/dots_*.png)
+  VO          -> edge-tts en-US-AndrewNeural --rate=+4% from promo/v6/vo_lines.txt
+
+REUSED: promo/v2/work/phone_body.png + screen_mask.png (no-hand phone mock).
